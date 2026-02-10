@@ -1,1 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abinash Admin | Leads Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <style>
+        body { background: #020617; color: white; font-family: 'Outfit', sans-serif; }
+        .admin-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1.5rem; }
+        .status-badge { background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 2px 8px; border-radius: 10px; font-size: 10px; }
+    </style>
+</head>
+<body class="p-4 md:p-10">
 
+    <div class="max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-10">
+            <div>
+                <h1 class="text-2xl font-bold">Admin Panel</h1>
+                <p class="text-gray-500 text-sm">Abinash Astro Guide Leads</p>
+            </div>
+            <div class="bg-amber-500 text-black px-4 py-2 rounded-xl font-bold text-sm">
+                Total Leads: <span id="totalLeads">0</span>
+            </div>
+        </div>
+
+        <div id="leadsContainer" class="space-y-4">
+            <div class="text-center py-20 text-gray-600">Loading leads...</div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Firebase Config (Same as your main app)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "abinash-astro.firebaseapp.com",
+            projectId: "abinash-astro",
+            storageBucket: "abinash-astro.appspot.com",
+            messagingSenderId: "YOUR_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // 2. Fetch Leads from Firestore
+        function fetchLeads() {
+            db.collection("leads").orderBy("dateCreated", "desc").onSnapshot((querySnapshot) => {
+                const container = document.getElementById('leadsContainer');
+                const totalDisplay = document.getElementById('totalLeads');
+                container.innerHTML = "";
+                totalDisplay.innerText = querySnapshot.size;
+
+                if (querySnapshot.empty) {
+                    container.innerHTML = "<p class='text-center text-gray-500'>Koi lead nahi mili abhi tak.</p>";
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const card = `
+                        <div class="admin-card p-5 flex justify-between items-center hover:bg-white/5 transition">
+                            <div>
+                                <h3 class="font-bold text-lg">${data.name}</h3>
+                                <p class="text-xs text-gray-500">DOB: ${data.dob} | Number: <span class="text-amber-500 font-bold">${data.magicNumber}</span></p>
+                                <p class="text-[10px] text-gray-600 mt-1 italic">${new Date(data.dateCreated).toLocaleString()}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="status-badge">${data.status || 'New'}</span>
+                                <button onclick="contactUser('${data.name}')" class="block mt-2 text-[10px] bg-white/10 px-3 py-1 rounded-lg hover:bg-white/20">Analyze</button>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+            });
+        }
+
+        function contactUser(name) {
+            alert("Analyze logic for " + name + " coming soon!");
+        }
+
+        // Run on load
+        fetchLeads();
+    </script>
+</body>
+</html>
