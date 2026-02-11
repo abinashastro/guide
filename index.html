@@ -16,14 +16,13 @@
         input[type="date"] { padding: 12px; width: 85%; border-radius: 10px; border: none; background: #fff; font-size: 16px; font-weight: bold; margin-bottom: 15px; text-align: center; }
         .calc-btn { padding: 14px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, #00f2ff, #0066ff); color: white; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3); }
         .result-val { font-size: 28px; font-weight: 800; color: var(--gold); }
+        .sub-val { font-size: 22px; font-weight: 700; color: #fff; }
         
-        /* Features Styling */
         .meter-bg { background: #222; height: 10px; border-radius: 10px; margin: 10px 0; overflow: hidden; }
         .meter-fill { background: linear-gradient(to right, #00f2ff, var(--gold)); height: 100%; width: 0%; transition: width 1.5s ease-in-out; }
         .danger-box { border: 1px solid var(--danger); background: rgba(255, 77, 77, 0.1); padding: 10px; border-radius: 10px; color: #ff9999; font-size: 13px; font-weight: 600; }
         .money-luck { font-size: 18px; color: #4ade80; font-weight: bold; }
 
-        /* Accordion */
         .accordion-item { background: rgba(255, 255, 255, 0.03); margin-bottom: 8px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.05); text-align: left; }
         .accordion-header { padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600;}
         .accordion-content { max-height: 0; overflow: hidden; transition: all 0.3s ease-out; background: rgba(0, 0, 0, 0.3); }
@@ -49,6 +48,13 @@
     </div>
 
     <div id="personalContent">
+        <div class="box" style="background: rgba(0, 242, 255, 0.05); border: 1px solid var(--primary);">
+            <div style="display:flex; justify-content: space-around;">
+                <div><small id="lblMulank" style="opacity: 0.8; font-size: 11px;">MULANK</small><div id="valMulank" class="sub-val">--</div></div>
+                <div><small id="lblBhagyank" style="opacity: 0.8; font-size: 11px;">BHAGYANK</small><div id="valBhagyank" class="sub-val">--</div></div>
+            </div>
+        </div>
+
         <div class="box">
             <h2 id="todayTitle">📅 Today's Lucky Vibes</h2>
             <div style="display:flex; justify-content: space-around; margin-top: 10px;">
@@ -92,6 +98,7 @@
     const translations = {
         en: { 
             navTitle: "ASTRO ABHINASH 🔯", inputHead: "Check Your Luck", calcBtn: "Reveal Results", 
+            lblMulank: "MULANK (Birth No.)", lblBhagyank: "BHAGYANK (Destiny No.)",
             todayTitle: "📅 Today's Lucky Vibes", lblLuckNo: "Lucky No.", lblLuckCol: "Lucky Color",
             lblEnergy: "Energy Meter", lblMoney: "Money Luck", lblDanger: "Danger Alert ⚠️", 
             lblVip: "👑 VIP Number", guideHead: "🌟 Number Guide", peakTime: "Time: ",
@@ -101,6 +108,7 @@
         },
         or: { 
             navTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", inputHead: "ଭାଗ୍ୟ ଜାଣନ୍ତୁ", calcBtn: "ଦେଖନ୍ତୁ", 
+            lblMulank: "ମୂଳାଙ୍କ (ଜନ୍ମ ସଂଖ୍ୟା)", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ (ଭାଗ୍ୟ ସଂଖ୍ୟା)",
             todayTitle: "📅 ଆଜିର ଶୁଭ ଫଳାଫଳ", lblLuckNo: "ଶୁଭ ସଂଖ୍ୟା", lblLuckCol: "ଶୁଭ ରଙ୍ଗ",
             lblEnergy: "ଶକ୍ତି ମିଟର", lblMoney: "ଧନ ଭାଗ୍ୟ", lblDanger: "ସତର୍କ ସୂଚନା ⚠️", 
             lblVip: "👑 VIP ସଂଖ୍ୟା", guideHead: "🌟 ସଂଖ୍ୟା ଗାଇଡ୍", peakTime: "ସମୟ: ",
@@ -130,6 +138,8 @@
         document.getElementById("navTitle").innerText = lang.navTitle;
         document.getElementById("inputHead").innerText = lang.inputHead;
         document.getElementById("calcBtn").innerText = lang.calcBtn;
+        document.getElementById("lblMulank").innerText = lang.lblMulank;
+        document.getElementById("lblBhagyank").innerText = lang.lblBhagyank;
         document.getElementById("todayTitle").innerText = lang.todayTitle;
         document.getElementById("lblLuckNo").innerText = lang.lblLuckNo;
         document.getElementById("lblLuckCol").innerText = lang.lblLuckCol;
@@ -163,31 +173,38 @@
     function calculateMagic(scroll = true) {
         const dobVal = document.getElementById("dob").value; if (!dobVal) return;
         let d = new Date(dobVal), today = new Date();
-        let m = reduce(d.getDate()), b = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear());
+        
+        // Calculations
+        let m = reduce(d.getDate()); // Mulank
+        let b = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear()); // Bhagyank
         let uNum = reduce(today.getDate() + (today.getMonth() + 1) + today.getFullYear());
         let vip = reduce(today.getDate() + (today.getMonth() + 1) + m + b);
 
         document.getElementById("personalContent").style.display = "block";
         
-        // Restore Lucky Number & Color Logic
+        // Update Mulank & Bhagyank UI
+        document.getElementById("valMulank").innerText = m;
+        document.getElementById("valBhagyank").innerText = b;
+
+        // Today's Lucky
         let luckyNumToday = reduce(m + uNum);
         document.getElementById("pLuckNum").innerText = luckyNumToday;
         document.getElementById("pLuckColor").innerText = translations[currentLang].colors[luckyNumToday];
 
         document.getElementById("vipNum").innerText = vip;
         
-        // Energy Meter Logic
+        // Energy Meter
         let energyVal = (vip * 11); if(energyVal > 100) energyVal = 95;
         document.getElementById("energyPercent").innerText = energyVal + "%";
         document.getElementById("meterFill").style.width = energyVal + "%";
 
-        // Money Luck Logic
+        // Money Luck
         let moneyLvl = reduce(vip + m);
         let moneyIcons = ["", "💸", "💸💸", "💸💸💸", "💰💰💰", "💰💰💰💰"];
         let idx = moneyLvl > 5 ? 4 : moneyLvl;
         document.getElementById("moneyLuck").innerText = translations[currentLang].moneyTxt[idx % 5] + " " + moneyIcons[idx % 6];
 
-        // Danger Alert Logic
+        // Danger Alert
         document.getElementById("dangerAlert").innerText = translations[currentLang].dangerMsgs[vip - 1];
 
         const times = { 1: "6-8 AM", 2: "8-10 AM", 3: "10-12 PM", 4: "12-2 PM", 5: "2-4 PM", 6: "4-6 PM", 7: "6-8 PM", 8: "8-10 PM", 9: "Full Day" };
