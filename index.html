@@ -148,7 +148,9 @@
                 neutral: "Alignment: Neutral / Average ⚖️",
                 difficult: "Alignment: Challenging / Anti ⚠️",
                 desc: ["Very powerful combination.", "Good potential for growth.", "Efforts needed to succeed.", "Daily rituals are must."]
-            }
+            },
+            pyMoney: ["", "Excellent Growth", "Stable", "Increased Income", "Slow/Save Money", "Big Profits", "Balanced", "Loss Risk", "Rich Rewards", "Financial Cleanup"],
+            pyDanger: ["", "Low Risk", "Small Arguments", "Overconfidence", "Health Issues", "Accidents/Stress", "Family Stress", "Mental Confusion", "Legal Issues", "Hidden Enemies"]
         },
         or: { 
             navTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", inputHead: "ଭାଗ୍ୟ ଜାଣନ୍ତୁ", calcBtn: "ଦେଖନ୍ତୁ", 
@@ -168,7 +170,9 @@
                 neutral: "ସମନ୍ୱୟ: ସାଧାରଣ ⚖️",
                 difficult: "ସମନ୍ୱୟ: ସଂଘର୍ଷପୂର୍ଣ୍ଣ ⚠️",
                 desc: ["ଏହି ସଂଖ୍ୟା ଯୋଡି ବହୁତ ଶକ୍ତିଶାଳୀ |", "ଉନ୍ନତି ପାଇଁ ଭଲ ସୁଯୋଗ ରହିଛି |", "ସଫଳତା ପାଇଁ ଅଧିକ ପରିଶ୍ରମ ଦରକାର |", "ଦୈନିକ ପ୍ରତିକାର କରିବା ଆବଶ୍ୟକ |"]
-            }
+            },
+            pyMoney: ["", "ପ୍ରବଳ ଉନ୍ନତି", "ସ୍ଥିର ରହିବ", "ଆୟ ବୃଦ୍ଧି", "ଅଳ୍ପ ସଞ୍ଚୟ", "ଅଧିକ ଲାଭ", "ସନ୍ତୁଳିତ", "କ୍ଷତିର ଭୟ", "ଆର୍ଥିକ ଶକ୍ତି", "ଆର୍ଥିକ ସଫେଇ"],
+            pyDanger: ["", "କମ୍ ବିପଦ", "ଛୋଟ ଝଗଡା", "ଅତି ବିଶ୍ୱାସ", "ସ୍ୱାସ୍ଥ୍ୟ ସମସ୍ୟା", "ଦୁର୍ଘଟଣା/ଚାପ", "ପାରିବାରିକ ଚାପ", "ମାନସିକ ଦ୍ୱନ୍ଦ୍ୱ", "ଆଇନଗତ ସମସ୍ୟା", "ଗୁପ୍ତ ଶତ୍ରୁ"]
         }
     };
 
@@ -224,13 +228,30 @@
     function calculateMagic(scroll = true) {
         const dobVal = document.getElementById("dob").value; if (!dobVal) return;
         let d = new Date(dobVal), today = new Date();
-        let m = reduce(d.getDate()); 
-        let b = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear()); 
+        
+        // --- PRO LOGIC START ---
+        let dayOrig = d.getDate();
+        let month = d.getMonth() + 1;
+        let year = d.getFullYear();
+        let curYear = 2026;
+
+        let m = reduce(dayOrig); 
+        let b = reduce(dayOrig + month + year); 
+        
+        // Personal Year (The 100% Accuracy Rule)
+        let py = reduce(dayOrig + month + curYear);
+        
+        // Today's Vibes
         let uNum = reduce(today.getDate() + (today.getMonth() + 1) + today.getFullYear());
-        let vip = reduce(today.getDate() + (today.getMonth() + 1) + m + b);
+        
+        // VIP Number linked to Personal Year Cycle
+        let vip = reduce(m + b + py);
+        // --- PRO LOGIC END ---
 
         document.getElementById("personalContent").style.display = "block";
-        document.getElementById("valMulank").innerText = m;
+        
+        // Compound Number Update: "8 (from 17)"
+        document.getElementById("valMulank").innerText = `${m} (${dayOrig})`;
         document.getElementById("valBhagyank").innerText = b;
         document.getElementById("valFriends").innerText = friendly[m].join(", ");
         document.getElementById("valEnemies").innerText = enemy[m].join(", ");
@@ -257,11 +278,16 @@
         document.getElementById("pLuckNum").innerText = reduce(m + uNum);
         document.getElementById("pLuckColor").innerText = translations[currentLang].colors[reduce(m + uNum)];
         document.getElementById("vipNum").innerText = vip;
-        let energyVal = (vip * 11); if(energyVal > 100) energyVal = 95;
+
+        // Energy Based on Personal Year Vibration
+        let energyVal = (py === 1 || py === 5 || py === 6) ? 95 : (py === 4 || py === 8) ? 48 : 75;
         document.getElementById("energyPercent").innerText = energyVal + "%";
         document.getElementById("meterFill").style.width = energyVal + "%";
-        document.getElementById("moneyLuck").innerText = translations[currentLang].moneyTxt[reduce(vip + m) % 5];
-        document.getElementById("dangerAlert").innerText = translations[currentLang].dangerMsgs[vip - 1];
+
+        // Accurate Money & Danger from Personal Year Logic
+        document.getElementById("moneyLuck").innerText = translations[currentLang].pyMoney[py];
+        document.getElementById("dangerAlert").innerText = translations[currentLang].pyDanger[py];
+
         const times = { 1: "6-8 AM", 2: "8-10 AM", 3: "10-12 PM", 4: "12-2 PM", 5: "2-4 PM", 6: "4-6 PM", 7: "6-8 PM", 8: "8-10 PM", 9: "Full Day" };
         document.getElementById("timeWindows").innerText = translations[currentLang].peakTime + times[vip];
 
