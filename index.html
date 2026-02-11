@@ -7,88 +7,52 @@
 
 <style>
 body{
-    margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    color:white;
-    text-align:center;
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+text-align:center;
 }
-
-/* header */
 header{
-    padding:20px;
-    background:black;
-    font-size:26px;
-    font-weight:bold;
-    letter-spacing:2px;
-    box-shadow:0 0 15px cyan;
+padding:20px;
+background:black;
+font-size:26px;
+font-weight:bold;
+box-shadow:0 0 15px cyan;
 }
-
-/* input section */
 .calc-box{
-    margin:20px;
-    padding:20px;
-    background:rgba(255,255,255,0.08);
-    border-radius:15px;
-    box-shadow:0 0 15px cyan;
+margin:20px;
+padding:20px;
+background:rgba(255,255,255,0.08);
+border-radius:15px;
+box-shadow:0 0 15px cyan;
 }
-
 input{
-    padding:12px;
-    width:80%;
-    border-radius:8px;
-    border:none;
-    margin-top:10px;
-    font-size:16px;
+padding:12px;
+width:85%;
+border-radius:8px;
+border:none;
+margin-top:10px;
+font-size:16px;
 }
-
 button{
-    padding:12px 25px;
-    border:none;
-    border-radius:8px;
-    background:cyan;
-    font-size:16px;
-    font-weight:bold;
-    margin-top:12px;
+padding:12px 25px;
+border:none;
+border-radius:8px;
+background:cyan;
+font-size:16px;
+font-weight:bold;
+margin-top:12px;
 }
-
 .result{
-    margin-top:15px;
-    font-size:18px;
-    color:gold;
+margin-top:15px;
+font-size:18px;
+color:gold;
 }
-
-/* numerology cards */
-.grid{
-    display:grid;
-    grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
-    gap:15px;
-    padding:15px;
-}
-
-.card{
-    background:rgba(255,255,255,0.08);
-    padding:15px;
-    border-radius:12px;
-    box-shadow:0 0 15px rgba(0,255,255,0.4);
-    transition:0.4s;
-}
-
-.card:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 25px cyan;
-}
-
-.number{
-    font-size:30px;
-    color:cyan;
-    font-weight:bold;
-}
-
 footer{
-    margin-top:20px;
-    padding:15px;
-    background:black;
+margin-top:20px;
+padding:15px;
+background:black;
 }
 </style>
 </head>
@@ -100,31 +64,22 @@ footer{
 <br>Astro Abhinash
 </header>
 
-<!-- Calculator -->
+<!-- DOB -->
 <div class="calc-box">
-<h2>Find Your Mulank & Bhagyank</h2>
-Enter Date of Birth:
-<br>
+<h2>Mulank & Bhagyank</h2>
 <input type="date" id="dob">
 <br>
 <button onclick="calculate()">Calculate</button>
-
 <div class="result" id="output"></div>
 </div>
 
-<!-- Numerology cards -->
-<div class="grid">
-
-<div class="card"><div class="number">1</div>Leader | Morning: Suraj ko jal</div>
-<div class="card"><div class="number">2</div>Peace | Meditation</div>
-<div class="card"><div class="number">3</div>Guru | Study work</div>
-<div class="card"><div class="number">4</div>Rahu | Planning</div>
-<div class="card"><div class="number">5</div>Mercury | Calls & business</div>
-<div class="card"><div class="number">6</div>Venus | Clean & perfume</div>
-<div class="card"><div class="number">7</div>Ketu | Meditation</div>
-<div class="card"><div class="number">8</div>Shani | Hard work</div>
-<div class="card"><div class="number">9</div>Mars | Exercise</div>
-
+<!-- Name numerology -->
+<div class="calc-box">
+<h2>Name Numerology</h2>
+<input type="text" id="name" placeholder="Enter full name">
+<br>
+<button onclick="nameCalc()">Check Name</button>
+<div class="result" id="nameOutput"></div>
 </div>
 
 <footer>
@@ -132,49 +87,90 @@ Created by Astro Abhinash 🔯
 </footer>
 
 <script>
+let globalMulank=0;
+let globalBhagyank=0;
+
 function reduce(num){
-    while(num > 9){
-        num = num.toString().split('').reduce((a,b)=> parseInt(a)+parseInt(b));
-    }
-    return num;
+while(num>9){
+num=num.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b));
+}
+return num;
 }
 
+// Mulank Bhagyank
 function calculate(){
-    let dob = document.getElementById("dob").value;
-    if(!dob){
-        alert("Enter DOB first");
-        return;
-    }
+let dob=document.getElementById("dob").value;
+if(!dob){alert("Enter DOB");return;}
 
-    let date = new Date(dob);
-    let day = date.getDate();
-    let month = date.getMonth()+1;
-    let year = date.getFullYear();
+let d=new Date(dob);
+let day=d.getDate();
+let month=d.getMonth()+1;
+let year=d.getFullYear();
 
-    // Mulank
-    let mulank = reduce(day);
+globalMulank=reduce(day);
+globalBhagyank=reduce(day+month+year);
 
-    // Bhagyank
-    let total = day + month + year;
-    let bhagyank = reduce(total);
+document.getElementById("output").innerHTML=
+"🔢 Mulank: "+globalMulank+
+"<br>✨ Bhagyank: "+globalBhagyank+
+"<br><br>Credit: Astro Abhinash";
+}
 
-    let advice = {
-        1:"Start new work early morning",
-        2:"Meditation & calm mind",
-        3:"Study & knowledge",
-        4:"Planning & system",
-        5:"Business calls",
-        6:"Look attractive",
-        7:"Silent meditation",
-        8:"Hard work morning",
-        9:"Exercise & action"
-    };
+// Name numerology
+function nameCalc(){
 
-    document.getElementById("output").innerHTML =
-    "🔢 Mulank: "+mulank+"<br>"+
-    "✨ Bhagyank: "+bhagyank+"<br>"+
-    "🌅 Morning Advice: "+advice[mulank]+"<br><br>"+
-    "Credit: Astro Abhinash";
+if(globalMulank==0){
+alert("Pehle DOB daalo");
+return;
+}
+
+let name=document.getElementById("name").value.toLowerCase();
+if(name==""){alert("Enter name");return;}
+
+let values={
+a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,
+j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,
+s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8
+};
+
+let sum=0;
+for(let i=0;i<name.length;i++){
+let ch=name[i];
+if(values[ch]) sum+=values[ch];
+}
+
+let nameNum=reduce(sum);
+
+let msg="🔠 Name Number: "+nameNum+"<br>";
+
+if(nameNum==globalMulank || nameNum==globalBhagyank){
+msg+="🟢 Lucky! Name perfectly aligned with destiny<br>";
+msg+="🚀 Success vibration strong";
+}
+else{
+msg+="🔴 Name not aligned with destiny<br>";
+
+msg+="<br>💡 Suggested lucky numbers for name: "+
+globalMulank+" or "+globalBhagyank+"<br>";
+
+if(globalMulank==1||globalBhagyank==1)
+msg+="👉 Add A / I letters in name<br>";
+
+if(globalMulank==3||globalBhagyank==3)
+msg+="👉 Add C / G / L vibration<br>";
+
+if(globalMulank==5||globalBhagyank==5)
+msg+="👉 Add E / N vibration<br>";
+
+if(globalMulank==6||globalBhagyank==6)
+msg+="👉 Add U / V for attraction<br>";
+
+msg+="✨ Modify spelling for lucky success";
+}
+
+msg+="<br><br>Credit: Astro Abhinash";
+
+document.getElementById("nameOutput").innerHTML=msg;
 }
 </script>
 
