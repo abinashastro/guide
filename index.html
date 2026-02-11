@@ -20,6 +20,7 @@
             background-attachment: fixed;
             color: white;
             padding-bottom: 50px;
+            text-align: center;
         }
 
         header {
@@ -70,7 +71,7 @@
 
         input[type="date"] {
             padding: 15px;
-            width: 90%;
+            width: 80%;
             border-radius: 12px;
             border: none;
             background: rgba(255, 255, 255, 0.9);
@@ -78,6 +79,7 @@
             font-size: 16px;
             font-weight: bold;
             margin: 15px 0;
+            outline: none;
         }
 
         button {
@@ -100,12 +102,11 @@
             font-size: 20px;
             font-weight: 600;
             color: var(--gold);
-            animation: fadeIn 1s ease;
         }
 
         .badge {
             background: rgba(255, 215, 0, 0.2);
-            padding: 5px 15px;
+            padding: 8px 20px;
             border-radius: 20px;
             font-size: 14px;
             color: white;
@@ -122,34 +123,46 @@
 
         .tip-item {
             text-align: left;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
             font-size: 14px;
-            border-left: 3px solid var(--primary);
+            border-left: 4px solid var(--primary);
+            animation: slideIn 0.5s ease;
+        }
+
+        .traits-header {
+            color: var(--gold);
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         footer {
             margin-top: 50px;
+            padding: 20px;
             opacity: 0.7;
             font-size: 13px;
+            background: rgba(0,0,0,0.5);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
     </style>
 </head>
 <body>
 
-<header>🔢 Astro Abhinash 🔯</header>
+<header>🔢 Astro Abhinash Numerology 🔯</header>
 
 <div class="container">
     <div class="grid-results">
         <div class="box">
-            <h2>📅 Lucky Day</h2>
+            <h2>📅 Universal Day</h2>
             <div id="dayNum" class="result">--</div>
         </div>
         <div class="box">
@@ -159,15 +172,15 @@
     </div>
 
     <div class="box" style="background: rgba(0,0,0,0.4);">
-        <h2>✨ Personal Reading</h2>
+        <h2>✨ Check Your Destiny</h2>
         <input type="date" id="dob"><br>
-        <button onclick="calculate()">Reveal My Luck</button>
-        <div id="basic" style="margin-top:15px"></div>
+        <button onclick="calculate()">Reveal My Reading</button>
+        <div id="basic" style="margin-top:20px"></div>
     </div>
 
     <div class="box">
-        <h2>👑 VIP Number Today</h2>
-        <div id="vip" class="result" style="font-size: 40px; text-shadow: 0 0 10px var(--gold);">--</div>
+        <h2>👑 VIP Lucky Number</h2>
+        <div id="vip" class="result" style="font-size: 45px; text-shadow: 0 0 15px var(--gold);">--</div>
     </div>
 
     <div class="box">
@@ -176,19 +189,60 @@
     </div>
 
     <div class="box">
-        <h2>🌅 Morning Activation</h2>
-        <div id="morning"></div>
+        <h2>🌅 Morning Activation & Traits</h2>
+        <div id="morning">
+            <p style="opacity:0.5">Enter DOB to see your daily activation</p>
+        </div>
     </div>
 
     <div class="box">
-        <h2>🔮 Daily Remedy</h2>
+        <h2>🔮 Today's Remedy</h2>
         <div id="remedy" class="result">--</div>
     </div>
 </div>
 
-<footer>© 2026 Astro Abhinash • Numerology Secrets</footer>
+<footer>Created by Astro Abhinash 🔯 <br> Ancient Wisdom meets Modern UI</footer>
 
 <script>
+    const numerologyData = {
+        1: {
+            traits: "Leader, Independent, Ambitious",
+            tips: ["Set 3 big goals for the day", "Take sunlight for 10 mins", "Start your most important task first", "Use Red/Orange accessories", "Practice self-affirmation"]
+        },
+        2: {
+            traits: "Intuitive, Calm, Cooperative",
+            tips: ["5 mins Meditation in silence", "Drink water from a silver glass", "Avoid hasty decisions", "Wear White or Cream", "Listen to soft instrumental music"]
+        },
+        3: {
+            traits: "Creative, Communicative, Wise",
+            tips: ["Write 3 things you're grateful for", "Plan a learning or teaching activity", "Respect your mentor/elders", "Use Yellow or Gold", "Engage in creative writing"]
+        },
+        4: {
+            traits: "Disciplined, Practical, Grounded",
+            tips: ["Organize your digital/physical workspace", "Strictly follow your time-table", "Avoid shortcuts today", "Wear Blue or Grey", "Walk barefoot on grass (Grounding)"]
+        },
+        5: {
+            traits: "Versatile, Energetic, Business-minded",
+            tips: ["Make important business calls/emails", "Quick physical activity or yoga", "Explore a new innovative idea", "Use Green color", "Check your weekly financial plan"]
+        },
+        6: {
+            traits: "Luxury-loving, Responsible, Magnetic",
+            tips: ["Groom yourself to perfection", "Use a high-quality fragrance", "Decorate your space", "Wear Pink or White", "Call a loved one / family time"]
+        },
+        7: {
+            traits: "Spiritual, Analytical, Deep Thinker",
+            tips: ["Deep breathing / Pranayam", "Stay in silence for 15 mins", "Journal your inner thoughts", "Use Sky Blue", "Avoid crowds and noise"]
+        },
+        8: {
+            traits: "Powerful, Balanced, Goal-oriented",
+            tips: ["Long-term wealth planning", "Help someone in need (Charity)", "Stay patient under pressure", "Use Dark Blue/Black", "Finish a pending tough task"]
+        },
+        9: {
+            traits: "Humanitarian, Courageous, Strong",
+            tips: ["High-intensity workout/Gym", "Do one selfless act of kindness", "Channel energy into hard work", "Use Red color", "Read something highly motivational"]
+        }
+    };
+
     function reduce(n) {
         while (n > 9) {
             n = n.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
@@ -196,12 +250,12 @@
         return n;
     }
 
-    // Set Today's Energy
+    // Set Universal Day Energy
     let today = new Date();
     let todayNum = reduce(today.getDate() + (today.getMonth() + 1) + today.getFullYear());
     document.getElementById("dayNum").innerText = todayNum;
 
-    let colorMap = {
+    const colorMap = {
         1: "🔴 Red", 2: "⚪ White", 3: "🟡 Yellow", 4: "🔵 Blue", 
         5: "🟢 Green", 6: "🌸 Pink", 7: "💎 Sky Blue", 8: "⚫ Black", 9: "🟠 Orange"
     };
@@ -209,7 +263,7 @@
 
     function calculate() {
         let dobValue = document.getElementById("dob").value;
-        if (!dobValue) { alert("Please select your birth date first!"); return; }
+        if (!dobValue) { alert("Please select your birth date!"); return; }
 
         let d = new Date(dobValue);
         let day = d.getDate();
@@ -224,43 +278,38 @@
             <span class="badge">Bhagyank: ${bhagyank}</span>
         `;
 
+        // VIP Formula
         let runningYear = reduce(new Date().getFullYear());
         let vipNum = reduce(todayNum + mulank + bhagyank + runningYear);
         document.getElementById("vip").innerText = vipNum;
 
-        let luckyTime = {
+        // Lucky Time Window
+        const luckyTime = {
             1: "6 AM – 8 AM", 2: "8 AM – 10 AM", 3: "10 AM – 12 PM",
             4: "12 PM – 2 PM", 5: "2 PM – 4 PM", 6: "4 PM – 6 PM",
-            7: "6 PM – 8 PM", 8: "8 PM – 10 PM", 9: "Golden Day (Full Day)"
+            7: "6 PM – 8 PM", 8: "8 PM – 10 PM", 9: "Golden Day (Full Day Lucky)"
         };
         document.getElementById("timeLuck").innerText = luckyTime[vipNum];
 
-        let tips = {
-            1: ["Set clear goals", "Take a lead role", "Use red accessories", "Connect with sunlight"],
-            2: ["Practice meditation", "Listen more, talk less", "Drink more water", "Use white color"],
-            3: ["Learn something new", "Plan your finances", "Respect your elders", "Use yellow accents"],
-            4: ["Organize your desk", "Avoid shortcuts", "Stay disciplined", "Wear blue shades"],
-            5: ["Network with people", "Check pending emails", "Go for a walk", "Use green colors"],
-            6: ["Enhance your look", "Use pleasant fragrance", "Express love/gratitude", "Smile often"],
-            7: ["Spend time alone", "Deep breathing exercises", "Spiritual reading", "Stay close to nature"],
-            8: ["Focus on hard tasks", "Manage your wealth", "Help someone in need", "Stay persistent"],
-            9: ["High intensity workout", "Help a sibling/friend", "Finish pending projects", "Be brave"]
-        };
+        // Morning Activation & Traits
+        let data = numerologyData[mulank];
+        let morningHtml = `<div class="traits-header">Key Traits: ${data.traits}</div>`;
+        data.tips.forEach(tip => {
+            morningHtml += `<div class="tip-item">✨ ${tip}</div>`;
+        });
+        document.getElementById("morning").innerHTML = morningHtml;
 
-        let tipsHtml = "";
-        tips[mulank].forEach(t => tipsHtml += `<div class="tip-item">✨ ${t}</div>`);
-        document.getElementById("morning").innerHTML = tipsHtml;
-
-        let remedies = {
-            1: "Offer water to the Sun (Surya Jal)",
-            2: "Keep a silver coin with you",
-            3: "Apply a yellow tilak on forehead",
-            4: "Feed a stray dog",
-            5: "Give green fodder to a cow",
-            6: "Apply white sandalwood perfume",
-            7: "Chant 'Om' for 5 minutes",
-            8: "Donate something black or help laborers",
-            9: "Read Hanuman Chalisa"
+        // Remedy
+        const remedies = {
+            1: "Offer water to the Sun (Surya Arghya)",
+            2: "Carry a small silver item/coin",
+            3: "Apply a kesar/haldi tilak on forehead",
+            4: "Feed birds or stay organized",
+            5: "Keep a green handkerchief",
+            6: "Use a sandalwood or floral perfume",
+            7: "Chant 'Om' for 5 minutes in isolation",
+            8: "Help a laborer or donate black sesame",
+            9: "Read Hanuman Chalisa or help a brother"
         };
         document.getElementById("remedy").innerText = remedies[vipNum];
     }
