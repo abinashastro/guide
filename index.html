@@ -1,232 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Astro Abhinash Numerology</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Abhinash | Premium Numerology</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --gold: #ffd700;
+            --bg: #0b0e14;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
 
-<style>
-body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-color:white;
-text-align:center;
-}
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at top, #1a2a6c, #b21f1f, #fdbb2d);
+            background-attachment: fixed;
+            color: white;
+            padding-bottom: 50px;
+        }
 
-header{
-background:black;
-padding:18px;
-font-size:26px;
-font-weight:bold;
-letter-spacing:1px;
-box-shadow:0 0 15px cyan;
-}
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 25px;
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 4px 20px rgba(0, 242, 255, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-.container{
-max-width:900px;
-margin:auto;
-padding-bottom:40px;
-}
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
 
-.box{
-margin:18px;
-padding:20px;
-background:rgba(255,255,255,0.07);
-border-radius:14px;
-box-shadow:0 0 15px rgba(0,255,255,0.4);
-}
+        .box {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
 
-h2{
-margin-top:0;
-color:#00ffff;
-}
+        .box:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
 
-input{
-padding:12px;
-width:80%;
-border-radius:8px;
-border:none;
-margin-top:10px;
-font-size:16px;
-}
+        h2 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-button{
-padding:12px 25px;
-border:none;
-border-radius:8px;
-background:cyan;
-font-size:16px;
-font-weight:bold;
-margin-top:12px;
-cursor:pointer;
-}
+        input[type="date"] {
+            padding: 15px;
+            width: 90%;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
 
-.result{
-margin-top:15px;
-font-size:18px;
-color:#ffd700;
-line-height:1.6;
-}
+        button {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #00f2ff, #0066ff);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 242, 255, 0.4);
+            transition: 0.3s;
+        }
 
-footer{
-background:black;
-padding:14px;
-margin-top:30px;
-font-size:14px;
-}
-</style>
+        button:active { transform: scale(0.95); }
+
+        .result {
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gold);
+            animation: fadeIn 1s ease;
+        }
+
+        .badge {
+            background: rgba(255, 215, 0, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: white;
+            display: inline-block;
+            margin: 5px;
+            border: 1px solid var(--gold);
+        }
+
+        .grid-results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .tip-item {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            font-size: 14px;
+            border-left: 3px solid var(--primary);
+        }
+
+        footer {
+            margin-top: 50px;
+            opacity: 0.7;
+            font-size: 13px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-
 <body>
 
-<header>🔢 ASTRO ABHINASH NUMEROLOGY 🔯</header>
+<header>🔢 Astro Abhinash 🔯</header>
 
 <div class="container">
+    <div class="grid-results">
+        <div class="box">
+            <h2>📅 Lucky Day</h2>
+            <div id="dayNum" class="result">--</div>
+        </div>
+        <div class="box">
+            <h2>🎨 Lucky Color</h2>
+            <div id="colorToday" class="result" style="font-size: 16px;">--</div>
+        </div>
+    </div>
 
-<!-- Lucky day -->
-<div class="box">
-<h2>🌟 Lucky Day Number Today</h2>
-<div id="dayNum" class="result"></div>
+    <div class="box" style="background: rgba(0,0,0,0.4);">
+        <h2>✨ Personal Reading</h2>
+        <input type="date" id="dob"><br>
+        <button onclick="calculate()">Reveal My Luck</button>
+        <div id="basic" style="margin-top:15px"></div>
+    </div>
+
+    <div class="box">
+        <h2>👑 VIP Number Today</h2>
+        <div id="vip" class="result" style="font-size: 40px; text-shadow: 0 0 10px var(--gold);">--</div>
+    </div>
+
+    <div class="box">
+        <h2>⏰ Best Time Window</h2>
+        <div id="timeLuck" class="result">--</div>
+    </div>
+
+    <div class="box">
+        <h2>🌅 Morning Activation</h2>
+        <div id="morning"></div>
+    </div>
+
+    <div class="box">
+        <h2>🔮 Daily Remedy</h2>
+        <div id="remedy" class="result">--</div>
+    </div>
 </div>
 
-<!-- Lucky color -->
-<div class="box">
-<h2>🎨 Lucky Color Today</h2>
-<div id="colorToday" class="result"></div>
-</div>
-
-<!-- DOB -->
-<div class="box">
-<h2>Enter Your Date of Birth</h2>
-<input type="date" id="dob"><br>
-<button onclick="calculate()">Check My Numerology</button>
-<div id="basic" class="result"></div>
-</div>
-
-<!-- VIP -->
-<div class="box">
-<h2>👑 VIP Lucky Number Today</h2>
-<div id="vip" class="result"></div>
-</div>
-
-<!-- Lucky time -->
-<div class="box">
-<h2>⏰ Lucky Time Today</h2>
-<div id="timeLuck" class="result"></div>
-</div>
-
-<!-- Morning activation -->
-<div class="box">
-<h2>🌅 Morning Activation</h2>
-<div id="morning" class="result"></div>
-</div>
-
-<!-- Remedy -->
-<div class="box">
-<h2>🔮 Lucky Remedy Today</h2>
-<div id="remedy" class="result"></div>
-</div>
-
-</div>
-
-<footer>Created by Astro Abhinash 🔯</footer>
+<footer>© 2026 Astro Abhinash • Numerology Secrets</footer>
 
 <script>
-let mulank=0,bhagyank=0;
+    function reduce(n) {
+        while (n > 9) {
+            n = n.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+        }
+        return n;
+    }
 
-function reduce(n){
-while(n>9){
-n=n.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b));
-}
-return n;
-}
+    // Set Today's Energy
+    let today = new Date();
+    let todayNum = reduce(today.getDate() + (today.getMonth() + 1) + today.getFullYear());
+    document.getElementById("dayNum").innerText = todayNum;
 
-// Lucky day number
-let today=new Date();
-let todayNum=reduce(today.getDate()+(today.getMonth()+1)+today.getFullYear());
-document.getElementById("dayNum").innerHTML=todayNum;
+    let colorMap = {
+        1: "🔴 Red", 2: "⚪ White", 3: "🟡 Yellow", 4: "🔵 Blue", 
+        5: "🟢 Green", 6: "🌸 Pink", 7: "💎 Sky Blue", 8: "⚫ Black", 9: "🟠 Orange"
+    };
+    document.getElementById("colorToday").innerText = colorMap[todayNum];
 
-// Lucky color
-let colorMap={
-1:"Red",
-2:"White",
-3:"Yellow",
-4:"Blue",
-5:"Green",
-6:"Pink",
-7:"Sky Blue",
-8:"Black",
-9:"Orange"
-};
-document.getElementById("colorToday").innerHTML=colorMap[todayNum];
+    function calculate() {
+        let dobValue = document.getElementById("dob").value;
+        if (!dobValue) { alert("Please select your birth date first!"); return; }
 
-function calculate(){
+        let d = new Date(dobValue);
+        let day = d.getDate();
+        let month = d.getMonth() + 1;
+        let year = d.getFullYear();
 
-let dob=document.getElementById("dob").value;
-if(!dob){alert("Enter DOB");return;}
+        let mulank = reduce(day);
+        let bhagyank = reduce(day + month + year);
 
-let d=new Date(dob);
+        document.getElementById("basic").innerHTML = `
+            <span class="badge">Mulank: ${mulank}</span>
+            <span class="badge">Bhagyank: ${bhagyank}</span>
+        `;
 
-mulank=reduce(d.getDate());
-bhagyank=reduce(d.getDate()+(d.getMonth()+1)+d.getFullYear());
+        let runningYear = reduce(new Date().getFullYear());
+        let vipNum = reduce(todayNum + mulank + bhagyank + runningYear);
+        document.getElementById("vip").innerText = vipNum;
 
-document.getElementById("basic").innerHTML=
-"Mulank: "+mulank+" | Bhagyank: "+bhagyank;
+        let luckyTime = {
+            1: "6 AM – 8 AM", 2: "8 AM – 10 AM", 3: "10 AM – 12 PM",
+            4: "12 PM – 2 PM", 5: "2 PM – 4 PM", 6: "4 PM – 6 PM",
+            7: "6 PM – 8 PM", 8: "8 PM – 10 PM", 9: "Golden Day (Full Day)"
+        };
+        document.getElementById("timeLuck").innerText = luckyTime[vipNum];
 
-// VIP formula (pro)
-let universal=reduce(today.getDate()+(today.getMonth()+1)+today.getFullYear());
-let running=reduce(today.getFullYear());
-let vipNum=reduce(universal+mulank+bhagyank+running);
+        let tips = {
+            1: ["Set clear goals", "Take a lead role", "Use red accessories", "Connect with sunlight"],
+            2: ["Practice meditation", "Listen more, talk less", "Drink more water", "Use white color"],
+            3: ["Learn something new", "Plan your finances", "Respect your elders", "Use yellow accents"],
+            4: ["Organize your desk", "Avoid shortcuts", "Stay disciplined", "Wear blue shades"],
+            5: ["Network with people", "Check pending emails", "Go for a walk", "Use green colors"],
+            6: ["Enhance your look", "Use pleasant fragrance", "Express love/gratitude", "Smile often"],
+            7: ["Spend time alone", "Deep breathing exercises", "Spiritual reading", "Stay close to nature"],
+            8: ["Focus on hard tasks", "Manage your wealth", "Help someone in need", "Stay persistent"],
+            9: ["High intensity workout", "Help a sibling/friend", "Finish pending projects", "Be brave"]
+        };
 
-document.getElementById("vip").innerHTML=vipNum;
+        let tipsHtml = "";
+        tips[mulank].forEach(t => tipsHtml += `<div class="tip-item">✨ ${t}</div>`);
+        document.getElementById("morning").innerHTML = tipsHtml;
 
-// Lucky time
-let luckyTime={
-1:"6 AM – 8 AM",
-2:"8 AM – 10 AM",
-3:"10 AM – 12 PM",
-4:"12 PM – 2 PM",
-5:"2 PM – 4 PM",
-6:"4 PM – 6 PM",
-7:"6 PM – 8 PM",
-8:"8 PM – 10 PM",
-9:"Whole day lucky"
-};
-document.getElementById("timeLuck").innerHTML=luckyTime[vipNum];
-
-// Morning activation modern
-let tips={
-1:["Set goals","Take leadership","Start important work","Use red","Get sunlight"],
-2:["Meditation","Stay calm","Soft communication","Use white","Observe first"],
-3:["Study 10 min","Plan your day","Use yellow","Creative work","Respect teacher"],
-4:["Be disciplined","Clean workspace","Focus on work","Use blue","Avoid laziness"],
-5:["Business calls","Check money","Use green","Networking","Stay active"],
-6:["Dress well","Use perfume","Smile more","Love talk","Attract positivity"],
-7:["Meditation","Silent walk","Think deep","Nature connect","Spiritual focus"],
-8:["Start work early","Money planning","Use dark blue","Stay disciplined","Finish pending work"],
-9:["Exercise","Take action","High energy work","Use red","Avoid anger"]
-};
-
-let html="";
-tips[mulank].forEach(x=>html+="✔ "+x+"<br>");
-document.getElementById("morning").innerHTML=html;
-
-// Remedy
-let remedies={
-1:"Offer water to Sun",
-2:"Meditation 5 min",
-3:"Respect guru/elders",
-4:"Stay disciplined",
-5:"Use green color",
-6:"Wear perfume",
-7:"Meditation & silence",
-8:"Help poor / Shani remedy",
-9:"Hanuman prayer"
-};
-document.getElementById("remedy").innerHTML=remedies[vipNum];
-
-}
+        let remedies = {
+            1: "Offer water to the Sun (Surya Jal)",
+            2: "Keep a silver coin with you",
+            3: "Apply a yellow tilak on forehead",
+            4: "Feed a stray dog",
+            5: "Give green fodder to a cow",
+            6: "Apply white sandalwood perfume",
+            7: "Chant 'Om' for 5 minutes",
+            8: "Donate something black or help laborers",
+            9: "Read Hanuman Chalisa"
+        };
+        document.getElementById("remedy").innerText = remedies[vipNum];
+    }
 </script>
 
 </body>
