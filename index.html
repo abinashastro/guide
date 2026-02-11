@@ -3,126 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Abhinash | Numerology</title>
+    <title>Astro Abhinash | Numerology Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #00f2ff;
-            --gold: #ffd700;
-            --card-bg: rgba(255, 255, 255, 0.08);
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: radial-gradient(circle at top, #0f172a, #020617);
-            background-attachment: fixed;
-            color: white;
-            text-align: center;
-            padding-bottom: 50px;
-        }
-
-        header {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 15px;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            border-bottom: 3px solid var(--primary);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 25px;
-        }
-
-        .lang-btn {
-            background: var(--primary);
-            color: #000;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-
-        .box {
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        h2 { margin-top: 0; font-size: 1.1rem; color: var(--primary); text-transform: uppercase; }
-
-        input[type="date"] {
-            padding: 12px; width: 85%; border-radius: 10px; border: none;
-            background: #fff; font-size: 16px; font-weight: bold; margin-bottom: 15px;
-            text-align: center; outline: none;
-        }
-
-        .calc-btn {
-            padding: 14px 40px; border: none; border-radius: 50px;
-            background: linear-gradient(45deg, #00f2ff, #0066ff);
-            color: white; font-size: 16px; font-weight: bold; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3);
-        }
-
-        .result-val { font-size: 30px; font-weight: 800; color: var(--gold); }
-
-        /* Accordion Style */
-        .accordion-item {
-            background: rgba(255, 255, 255, 0.03);
-            margin-bottom: 8px;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: left;
-        }
-
-        .accordion-header {
-            padding: 15px 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease-out;
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .active-content { padding: 15px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
-
-        .ritual-list { list-style: none; padding: 0; margin: 0; }
-        .ritual-list li { 
-            margin-bottom: 10px; 
-            font-size: 13.5px; 
-            color: #e2e8f0; 
-            display: flex; 
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .trait-label { color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 8px;}
-
-        #personalContent { display: none; }
+        :root { --primary: #00f2ff; --gold: #ffd700; --danger: #ff4d4d; --card-bg: rgba(255, 255, 255, 0.08); }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: radial-gradient(circle at top, #0f172a, #020617); background-attachment: fixed; color: white; text-align: center; padding-bottom: 50px; }
+        header { background: rgba(0, 0, 0, 0.9); padding: 15px 25px; font-size: 18px; font-weight: 700; border-bottom: 3px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
+        .lang-btn { background: var(--primary); color: #000; border: none; padding: 5px 12px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
+        .box { background: var(--card-bg); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
+        h2 { margin-top: 0; font-size: 1rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px;}
+        input[type="date"] { padding: 12px; width: 85%; border-radius: 10px; border: none; background: #fff; font-size: 16px; font-weight: bold; margin-bottom: 15px; text-align: center; }
+        .calc-btn { padding: 14px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, #00f2ff, #0066ff); color: white; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3); }
+        .result-val { font-size: 28px; font-weight: 800; color: var(--gold); }
         
-        footer { margin-top: 30px; font-size: 12px; opacity: 0.5; }
+        /* Features Styling */
+        .meter-bg { background: #222; height: 10px; border-radius: 10px; margin: 10px 0; overflow: hidden; }
+        .meter-fill { background: linear-gradient(to right, #00f2ff, var(--gold)); height: 100%; width: 0%; transition: width 1.5s ease-in-out; }
+        .danger-box { border: 1px solid var(--danger); background: rgba(255, 77, 77, 0.1); padding: 10px; border-radius: 10px; color: #ff9999; font-size: 13px; font-weight: 600; }
+        .money-luck { font-size: 18px; color: #4ade80; font-weight: bold; }
+
+        /* Accordion */
+        .accordion-item { background: rgba(255, 255, 255, 0.03); margin-bottom: 8px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.05); text-align: left; }
+        .accordion-header { padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600;}
+        .accordion-content { max-height: 0; overflow: hidden; transition: all 0.3s ease-out; background: rgba(0, 0, 0, 0.3); }
+        .active-content { padding: 15px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .ritual-list { list-style: none; padding: 0; margin: 0; }
+        .ritual-list li { margin-bottom: 10px; font-size: 13px; color: #e2e8f0; display: flex; align-items: flex-start; gap: 10px; }
+        #personalContent { display: none; }
     </style>
 </head>
 <body>
@@ -133,7 +41,6 @@
 </header>
 
 <div class="container">
-    
     <div class="box">
         <h2 id="inputHead">Personal Reading</h2>
         <input type="date" id="dob">
@@ -143,17 +50,34 @@
 
     <div id="personalContent">
         <div class="box">
-            <h2 id="todayTitle">📅 Today's Forecast</h2>
-            <div style="display:flex; justify-content: space-around;">
-                <div><small id="lblLuckNo">Lucky No.</small><div id="pLuckNum" class="result-val">--</div></div>
-                <div><small id="lblLuckCol">Lucky Color</small><div id="pLuckColor" class="result-val" style="font-size:16px">--</div></div>
+            <h2 id="todayTitle">📅 Today's Lucky Vibes</h2>
+            <div style="display:flex; justify-content: space-around; margin-top: 10px;">
+                <div><small id="lblLuckNo" style="opacity: 0.8;">Lucky No.</small><div id="pLuckNum" class="result-val">--</div></div>
+                <div><small id="lblLuckCol" style="opacity: 0.8;">Lucky Color</small><div id="pLuckColor" class="result-val" style="font-size:18px; margin-top: 8px;">--</div></div>
             </div>
         </div>
 
-        <div class="box" style="border: 1.5px solid var(--gold);">
+        <div class="box">
+            <h2 id="lblEnergy">Today's Energy Meter</h2>
+            <div id="energyPercent" class="result-val" style="font-size: 22px;">0%</div>
+            <div class="meter-bg"><div id="meterFill" class="meter-fill"></div></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="box">
+                <h2 id="lblMoney">Money Luck</h2>
+                <div id="moneyLuck" class="money-luck">--</div>
+            </div>
+            <div class="box">
+                <h2 id="lblDanger">Danger Alert</h2>
+                <div id="dangerAlert" class="danger-box">--</div>
+            </div>
+        </div>
+
+        <div class="box" style="border: 2px solid var(--gold); background: rgba(255, 215, 0, 0.05);">
             <h2 id="lblVip">👑 VIP Pro Number</h2>
-            <div id="vipNum" class="result-val" style="font-size:50px;">--</div>
-            <div id="timeWindows" style="color:var(--primary); font-size: 14px; font-weight:600; margin-top:5px;"></div>
+            <div id="vipNum" class="result-val" style="font-size:45px;">--</div>
+            <div id="timeWindows" style="color:var(--primary); font-size: 13px; font-weight:600;"></div>
         </div>
     </div>
 
@@ -161,89 +85,45 @@
         <h2 id="guideHead" style="margin-bottom:15px;">🌟 Number Guide</h2>
         <div id="accordionContainer"></div>
     </div>
-
-    <footer id="footerText">Created by Astro Abhinash 🔯</footer>
 </div>
 
 <script>
     let currentLang = 'en';
-
     const translations = {
-        en: {
-            navTitle: "ASTRO ABHINASH 🔯",
-            inputHead: "Check Your Luck",
-            calcBtn: "Reveal Results",
-            todayTitle: "📅 Today's Forecast",
-            lblLuckNo: "Lucky No.",
-            lblLuckCol: "Lucky Color",
-            lblVip: "👑 VIP Pro Number",
-            guideHead: "🌟 Number Guide",
-            footerText: "Created by Astro Abhinash 🔯",
-            peakTime: "Lucky Time: ",
-            traitLbl: "PERSONALITY: ",
-            actLbl: "MORNING ACTIVATION (SIMPLE):",
+        en: { 
+            navTitle: "ASTRO ABHINASH 🔯", inputHead: "Check Your Luck", calcBtn: "Reveal Results", 
+            todayTitle: "📅 Today's Lucky Vibes", lblLuckNo: "Lucky No.", lblLuckCol: "Lucky Color",
+            lblEnergy: "Energy Meter", lblMoney: "Money Luck", lblDanger: "Danger Alert ⚠️", 
+            lblVip: "👑 VIP Number", guideHead: "🌟 Number Guide", peakTime: "Time: ",
+            moneyTxt: ["Poor", "Average", "Good", "Very Good", "Excellent"],
+            dangerMsgs: ["Hasty driving", "Argument with boss", "Losing wallet", "Health issue", "Wrong investment", "Trusting strangers", "Arguments", "Electric tools", "Anger"],
             colors: ["", "🔴 Red", "⚪ White", "🟡 Yellow", "🔵 Blue", "🟢 Green", "🌸 Pink", "💎 Sky Blue", "⚫ Black", "🟠 Orange"]
         },
-        or: {
-            navTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯",
-            inputHead: "ଆପଣଙ୍କ ଭାଗ୍ୟ ଜାଣନ୍ତୁ",
-            calcBtn: "ଫଳାଫଳ ଦେଖନ୍ତୁ",
-            todayTitle: "📅 ଆଜିର ଭାଗ୍ୟଫଳ",
-            lblLuckNo: "ଶୁଭ ସଂଖ୍ୟା",
-            lblLuckCol: "ଶୁଭ ରଙ୍ଗ",
-            lblVip: "👑 VIP ପ୍ରୋ ସଂଖ୍ୟା",
-            guideHead: "🌟 ସଂଖ୍ୟା ଗାଇଡ୍",
-            footerText: "ପ୍ରସ୍ତୁତକର୍ତ୍ତା: ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯",
-            peakTime: "ଶୁଭ ସମୟ: ",
-            traitLbl: "ବ୍ୟକ୍ତିତ୍ୱ: ",
-            actLbl: "ସକାଳର କାର୍ଯ୍ୟ (ସହଜ):",
+        or: { 
+            navTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", inputHead: "ଭାଗ୍ୟ ଜାଣନ୍ତୁ", calcBtn: "ଦେଖନ୍ତୁ", 
+            todayTitle: "📅 ଆଜିର ଶୁଭ ଫଳାଫଳ", lblLuckNo: "ଶୁଭ ସଂଖ୍ୟା", lblLuckCol: "ଶୁଭ ରଙ୍ଗ",
+            lblEnergy: "ଶକ୍ତି ମିଟର", lblMoney: "ଧନ ଭାଗ୍ୟ", lblDanger: "ସତର୍କ ସୂଚନା ⚠️", 
+            lblVip: "👑 VIP ସଂଖ୍ୟା", guideHead: "🌟 ସଂଖ୍ୟା ଗାଇଡ୍", peakTime: "ସମୟ: ",
+            moneyTxt: ["ଖରାପ", "ସାଧାରଣ", "ଭଲ", "ବହୁତ ଭଲ", "ଉତ୍ତମ"],
+            dangerMsgs: ["ଦ୍ରୁତ ଗାଡି ଚାଳନା", "ଉପରିସ୍ଥଙ୍କ ସହ ଯୁକ୍ତି", "ପର୍ସ ହଜିବା ଭୟ", "ସ୍ୱାସ୍ଥ୍ୟ ସମସ୍ୟା", "ଭୁଲ ନିବେଶ", "ଅଜଣାଙ୍କୁ ବିଶ୍ୱାସ", "ପାରିବାରିକ କଳି", "ବିଦ୍ୟୁତ୍ ଉପକରଣ", "ରାଗ ଉପରେ ନିୟନ୍ତ୍ରଣ"],
             colors: ["", "🔴 ନାଲି", "⚪ ଧଳା", "🟡 ହଳଦିଆ", "🔵 ନୀଳ", "🟢 ସବୁଜ", "🌸 ଗୋଲାପି", "💎 ଆକାଶୀ ନୀଳ", "⚫ କଳା", "🟠 କମଳା"]
         }
     };
 
     const numData = {
-        1: { 
-            en: { title: "Number 1 (The Leader)", traits: "Confidence, Power, Success", rituals: ["Look at the sun & say Namaste.", "Drink a full glass of water.", "Write today's 1 main goal.", "Wear something Red/Orange."] },
-            or: { title: "ସଂଖ୍ୟା ୧ (ନେତୃତ୍ୱ)", traits: "ଆତ୍ମବିଶ୍ୱାସ, ଶକ୍ତି, ସଫଳତା", rituals: ["ସୂର୍ଯ୍ୟଙ୍କୁ ଦର୍ଶନ କରି ପ୍ରଣାମ କରନ୍ତୁ |", "ସକାଳୁ ଗୋଟିଏ ଗ୍ଲାସ ପାଣି ପିଅନ୍ତୁ |", "ଆଜିର ଗୋଟିଏ ମୁଖ୍ୟ କାମ ଖାତାରେ ଲେଖନ୍ତୁ |", "ନାଲି କିମ୍ବା କମଳା ରଙ୍ଗର ବ୍ୟବହାର କରନ୍ତୁ |"] }
-        },
-        2: { 
-            en: { title: "Number 2 (The Peace-Maker)", traits: "Calmness, Love, Intuition", rituals: ["Sit silently for 2 minutes.", "Drink water in glass/silverware.", "Avoid arguments today.", "Use White or Cream color."] },
-            or: { title: "ସଂଖ୍ୟା ୨ (ଶାନ୍ତିପ୍ରିୟ)", traits: "ଶାନ୍ତି, ପ୍ରେମ, ଅନ୍ତର୍ନିହିତ ଜ୍ଞାନ", rituals: ["୨ ମିନିଟ୍ ଶାନ୍ତ ହୋଇ ବସନ୍ତୁ |", "ରୁପା କିମ୍ବା କାଚ ଗ୍ଲାସରେ ପାଣି ପିଅନ୍ତୁ |", "ଆଜି କାହା ସହ ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |", "ଧଳା କିମ୍ବା କ୍ରିମ୍ ରଙ୍ଗ ବ୍ୟବହାର କରନ୍ତୁ |"] }
-        },
-        3: { 
-            en: { title: "Number 3 (The Wise)", traits: "Knowledge, Growth, Luck", rituals: ["Respect elders/mentors.", "Read something new for 5 mins.", "Apply a small Yellow (Haldi) tilak.", "Wear something Yellow."] },
-            or: { title: "ସଂଖ୍ୟା ୩ (ଜ୍ଞାନୀ)", traits: "ଜ୍ଞାନ, ବୃଦ୍ଧି, ସୌଭାଗ୍ୟ", rituals: ["ଗୁରୁଜନମାନଙ୍କୁ ପ୍ରଣାମ କରନ୍ତୁ |", "୫ ମିନିଟ୍ ପାଇଁ କିଛି ନୂଆ ପଢନ୍ତୁ |", "ମଥାରେ ହଳଦୀ ଟିପାଟିଏ ଲଗାନ୍ତୁ |", "ହଳଦିଆ ରଙ୍ଗର ପୋଷାକ ବ୍ୟବହାର କରନ୍ତୁ |"] }
-        },
-        4: { 
-            en: { title: "Number 4 (The Disciplined)", traits: "Focus, Hard Work, Ideas", rituals: ["Clean your desk/bed.", "Walk barefoot for 5 mins.", "No phone for first 15 mins.", "Use Blue or Grey color."] },
-            or: { title: "ସଂଖ୍ୟା ୪ (ଶୃଙ୍ଖଳିତ)", traits: "ଏକାଗ୍ରତା, ପରିଶ୍ରମ, ଚିନ୍ତାଧାରା", rituals: ["ନିଜ ଶୋଇବା ସ୍ଥାନ ସଫା ରଖନ୍ତୁ |", "୫ ମିନିଟ୍ ଖାଲି ପାଦରେ ଚାଲନ୍ତୁ |", "ସକାଳୁ ୧୫ ମିନିଟ୍ ଫୋନ୍ ଦୂରେଇ ରଖନ୍ତୁ |", "ନୀଳ କିମ୍ବା ଧୂସର ରଙ୍ଗ ବ୍ୟବହାର କରନ୍ତୁ |"] }
-        },
-        5: { 
-            en: { title: "Number 5 (The Intelligent)", traits: "Business, Logic, Speed", rituals: ["Water a green plant.", "Check important emails/messages.", "Eat a green fruit.", "Keep a Green handkerchief."] },
-            or: { title: "ସଂଖ୍ୟା ୫ (ବୁଦ୍ଧିମାନ)", traits: "ବ୍ୟବସାୟ, ଯୁକ୍ତି, ଗତି", rituals: ["ସବୁଜ ଗଛରେ ପାଣି ଦିଅନ୍ତୁ |", "ଜରୁରୀ ମେସେଜ୍ କିମ୍ବା ମେଲ୍ ଚେକ୍ କରନ୍ତୁ |", "ସବୁଜ ପନିପରିବା କିମ୍ବା ଫଳ ଖାଆନ୍ତୁ |", "ପାଖରେ ସବୁଜ ରଙ୍ଗର ରୁମାଲ ରଖନ୍ତୁ |"] }
-        },
-        6: { 
-            en: { title: "Number 6 (The Luxury-Lover)", traits: "Beauty, Money, Family", rituals: ["Use a nice fragrance/perfume.", "Wear clean, well-ironed clothes.", "Eat something sweet.", "Use Pink or White colors."] },
-            or: { title: "ସଂଖ୍ୟା ୬ (ସୁଖ-ସମୃଦ୍ଧି)", traits: "ସୌନ୍ଦର୍ଯ୍ୟ, ଅର୍ଥ, ପରିବାର", rituals: ["ଭଲ ସେଣ୍ଟ କିମ୍ବା ପରଫ୍ୟୁମ ବ୍ୟବହାର କରନ୍ତୁ |", "ସଫା ଓ ଭଲ ପୋଷାକ ପିନ୍ଧନ୍ତୁ |", "କିଛି ମିଠା ଖାଇ ଘରୁ ବାହାରନ୍ତୁ |", "ଗୋଲାପି କିମ୍ବା ଧଳା ରଙ୍ଗ ବ୍ୟବହାର କରନ୍ତୁ |"] }
-        },
-        7: { 
-            en: { title: "Number 7 (The Thinker)", traits: "Spirituality, Depth, Peace", rituals: ["Stay silent for 10 minutes.", "Feed a bird or animal.", "Chant 'Om' 11 times.", "Use Sky Blue color."] },
-            or: { title: "ସଂଖ୍ୟା ୭ (ଚିନ୍ତାଶୀଳ)", traits: "ଆଧ୍ୟାତ୍ମିକତା, ଗଭୀରତା, ଶାନ୍ତି", rituals: ["୧୦ ମିନିଟ୍ ପାଇଁ ଚୁପ୍ ରୁହନ୍ତୁ |", "ପକ୍ଷୀ କିମ୍ବା ପଶୁଙ୍କୁ କିଛି ଖାଇବାକୁ ଦିଅନ୍ତୁ |", "୧୧ ଥର 'ଓଁ' ଜପ କରନ୍ତୁ |", "ଆକାଶୀ ରଙ୍ଗ ବ୍ୟବହାର କରନ୍ତୁ |"] }
-        },
-        8: { 
-            en: { title: "Number 8 (The Powerful)", traits: "Money, Karma, Strength", rituals: ["10 mins brisk walk/exercise.", "Finish hardest task first.", "Wear Dark Blue or Black.", "Help a needy person."] },
-            or: { title: "ସଂଖ୍ୟା ୮ (ଶକ୍ତିଶାଳୀ)", traits: "ଧନ, କର୍ମ, ସାମର୍ଥ୍ୟ", rituals: ["୧୦ ମିନିଟ୍ ବ୍ୟାୟାମ କିମ୍ବା ଚାଲନ୍ତୁ |", "ସବୁଠୁ କଷ୍ଟ କାମ ପ୍ରଥମେ ଶେଷ କରନ୍ତୁ |", "କଳା କିମ୍ବା ଗାଢ ନୀଳ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", "କୌଣସି ଗରିବ ଲୋକଙ୍କୁ ସାହାଯ୍ୟ କରନ୍ତୁ |"] }
-        },
-        9: { 
-            en: { title: "Number 9 (The Warrior)", traits: "Courage, Energy, Help", rituals: ["Do some yoga or stretching.", "Pray to Lord Hanuman.", "Eat a red fruit (Apple).", "Use Dark Red color today."] },
-            or: { title: "ସଂଖ୍ୟା ୯ (ବୀର)", traits: "ସାହସ, ଶକ୍ତି, ସେବା", rituals: ["ଯୋଗ କିମ୍ବା ବ୍ୟାୟାମ କରନ୍ତୁ |", "ହନୁମାନ ଚାଳିଶା ପଢନ୍ତୁ |", "ନାଲି ରଙ୍ଗର ଫଳ (ସେଉ) ଖାଆନ୍ତୁ |", "ନାଲି ରଙ୍ଗ ବ୍ୟବହାର କରନ୍ତୁ |"] }
-        }
+        1: { en: {title: "Number 1", rituals: ["Sun Namaste", "Drink Water", "1 Big Goal", "Red color"]}, or: {title: "ସଂଖ୍ୟା ୧", rituals: ["ସୂର୍ଯ୍ୟ ନମସ୍କାର", "ପାଣି ପିଅନ୍ତୁ", "୧ ମୁଖ୍ୟ ଲକ୍ଷ୍ୟ", "ନାଲି ରଙ୍ଗ"]} },
+        2: { en: {title: "Number 2", rituals: ["Meditation", "Silver glass water", "No arguments", "White color"]}, or: {title: "ସଂଖ୍ୟା ୨", rituals: ["ଧ୍ୟାନ କରନ୍ତୁ", "ରୁପା ଗ୍ଲାସ ପାଣି", "ଝଗଡା କରନ୍ତୁ ନାହିଁ", "ଧଳା ରଙ୍ଗ"]} },
+        3: { en: {title: "Number 3", rituals: ["Respect elders", "Read 5 mins", "Haldi Tilak", "Yellow color"]}, or: {title: "ସଂଖ୍ୟା ୩", rituals: ["ଗୁରୁଜନ ସମ୍ମାନ", "୫ ମିନିଟ୍ ପଢନ୍ତୁ", "ହଳଦୀ ଟିପା", "ହଳଦିଆ ରଙ୍ଗ"]} },
+        4: { en: {title: "Number 4", rituals: ["Clean desk", "Barefoot walk", "No phone", "Blue color"]}, or: {title: "ସଂଖ୍ୟା ୪", rituals: ["ଟେବୁଲ ସଫା", "ଖାଲି ପାଦ ଚଲା", "ନୋ ଫୋନ୍", "ନୀଳ ରଙ୍ଗ"]} },
+        5: { en: {title: "Number 5", rituals: ["Water plant", "Check emails", "Green fruit", "Green color"]}, or: {title: "ସଂଖ୍ୟା ୫", rituals: ["ଗଛରେ ପାଣି", "ମେଲ୍ ଚେକ୍", "ସବୁଜ ଫଳ", "ସବୁଜ ରଙ୍ଗ"]} },
+        6: { en: {title: "Number 6", rituals: ["Use perfume", "Ironed clothes", "Eat sweet", "Pink/White"]}, or: {title: "ସଂଖ୍ୟା ୬", rituals: ["ସେଣ୍ଟ ବ୍ୟବହାର", "ପ୍ରେସ ଲୁଗା", "ମିଠା ଖାଆନ୍ତୁ", "ଗୋଲାପି/ଧଳା"]} },
+        7: { en: {title: "Number 7", rituals: ["10 min Silence", "Feed birds", "Chant Om", "Sky Blue"]}, or: {title: "ସଂଖ୍ୟା ୭", rituals: ["୧୦ ମିନିଟ୍ ଚୁପ୍", "ପକ୍ଷୀ ସେବା", "ଓଁ ଜପ", "ଆକାଶୀ ନୀଳ"]} },
+        8: { en: {title: "Number 8", rituals: ["Exercise", "Hard task first", "Help needy", "Dark Blue"]}, or: {title: "ସଂଖ୍ୟା ୮", rituals: ["ବ୍ୟାୟାମ", "କଷ୍ଟ କାମ ପ୍ରଥମେ", "ସାହାଯ୍ୟ କରନ୍ତୁ", "କଳା ରଙ୍ଗ"]} },
+        9: { en: {title: "Number 9", rituals: ["Yoga", "Hanuman Chalisa", "Red fruit", "Dark Red"]}, or: {title: "ସଂଖ୍ୟା ୯", rituals: ["ଯୋଗ", "ହନୁମାନ ଚାଳିଶା", "ନାଲି ଫଳ", "ଗାଢ ନାଲି"]} }
     };
 
-    function toggleLang() {
-        currentLang = (currentLang === 'en') ? 'or' : 'en';
-        updateUI();
-    }
+    function toggleLang() { currentLang = (currentLang === 'en') ? 'or' : 'en'; updateUI(); }
+    function reduce(n) { while (n > 9) n = n.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0); return n; }
 
     function updateUI() {
         const lang = translations[currentLang];
@@ -253,40 +133,21 @@
         document.getElementById("todayTitle").innerText = lang.todayTitle;
         document.getElementById("lblLuckNo").innerText = lang.lblLuckNo;
         document.getElementById("lblLuckCol").innerText = lang.lblLuckCol;
+        document.getElementById("lblEnergy").innerText = lang.lblEnergy;
+        document.getElementById("lblMoney").innerText = lang.lblMoney;
+        document.getElementById("lblDanger").innerText = lang.lblDanger;
         document.getElementById("lblVip").innerText = lang.lblVip;
         document.getElementById("guideHead").innerText = lang.guideHead;
-        document.getElementById("footerText").innerText = lang.footerText;
-        
-        initAccordion(); // Re-render accordion in new language
-        
-        // Update results if visible
-        if (document.getElementById("personalContent").style.display === "block") {
-            calculateMagic(false); 
-        }
+        initAccordion();
+        if (document.getElementById("personalContent").style.display === "block") calculateMagic(false);
     }
 
     function initAccordion() {
         let container = document.getElementById("accordionContainer");
         container.innerHTML = "";
-        const lang = translations[currentLang];
         for (let i = 1; i <= 9; i++) {
             let item = numData[i][currentLang];
-            container.innerHTML += `
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(${i})">
-                        <span>${item.title}</span>
-                        <span id="icon-${i}">+</span>
-                    </div>
-                    <div class="accordion-content" id="content-${i}">
-                        <div class="active-content">
-                            <span class="trait-label">${lang.traitLbl} ${item.traits}</span>
-                            <div style="font-size:12px; font-weight:bold; margin-bottom:10px; color:var(--primary)">${lang.actLbl}</div>
-                            <ul class="ritual-list">
-                                ${item.rituals.map(r => `<li>✨ ${r}</li>`).join('')}
-                            </ul>
-                        </div>
-                    </div>
-                </div>`;
+            container.innerHTML += `<div class="accordion-item"><div class="accordion-header" onclick="toggleAccordion(${i})"><span>${item.title}</span><span id="icon-${i}">+</span></div><div class="accordion-content" id="content-${i}"><div class="active-content"><ul class="ritual-list">${item.rituals.map(r => `<li>✨ ${r}</li>`).join('')}</ul></div></div></div>`;
         }
     }
 
@@ -294,54 +155,47 @@
         for (let i = 1; i <= 9; i++) {
             let content = document.getElementById(`content-${i}`);
             let icon = document.getElementById(`icon-${i}`);
-            if (i === id) {
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                    icon.innerText = "+";
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                    icon.innerText = "-";
-                }
-            } else {
-                content.style.maxHeight = null;
-                icon.innerText = "+";
-            }
+            if (i === id) { content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px"; icon.innerText = content.style.maxHeight ? "-" : "+"; }
+            else { content.style.maxHeight = null; icon.innerText = "+"; }
         }
     }
 
-    function reduce(n) {
-        while (n > 9) n = n.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
-        return n;
-    }
-
     function calculateMagic(scroll = true) {
-        const dobVal = document.getElementById("dob").value;
-        if (!dobVal) return;
-        
-        let d = new Date(dobVal);
-        let today = new Date();
-        let m = reduce(d.getDate());
-        let b = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear());
+        const dobVal = document.getElementById("dob").value; if (!dobVal) return;
+        let d = new Date(dobVal), today = new Date();
+        let m = reduce(d.getDate()), b = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear());
         let uNum = reduce(today.getDate() + (today.getMonth() + 1) + today.getFullYear());
-        
-        document.getElementById("personalContent").style.display = "block";
-        document.getElementById("pLuckNum").innerText = reduce(m + uNum);
-        document.getElementById("pLuckColor").innerText = translations[currentLang].colors[reduce(m + uNum)];
-        
         let vip = reduce(today.getDate() + (today.getMonth() + 1) + m + b);
+
+        document.getElementById("personalContent").style.display = "block";
+        
+        // Restore Lucky Number & Color Logic
+        let luckyNumToday = reduce(m + uNum);
+        document.getElementById("pLuckNum").innerText = luckyNumToday;
+        document.getElementById("pLuckColor").innerText = translations[currentLang].colors[luckyNumToday];
+
         document.getElementById("vipNum").innerText = vip;
+        
+        // Energy Meter Logic
+        let energyVal = (vip * 11); if(energyVal > 100) energyVal = 95;
+        document.getElementById("energyPercent").innerText = energyVal + "%";
+        document.getElementById("meterFill").style.width = energyVal + "%";
+
+        // Money Luck Logic
+        let moneyLvl = reduce(vip + m);
+        let moneyIcons = ["", "💸", "💸💸", "💸💸💸", "💰💰💰", "💰💰💰💰"];
+        let idx = moneyLvl > 5 ? 4 : moneyLvl;
+        document.getElementById("moneyLuck").innerText = translations[currentLang].moneyTxt[idx % 5] + " " + moneyIcons[idx % 6];
+
+        // Danger Alert Logic
+        document.getElementById("dangerAlert").innerText = translations[currentLang].dangerMsgs[vip - 1];
 
         const times = { 1: "6-8 AM", 2: "8-10 AM", 3: "10-12 PM", 4: "12-2 PM", 5: "2-4 PM", 6: "4-6 PM", 7: "6-8 PM", 8: "8-10 PM", 9: "Full Day" };
         document.getElementById("timeWindows").innerText = translations[currentLang].peakTime + times[vip];
 
-        if (scroll) {
-            window.scrollTo({ top: 300, behavior: 'smooth' });
-            setTimeout(() => toggleAccordion(m), 400);
-        }
+        if (scroll) { window.scrollTo({ top: 300, behavior: 'smooth' }); setTimeout(() => toggleAccordion(m), 400); }
     }
-
     initAccordion();
 </script>
-
 </body>
 </html>
