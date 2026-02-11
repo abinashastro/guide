@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Abhinash | Premium Numerology</title>
+    <title>Astro Abhinash | Pro Numerology</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #00f2ff;
             --gold: #ffd700;
             --bg: #0b0e14;
-            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.08);
         }
 
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
-            background: radial-gradient(circle at top, #1a2a6c, #b21f1f, #fdbb2d);
+            background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
             background-attachment: fixed;
             color: white;
             padding-bottom: 50px;
@@ -24,62 +24,50 @@
         }
 
         header {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 25px;
-            font-size: 24px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            font-size: 22px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            border-bottom: 2px solid var(--primary);
-            box-shadow: 0 4px 20px rgba(0, 242, 255, 0.3);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            letter-spacing: 2px;
+            border-bottom: 3px solid var(--primary);
+            box-shadow: 0 4px 20px rgba(0, 242, 255, 0.4);
         }
 
         .container {
             max-width: 600px;
-            margin: 30px auto;
-            padding: 0 20px;
+            margin: 20px auto;
+            padding: 0 15px;
         }
 
         .box {
             background: var(--card-bg);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 25px;
-            transition: transform 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-        }
-
-        .box:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         h2 {
             margin-top: 0;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         input[type="date"] {
             padding: 15px;
-            width: 80%;
+            width: 85%;
             border-radius: 12px;
             border: none;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
+            background: #fff;
             font-size: 16px;
             font-weight: bold;
-            margin: 15px 0;
-            outline: none;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         button {
@@ -91,156 +79,144 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 242, 255, 0.4);
+            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.4);
             transition: 0.3s;
         }
 
-        button:active { transform: scale(0.95); }
+        button:hover { transform: scale(1.05); }
 
-        .result {
-            margin-top: 15px;
-            font-size: 20px;
-            font-weight: 600;
+        .result-val {
+            font-size: 28px;
+            font-weight: 700;
             color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
+        .badge-row { margin-top: 15px; }
         .badge {
-            background: rgba(255, 215, 0, 0.2);
-            padding: 8px 20px;
+            background: rgba(0, 242, 255, 0.15);
+            padding: 6px 15px;
             border-radius: 20px;
-            font-size: 14px;
-            color: white;
-            display: inline-block;
+            font-size: 13px;
+            border: 1px solid var(--primary);
             margin: 5px;
-            border: 1px solid var(--gold);
-        }
-
-        .grid-results {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            display: inline-block;
         }
 
         .tip-item {
             text-align: left;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
             padding: 12px;
-            margin: 8px 0;
+            margin: 10px 0;
             border-radius: 10px;
             font-size: 14px;
-            border-left: 4px solid var(--primary);
-            animation: slideIn 0.5s ease;
+            border-left: 5px solid var(--gold);
         }
 
-        .traits-header {
-            color: var(--gold);
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        #personalSection { display: none; border: 2px solid var(--gold); }
+
+        .time-slot {
+            font-size: 16px;
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+            padding: 8px;
+            border-radius: 8px;
+            margin-top: 10px;
         }
 
         footer {
-            margin-top: 50px;
-            padding: 20px;
             opacity: 0.7;
-            font-size: 13px;
-            background: rgba(0,0,0,0.5);
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+            font-size: 12px;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
     </style>
 </head>
 <body>
 
-<header>🔢 Astro Abhinash Numerology 🔯</header>
+<header>🔢 Astro Abhinash Pro 🔯</header>
 
 <div class="container">
-    <div class="grid-results">
-        <div class="box">
-            <h2>📅 Universal Day</h2>
-            <div id="dayNum" class="result">--</div>
+    
+    <div class="box">
+        <h2 id="todayDate">📅 Today's Energy</h2>
+        <div style="display:flex; justify-content: space-around;">
+            <div>
+                <small>Universal No.</small>
+                <div id="uNum" class="result-val">--</div>
+            </div>
+            <div>
+                <small>Universal Color</small>
+                <div id="uColor" class="result-val" style="font-size:18px">--</div>
+            </div>
         </div>
-        <div class="box">
-            <h2>🎨 Lucky Color</h2>
-            <div id="colorToday" class="result" style="font-size: 16px;">--</div>
-        </div>
-    </div>
-
-    <div class="box" style="background: rgba(0,0,0,0.4);">
-        <h2>✨ Check Your Destiny</h2>
-        <input type="date" id="dob"><br>
-        <button onclick="calculate()">Reveal My Reading</button>
-        <div id="basic" style="margin-top:20px"></div>
     </div>
 
     <div class="box">
-        <h2>👑 VIP Lucky Number</h2>
-        <div id="vip" class="result" style="font-size: 45px; text-shadow: 0 0 15px var(--gold);">--</div>
+        <h2>Enter Birth Details</h2>
+        <input type="date" id="dob">
+        <button onclick="calculatePro()">Calculate Destiny</button>
     </div>
 
-    <div class="box">
-        <h2>⏰ Best Time Window</h2>
-        <div id="timeLuck" class="result">--</div>
-    </div>
-
-    <div class="box">
-        <h2>🌅 Morning Activation & Traits</h2>
-        <div id="morning">
-            <p style="opacity:0.5">Enter DOB to see your daily activation</p>
+    <div id="personalSection" class="box">
+        <h2 style="color:var(--gold)">🌟 Your Personal Luck</h2>
+        <div style="display:flex; justify-content: space-around;">
+            <div>
+                <small>Lucky Number</small>
+                <div id="pLuckNum" class="result-val">--</div>
+            </div>
+            <div>
+                <small>Lucky Color</small>
+                <div id="pLuckColor" class="result-val" style="font-size:18px">--</div>
+            </div>
         </div>
+        <div class="badge-row">
+            <span class="badge" id="mulankBadge">Mulank: -</span>
+            <span class="badge" id="bhagyankBadge">Bhagyank: -</span>
+        </div>
+    </div>
+
+    <div class="box">
+        <h2>👑 VIP Pro Number</h2>
+        <div id="vipNum" class="result-val" style="font-size:50px;">--</div>
+        <div class="time-slot" id="timeSlot">Lucky Windows: --</div>
+    </div>
+
+    <div class="box">
+        <h2>🌅 Daily Activation & Traits</h2>
+        <div id="traitsSection"></div>
+        <div id="morningTips"></div>
     </div>
 
     <div class="box">
         <h2>🔮 Today's Remedy</h2>
-        <div id="remedy" class="result">--</div>
+        <div id="remedyResult" class="result-val" style="font-size:18px">--</div>
     </div>
+
 </div>
 
-<footer>Created by Astro Abhinash 🔯 <br> Ancient Wisdom meets Modern UI</footer>
+<footer>
+    Created by Astro Abhinash 🔯<br>
+    Logic: Advanced Numerology Matrix (v2.0)
+</footer>
 
 <script>
+    const colorMap = {
+        1: "🔴 Deep Red", 2: "⚪ Milky White", 3: "🟡 Bright Yellow", 4: "🔵 Royal Blue", 
+        5: "🟢 Emerald Green", 6: "🌸 Soft Pink", 7: "💎 Sky Blue", 8: "⚫ Charcoal Black", 9: "🟠 Saffron Orange"
+    };
+
     const numerologyData = {
-        1: {
-            traits: "Leader, Independent, Ambitious",
-            tips: ["Set 3 big goals for the day", "Take sunlight for 10 mins", "Start your most important task first", "Use Red/Orange accessories", "Practice self-affirmation"]
-        },
-        2: {
-            traits: "Intuitive, Calm, Cooperative",
-            tips: ["5 mins Meditation in silence", "Drink water from a silver glass", "Avoid hasty decisions", "Wear White or Cream", "Listen to soft instrumental music"]
-        },
-        3: {
-            traits: "Creative, Communicative, Wise",
-            tips: ["Write 3 things you're grateful for", "Plan a learning or teaching activity", "Respect your mentor/elders", "Use Yellow or Gold", "Engage in creative writing"]
-        },
-        4: {
-            traits: "Disciplined, Practical, Grounded",
-            tips: ["Organize your digital/physical workspace", "Strictly follow your time-table", "Avoid shortcuts today", "Wear Blue or Grey", "Walk barefoot on grass (Grounding)"]
-        },
-        5: {
-            traits: "Versatile, Energetic, Business-minded",
-            tips: ["Make important business calls/emails", "Quick physical activity or yoga", "Explore a new innovative idea", "Use Green color", "Check your weekly financial plan"]
-        },
-        6: {
-            traits: "Luxury-loving, Responsible, Magnetic",
-            tips: ["Groom yourself to perfection", "Use a high-quality fragrance", "Decorate your space", "Wear Pink or White", "Call a loved one / family time"]
-        },
-        7: {
-            traits: "Spiritual, Analytical, Deep Thinker",
-            tips: ["Deep breathing / Pranayam", "Stay in silence for 15 mins", "Journal your inner thoughts", "Use Sky Blue", "Avoid crowds and noise"]
-        },
-        8: {
-            traits: "Powerful, Balanced, Goal-oriented",
-            tips: ["Long-term wealth planning", "Help someone in need (Charity)", "Stay patient under pressure", "Use Dark Blue/Black", "Finish a pending tough task"]
-        },
-        9: {
-            traits: "Humanitarian, Courageous, Strong",
-            tips: ["High-intensity workout/Gym", "Do one selfless act of kindness", "Channel energy into hard work", "Use Red color", "Read something highly motivational"]
-        }
+        1: { traits: "The Leader: Independent & Bold", tips: ["Plan your day's top 3 priorities", "Connect with early morning sun", "Avoid dependency on others"] },
+        2: { traits: "The Diplomat: Creative & Emotional", tips: ["Practice 5-min calm breathing", "Stay hydrated (Silver vessel preferred)", "Avoid overthinking"] },
+        3: { traits: "The Guru: Wise & Knowledgeable", tips: ["Read or learn something for 15 mins", "Seek blessings from elders", "Be creative in speech"] },
+        4: { traits: "The Architect: Disciplined & Sharp", tips: ["De-clutter your physical space", "Follow a strict time-block", "Stay away from shortcuts"] },
+        5: { traits: "The Mercury: Fast & Adaptive", tips: ["Clear pending communication", "Focus on business/trade ideas", "Take a brisk morning walk"] },
+        6: { traits: "The Artist: Romantic & Loving", tips: ["Use a nice floral fragrance", "Dress in your best clothes", "Call your life partner or family"] },
+        7: { traits: "The Mystic: Spiritual & Researcher", tips: ["10 mins of absolute silence", "Journal your vivid dreams", "Connect with nature/water"] },
+        8: { traits: "The Executive: Powerful & Judicious", tips: ["Long-term money planning", "Exercise for physical endurance", "Stay grounded and humble"] },
+        9: { traits: "The Warrior: Courageous & Giving", tips: ["Intense workout/Sweat it out", "Do an act of selfless service", "Channelize energy into passion"] }
     };
 
     function reduce(n) {
@@ -250,68 +226,77 @@
         return n;
     }
 
-    // Set Universal Day Energy
-    let today = new Date();
-    let todayNum = reduce(today.getDate() + (today.getMonth() + 1) + today.getFullYear());
-    document.getElementById("dayNum").innerText = todayNum;
+    // Set Initial Universal Data
+    let now = new Date();
+    document.getElementById("todayDate").innerText = "📅 " + now.toDateString();
+    
+    let currentD = now.getDate();
+    let currentM = now.getMonth() + 1;
+    let currentY = now.getFullYear();
+    let universalDayNumber = reduce(currentD + currentM + currentY);
+    
+    document.getElementById("uNum").innerText = universalDayNumber;
+    document.getElementById("uColor").innerText = colorMap[universalDayNumber];
 
-    const colorMap = {
-        1: "🔴 Red", 2: "⚪ White", 3: "🟡 Yellow", 4: "🔵 Blue", 
-        5: "🟢 Green", 6: "🌸 Pink", 7: "💎 Sky Blue", 8: "⚫ Black", 9: "🟠 Orange"
-    };
-    document.getElementById("colorToday").innerText = colorMap[todayNum];
+    function calculatePro() {
+        let dobStr = document.getElementById("dob").value;
+        if (!dobStr) { alert("Please select DOB!"); return; }
 
-    function calculate() {
-        let dobValue = document.getElementById("dob").value;
-        if (!dobValue) { alert("Please select your birth date!"); return; }
+        let d = new Date(dobStr);
+        let mNum = reduce(d.getDate());
+        let bNum = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear());
 
-        let d = new Date(dobValue);
-        let day = d.getDate();
-        let month = d.getMonth() + 1;
-        let year = d.getFullYear();
+        // Personal Luck Calculation
+        let pLuck = reduce(mNum + universalDayNumber);
+        
+        // Show Personal Section
+        document.getElementById("personalSection").style.display = "block";
+        document.getElementById("pLuckNum").innerText = pLuck;
+        document.getElementById("pLuckColor").innerText = colorMap[pLuck];
+        document.getElementById("mulankBadge").innerText = "Mulank: " + mNum;
+        document.getElementById("bhagyankBadge").innerText = "Bhagyank: " + bNum;
 
-        let mulank = reduce(day);
-        let bhagyank = reduce(day + month + year);
+        // NEW PRO VIP FORMULA: (Today Date + Today Month + Mulank + Bhagyank)
+        // This avoids double-counting the year and focuses on the 'Current Vibration'
+        let vip = reduce(currentD + currentM + mNum + bNum);
+        document.getElementById("vipNum").innerText = vip;
 
-        document.getElementById("basic").innerHTML = `
-            <span class="badge">Mulank: ${mulank}</span>
-            <span class="badge">Bhagyank: ${bhagyank}</span>
-        `;
-
-        // VIP Formula
-        let runningYear = reduce(new Date().getFullYear());
-        let vipNum = reduce(todayNum + mulank + bhagyank + runningYear);
-        document.getElementById("vip").innerText = vipNum;
-
-        // Lucky Time Window
-        const luckyTime = {
-            1: "6 AM – 8 AM", 2: "8 AM – 10 AM", 3: "10 AM – 12 PM",
-            4: "12 PM – 2 PM", 5: "2 PM – 4 PM", 6: "4 PM – 6 PM",
-            7: "6 PM – 8 PM", 8: "8 PM – 10 PM", 9: "Golden Day (Full Day Lucky)"
+        // PRO TIMING SLOTS (Morning & Evening)
+        const timeWindows = {
+            1: "06:00-08:00 & 13:00-14:00",
+            2: "08:00-10:00 & 20:00-22:00",
+            3: "10:00-12:00 & 16:00-18:00",
+            4: "12:00-14:00 & 22:00-00:00",
+            5: "14:00-16:00 & 07:00-09:00",
+            6: "16:00-18:00 & 09:00-11:00",
+            7: "18:00-20:00 & 11:00-13:00",
+            8: "20:00-22:00 & 05:00-07:00",
+            9: "All Day Energy (Peaks 06:00-09:00)"
         };
-        document.getElementById("timeLuck").innerText = luckyTime[vipNum];
+        document.getElementById("timeSlot").innerText = "Lucky Windows: " + timeWindows[vip];
 
-        // Morning Activation & Traits
-        let data = numerologyData[mulank];
-        let morningHtml = `<div class="traits-header">Key Traits: ${data.traits}</div>`;
-        data.tips.forEach(tip => {
-            morningHtml += `<div class="tip-item">✨ ${tip}</div>`;
-        });
-        document.getElementById("morning").innerHTML = morningHtml;
+        // Activation & Traits
+        let data = numerologyData[mNum];
+        document.getElementById("traitsSection").innerHTML = `<div style="color:var(--gold); font-weight:bold; margin-bottom:10px;">${data.traits}</div>`;
+        let tipsHtml = "";
+        data.tips.forEach(t => tipsHtml += `<div class="tip-item">⚡ ${t}</div>`);
+        document.getElementById("morningTips").innerHTML = tipsHtml;
 
-        // Remedy
+        // Pro Remedies
         const remedies = {
-            1: "Offer water to the Sun (Surya Arghya)",
-            2: "Carry a small silver item/coin",
-            3: "Apply a kesar/haldi tilak on forehead",
-            4: "Feed birds or stay organized",
-            5: "Keep a green handkerchief",
-            6: "Use a sandalwood or floral perfume",
-            7: "Chant 'Om' for 5 minutes in isolation",
-            8: "Help a laborer or donate black sesame",
-            9: "Read Hanuman Chalisa or help a brother"
+            1: "Offer Water to Sun with Red Flowers",
+            2: "Keep a Silver Coin or wear White Silk",
+            3: "Apply Saffron (Kesar) tilak on forehead",
+            4: "Feed 7 types of grains to birds",
+            5: "Water a Green Money plant or Basil (Tulsi)",
+            6: "Apply white sandalwood perfume",
+            7: "Donate black & white blankets or feed a dog",
+            8: "Light a mustard oil lamp under a Peepal tree",
+            9: "Recite Hanuman Chalisa or Mangal Mantra"
         };
-        document.getElementById("remedy").innerText = remedies[vipNum];
+        document.getElementById("remedyResult").innerText = remedies[vip];
+
+        window.scrollTo({ top: 400, behavior: 'smooth' });
     }
 </script>
 
