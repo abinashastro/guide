@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Astro Abhinash Numerology</title>
 
+<!-- PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
@@ -85,12 +86,28 @@ margin-top:20px;
 <body>
 
 <header>
-🔢 ASTRO ABHINASH NUMEROLOGY
+🔢 ASTRO ABHINASH NUMEROLOGY 🔯
 </header>
+
+<!-- VIP INFO -->
+<div class="box">
+<h2>👑 VIP Lucky Number Kya Hai?</h2>
+<p>VIP lucky number sabse powerful daily number hota hai.</p>
+<p>Isko use karo:</p>
+<p>
+✔ Important kaam<br>
+✔ Business deal<br>
+✔ Travel<br>
+✔ Money transaction<br>
+✔ Interview<br>
+✔ Password/lucky timing
+</p>
+<p><b>Daily 3 jagah use karo = luck activate</b></p>
+</div>
 
 <!-- UNIVERSAL -->
 <div class="box">
-<h2>🌍 Today's Universal Lucky Number</h2>
+<h2>🌍 Today's Universal Number</h2>
 <div id="universal" class="result"></div>
 </div>
 
@@ -104,7 +121,7 @@ margin-top:20px;
 
 <!-- VIP DAILY -->
 <div class="box">
-<h2>👑 Your VIP Daily Lucky Number</h2>
+<h2>👑 Your VIP Lucky Number</h2>
 <button onclick="vipCalc()">Check Today</button>
 <div id="vip" class="result"></div>
 </div>
@@ -124,21 +141,21 @@ margin-top:20px;
 <div id="remedyBox" class="result"></div>
 </div>
 
-<!-- TRAITS -->
-<h2>🔮 Numbers Power</h2>
+<!-- MORNING TRAITS -->
+<h2>🌅 Morning Activation (1-9)</h2>
 <div class="grid">
-<div class="card"><div class="number">1</div>Leadership</div>
-<div class="card"><div class="number">2</div>Peace</div>
-<div class="card"><div class="number">3</div>Knowledge</div>
-<div class="card"><div class="number">4</div>Planning</div>
-<div class="card"><div class="number">5</div>Money</div>
-<div class="card"><div class="number">6</div>Love</div>
-<div class="card"><div class="number">7</div>Spiritual</div>
-<div class="card"><div class="number">8</div>Karma</div>
-<div class="card"><div class="number">9</div>Energy</div>
+<div class="card"><div class="number">1</div>Suraj ko jal, new work</div>
+<div class="card"><div class="number">2</div>Meditation & peace</div>
+<div class="card"><div class="number">3</div>Study & planning</div>
+<div class="card"><div class="number">4</div>Planning & discipline</div>
+<div class="card"><div class="number">5</div>Business call</div>
+<div class="card"><div class="number">6</div>Perfume & attraction</div>
+<div class="card"><div class="number">7</div>Silent meditation</div>
+<div class="card"><div class="number">8</div>Hard work early</div>
+<div class="card"><div class="number">9</div>Exercise & energy</div>
 </div>
 
-<!-- PREMIUM REPORT -->
+<!-- PREMIUM -->
 <div class="box">
 <h2>🔮 Premium Numerology Report ₹49</h2>
 <p>UPI: yourupi@okaxis</p>
@@ -178,7 +195,7 @@ let t=new Date();
 let uni=reduce(t.getDate()+ (t.getMonth()+1) + t.getFullYear());
 document.getElementById("universal").innerHTML="Universal Number: "+uni;
 
-// mulank
+// mulank bhagyank
 function calc(){
 let d=new Date(document.getElementById("dob").value);
 if(!document.getElementById("dob").value){alert("Enter DOB");return;}
@@ -190,13 +207,31 @@ document.getElementById("out").innerHTML=
 "Mulank: "+mulank+" | Bhagyank: "+bhagyank;
 }
 
-// vip
+// VIP SECRET FORMULA
 function vipCalc(){
 if(mulank==0){alert("Enter DOB first");return;}
+
 let t=new Date();
 let universal=reduce(t.getDate()+(t.getMonth()+1)+t.getFullYear());
-let vip=reduce(universal+mulank+bhagyank);
-document.getElementById("vip").innerHTML="VIP Lucky Number: "+vip;
+let running=reduce(t.getFullYear());
+
+let finalNum=reduce(universal + mulank + bhagyank + running);
+
+let tips={
+1:"New work start",
+2:"Peace & relation",
+3:"Study & planning",
+4:"Money stability",
+5:"Business luck",
+6:"Love & attraction",
+7:"Spiritual power",
+8:"Finance focus",
+9:"Victory day"
+};
+
+document.getElementById("vip").innerHTML=
+"👑 VIP Lucky Number: "+finalNum+
+"<br>"+tips[finalNum];
 }
 
 // name
@@ -227,7 +262,7 @@ let r={
 2:"Meditation karo",
 3:"Guru respect",
 4:"Discipline rakho",
-5:"Green use karo",
+5:"Green color use",
 6:"Perfume use",
 7:"Meditation",
 8:"Shani daan",
