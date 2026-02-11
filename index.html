@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Astro Abhinash Numerology</title>
 
-<!-- PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
@@ -118,28 +117,45 @@ margin-top:20px;
 <div id="nameOut" class="result"></div>
 </div>
 
-<!-- 1-9 TRAITS -->
-<h2>🔮 Numbers Power</h2>
-<div class="grid">
-<div class="card"><div class="number">1</div>Leadership & new work</div>
-<div class="card"><div class="number">2</div>Peace & emotions</div>
-<div class="card"><div class="number">3</div>Study & growth</div>
-<div class="card"><div class="number">4</div>Planning & system</div>
-<div class="card"><div class="number">5</div>Money & business</div>
-<div class="card"><div class="number">6</div>Love & attraction</div>
-<div class="card"><div class="number">7</div>Spiritual power</div>
-<div class="card"><div class="number">8</div>Karma & finance</div>
-<div class="card"><div class="number">9</div>Energy & success</div>
+<!-- REMEDY -->
+<div class="box">
+<h2>🔮 Your Lucky Remedies</h2>
+<button onclick="showRemedy()">Show Remedies</button>
+<div id="remedyBox" class="result"></div>
 </div>
 
-<!-- PREMIUM -->
+<!-- TRAITS -->
+<h2>🔮 Numbers Power</h2>
+<div class="grid">
+<div class="card"><div class="number">1</div>Leadership</div>
+<div class="card"><div class="number">2</div>Peace</div>
+<div class="card"><div class="number">3</div>Knowledge</div>
+<div class="card"><div class="number">4</div>Planning</div>
+<div class="card"><div class="number">5</div>Money</div>
+<div class="card"><div class="number">6</div>Love</div>
+<div class="card"><div class="number">7</div>Spiritual</div>
+<div class="card"><div class="number">8</div>Karma</div>
+<div class="card"><div class="number">9</div>Energy</div>
+</div>
+
+<!-- PREMIUM REPORT -->
 <div class="box">
 <h2>🔮 Premium Numerology Report ₹49</h2>
 <p>UPI: yourupi@okaxis</p>
-<p>Payment karke WhatsApp pe screenshot bheje</p>
-<p><b>WhatsApp: 91XXXXXXXXXX</b></p>
-
+<p>Send screenshot on WhatsApp: 91XXXXXXXXXX</p>
 <button onclick="generatePDF()">📄 Download Free Report</button>
+</div>
+
+<!-- PAID REMEDY -->
+<div class="box">
+<h2>🧿 Personal Remedy ₹99</h2>
+<p>UPI: yourupi@okaxis</p>
+
+<input type="text" id="rname" placeholder="Your Name">
+<input type="date" id="rdob"><br>
+
+<button onclick="paidRemedy()">I Paid ₹99</button>
+<div id="paidMsg" class="result"></div>
 </div>
 
 <footer>
@@ -160,74 +176,82 @@ return n;
 // universal
 let t=new Date();
 let uni=reduce(t.getDate()+ (t.getMonth()+1) + t.getFullYear());
-document.getElementById("universal").innerHTML=
-"Universal Number: "+uni+"<br>Credit: Astro Abhinash";
+document.getElementById("universal").innerHTML="Universal Number: "+uni;
 
 // mulank
 function calc(){
 let d=new Date(document.getElementById("dob").value);
-if(!d){alert("Enter DOB");return;}
+if(!document.getElementById("dob").value){alert("Enter DOB");return;}
 
 mulank=reduce(d.getDate());
 bhagyank=reduce(d.getDate()+(d.getMonth()+1)+d.getFullYear());
 
 document.getElementById("out").innerHTML=
-"🔢 Mulank: "+mulank+
-"<br>✨ Bhagyank: "+bhagyank+
-"<br>Credit: Astro Abhinash";
+"Mulank: "+mulank+" | Bhagyank: "+bhagyank;
 }
 
-// vip daily
+// vip
 function vipCalc(){
 if(mulank==0){alert("Enter DOB first");return;}
-
 let t=new Date();
-let universal=reduce(t.getDate()+ (t.getMonth()+1) + t.getFullYear());
+let universal=reduce(t.getDate()+(t.getMonth()+1)+t.getFullYear());
 let vip=reduce(universal+mulank+bhagyank);
-
-document.getElementById("vip").innerHTML=
-"👑 VIP Lucky Number Today: "+vip+
-"<br>Use this number today"+
-"<br>Credit: Astro Abhinash";
+document.getElementById("vip").innerHTML="VIP Lucky Number: "+vip;
 }
 
-// name numerology
+// name
 function nameCalc(){
 if(mulank==0){alert("Enter DOB first");return;}
 
 let name=document.getElementById("name").value.toLowerCase();
 let v={a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8};
-
 let sum=0;
 for(let i=0;i<name.length;i++){ if(v[name[i]]) sum+=v[name[i]]; }
-
 let nameNum=reduce(sum);
 
 let msg="Name Number: "+nameNum+"<br>";
-
-if(nameNum==mulank || nameNum==bhagyank){
-msg+="🟢 Lucky name vibration";
+if(nameNum==mulank||nameNum==bhagyank){
+msg+="Lucky name vibration";
 }else{
-msg+="🔴 Not aligned<br>Use: "+mulank+" or "+bhagyank;
+msg+="Use lucky number: "+mulank+" or "+bhagyank;
+}
+document.getElementById("nameOut").innerHTML=msg;
 }
 
-msg+="<br>Credit: Astro Abhinash";
-document.getElementById("nameOut").innerHTML=msg;
+// remedy
+function showRemedy(){
+if(mulank==0){alert("Enter DOB");return;}
+
+let r={
+1:"Sun ko jal do",
+2:"Meditation karo",
+3:"Guru respect",
+4:"Discipline rakho",
+5:"Green use karo",
+6:"Perfume use",
+7:"Meditation",
+8:"Shani daan",
+9:"Hanuman ji prayer"
+};
+
+document.getElementById("remedyBox").innerHTML=
+"Mulank Remedy: "+r[mulank]+"<br>Bhagyank Remedy: "+r[bhagyank];
+}
+
+// paid remedy
+function paidRemedy(){
+document.getElementById("paidMsg").innerHTML=
+"Send payment screenshot on WhatsApp 91XXXXXXXXXX";
 }
 
 // pdf
 async function generatePDF(){
-if(mulank==0){alert("Enter DOB first");return;}
-
+if(mulank==0){alert("Enter DOB");return;}
 const { jsPDF } = window.jspdf;
 const doc=new jsPDF();
-
-doc.text("NUMEROLOGY REPORT",70,20);
-doc.text("Astro Abhinash",80,30);
-doc.text("Mulank: "+mulank,20,60);
-doc.text("Bhagyank: "+bhagyank,20,80);
-doc.text("Use lucky numbers daily",20,110);
-
+doc.text("Numerology Report - Astro Abhinash",20,20);
+doc.text("Mulank: "+mulank,20,50);
+doc.text("Bhagyank: "+bhagyank,20,70);
 doc.save("Numerology_Report.pdf");
 }
 </script>
