@@ -30,6 +30,10 @@
         .ritual-list { list-style: none; padding: 0; margin: 0; }
         .ritual-list li { margin-bottom: 10px; font-size: 13px; color: #e2e8f0; display: flex; align-items: flex-start; gap: 10px; }
         #personalContent { display: none; }
+        
+        /* New Alignment Style */
+        .alignment-text { font-size: 14px; font-weight: 600; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .align-score { font-size: 12px; opacity: 0.8; font-weight: 300; margin-top: 4px; display: block; }
     </style>
 </head>
 <body>
@@ -53,6 +57,8 @@
                 <div><small id="lblMulank" style="opacity: 0.8; font-size: 11px;">MULANK</small><div id="valMulank" class="sub-val">--</div></div>
                 <div><small id="lblBhagyank" style="opacity: 0.8; font-size: 11px;">BHAGYANK</small><div id="valBhagyank" class="sub-val">--</div></div>
             </div>
+            <div class="alignment-text" id="alignStatus">--</div>
+            <span class="align-score" id="alignDesc">--</span>
         </div>
 
         <div class="box">
@@ -104,7 +110,14 @@
             lblVip: "👑 VIP Number", guideHead: "🌟 Number Guide", peakTime: "Time: ",
             moneyTxt: ["Poor", "Average", "Good", "Very Good", "Excellent"],
             dangerMsgs: ["Hasty driving", "Argument with boss", "Losing wallet", "Health issue", "Wrong investment", "Trusting strangers", "Arguments", "Electric tools", "Anger"],
-            colors: ["", "🔴 Red", "⚪ White", "🟡 Yellow", "🔵 Blue", "🟢 Green", "🌸 Pink", "💎 Sky Blue", "⚫ Black", "🟠 Orange"]
+            colors: ["", "🔴 Red", "⚪ White", "🟡 Yellow", "🔵 Blue", "🟢 Green", "🌸 Pink", "💎 Sky Blue", "⚫ Black", "🟠 Orange"],
+            alignments: {
+                excellent: "Alignment: Excellent! 💎",
+                good: "Alignment: Good Balance ✅",
+                neutral: "Alignment: Neutral / Average ⚖️",
+                difficult: "Alignment: Challenging / Anti ⚠️",
+                desc: ["Very powerful combination.", "Good potential for growth.", "Efforts needed to succeed.", "Daily rituals are must."]
+            }
         },
         or: { 
             navTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", inputHead: "ଭାଗ୍ୟ ଜାଣନ୍ତୁ", calcBtn: "ଦେଖନ୍ତୁ", 
@@ -114,8 +127,26 @@
             lblVip: "👑 VIP ସଂଖ୍ୟା", guideHead: "🌟 ସଂଖ୍ୟା ଗାଇଡ୍", peakTime: "ସମୟ: ",
             moneyTxt: ["ଖରାପ", "ସାଧାରଣ", "ଭଲ", "ବହୁତ ଭଲ", "ଉତ୍ତମ"],
             dangerMsgs: ["ଦ୍ରୁତ ଗାଡି ଚାଳନା", "ଉପରିସ୍ଥଙ୍କ ସହ ଯୁକ୍ତି", "ପର୍ସ ହଜିବା ଭୟ", "ସ୍ୱାସ୍ଥ୍ୟ ସମସ୍ୟା", "ଭୁଲ ନିବେଶ", "ଅଜଣାଙ୍କୁ ବିଶ୍ୱାସ", "ପାରିବାରିକ କଳି", "ବିଦ୍ୟୁତ୍ ଉପକରଣ", "ରାଗ ଉପରେ ନିୟନ୍ତ୍ରଣ"],
-            colors: ["", "🔴 ନାଲି", "⚪ ଧଳା", "🟡 ହଳଦିଆ", "🔵 ନୀଳ", "🟢 ସବୁଜ", "🌸 ଗୋଲାପି", "💎 ଆକାଶୀ ନୀଳ", "⚫ କଳା", "🟠 କମଳା"]
+            colors: ["", "🔴 ନାଲି", "⚪ ଧଳା", "🟡 ହଳଦିଆ", "🔵 ନୀଳ", "🟢 ସବୁଜ", "🌸 ଗୋଲାପି", "💎 ଆକାଶୀ ନୀଳ", "⚫ କଳା", "🟠 କମଳା"],
+            alignments: {
+                excellent: "ସମନ୍ୱୟ: ଅତି ଉତ୍ତମ! 💎",
+                good: "ସମନ୍ୱୟ: ବହୁତ ଭଲ ✅",
+                neutral: "ସମନ୍ୱୟ: ସାଧାରଣ ⚖️",
+                difficult: "ସମନ୍ୱୟ: ସଂଘର୍ଷପୂର୍ଣ୍ଣ ⚠️",
+                desc: ["ଏହି ସଂଖ୍ୟା ଯୋଡି ବହୁତ ଶକ୍ତିଶାଳୀ |", "ଉନ୍ନତି ପାଇଁ ଭଲ ସୁଯୋଗ ରହିଛି |", "ସଫଳତା ପାଇଁ ଅଧିକ ପରିଶ୍ରମ ଦରକାର |", "ଦୈନିକ ପ୍ରତିକାର କରିବା ଆବଶ୍ୟକ |"]
+            }
         }
+    };
+
+    // Relationship Table
+    const friendly = {
+        1: [2, 3, 5, 9], 2: [1, 3, 5], 3: [1, 2, 5, 7, 9], 
+        4: [5, 6, 8], 5: [1, 4, 6], 6: [4, 5, 7, 8], 
+        7: [1, 3, 6], 8: [4, 5, 6], 9: [1, 2, 3]
+    };
+    const enemy = {
+        1: [8], 2: [4, 8, 9], 3: [6], 4: [1, 2, 9], 
+        5: [2], 6: [3], 7: [8, 9], 8: [1, 2, 9], 9: [4, 8]
     };
 
     const numData = {
@@ -174,37 +205,47 @@
         const dobVal = document.getElementById("dob").value; if (!dobVal) return;
         let d = new Date(dobVal), today = new Date();
         
-        // Calculations
-        let m = reduce(d.getDate()); // Mulank
-        let b = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear()); // Bhagyank
+        let m = reduce(d.getDate()); 
+        let b = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear()); 
         let uNum = reduce(today.getDate() + (today.getMonth() + 1) + today.getFullYear());
         let vip = reduce(today.getDate() + (today.getMonth() + 1) + m + b);
 
         document.getElementById("personalContent").style.display = "block";
-        
-        // Update Mulank & Bhagyank UI
         document.getElementById("valMulank").innerText = m;
         document.getElementById("valBhagyank").innerText = b;
 
-        // Today's Lucky
+        // Alignment Logic
+        let alignBox = document.getElementById("alignStatus");
+        let alignDesc = document.getElementById("alignDesc");
+        let aLang = translations[currentLang].alignments;
+
+        if (m === b || friendly[m].includes(b)) {
+            alignBox.innerText = aLang.excellent;
+            alignBox.style.color = "var(--primary)";
+            alignDesc.innerText = aLang.desc[0];
+        } else if (enemy[m].includes(b)) {
+            alignBox.innerText = aLang.difficult;
+            alignBox.style.color = "var(--danger)";
+            alignDesc.innerText = aLang.desc[3];
+        } else {
+            alignBox.innerText = aLang.good;
+            alignBox.style.color = "var(--gold)";
+            alignDesc.innerText = aLang.desc[1];
+        }
+
         let luckyNumToday = reduce(m + uNum);
         document.getElementById("pLuckNum").innerText = luckyNumToday;
         document.getElementById("pLuckColor").innerText = translations[currentLang].colors[luckyNumToday];
-
         document.getElementById("vipNum").innerText = vip;
         
-        // Energy Meter
         let energyVal = (vip * 11); if(energyVal > 100) energyVal = 95;
         document.getElementById("energyPercent").innerText = energyVal + "%";
         document.getElementById("meterFill").style.width = energyVal + "%";
 
-        // Money Luck
         let moneyLvl = reduce(vip + m);
         let moneyIcons = ["", "💸", "💸💸", "💸💸💸", "💰💰💰", "💰💰💰💰"];
         let idx = moneyLvl > 5 ? 4 : moneyLvl;
         document.getElementById("moneyLuck").innerText = translations[currentLang].moneyTxt[idx % 5] + " " + moneyIcons[idx % 6];
-
-        // Danger Alert
         document.getElementById("dangerAlert").innerText = translations[currentLang].dangerMsgs[vip - 1];
 
         const times = { 1: "6-8 AM", 2: "8-10 AM", 3: "10-12 PM", 4: "12-2 PM", 5: "2-4 PM", 6: "4-6 PM", 7: "6-8 PM", 8: "8-10 PM", 9: "Full Day" };
