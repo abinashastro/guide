@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Numerology Power - Astro Abhinash</title>
 
+<!-- PDF library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
 body{
 margin:0;
@@ -96,7 +99,20 @@ background:black;
 <br>Astro Abhinash
 </header>
 
-<!-- Mulank Bhagyank -->
+<!-- UNIVERSAL DAILY -->
+<div class="calc-box">
+<h2>🌟 Today's Universal Lucky Number</h2>
+<div id="daily" class="result"></div>
+</div>
+
+<!-- USER DAILY -->
+<div class="calc-box">
+<h2>🌟 Your Daily Lucky Number</h2>
+<button onclick="userDaily()">Check My Today Number</button>
+<div id="userDailyResult" class="result"></div>
+</div>
+
+<!-- Mulank -->
 <div class="calc-box">
 <h2>Find Your Mulank & Bhagyank</h2>
 <input type="date" id="dob">
@@ -105,7 +121,7 @@ background:black;
 <div class="result" id="output"></div>
 </div>
 
-<!-- Name Numerology -->
+<!-- Name -->
 <div class="calc-box">
 <h2>Name Numerology</h2>
 <input type="text" id="name" placeholder="Enter full name">
@@ -114,21 +130,40 @@ background:black;
 <div class="result" id="nameOutput"></div>
 </div>
 
-<!-- 1 to 9 numerology -->
-<h2>🔮 Numbers & Early Morning Advice</h2>
-
+<!-- 1-9 traits -->
+<h2>🔮 Numbers & Morning Advice</h2>
 <div class="grid">
+<div class="card"><div class="number">1</div>Leader<br>Start new work</div>
+<div class="card"><div class="number">2</div>Meditation & peace</div>
+<div class="card"><div class="number">3</div>Study & knowledge</div>
+<div class="card"><div class="number">4</div>Planning work</div>
+<div class="card"><div class="number">5</div>Business calls</div>
+<div class="card"><div class="number">6</div>Attraction & luxury</div>
+<div class="card"><div class="number">7</div>Silent meditation</div>
+<div class="card"><div class="number">8</div>Hard work</div>
+<div class="card"><div class="number">9</div>Exercise</div>
+</div>
 
-<div class="card"><div class="number">1</div>Leader<br>Morning: Suraj ko jal do, new work start</div>
-<div class="card"><div class="number">2</div>Moon<br>Meditation & calm music</div>
-<div class="card"><div class="number">3</div>Guru<br>Study & knowledge work</div>
-<div class="card"><div class="number">4</div>Rahu<br>Planning & system work</div>
-<div class="card"><div class="number">5</div>Mercury<br>Business calls & deals</div>
-<div class="card"><div class="number">6</div>Venus<br>Clean dress & perfume</div>
-<div class="card"><div class="number">7</div>Ketu<br>Silent meditation & walk</div>
-<div class="card"><div class="number">8</div>Shani<br>Hard work start early</div>
-<div class="card"><div class="number">9</div>Mars<br>Exercise & action</div>
+<!-- PREMIUM -->
+<div class="calc-box">
+<h2>🔮 Get Premium Numerology Report ₹49</h2>
 
+<p>✔ Lucky Name Suggestion<br>
+✔ Mobile Number Luck<br>
+✔ Business Name Luck<br>
+✔ Year Prediction</p>
+
+<h3>Pay ₹49 UPI</h3>
+<p><b>UPI: yourupi@okaxis</b></p>
+
+<input type="text" id="pname" placeholder="Your Name">
+<input type="date" id="pdob">
+<br>
+<button onclick="sendReport()">Submit</button>
+<br>
+<button onclick="generatePDF()">📄 Download Free PDF Report</button>
+
+<div id="paymsg" class="result"></div>
 </div>
 
 <footer>
@@ -146,63 +181,86 @@ num=num.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b));
 return num;
 }
 
-// Mulank bhagyank
+// universal daily
+function dailyNumber(){
+let t=new Date();
+let total=reduce(t.getDate()+(t.getMonth()+1)+t.getFullYear());
+document.getElementById("daily").innerHTML=
+"🔢 Universal Number: "+total+"<br>Credit: Astro Abhinash";
+}
+dailyNumber();
+
+// mulank
 function calculate(){
 let dob=document.getElementById("dob").value;
 if(!dob){alert("Enter DOB");return;}
 
 let d=new Date(dob);
-let day=d.getDate();
-let month=d.getMonth()+1;
-let year=d.getFullYear();
-
-globalMulank=reduce(day);
-globalBhagyank=reduce(day+month+year);
+globalMulank=reduce(d.getDate());
+globalBhagyank=reduce(d.getDate()+(d.getMonth()+1)+d.getFullYear());
 
 document.getElementById("output").innerHTML=
 "🔢 Mulank: "+globalMulank+
 "<br>✨ Bhagyank: "+globalBhagyank+
-"<br><br>Credit: Astro Abhinash";
+"<br>Credit: Astro Abhinash";
 }
 
-// Name numerology
+// user daily
+function userDaily(){
+if(globalMulank==0){alert("Enter DOB first");return;}
+
+let t=new Date();
+let universal=reduce(t.getDate()+(t.getMonth()+1)+t.getFullYear());
+let personal=reduce(universal+globalMulank);
+
+document.getElementById("userDailyResult").innerHTML=
+"🌟 Your Lucky Number Today: "+personal+
+"<br>Credit: Astro Abhinash";
+}
+
+// name numerology
 function nameCalc(){
-
-if(globalMulank==0){
-alert("Pehle DOB daalo");
-return;
-}
+if(globalMulank==0){alert("Enter DOB first");return;}
 
 let name=document.getElementById("name").value.toLowerCase();
 if(name==""){alert("Enter name");return;}
 
-let values={
-a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,
-j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,
-s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8
-};
-
+let v={a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8};
 let sum=0;
-for(let i=0;i<name.length;i++){
-let ch=name[i];
-if(values[ch]) sum+=values[ch];
-}
+for(let i=0;i<name.length;i++){ if(v[name[i]]) sum+=v[name[i]]; }
 
 let nameNum=reduce(sum);
-
 let msg="🔠 Name Number: "+nameNum+"<br>";
 
 if(nameNum==globalMulank || nameNum==globalBhagyank){
-msg+="🟢 Perfect lucky name vibration 🚀";
+msg+="🟢 Lucky name vibration";
 }else{
-msg+="🔴 Name not aligned with destiny<br>";
-msg+="💡 Use name number: "+globalMulank+" or "+globalBhagyank+"<br>";
-msg+="✨ Modify spelling to match lucky number";
+msg+="🔴 Not aligned<br>Use: "+globalMulank+" or "+globalBhagyank;
+}
+msg+="<br>Credit: Astro Abhinash";
+document.getElementById("nameOutput").innerHTML=msg;
 }
 
-msg+="<br><br>Credit: Astro Abhinash";
+// premium submit
+function sendReport(){
+document.getElementById("paymsg").innerHTML=
+"✅ Send payment screenshot on WhatsApp<br><br>📲 91XXXXXXXXXX<br>Credit: Astro Abhinash";
+}
 
-document.getElementById("nameOutput").innerHTML=msg;
+// PDF
+async function generatePDF(){
+if(globalMulank==0){alert("Enter DOB first");return;}
+
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+
+doc.text("NUMEROLOGY REPORT",70,20);
+doc.text("Astro Abhinash",85,30);
+doc.text("Mulank: "+globalMulank,20,60);
+doc.text("Bhagyank: "+globalBhagyank,20,75);
+doc.text("Use lucky numbers daily.",20,100);
+
+doc.save("Numerology_Report.pdf");
 }
 </script>
 
