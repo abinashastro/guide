@@ -3,35 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Abhinash | Pro Numerology</title>
+    <title>Astro Abhinash | Numerology</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #00f2ff;
             --gold: #ffd700;
-            --bg: #0b0e14;
             --card-bg: rgba(255, 255, 255, 0.08);
         }
 
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
-            background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+            background: radial-gradient(circle at top, #0f172a, #020617);
             background-attachment: fixed;
             color: white;
-            padding-bottom: 50px;
             text-align: center;
+            padding-bottom: 50px;
         }
 
         header {
             background: rgba(0, 0, 0, 0.9);
             padding: 20px;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
-            text-transform: uppercase;
             letter-spacing: 2px;
             border-bottom: 3px solid var(--primary);
-            box-shadow: 0 4px 20px rgba(0, 242, 255, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 242, 255, 0.2);
         }
 
         .container {
@@ -42,7 +40,7 @@
 
         .box {
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 20px;
@@ -50,256 +48,203 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
-        h2 {
-            margin-top: 0;
-            font-size: 1.1rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        h2 { margin-top: 0; font-size: 1.1rem; color: var(--primary); text-transform: uppercase; }
 
         input[type="date"] {
-            padding: 15px;
-            width: 85%;
-            border-radius: 12px;
-            border: none;
-            background: #fff;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center;
+            padding: 12px; width: 85%; border-radius: 10px; border: none;
+            background: #fff; font-size: 16px; font-weight: bold; margin-bottom: 15px;
+            text-align: center; outline: none;
         }
 
         button {
-            padding: 15px 40px;
-            border: none;
-            border-radius: 50px;
+            padding: 14px 40px; border: none; border-radius: 50px;
             background: linear-gradient(45deg, #00f2ff, #0066ff);
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.4);
-            transition: 0.3s;
+            color: white; font-size: 16px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3);
         }
 
-        button:hover { transform: scale(1.05); }
+        .result-val { font-size: 30px; font-weight: 800; color: var(--gold); }
 
-        .result-val {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--gold);
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-
-        .badge-row { margin-top: 15px; }
-        .badge {
-            background: rgba(0, 242, 255, 0.15);
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 13px;
-            border: 1px solid var(--primary);
-            margin: 5px;
-            display: inline-block;
-        }
-
-        .tip-item {
+        /* Accordion Style */
+        .accordion-item {
+            background: rgba(255, 255, 255, 0.03);
+            margin-bottom: 8px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             text-align: left;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 10px;
-            font-size: 14px;
-            border-left: 5px solid var(--gold);
         }
 
-        #personalSection { display: none; border: 2px solid var(--gold); }
-
-        .time-slot {
-            font-size: 16px;
-            color: #fff;
-            background: rgba(255,255,255,0.1);
-            padding: 8px;
-            border-radius: 8px;
-            margin-top: 10px;
+        .accordion-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 15px;
         }
 
-        footer {
-            opacity: 0.7;
-            font-size: 12px;
-            margin-top: 40px;
-            padding: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease-out;
+            background: rgba(0, 0, 0, 0.3);
         }
+
+        .active-content { padding: 15px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+
+        .ritual-list { list-style: none; padding: 0; margin: 0; }
+        .ritual-list li { 
+            margin-bottom: 10px; 
+            font-size: 14px; 
+            color: #e2e8f0; 
+            display: flex; 
+            align-items: center;
+            gap: 10px;
+        }
+
+        .trait-label { color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 8px;}
+
+        #personalContent { display: none; }
+        
+        footer { margin-top: 30px; font-size: 12px; opacity: 0.5; }
     </style>
 </head>
 <body>
 
-<header>🔢 Astro Abhinash Pro 🔯</header>
+<header>🔢 ASTRO ABHINASH 🔯</header>
 
 <div class="container">
     
     <div class="box">
-        <h2 id="todayDate">📅 Today's Energy</h2>
-        <div style="display:flex; justify-content: space-around;">
-            <div>
-                <small>Universal No.</small>
-                <div id="uNum" class="result-val">--</div>
-            </div>
-            <div>
-                <small>Universal Color</small>
-                <div id="uColor" class="result-val" style="font-size:18px">--</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="box">
-        <h2>Enter Birth Details</h2>
+        <h2>Check Your Luck</h2>
         <input type="date" id="dob">
-        <button onclick="calculatePro()">Calculate Destiny</button>
+        <br>
+        <button onclick="calculateMagic()">Reveal Results</button>
     </div>
 
-    <div id="personalSection" class="box">
-        <h2 style="color:var(--gold)">🌟 Your Personal Luck</h2>
-        <div style="display:flex; justify-content: space-around;">
-            <div>
-                <small>Lucky Number</small>
-                <div id="pLuckNum" class="result-val">--</div>
-            </div>
-            <div>
-                <small>Lucky Color</small>
-                <div id="pLuckColor" class="result-val" style="font-size:18px">--</div>
+    <div id="personalContent">
+        <div class="box">
+            <h2 id="todayTitle">📅 Today's Forecast</h2>
+            <div style="display:flex; justify-content: space-around;">
+                <div><small>Lucky No.</small><div id="pLuckNum" class="result-val">--</div></div>
+                <div><small>Lucky Color</small><div id="pLuckColor" class="result-val" style="font-size:18px">--</div></div>
             </div>
         </div>
-        <div class="badge-row">
-            <span class="badge" id="mulankBadge">Mulank: -</span>
-            <span class="badge" id="bhagyankBadge">Bhagyank: -</span>
+
+        <div class="box" style="border: 1.5px solid var(--gold);">
+            <h2>👑 VIP Pro Number</h2>
+            <div id="vipNum" class="result-val" style="font-size:50px;">--</div>
+            <div id="timeWindows" style="color:var(--primary); font-size: 14px; font-weight:600; margin-top:5px;"></div>
         </div>
     </div>
 
     <div class="box">
-        <h2>👑 VIP Pro Number</h2>
-        <div id="vipNum" class="result-val" style="font-size:50px;">--</div>
-        <div class="time-slot" id="timeSlot">Lucky Windows: --</div>
+        <h2 style="margin-bottom:15px;">🌟 Number Guide (Traits & Activation)</h2>
+        <div id="accordionContainer"></div>
     </div>
 
-    <div class="box">
-        <h2>🌅 Daily Activation & Traits</h2>
-        <div id="traitsSection"></div>
-        <div id="morningTips"></div>
-    </div>
-
-    <div class="box">
-        <h2>🔮 Today's Remedy</h2>
-        <div id="remedyResult" class="result-val" style="font-size:18px">--</div>
-    </div>
-
+    <footer>Created by Astro Abhinash 🔯</footer>
 </div>
 
-<footer>
-    Created by Astro Abhinash 🔯<br>
-    Logic: Advanced Numerology Matrix (v2.0)
-</footer>
-
 <script>
-    const colorMap = {
-        1: "🔴 Deep Red", 2: "⚪ Milky White", 3: "🟡 Bright Yellow", 4: "🔵 Royal Blue", 
-        5: "🟢 Emerald Green", 6: "🌸 Soft Pink", 7: "💎 Sky Blue", 8: "⚫ Charcoal Black", 9: "🟠 Saffron Orange"
+    const numData = {
+        1: { title: "Number 1 (The Leader)", traits: "Confidence, Power, Success", 
+             rituals: ["🌅 Suraj ko dekhte hue ek baar namaskar karein.", "💧 Subah uthte hi glass bhar pani piyein.", "📋 Aaj ka sabse bada 1 kaam paper pe likhein.", "🔴 Lal ya Orange rang ka koi kapda/dhaga pehne."] },
+        2: { title: "Number 2 (The Peace-Maker)", traits: "Calmness, Love, Intuition", 
+             rituals: ["🧘 2 minute aankhein band karke shanti se baithein.", "🥛 Chandi ya kanch ke glass mein pani piyein.", "⚪ Aaj kisi se gussa ya behas na karein.", "🤍 Safed ya Cream rang ka istemal karein."] },
+        3: { title: "Number 3 (The Wise)", traits: "Knowledge, Growth, Luck", 
+             rituals: ["🙏 Apne bade-buzurgo ke pair chhuyein ya yaad karein.", "📒 Kuch naya 5 minute ke liye padhein.", "🟡 Haldi ka chota sa tilak mathe pe lagayein.", "🌼 Aaj peele (Yellow) rang ka touch zaroor rakhein."] },
+        4: { title: "Number 4 (The Disciplined)", traits: "Focus, Hard Work, Ideas", 
+             rituals: ["🧹 Apne bed ya kamre ko thoda saaf-suthra karein.", "🦶 5 minute ghas (grass) pe ya nange pair chalein.", "📵 Subah 15 minute phone door rakhein.", "🔵 Dark Blue ya Grey rang pehne."] },
+        5: { title: "Number 5 (The Intelligent)", traits: "Business, Logic, Speed", 
+             rituals: ["🪴 Kisi hara (green) paude ko pani dein.", "📱 Apne pending messages ya emails check karein.", "🍏 Aaj koi hara phal (fruit) khayein.", "🟢 Green rang ka handkerchief sath rakhein."] },
+        6: { title: "Number 6 (The Luxury-Lover)", traits: "Beauty, Money, Family", 
+             rituals: ["✨ Accha perfume ya scent zaroor lagayein.", "👗 Saaf aur press kiye hue sundar kapde pehne.", "🍬 Thoda sa kuch meetha khakar ghar se niklein.", "🌸 Pink ya White rang aaj aapke liye best hai."] },
+        7: { title: "Number 7 (The Thinker)", traits: "Spirituality, Depth, Peace", 
+             rituals: ["🤫 Subah 10 minute bilkul chup (silent) rahein.", "🐕 Kisi janwar (kutte/panchi) ko kuch khilayein.", "🧘 Om ka 11 baar jaap karein.", "💎 Sky Blue rang ka istemal karein."] },
+        8: { title: "Number 8 (The Powerful)", traits: "Money, Karma, Strength", 
+             rituals: ["🏃 10 minute exercise ya tej chalein (walk).", "⏳ Apne sabse mushkil kaam ko pehle khatam karein.", "🖤 Aaj kalas ya navy blue rang pehne.", "🛠️ Kisi zarooratmand ki choti si madad karein."] },
+        9: { title: "Number 9 (The Warrior)", traits: "Courage, Energy, Help", 
+             rituals: ["🔥 Thodi stretching ya yoga karein.", "🚩 Hanuman Chalisa padhein ya Hanuman ji ko yaad karein.", "🍎 Lal rang ka phal (Apple/Pomegranate) khayein.", "🚩 Dark Red rang aaj aapke liye shubh hai."] }
     };
 
-    const numerologyData = {
-        1: { traits: "The Leader: Independent & Bold", tips: ["Plan your day's top 3 priorities", "Connect with early morning sun", "Avoid dependency on others"] },
-        2: { traits: "The Diplomat: Creative & Emotional", tips: ["Practice 5-min calm breathing", "Stay hydrated (Silver vessel preferred)", "Avoid overthinking"] },
-        3: { traits: "The Guru: Wise & Knowledgeable", tips: ["Read or learn something for 15 mins", "Seek blessings from elders", "Be creative in speech"] },
-        4: { traits: "The Architect: Disciplined & Sharp", tips: ["De-clutter your physical space", "Follow a strict time-block", "Stay away from shortcuts"] },
-        5: { traits: "The Mercury: Fast & Adaptive", tips: ["Clear pending communication", "Focus on business/trade ideas", "Take a brisk morning walk"] },
-        6: { traits: "The Artist: Romantic & Loving", tips: ["Use a nice floral fragrance", "Dress in your best clothes", "Call your life partner or family"] },
-        7: { traits: "The Mystic: Spiritual & Researcher", tips: ["10 mins of absolute silence", "Journal your vivid dreams", "Connect with nature/water"] },
-        8: { traits: "The Executive: Powerful & Judicious", tips: ["Long-term money planning", "Exercise for physical endurance", "Stay grounded and humble"] },
-        9: { traits: "The Warrior: Courageous & Giving", tips: ["Intense workout/Sweat it out", "Do an act of selfless service", "Channelize energy into passion"] }
-    };
+    function initAccordion() {
+        let container = document.getElementById("accordionContainer");
+        for (let i = 1; i <= 9; i++) {
+            let item = numData[i];
+            container.innerHTML += `
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(${i})">
+                        <span>${item.title}</span>
+                        <span id="icon-${i}">+</span>
+                    </div>
+                    <div class="accordion-content" id="content-${i}">
+                        <div class="active-content">
+                            <span class="trait-label">⚡ PERSONALITY: ${item.traits}</span>
+                            <div style="font-size:13px; font-weight:bold; margin-bottom:10px; color:var(--primary)">KAL SE YE KAREIN (SIMPLE):</div>
+                            <ul class="ritual-list">
+                                ${item.rituals.map(r => `<li>✨ ${r}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>`;
+        }
+    }
+
+    function toggleAccordion(id) {
+        for (let i = 1; i <= 9; i++) {
+            let content = document.getElementById(`content-${i}`);
+            let icon = document.getElementById(`icon-${i}`);
+            if (i === id) {
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    icon.innerText = "+";
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.innerText = "-";
+                }
+            } else {
+                content.style.maxHeight = null;
+                icon.innerText = "+";
+            }
+        }
+    }
 
     function reduce(n) {
-        while (n > 9) {
-            n = n.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
-        }
+        while (n > 9) n = n.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
         return n;
     }
 
-    // Set Initial Universal Data
-    let now = new Date();
-    document.getElementById("todayDate").innerText = "📅 " + now.toDateString();
-    
-    let currentD = now.getDate();
-    let currentM = now.getMonth() + 1;
-    let currentY = now.getFullYear();
-    let universalDayNumber = reduce(currentD + currentM + currentY);
-    
-    document.getElementById("uNum").innerText = universalDayNumber;
-    document.getElementById("uColor").innerText = colorMap[universalDayNumber];
-
-    function calculatePro() {
-        let dobStr = document.getElementById("dob").value;
-        if (!dobStr) { alert("Please select DOB!"); return; }
-
-        let d = new Date(dobStr);
-        let mNum = reduce(d.getDate());
-        let bNum = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear());
-
-        // Personal Luck Calculation
-        let pLuck = reduce(mNum + universalDayNumber);
+    function calculateMagic() {
+        const dobVal = document.getElementById("dob").value;
+        if (!dobVal) return alert("Please select DOB!");
         
-        // Show Personal Section
-        document.getElementById("personalSection").style.display = "block";
-        document.getElementById("pLuckNum").innerText = pLuck;
-        document.getElementById("pLuckColor").innerText = colorMap[pLuck];
-        document.getElementById("mulankBadge").innerText = "Mulank: " + mNum;
-        document.getElementById("bhagyankBadge").innerText = "Bhagyank: " + bNum;
-
-        // NEW PRO VIP FORMULA: (Today Date + Today Month + Mulank + Bhagyank)
-        // This avoids double-counting the year and focuses on the 'Current Vibration'
-        let vip = reduce(currentD + currentM + mNum + bNum);
+        let d = new Date(dobVal);
+        let today = new Date();
+        let m = reduce(d.getDate());
+        let b = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear());
+        let uNum = reduce(today.getDate() + (today.getMonth() + 1) + today.getFullYear());
+        
+        document.getElementById("personalContent").style.display = "block";
+        document.getElementById("pLuckNum").innerText = reduce(m + uNum);
+        
+        const colorNames = ["", "🔴 Red", "⚪ White", "🟡 Yellow", "🔵 Blue", "🟢 Green", "🌸 Pink", "💎 Sky Blue", "⚫ Black", "🟠 Orange"];
+        document.getElementById("pLuckColor").innerText = colorNames[reduce(m + uNum)];
+        
+        let vip = reduce(today.getDate() + (today.getMonth() + 1) + m + b);
         document.getElementById("vipNum").innerText = vip;
 
-        // PRO TIMING SLOTS (Morning & Evening)
-        const timeWindows = {
-            1: "06:00-08:00 & 13:00-14:00",
-            2: "08:00-10:00 & 20:00-22:00",
-            3: "10:00-12:00 & 16:00-18:00",
-            4: "12:00-14:00 & 22:00-00:00",
-            5: "14:00-16:00 & 07:00-09:00",
-            6: "16:00-18:00 & 09:00-11:00",
-            7: "18:00-20:00 & 11:00-13:00",
-            8: "20:00-22:00 & 05:00-07:00",
-            9: "All Day Energy (Peaks 06:00-09:00)"
-        };
-        document.getElementById("timeSlot").innerText = "Lucky Windows: " + timeWindows[vip];
+        const times = { 1: "6-8 AM", 2: "8-10 AM", 3: "10-12 PM", 4: "12-2 PM", 5: "2-4 PM", 6: "4-6 PM", 7: "6-8 PM", 8: "8-10 PM", 9: "Full Day" };
+        document.getElementById("timeWindows").innerText = "Lucky Time: " + times[vip];
 
-        // Activation & Traits
-        let data = numerologyData[mNum];
-        document.getElementById("traitsSection").innerHTML = `<div style="color:var(--gold); font-weight:bold; margin-bottom:10px;">${data.traits}</div>`;
-        let tipsHtml = "";
-        data.tips.forEach(t => tipsHtml += `<div class="tip-item">⚡ ${t}</div>`);
-        document.getElementById("morningTips").innerHTML = tipsHtml;
-
-        // Pro Remedies
-        const remedies = {
-            1: "Offer Water to Sun with Red Flowers",
-            2: "Keep a Silver Coin or wear White Silk",
-            3: "Apply Saffron (Kesar) tilak on forehead",
-            4: "Feed 7 types of grains to birds",
-            5: "Water a Green Money plant or Basil (Tulsi)",
-            6: "Apply white sandalwood perfume",
-            7: "Donate black & white blankets or feed a dog",
-            8: "Light a mustard oil lamp under a Peepal tree",
-            9: "Recite Hanuman Chalisa or Mangal Mantra"
-        };
-        document.getElementById("remedyResult").innerText = remedies[vip];
-
-        window.scrollTo({ top: 400, behavior: 'smooth' });
+        window.scrollTo({ top: 300, behavior: 'smooth' });
+        setTimeout(() => toggleAccordion(m), 400);
     }
+
+    initAccordion();
 </script>
 
 </body>
 </html>
-
