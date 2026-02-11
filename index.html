@@ -31,9 +31,14 @@
         .ritual-list li { margin-bottom: 10px; font-size: 13px; color: #e2e8f0; display: flex; align-items: flex-start; gap: 10px; }
         #personalContent { display: none; }
         
-        /* New Alignment Style */
         .alignment-text { font-size: 14px; font-weight: 600; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
         .align-score { font-size: 12px; opacity: 0.8; font-weight: 300; margin-top: 4px; display: block; }
+
+        /* Relation Table Styles */
+        .rel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .rel-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; font-size: 12px; }
+        .rel-title { font-size: 10px; text-transform: uppercase; color: var(--primary); margin-bottom: 5px; display: block; }
+        .rel-nums { font-size: 16px; font-weight: bold; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -59,6 +64,20 @@
             </div>
             <div class="alignment-text" id="alignStatus">--</div>
             <span class="align-score" id="alignDesc">--</span>
+        </div>
+
+        <div class="box">
+            <h2 id="relTableTitle">🔢 Your Number Relations</h2>
+            <div class="rel-grid">
+                <div class="rel-item">
+                    <span class="rel-title" id="lblFriend">Friendly Numbers</span>
+                    <div id="valFriends" class="rel-nums" style="color: #4ade80;">--</div>
+                </div>
+                <div class="rel-item">
+                    <span class="rel-title" id="lblEnemy">Enemy Numbers</span>
+                    <div id="valEnemies" class="rel-nums" style="color: var(--danger);">--</div>
+                </div>
+            </div>
         </div>
 
         <div class="box">
@@ -105,6 +124,7 @@
         en: { 
             navTitle: "ASTRO ABHINASH 🔯", inputHead: "Check Your Luck", calcBtn: "Reveal Results", 
             lblMulank: "MULANK (Birth No.)", lblBhagyank: "BHAGYANK (Destiny No.)",
+            relTableTitle: "🔢 Number Relations", lblFriend: "Friends", lblEnemy: "Enemies",
             todayTitle: "📅 Today's Lucky Vibes", lblLuckNo: "Lucky No.", lblLuckCol: "Lucky Color",
             lblEnergy: "Energy Meter", lblMoney: "Money Luck", lblDanger: "Danger Alert ⚠️", 
             lblVip: "👑 VIP Number", guideHead: "🌟 Number Guide", peakTime: "Time: ",
@@ -122,11 +142,12 @@
         or: { 
             navTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", inputHead: "ଭାଗ୍ୟ ଜାଣନ୍ତୁ", calcBtn: "ଦେଖନ୍ତୁ", 
             lblMulank: "ମୂଳାଙ୍କ (ଜନ୍ମ ସଂଖ୍ୟା)", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ (ଭାଗ୍ୟ ସଂଖ୍ୟା)",
+            relTableTitle: "🔢 ସଂଖ୍ୟା ସମ୍ପର୍କ", lblFriend: "ମିତ୍ର ସଂଖ୍ୟା", lblEnemy: "ଶତ୍ରୁ ସଂଖ୍ୟା",
             todayTitle: "📅 ଆଜିର ଶୁଭ ଫଳାଫଳ", lblLuckNo: "ଶୁଭ ସଂଖ୍ୟା", lblLuckCol: "ଶୁଭ ରଙ୍ଗ",
             lblEnergy: "ଶକ୍ତି ମିଟର", lblMoney: "ଧନ ଭାଗ୍ୟ", lblDanger: "ସତର୍କ ସୂଚନା ⚠️", 
             lblVip: "👑 VIP ସଂଖ୍ୟା", guideHead: "🌟 ସଂଖ୍ୟା ଗାଇଡ୍", peakTime: "ସମୟ: ",
             moneyTxt: ["ଖରାପ", "ସାଧାରଣ", "ଭଲ", "ବହୁତ ଭଲ", "ଉତ୍ତମ"],
-            dangerMsgs: ["ଦ୍ରୁତ ଗାଡି ଚାଳନା", "ଉପରିସ୍ଥଙ୍କ ସହ ଯୁକ୍ତି", "ପର୍ସ ହଜିବା ଭୟ", "ସ୍ୱାସ୍ଥ୍ୟ ସମସ୍ୟା", "ଭୁଲ ନିବେଶ", "ଅଜଣାଙ୍କୁ ବିଶ୍ୱାସ", "ପାରିବାରିକ କଳି", "ବିଦ୍ୟୁତ୍ ଉପକରଣ", "ରାଗ ଉପରେ ନିୟନ୍ତ୍ରଣ"],
+            dangerMsgs: ["ଦ୍ରୁତ ଗାଡି ଚାଳନା", "ଉପରିସ୍ଥଙ୍କ ସହ ଯୁକ୍ତି", "ପର୍ସ ହଜିବା ଭୟ", "ସ୍ୱାସ୍ଥ୍ୟ ସମସ୍ୟା", "ଭୁଲ ନିବେଶ", "ଅଜଣାଙ୍କୁ ବିଶ୍ୱาସ", "ପାରିବାରିକ କଳି", "ବିଦ୍ୟୁତ୍ ଉପକରଣ", "ରାଗ ଉପରେ ନିୟନ୍ତ୍ରଣ"],
             colors: ["", "🔴 ନାଲି", "⚪ ଧଳା", "🟡 ହଳଦିଆ", "🔵 ନୀଳ", "🟢 ସବୁଜ", "🌸 ଗୋଲାପି", "💎 ଆକାଶୀ ନୀଳ", "⚫ କଳା", "🟠 କମଳା"],
             alignments: {
                 excellent: "ସମନ୍ୱୟ: ଅତି ଉତ୍ତମ! 💎",
@@ -138,7 +159,6 @@
         }
     };
 
-    // Relationship Table
     const friendly = {
         1: [2, 3, 5, 9], 2: [1, 3, 5], 3: [1, 2, 5, 7, 9], 
         4: [5, 6, 8], 5: [1, 4, 6], 6: [4, 5, 7, 8], 
@@ -171,6 +191,9 @@
         document.getElementById("calcBtn").innerText = lang.calcBtn;
         document.getElementById("lblMulank").innerText = lang.lblMulank;
         document.getElementById("lblBhagyank").innerText = lang.lblBhagyank;
+        document.getElementById("relTableTitle").innerText = lang.relTableTitle;
+        document.getElementById("lblFriend").innerText = lang.lblFriend;
+        document.getElementById("lblEnemy").innerText = lang.lblEnemy;
         document.getElementById("todayTitle").innerText = lang.todayTitle;
         document.getElementById("lblLuckNo").innerText = lang.lblLuckNo;
         document.getElementById("lblLuckCol").innerText = lang.lblLuckCol;
@@ -213,6 +236,10 @@
         document.getElementById("personalContent").style.display = "block";
         document.getElementById("valMulank").innerText = m;
         document.getElementById("valBhagyank").innerText = b;
+
+        // Show Friend/Enemy List based on Mulank
+        document.getElementById("valFriends").innerText = friendly[m].join(", ");
+        document.getElementById("valEnemies").innerText = enemy[m].join(", ");
 
         // Alignment Logic
         let alignBox = document.getElementById("alignStatus");
