@@ -3,264 +3,204 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Numerology Power - Astro Abhinash</title>
+<title>Astro Abhinash Numerology</title>
 
-<!-- PDF library -->
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword,
+signInWithEmailAndPassword, signOut,
+GoogleAuthProvider, signInWithPopup,
+onAuthStateChanged }
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import { getFirestore, setDoc, doc }
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyC0yF3kviJ6U-rdOMUyAOOQyTgSFoWG6co",
+authDomain: "astro-c7b1e.firebaseapp.com",
+projectId: "astro-c7b1e",
+storageBucket: "astro-c7b1e.firebasestorage.app",
+messagingSenderId: "885607895929",
+appId: "1:885607895929:web:8f1bf85f7d8aab1b1d55a8"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// signup
+window.signup=function(){
+let email=email1.value;
+let pass=pass1.value;
+createUserWithEmailAndPassword(auth,email,pass)
+.then(()=>alert("Signup success"))
+.catch(e=>alert(e.message));
+}
+
+// login
+window.login=function(){
+let email=email1.value;
+let pass=pass1.value;
+signInWithEmailAndPassword(auth,email,pass)
+.then(()=>alert("Login success"))
+.catch(e=>alert(e.message));
+}
+
+// google login
+window.googleLogin=function(){
+const provider=new GoogleAuthProvider();
+signInWithPopup(auth,provider);
+}
+
+// logout
+window.logout=function(){ signOut(auth); }
+
+// detect user
+onAuthStateChanged(auth,(user)=>{
+if(user){
+userInfo.innerHTML="👤 "+user.email;
+
+// save to firestore
+setDoc(doc(db,"users",user.uid),{
+email:user.email,
+time:new Date().toLocaleString()
+});
+}else{
+userInfo.innerHTML="Not logged";
+}
+});
+</script>
+
+<!-- PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-color:white;
-text-align:center;
-}
-
-header{
-padding:20px;
-background:black;
-font-size:26px;
-font-weight:bold;
-box-shadow:0 0 15px cyan;
-}
-
-.calc-box{
-margin:20px;
-padding:20px;
-background:rgba(255,255,255,0.08);
-border-radius:15px;
-box-shadow:0 0 15px cyan;
-}
-
-input{
-padding:12px;
-width:85%;
-border-radius:8px;
-border:none;
-margin-top:10px;
-font-size:16px;
-}
-
-button{
-padding:12px 25px;
-border:none;
-border-radius:8px;
-background:cyan;
-font-size:16px;
-font-weight:bold;
-margin-top:12px;
-}
-
-.result{
-margin-top:15px;
-font-size:18px;
-color:gold;
-}
-
-.grid{
-display:grid;
-grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
-gap:15px;
-padding:15px;
-}
-
-.card{
-background:rgba(255,255,255,0.08);
-padding:15px;
-border-radius:12px;
-box-shadow:0 0 15px rgba(0,255,255,0.4);
-transition:0.4s;
-}
-
-.card:hover{
-transform:scale(1.05);
-box-shadow:0 0 25px cyan;
-}
-
-.number{
-font-size:30px;
-color:cyan;
-font-weight:bold;
-}
-
-footer{
-margin-top:20px;
-padding:15px;
-background:black;
-}
+body{margin:0;font-family:Arial;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:white;text-align:center;}
+header{padding:20px;background:black;font-size:26px;box-shadow:0 0 15px cyan;}
+.box{margin:20px;padding:20px;background:rgba(255,255,255,0.08);border-radius:15px;box-shadow:0 0 15px cyan;}
+input{padding:12px;width:85%;border-radius:8px;border:none;margin-top:10px;}
+button{padding:12px 25px;border:none;border-radius:8px;background:cyan;font-weight:bold;margin:5px;}
+.result{margin-top:15px;color:gold;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;padding:15px;}
+.card{background:rgba(255,255,255,0.08);padding:15px;border-radius:12px;box-shadow:0 0 15px cyan;}
+.number{font-size:28px;color:cyan;font-weight:bold;}
+footer{background:black;padding:15px;margin-top:20px;}
 </style>
 </head>
 
 <body>
 
 <header>
-🔢 NUMEROLOGY POWER  
-<br>Astro Abhinash
+🔢 ASTRO ABHINASH NUMEROLOGY
 </header>
 
-<!-- UNIVERSAL DAILY -->
-<div class="calc-box">
-<h2>🌟 Today's Universal Lucky Number</h2>
+<!-- LOGIN -->
+<div class="box">
+<h2>Login</h2>
+<input type="email" id="email1" placeholder="Email">
+<input type="password" id="pass1" placeholder="Password"><br>
+<button onclick="signup()">Signup</button>
+<button onclick="login()">Login</button>
+<button onclick="googleLogin()">Google</button>
+<button onclick="logout()">Logout</button>
+<div id="userInfo" class="result"></div>
+</div>
+
+<!-- UNIVERSAL -->
+<div class="box">
+<h2>🌍 Universal Lucky Number</h2>
 <div id="daily" class="result"></div>
 </div>
 
+<!-- DOB -->
+<div class="box">
+<h2>Mulank & Bhagyank</h2>
+<input type="date" id="dob"><br>
+<button onclick="calc()">Calculate</button>
+<div id="out" class="result"></div>
+</div>
+
 <!-- USER DAILY -->
-<div class="calc-box">
-<h2>🌟 Your Daily Lucky Number</h2>
-<button onclick="userDaily()">Check My Today Number</button>
-<div id="userDailyResult" class="result"></div>
+<div class="box">
+<h2>👑 VIP Daily Lucky Number</h2>
+<button onclick="userDaily()">Check Today</button>
+<div id="vip" class="result"></div>
 </div>
 
-<!-- Mulank -->
-<div class="calc-box">
-<h2>Find Your Mulank & Bhagyank</h2>
-<input type="date" id="dob">
-<br>
-<button onclick="calculate()">Calculate</button>
-<div class="result" id="output"></div>
-</div>
-
-<!-- Name -->
-<div class="calc-box">
+<!-- NAME -->
+<div class="box">
 <h2>Name Numerology</h2>
-<input type="text" id="name" placeholder="Enter full name">
-<br>
-<button onclick="nameCalc()">Check Name</button>
-<div class="result" id="nameOutput"></div>
+<input type="text" id="name" placeholder="Enter name"><br>
+<button onclick="nameCalc()">Check</button>
+<div id="nameOut" class="result"></div>
 </div>
 
-<!-- 1-9 traits -->
-<h2>🔮 Numbers & Morning Advice</h2>
+<!-- TRAITS -->
+<h2>Numbers Power</h2>
 <div class="grid">
-<div class="card"><div class="number">1</div>Leader<br>Start new work</div>
-<div class="card"><div class="number">2</div>Meditation & peace</div>
-<div class="card"><div class="number">3</div>Study & knowledge</div>
-<div class="card"><div class="number">4</div>Planning work</div>
-<div class="card"><div class="number">5</div>Business calls</div>
-<div class="card"><div class="number">6</div>Attraction & luxury</div>
-<div class="card"><div class="number">7</div>Silent meditation</div>
-<div class="card"><div class="number">8</div>Hard work</div>
-<div class="card"><div class="number">9</div>Exercise</div>
+<div class="card"><div class="number">1</div>Leader</div>
+<div class="card"><div class="number">2</div>Peace</div>
+<div class="card"><div class="number">3</div>Knowledge</div>
+<div class="card"><div class="number">4</div>Planning</div>
+<div class="card"><div class="number">5</div>Money</div>
+<div class="card"><div class="number">6</div>Love</div>
+<div class="card"><div class="number">7</div>Spiritual</div>
+<div class="card"><div class="number">8</div>Karma</div>
+<div class="card"><div class="number">9</div>Energy</div>
 </div>
 
 <!-- PREMIUM -->
-<div class="calc-box">
-<h2>🔮 Get Premium Numerology Report ₹49</h2>
-
-<p>✔ Lucky Name Suggestion<br>
-✔ Mobile Number Luck<br>
-✔ Business Name Luck<br>
-✔ Year Prediction</p>
-
-<h3>Pay ₹49 UPI</h3>
-<p><b>UPI: yourupi@okaxis</b></p>
-
-<input type="text" id="pname" placeholder="Your Name">
-<input type="date" id="pdob">
-<br>
-<button onclick="sendReport()">Submit</button>
-<br>
-<button onclick="generatePDF()">📄 Download Free PDF Report</button>
-
-<div id="paymsg" class="result"></div>
+<div class="box">
+<h2>Premium Report ₹49</h2>
+<p>UPI: yourupi@okaxis</p>
+<button onclick="pdf()">Download Free PDF</button>
 </div>
 
-<footer>
-Created by Astro Abhinash 🔯
-</footer>
+<footer>Created by Astro Abhinash 🔯</footer>
 
 <script>
-let globalMulank=0;
-let globalBhagyank=0;
+let m=0,b=0;
+function r(n){while(n>9){n=[...n.toString()].reduce((a,b)=>+a+ +b)}return n}
 
-function reduce(num){
-while(num>9){
-num=num.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b));
-}
-return num;
-}
-
-// universal daily
-function dailyNumber(){
+// universal
 let t=new Date();
-let total=reduce(t.getDate()+(t.getMonth()+1)+t.getFullYear());
-document.getElementById("daily").innerHTML=
-"🔢 Universal Number: "+total+"<br>Credit: Astro Abhinash";
-}
-dailyNumber();
+let u=r(t.getDate()+t.getMonth()+1+t.getFullYear());
+daily.innerHTML="Today Number: "+u;
 
-// mulank
-function calculate(){
-let dob=document.getElementById("dob").value;
-if(!dob){alert("Enter DOB");return;}
-
-let d=new Date(dob);
-globalMulank=reduce(d.getDate());
-globalBhagyank=reduce(d.getDate()+(d.getMonth()+1)+d.getFullYear());
-
-document.getElementById("output").innerHTML=
-"🔢 Mulank: "+globalMulank+
-"<br>✨ Bhagyank: "+globalBhagyank+
-"<br>Credit: Astro Abhinash";
+// calc
+function calc(){
+let d=new Date(dob.value);
+m=r(d.getDate());
+b=r(d.getDate()+d.getMonth()+1+d.getFullYear());
+out.innerHTML="Mulank:"+m+" | Bhagyank:"+b;
 }
 
-// user daily
+// vip
 function userDaily(){
-if(globalMulank==0){alert("Enter DOB first");return;}
-
 let t=new Date();
-let universal=reduce(t.getDate()+(t.getMonth()+1)+t.getFullYear());
-let personal=reduce(universal+globalMulank);
-
-document.getElementById("userDailyResult").innerHTML=
-"🌟 Your Lucky Number Today: "+personal+
-"<br>Credit: Astro Abhinash";
+let u=r(t.getDate()+t.getMonth()+1+t.getFullYear());
+let vip=r(u+m+b);
+vip.innerHTML="VIP Lucky Number: "+vip;
 }
 
-// name numerology
+// name
 function nameCalc(){
-if(globalMulank==0){alert("Enter DOB first");return;}
-
-let name=document.getElementById("name").value.toLowerCase();
-if(name==""){alert("Enter name");return;}
-
 let v={a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:1,k:2,l:3,m:4,n:5,o:6,p:7,q:8,r:9,s:1,t:2,u:3,v:4,w:5,x:6,y:7,z:8};
-let sum=0;
-for(let i=0;i<name.length;i++){ if(v[name[i]]) sum+=v[name[i]]; }
-
-let nameNum=reduce(sum);
-let msg="🔠 Name Number: "+nameNum+"<br>";
-
-if(nameNum==globalMulank || nameNum==globalBhagyank){
-msg+="🟢 Lucky name vibration";
-}else{
-msg+="🔴 Not aligned<br>Use: "+globalMulank+" or "+globalBhagyank;
-}
-msg+="<br>Credit: Astro Abhinash";
-document.getElementById("nameOutput").innerHTML=msg;
+let s=0; for(let ch of name.value.toLowerCase()){if(v[ch]) s+=v[ch];}
+let n=r(s);
+nameOut.innerHTML="Name Number:"+n;
 }
 
-// premium submit
-function sendReport(){
-document.getElementById("paymsg").innerHTML=
-"✅ Send payment screenshot on WhatsApp<br><br>📲 91XXXXXXXXXX<br>Credit: Astro Abhinash";
-}
-
-// PDF
-async function generatePDF(){
-if(globalMulank==0){alert("Enter DOB first");return;}
-
+// pdf
+async function pdf(){
 const { jsPDF } = window.jspdf;
-const doc = new jsPDF();
-
-doc.text("NUMEROLOGY REPORT",70,20);
-doc.text("Astro Abhinash",85,30);
-doc.text("Mulank: "+globalMulank,20,60);
-doc.text("Bhagyank: "+globalBhagyank,20,75);
-doc.text("Use lucky numbers daily.",20,100);
-
-doc.save("Numerology_Report.pdf");
+const doc=new jsPDF();
+doc.text("Numerology Report - Astro Abhinash",20,20);
+doc.text("Mulank:"+m,20,50);
+doc.text("Bhagyank:"+b,20,70);
+doc.save("report.pdf");
 }
 </script>
 
