@@ -15,11 +15,17 @@
         .calc-btn { padding: 15px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, var(--primary), #0066ff); color: white; font-weight: bold; cursor: pointer; }
         
         /* Grid Styling */
-        .loshu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 220px; margin: 15px auto; }
-        .grid-cell { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; }
+        .loshu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 240px; margin: 15px auto; }
+        .grid-cell { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; position: relative; }
         .filled { border-color: var(--gold); background: rgba(255,215,0,0.1); color: var(--gold); box-shadow: 0 0 10px rgba(255,215,0,0.2); }
         .cell-num { font-size: 1.4rem; }
         .cell-label { font-size: 8px; text-transform: uppercase; margin-top: 2px; }
+
+        /* Master Reference Grid Styling */
+        .master-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 15px; }
+        .master-cell { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 10px; padding: 10px 5px; min-height: 80px; display: flex; flex-direction: column; justify-content: center; }
+        .master-num { color: var(--primary); font-size: 1.2rem; font-weight: 800; margin-bottom: 4px; }
+        .master-trait { font-size: 9px; line-height: 1.2; color: #ccc; font-weight: 500; }
 
         /* Trait & List Styling */
         .trait-list { text-align: left; padding: 0; list-style: none; }
@@ -51,7 +57,7 @@
 
     <div id="personalContent">
         <div class="box">
-            <h2>Your Magic Grid</h2>
+            <h2>Your Personal Magic Grid</h2>
             <div class="loshu-grid" id="gridUI">
                 <div class="grid-cell" id="c4"><span class="cell-num">4</span><span class="cell-label">Wealth</span></div>
                 <div class="grid-cell" id="c9"><span class="cell-num">9</span><span class="cell-label">Fame</span></div>
@@ -88,6 +94,21 @@
         <div class="box" style="border: 1px solid var(--gold); background: rgba(255,215,0,0.03);">
             <h2 style="color:var(--gold)">🔮 Vedic Solutions (Remedies)</h2>
             <div id="remedyList" class="trait-list"></div>
+        </div>
+
+        <div class="box" style="background: rgba(0, 242, 255, 0.02); border: 1px dashed var(--primary);">
+            <h2 style="color: var(--primary);">📚 Numbers & Traits Reference</h2>
+            <div class="master-grid">
+                <div class="master-cell"><span class="master-num">4</span><span class="master-trait">Wealth, Discipline, Asset</span></div>
+                <div class="master-cell"><span class="master-num">9</span><span class="master-trait">Fame, Energy, Humanity</span></div>
+                <div class="master-cell"><span class="master-num">2</span><span class="master-trait">Love, Emotion, Partnership</span></div>
+                <div class="master-cell"><span class="master-num">3</span><span class="master-trait">Knowledge, Growth, Family</span></div>
+                <div class="master-cell"><span class="master-num">5</span><span class="master-trait">Stability, Balance, Success</span></div>
+                <div class="master-cell"><span class="master-num">7</span><span class="master-trait">Creative, Research, Children</span></div>
+                <div class="master-cell"><span class="master-num">8</span><span class="master-trait">Wisdom, Practical, Finance</span></div>
+                <div class="master-cell"><span class="master-num">1</span><span class="master-trait">Career, Victory, Confidence</span></div>
+                <div class="master-cell"><span class="master-num">6</span><span class="master-trait">Luxury, Travel, Support</span></div>
+            </div>
         </div>
     </div>
 </div>
@@ -161,13 +182,11 @@
         document.getElementById("bVal").innerText = b;
         document.getElementById("nVal").innerText = n;
 
-        // Compatibility Test
         let isEnemy = relationship[m].enemies.includes(b) || relationship[m].enemies.includes(n);
         let status = document.getElementById("compatStatus");
         status.innerText = isEnemy ? "Anti-Vibration (Conflicts Found)" : "Harmonious Vibration (Great Match!)";
         status.className = "compat-badge " + (isEnemy ? "bad" : "good");
 
-        // Loshu Grid logic (DOB + Mulank + Bhagyank)
         let gridStr = day.toString() + month.toString() + year.toString() + m.toString() + b.toString();
         let sList = "", mList = "", rList = "";
         
@@ -184,7 +203,7 @@
         }
         document.getElementById("strengthList").innerHTML = sList;
         document.getElementById("missingList").innerHTML = mList;
-        document.getElementById("remedyList").innerHTML = rList || "<div class='trait-item'>All numbers present! No specific remedies needed.</div>";
+        document.getElementById("remedyList").innerHTML = rList || "<div class='trait-item'>All numbers present!</div>";
     }
 </script>
 </body>
