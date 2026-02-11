@@ -13,7 +13,7 @@
         .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
         .box { background: var(--card-bg); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
         h2 { margin-top: 0; font-size: 1rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px;}
-        input[type="date"] { padding: 12px; width: 85%; border-radius: 10px; border: none; background: #fff; font-size: 16px; font-weight: bold; margin-bottom: 15px; text-align: center; }
+        input { padding: 12px; width: 85%; border-radius: 10px; border: none; background: #fff; font-size: 16px; font-weight: bold; margin-bottom: 15px; text-align: center; color: #000; }
         .calc-btn { padding: 14px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, #00f2ff, #0066ff); color: white; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3); }
         .result-val { font-size: 28px; font-weight: 800; color: var(--gold); }
         .sub-val { font-size: 22px; font-weight: 700; color: #fff; }
@@ -39,7 +39,6 @@
         .rel-title { font-size: 10px; text-transform: uppercase; color: var(--primary); margin-bottom: 5px; display: block; }
         .rel-nums { font-size: 16px; font-weight: bold; letter-spacing: 2px; }
 
-        /* Remedy Styling */
         .remedy-box { border: 1px solid var(--gold); background: rgba(255, 215, 0, 0.05); display: none; }
         .remedy-list { list-style: none; padding: 0; text-align: left; margin: 10px 0 0 0; }
         .remedy-list li { font-size: 13px; color: #fff; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
@@ -55,6 +54,7 @@
 <div class="container">
     <div class="box">
         <h2 id="inputHead">Personal Reading</h2>
+        <input type="text" id="userName" placeholder="Full Name">
         <input type="date" id="dob">
         <br>
         <button class="calc-btn" id="calcBtn" onclick="calculateMagic()">Reveal Results</button>
@@ -62,8 +62,9 @@
 
     <div id="personalContent">
         <div class="box" style="background: rgba(0, 242, 255, 0.05); border: 1px solid var(--primary);">
-            <div style="display:flex; justify-content: space-around;">
+            <div style="display:flex; justify-content: space-around; flex-wrap: wrap; gap: 10px;">
                 <div><small id="lblMulank" style="opacity: 0.8; font-size: 11px;">MULANK</small><div id="valMulank" class="sub-val">--</div></div>
+                <div><small id="lblNameNo" style="opacity: 0.8; font-size: 11px;">NAME NO.</small><div id="valNameNo" class="sub-val">--</div></div>
                 <div><small id="lblBhagyank" style="opacity: 0.8; font-size: 11px;">BHAGYANK</small><div id="valBhagyank" class="sub-val">--</div></div>
             </div>
             <div class="alignment-text" id="alignStatus">--</div>
@@ -129,10 +130,15 @@
 
 <script>
     let currentLang = 'en';
+    const chaldeanValues = {
+        a:1, i:1, j:1, q:1, y:1, b:2, k:2, r:2, c:3, g:3, l:3, s:3,
+        d:4, m:4, t:4, e:5, h:5, n:5, x:5, u:6, v:6, w:6, o:7, z:7, f:8, p:8
+    };
+
     const translations = {
         en: { 
             navTitle: "ASTRO ABHINASH 🔯", inputHead: "Check Your Luck", calcBtn: "Reveal Results", 
-            lblMulank: "MULANK (Birth No.)", lblBhagyank: "BHAGYANK (Destiny No.)",
+            lblMulank: "MULANK", lblBhagyank: "BHAGYANK", lblNameNo: "NAME NO.",
             relTableTitle: "🔢 Number Relations", lblFriend: "Friends", lblEnemy: "Enemies",
             todayTitle: "📅 Today's Lucky Vibes", lblLuckNo: "Lucky No.", lblLuckCol: "Lucky Color",
             lblEnergy: "Energy Meter", lblMoney: "Money Luck", lblDanger: "Danger Alert ⚠️", 
@@ -154,7 +160,7 @@
         },
         or: { 
             navTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", inputHead: "ଭାଗ୍ୟ ଜାଣନ୍ତୁ", calcBtn: "ଦେଖନ୍ତୁ", 
-            lblMulank: "ମୂଳାଙ୍କ (ଜନ୍ମ ସଂଖ୍ୟା)", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ (ଭାଗ୍ୟ ସଂଖ୍ୟା)",
+            lblMulank: "ମୂଳାଙ୍କ", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ", lblNameNo: "ନାମ ସଂଖ୍ୟା",
             relTableTitle: "🔢 ସଂଖ୍ୟା ସମ୍ପର୍କ", lblFriend: "ମିତ୍ର ସଂଖ୍ୟା", lblEnemy: "ଶତ୍ରୁ ସଂଖ୍ୟା",
             todayTitle: "📅 ଆଜିର ଶୁଭ ଫଳାଫଳ", lblLuckNo: "ଶୁଭ ସଂଖ୍ୟା", lblLuckCol: "ଶୁଭ ରଙ୍ଗ",
             lblEnergy: "ଶକ୍ତି ମିଟର", lblMoney: "ଧନ ଭାଗ୍ୟ", lblDanger: "ସତର୍କ ସୂଚନା ⚠️", 
@@ -178,11 +184,18 @@
 
     const friendly = { 1: [2, 3, 5, 9], 2: [1, 3, 5], 3: [1, 2, 5, 7, 9], 4: [5, 6, 8], 5: [1, 4, 6], 6: [4, 5, 7, 8], 7: [1, 3, 6], 8: [4, 5, 6], 9: [1, 2, 3] };
     const enemy = { 1: [8], 2: [4, 8, 9], 3: [6], 4: [1, 2, 9], 5: [2], 6: [3], 7: [8, 9], 8: [1, 2, 9], 9: [4, 8] };
-
     const numData = { 1: { en: {title: "Number 1", rituals: ["Sun Namaste", "Drink Water", "1 Big Goal", "Red color"]}, or: {title: "ସଂଖ୍ୟା ୧", rituals: ["ସୂର୍ଯ୍ୟ ନମସ୍କାର", "ପାଣି ପିଅନ୍ତୁ", "୧ ମୁଖ୍ୟ ଲକ୍ଷ୍ୟ", "ନାଲି ରଙ୍ଗ"]} }, 2: { en: {title: "Number 2", rituals: ["Meditation", "Silver glass water", "No arguments", "White color"]}, or: {title: "ସଂଖ୍ୟା ୨", rituals: ["ଧ୍ୟାନ କରନ୍ତୁ", "ରୁପା ଗ୍ଲାସ ପାଣି", "ଝଗଡା କରନ୍ତୁ ନାହିଁ", "ଧଳା ରଙ୍ଗ"]} }, 3: { en: {title: "Number 3", rituals: ["Respect elders", "Read 5 mins", "Haldi Tilak", "Yellow color"]}, or: {title: "ସଂଖ୍ୟା ୩", rituals: ["ଗୁରୁଜନ ସମ୍ମାନ", "୫ ମିନିଟ୍ ପଢନ୍ତୁ", "ହଳଦୀ ଟିପା", "ହଳଦିଆ ରଙ୍ଗ"]} }, 4: { en: {title: "Number 4", rituals: ["Clean desk", "Barefoot walk", "No phone", "Blue color"]}, or: {title: "ସଂଖ୍ୟା ୪", rituals: ["ଟେବୁଲ ସଫା", "ଖାଲି ପାଦ ଚଲା", "ନୋ ଫୋନ୍", "ନୀଳ ରଙ୍ଗ"]} }, 5: { en: {title: "Number 5", rituals: ["Water plant", "Check emails", "Green fruit", "Green color"]}, or: {title: "ସଂଖ୍ୟା ୫", rituals: ["ଗଛରେ ପାଣି", "ମେଲ୍ ଚେକ୍", "ସବୁଜ ଫଳ", "ସବୁଜ ରଙ୍ଗ"]} }, 6: { en: {title: "Number 6", rituals: ["Use perfume", "Ironed clothes", "Eat sweet", "Pink/White"]}, or: {title: "ସଂଖ୍ୟା ୬", rituals: ["ସେଣ୍ଟ ବ୍ୟବହାର", "ପ୍ରେସ ଲୁଗା", "ମିଠା ଖାଆନ୍ତୁ", "ଗୋଲାପି/ଧଳା"]} }, 7: { en: {title: "Number 7", rituals: ["10 min Silence", "Feed birds", "Chant Om", "Sky Blue"]}, or: {title: "ସଂଖ୍ୟା ୭", rituals: ["୧୦ ମିନିଟ୍ ଚୁପ୍", "ପକ୍ଷୀ ସେବା", "ଓଁ ଜପ", "ଆକାଶୀ ନୀଳ"]} }, 8: { en: {title: "Number 8", rituals: ["Exercise", "Hard task first", "Help needy", "Dark Blue"]}, or: {title: "ସଂଖ୍ୟା ୮", rituals: ["ବ୍ୟାୟାମ", "କଷ୍ଟ କାମ ପ୍ରଥମେ", "ସାହାଯ୍ୟ କରନ୍ତୁ", "କଳା ରଙ୍ଗ"]} }, 9: { en: {title: "Number 9", rituals: ["Yoga", "Hanuman Chalisa", "Red fruit", "Dark Red"]}, or: {title: "ସଂଖ୍ୟା ୯", rituals: ["ଯୋଗ", "ହନୁମାନ ଚାଳିଶା", "ନାଲି ଫଳ", "ଗାଢ ନାଲି"]} } };
 
     function toggleLang() { currentLang = (currentLang === 'en') ? 'or' : 'en'; updateUI(); }
     function reduce(n) { while (n > 9) n = n.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0); return n; }
+    
+    function getNameNumber(name) {
+        let total = 0;
+        name.toLowerCase().split('').forEach(char => {
+            if (chaldeanValues[char]) total += chaldeanValues[char];
+        });
+        return { compound: total, single: reduce(total) };
+    }
 
     function updateUI() {
         const lang = translations[currentLang];
@@ -191,6 +204,7 @@
         document.getElementById("calcBtn").innerText = lang.calcBtn;
         document.getElementById("lblMulank").innerText = lang.lblMulank;
         document.getElementById("lblBhagyank").innerText = lang.lblBhagyank;
+        document.getElementById("lblNameNo").innerText = lang.lblNameNo;
         document.getElementById("relTableTitle").innerText = lang.relTableTitle;
         document.getElementById("lblFriend").innerText = lang.lblFriend;
         document.getElementById("lblEnemy").innerText = lang.lblEnemy;
@@ -226,10 +240,11 @@
     }
 
     function calculateMagic(scroll = true) {
-        const dobVal = document.getElementById("dob").value; if (!dobVal) return;
-        let d = new Date(dobVal), today = new Date();
+        const nameVal = document.getElementById("userName").value;
+        const dobVal = document.getElementById("dob").value;
+        if (!dobVal) return;
         
-        // --- PRO LOGIC START ---
+        let d = new Date(dobVal), today = new Date();
         let dayOrig = d.getDate();
         let month = d.getMonth() + 1;
         let year = d.getFullYear();
@@ -237,21 +252,14 @@
 
         let m = reduce(dayOrig); 
         let b = reduce(dayOrig + month + year); 
-        
-        // Personal Year (The 100% Accuracy Rule)
+        let nObj = nameVal ? getNameNumber(nameVal) : {single: 0, compound: 0};
         let py = reduce(dayOrig + month + curYear);
-        
-        // Today's Vibes
         let uNum = reduce(today.getDate() + (today.getMonth() + 1) + today.getFullYear());
-        
-        // VIP Number linked to Personal Year Cycle
-        let vip = reduce(m + b + py);
-        // --- PRO LOGIC END ---
+        let vip = reduce(m + b + py + (nObj.single || 0));
 
         document.getElementById("personalContent").style.display = "block";
-        
-        // Compound Number Update: "8 (from 17)"
         document.getElementById("valMulank").innerText = `${m} (${dayOrig})`;
+        document.getElementById("valNameNo").innerText = nObj.single ? `${nObj.single} (${nObj.compound})` : "--";
         document.getElementById("valBhagyank").innerText = b;
         document.getElementById("valFriends").innerText = friendly[m].join(", ");
         document.getElementById("valEnemies").innerText = enemy[m].join(", ");
@@ -261,10 +269,12 @@
         let remedyBox = document.getElementById("smartRemedy");
         let aLang = translations[currentLang].alignments;
 
-        if (m === b || friendly[m].includes(b)) {
+        // Alignment check including Name Number if available
+        let checkNum = nObj.single || b; 
+        if (m === checkNum || friendly[m].includes(checkNum)) {
             alignBox.innerText = aLang.excellent; alignBox.style.color = "var(--primary)";
             alignDesc.innerText = aLang.desc[0]; remedyBox.style.display = "none";
-        } else if (enemy[m].includes(b)) {
+        } else if (enemy[m].includes(checkNum)) {
             alignBox.innerText = aLang.difficult; alignBox.style.color = "var(--danger)";
             alignDesc.innerText = aLang.desc[3];
             remedyBox.style.display = "block";
@@ -279,12 +289,10 @@
         document.getElementById("pLuckColor").innerText = translations[currentLang].colors[reduce(m + uNum)];
         document.getElementById("vipNum").innerText = vip;
 
-        // Energy Based on Personal Year Vibration
         let energyVal = (py === 1 || py === 5 || py === 6) ? 95 : (py === 4 || py === 8) ? 48 : 75;
         document.getElementById("energyPercent").innerText = energyVal + "%";
         document.getElementById("meterFill").style.width = energyVal + "%";
 
-        // Accurate Money & Danger from Personal Year Logic
         document.getElementById("moneyLuck").innerText = translations[currentLang].pyMoney[py];
         document.getElementById("dangerAlert").innerText = translations[currentLang].pyDanger[py];
 
