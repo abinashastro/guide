@@ -5,16 +5,76 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Astro Abhinash Numerology</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
-body{margin:0;font-family:Arial;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:white;text-align:center}
-header{padding:20px;background:black;font-size:26px;box-shadow:0 0 15px cyan}
-.box{margin:20px;padding:20px;background:rgba(255,255,255,0.08);border-radius:15px;box-shadow:0 0 15px cyan}
-input{padding:12px;width:85%;border-radius:8px;border:none;margin-top:10px}
-button{padding:12px 25px;border:none;border-radius:8px;background:cyan;font-weight:bold;margin:6px}
-.result{margin-top:15px;color:gold;font-size:18px}
-footer{background:black;padding:15px;margin-top:20px}
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+text-align:center;
+}
+
+header{
+background:black;
+padding:18px;
+font-size:26px;
+font-weight:bold;
+letter-spacing:1px;
+box-shadow:0 0 15px cyan;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding-bottom:40px;
+}
+
+.box{
+margin:18px;
+padding:20px;
+background:rgba(255,255,255,0.07);
+border-radius:14px;
+box-shadow:0 0 15px rgba(0,255,255,0.4);
+}
+
+h2{
+margin-top:0;
+color:#00ffff;
+}
+
+input{
+padding:12px;
+width:80%;
+border-radius:8px;
+border:none;
+margin-top:10px;
+font-size:16px;
+}
+
+button{
+padding:12px 25px;
+border:none;
+border-radius:8px;
+background:cyan;
+font-size:16px;
+font-weight:bold;
+margin-top:12px;
+cursor:pointer;
+}
+
+.result{
+margin-top:15px;
+font-size:18px;
+color:#ffd700;
+line-height:1.6;
+}
+
+footer{
+background:black;
+padding:14px;
+margin-top:30px;
+font-size:14px;
+}
 </style>
 </head>
 
@@ -22,7 +82,9 @@ footer{background:black;padding:15px;margin-top:20px}
 
 <header>🔢 ASTRO ABHINASH NUMEROLOGY 🔯</header>
 
-<!-- Lucky day number -->
+<div class="container">
+
+<!-- Lucky day -->
 <div class="box">
 <h2>🌟 Lucky Day Number Today</h2>
 <div id="dayNum" class="result"></div>
@@ -38,8 +100,8 @@ footer{background:black;padding:15px;margin-top:20px}
 <div class="box">
 <h2>Enter Your Date of Birth</h2>
 <input type="date" id="dob"><br>
-<button onclick="calc()">Activate My Numerology</button>
-<div id="out" class="result"></div>
+<button onclick="calculate()">Check My Numerology</button>
+<div id="basic" class="result"></div>
 </div>
 
 <!-- VIP -->
@@ -54,7 +116,7 @@ footer{background:black;padding:15px;margin-top:20px}
 <div id="timeLuck" class="result"></div>
 </div>
 
-<!-- Morning -->
+<!-- Morning activation -->
 <div class="box">
 <h2>🌅 Morning Activation</h2>
 <div id="morning" class="result"></div>
@@ -66,10 +128,6 @@ footer{background:black;padding:15px;margin-top:20px}
 <div id="remedy" class="result"></div>
 </div>
 
-<!-- PDF -->
-<div class="box">
-<h2>📄 Download Report</h2>
-<button onclick="pdf()">Download PDF</button>
 </div>
 
 <footer>Created by Astro Abhinash 🔯</footer>
@@ -85,12 +143,12 @@ return n;
 }
 
 // Lucky day number
-let t=new Date();
-let todayNum=reduce(t.getDate()+(t.getMonth()+1)+t.getFullYear());
+let today=new Date();
+let todayNum=reduce(today.getDate()+(today.getMonth()+1)+today.getFullYear());
 document.getElementById("dayNum").innerHTML=todayNum;
 
 // Lucky color
-let colors={
+let colorMap={
 1:"Red",
 2:"White",
 3:"Yellow",
@@ -101,25 +159,26 @@ let colors={
 8:"Black",
 9:"Orange"
 };
-document.getElementById("colorToday").innerHTML=colors[todayNum];
+document.getElementById("colorToday").innerHTML=colorMap[todayNum];
 
-function calc(){
+function calculate(){
 
-let d=new Date(document.getElementById("dob").value);
-if(!document.getElementById("dob").value){alert("Enter DOB");return;}
+let dob=document.getElementById("dob").value;
+if(!dob){alert("Enter DOB");return;}
+
+let d=new Date(dob);
 
 mulank=reduce(d.getDate());
 bhagyank=reduce(d.getDate()+(d.getMonth()+1)+d.getFullYear());
 
-document.getElementById("out").innerHTML=
+document.getElementById("basic").innerHTML=
 "Mulank: "+mulank+" | Bhagyank: "+bhagyank;
 
-// VIP secret formula
-let t=new Date();
-let universal=reduce(t.getDate()+(t.getMonth()+1)+t.getFullYear());
-let running=reduce(t.getFullYear());
-
+// VIP formula (pro)
+let universal=reduce(today.getDate()+(today.getMonth()+1)+today.getFullYear());
+let running=reduce(today.getFullYear());
 let vipNum=reduce(universal+mulank+bhagyank+running);
+
 document.getElementById("vip").innerHTML=vipNum;
 
 // Lucky time
@@ -136,47 +195,37 @@ let luckyTime={
 };
 document.getElementById("timeLuck").innerHTML=luckyTime[vipNum];
 
-// Morning activation
+// Morning activation modern
 let tips={
-1:["Set goals","Take leadership","Use red","Start fast","Sunlight"],
-2:["Meditate","Stay calm","Soft talk","Use white","Observe"],
-3:["Study","Plan day","Use yellow","Creative","Guru respect"],
-4:["Discipline","Clean desk","Focus","System work","Use blue"],
-5:["Business calls","Use green","Travel","Deals","Active"],
-6:["Dress well","Perfume","Smile","Love talk","Attract"],
-7:["Meditate","Silent walk","Think deep","Nature","Spiritual"],
-8:["Work early","Money plan","Use black","Discipline","Focus"],
-9:["Exercise","Take action","Energy high","Use red","Win"]
+1:["Set goals","Take leadership","Start important work","Use red","Get sunlight"],
+2:["Meditation","Stay calm","Soft communication","Use white","Observe first"],
+3:["Study 10 min","Plan your day","Use yellow","Creative work","Respect teacher"],
+4:["Be disciplined","Clean workspace","Focus on work","Use blue","Avoid laziness"],
+5:["Business calls","Check money","Use green","Networking","Stay active"],
+6:["Dress well","Use perfume","Smile more","Love talk","Attract positivity"],
+7:["Meditation","Silent walk","Think deep","Nature connect","Spiritual focus"],
+8:["Start work early","Money planning","Use dark blue","Stay disciplined","Finish pending work"],
+9:["Exercise","Take action","High energy work","Use red","Avoid anger"]
 };
 
 let html="";
 tips[mulank].forEach(x=>html+="✔ "+x+"<br>");
 document.getElementById("morning").innerHTML=html;
 
-// Remedies
-let rem={
+// Remedy
+let remedies={
 1:"Offer water to Sun",
-2:"Meditation",
-3:"Respect guru",
+2:"Meditation 5 min",
+3:"Respect guru/elders",
 4:"Stay disciplined",
 5:"Use green color",
-6:"Use perfume",
-7:"Meditation",
-8:"Shani charity",
+6:"Wear perfume",
+7:"Meditation & silence",
+8:"Help poor / Shani remedy",
 9:"Hanuman prayer"
 };
-document.getElementById("remedy").innerHTML=rem[vipNum];
-}
+document.getElementById("remedy").innerHTML=remedies[vipNum];
 
-// PDF
-async function pdf(){
-if(mulank==0){alert("Enter DOB first");return;}
-const { jsPDF } = window.jspdf;
-const doc=new jsPDF();
-doc.text("Numerology Report - Astro Abhinash",20,20);
-doc.text("Mulank: "+mulank,20,50);
-doc.text("Bhagyank: "+bhagyank,20,70);
-doc.save("Numerology_Report.pdf");
 }
 </script>
 
