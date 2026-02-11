@@ -25,6 +25,7 @@
         .trait-list { text-align: left; padding: 0; list-style: none; }
         .trait-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; margin-bottom: 8px; border-left: 4px solid var(--primary); font-size: 13px; }
         .miss-item { border-left-color: var(--danger); opacity: 0.8; }
+        .rem-item { border-left-color: var(--gold); background: rgba(255, 215, 0, 0.05); }
         
         .compat-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-top: 5px; }
         .good { background: rgba(74, 222, 128, 0.2); color: var(--success); }
@@ -83,11 +84,17 @@
             <h2 style="color:var(--danger)">❌ Challenges (Missing)</h2>
             <div id="missingList" class="trait-list"></div>
         </div>
+
+        <div class="box" style="border: 1px solid var(--gold); background: rgba(255,215,0,0.03);">
+            <h2 style="color:var(--gold)">🔮 Vedic Solutions (Remedies)</h2>
+            <div id="remedyList" class="trait-list"></div>
+        </div>
     </div>
 </div>
 
 <script>
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
+    
     const traits = {
         1: "Strong Career & Communication. You are a natural leader.",
         2: "Emotional Balance & Good Relationships. You are sensitive.",
@@ -99,6 +106,7 @@
         8: "Practical Wisdom & Finance. You are very organized.",
         9: "Fame & Humanity. You have high energy and courage."
     };
+
     const missingTraits = {
         1: "Difficulty in expressing yourself. Low confidence in career.",
         2: "Emotional instability. Problems in partnership.",
@@ -109,6 +117,18 @@
         7: "Disturbed peace. Lack of spiritual connection.",
         8: "Financial struggles. Decisions based on emotions.",
         9: "Low energy. Lack of name and fame in society."
+    };
+
+    const remedies = {
+        1: "Drink water in a Copper vessel and offer water to the Sun daily.",
+        2: "Keep a small solid Silver ball or coin in your pocket/wallet.",
+        3: "Apply Kesar (Saffron) tilak on your forehead and respect elders.",
+        4: "Tie a Green thread on your wrist or keep a piece of Sandalwood.",
+        5: "Keep your home's center clean and feed Green Moong Dal to cows.",
+        6: "Use pleasant perfumes daily and wear clean, white clothes.",
+        7: "Wear a Silver chain and feed multi-colored dogs or birds.",
+        8: "Light a Diya with Mustard oil under a Peepal tree on Saturdays.",
+        9: "Recite Hanuman Chalisa and offer Sindoor to Lord Hanuman."
     };
 
     const relationship = {
@@ -147,9 +167,9 @@
         status.innerText = isEnemy ? "Anti-Vibration (Conflicts Found)" : "Harmonious Vibration (Great Match!)";
         status.className = "compat-badge " + (isEnemy ? "bad" : "good");
 
-        // Loshu Grid Fill
+        // Loshu Grid logic (DOB + Mulank + Bhagyank)
         let gridStr = day.toString() + month.toString() + year.toString() + m.toString() + b.toString();
-        let sList = "", mList = "";
+        let sList = "", mList = "", rList = "";
         
         for(let i=1; i<=9; i++) {
             let cell = document.getElementById("c"+i);
@@ -159,10 +179,12 @@
             } else {
                 cell.classList.remove("filled");
                 mList += `<div class="trait-item miss-item"><b>Missing ${i}:</b> ${missingTraits[i]}</div>`;
+                rList += `<div class="trait-item rem-item"><b style="color:var(--gold)">For Number ${i}:</b> ${remedies[i]}</div>`;
             }
         }
         document.getElementById("strengthList").innerHTML = sList;
         document.getElementById("missingList").innerHTML = mList;
+        document.getElementById("remedyList").innerHTML = rList || "<div class='trait-item'>All numbers present! No specific remedies needed.</div>";
     }
 </script>
 </body>
