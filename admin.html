@@ -1,89 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abinash Admin | Leads Tracker</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <style>
-        body { background: #020617; color: white; font-family: 'Outfit', sans-serif; }
-        .admin-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1.5rem; }
-        .status-badge { background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 2px 8px; border-radius: 10px; font-size: 10px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - Astro Abhinash</title>
+
+<style>
+body{
+font-family:Arial;
+background:black;
+color:white;
+text-align:center;
+margin:0;
+}
+
+header{
+background:linear-gradient(45deg,#000,#111);
+padding:20px;
+font-size:28px;
+box-shadow:0 0 20px cyan;
+}
+
+.box{
+margin:30px;
+padding:20px;
+background:#111;
+border-radius:15px;
+box-shadow:0 0 20px cyan;
+}
+
+button{
+padding:12px 25px;
+border:none;
+background:cyan;
+font-size:16px;
+border-radius:8px;
+margin:10px;
+}
+
+#users{
+margin-top:20px;
+font-size:16px;
+color:gold;
+}
+</style>
 </head>
-<body class="p-4 md:p-10">
 
-    <div class="max-w-4xl mx-auto">
-        <div class="flex justify-between items-center mb-10">
-            <div>
-                <h1 class="text-2xl font-bold">Admin Panel</h1>
-                <p class="text-gray-500 text-sm">Abinash Astro Guide Leads</p>
-            </div>
-            <div class="bg-amber-500 text-black px-4 py-2 rounded-xl font-bold text-sm">
-                Total Leads: <span id="totalLeads">0</span>
-            </div>
-        </div>
+<body>
 
-        <div id="leadsContainer" class="space-y-4">
-            <div class="text-center py-20 text-gray-600">Loading leads...</div>
-        </div>
-    </div>
+<header>
+👑 ADMIN PANEL  
+<br>Astro Abhinash
+</header>
 
-    <script>
-        // 1. Firebase Config (Same as your main app)
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "abinash-astro.firebaseapp.com",
-            projectId: "abinash-astro",
-            storageBucket: "abinash-astro.appspot.com",
-            messagingSenderId: "YOUR_ID",
-            appId: "YOUR_APP_ID"
-        };
+<div class="box">
+<h2>All Website Users</h2>
+<button onclick="loadUsers()">Load Users</button>
+<div id="users"></div>
+</div>
 
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+<!-- Firebase -->
+<script type="module">
 
-        // 2. Fetch Leads from Firestore
-        function fetchLeads() {
-            db.collection("leads").orderBy("dateCreated", "desc").onSnapshot((querySnapshot) => {
-                const container = document.getElementById('leadsContainer');
-                const totalDisplay = document.getElementById('totalLeads');
-                container.innerHTML = "";
-                totalDisplay.innerText = querySnapshot.size;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, getDocs } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-                if (querySnapshot.empty) {
-                    container.innerHTML = "<p class='text-center text-gray-500'>Koi lead nahi mili abhi tak.</p>";
-                    return;
-                }
+const firebaseConfig = {
+apiKey: "AIzaSyC0yF3kviJ6U-rdOMUyAOOQyTgSFoWG6co",
+authDomain: "astro-c7b1e.firebaseapp.com",
+projectId: "astro-c7b1e",
+storageBucket: "astro-c7b1e.firebasestorage.app",
+messagingSenderId: "885607895929",
+appId: "1:885607895929:web:8f1bf85f7d8aab1b1d55a8"
+};
 
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const card = `
-                        <div class="admin-card p-5 flex justify-between items-center hover:bg-white/5 transition">
-                            <div>
-                                <h3 class="font-bold text-lg">${data.name}</h3>
-                                <p class="text-xs text-gray-500">DOB: ${data.dob} | Number: <span class="text-amber-500 font-bold">${data.magicNumber}</span></p>
-                                <p class="text-[10px] text-gray-600 mt-1 italic">${new Date(data.dateCreated).toLocaleString()}</p>
-                            </div>
-                            <div class="text-right">
-                                <span class="status-badge">${data.status || 'New'}</span>
-                                <button onclick="contactUser('${data.name}')" class="block mt-2 text-[10px] bg-white/10 px-3 py-1 rounded-lg hover:bg-white/20">Analyze</button>
-                            </div>
-                        </div>
-                    `;
-                    container.innerHTML += card;
-                });
-            });
-        }
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-        function contactUser(name) {
-            alert("Analyze logic for " + name + " coming soon!");
-        }
+// load users
+window.loadUsers = async function(){
 
-        // Run on load
-        fetchLeads();
-    </script>
+let html="<h3>📋 All Registered Users</h3><br>";
+
+const querySnapshot = await getDocs(collection(db,"users"));
+
+querySnapshot.forEach((doc)=>{
+let d=doc.data();
+html+= "📧 "+d.email+"<br>🕒 "+d.time+"<br><br>";
+});
+
+document.getElementById("users").innerHTML=html;
+}
+
+</script>
+
 </body>
 </html>
