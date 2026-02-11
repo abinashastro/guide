@@ -34,11 +34,15 @@
         .alignment-text { font-size: 14px; font-weight: 600; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
         .align-score { font-size: 12px; opacity: 0.8; font-weight: 300; margin-top: 4px; display: block; }
 
-        /* Relation Table Styles */
         .rel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .rel-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; font-size: 12px; }
         .rel-title { font-size: 10px; text-transform: uppercase; color: var(--primary); margin-bottom: 5px; display: block; }
         .rel-nums { font-size: 16px; font-weight: bold; letter-spacing: 2px; }
+
+        /* Remedy Styling */
+        .remedy-box { border: 1px solid var(--gold); background: rgba(255, 215, 0, 0.05); display: none; }
+        .remedy-list { list-style: none; padding: 0; text-align: left; margin: 10px 0 0 0; }
+        .remedy-list li { font-size: 13px; color: #fff; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
     </style>
 </head>
 <body>
@@ -64,6 +68,11 @@
             </div>
             <div class="alignment-text" id="alignStatus">--</div>
             <span class="align-score" id="alignDesc">--</span>
+        </div>
+
+        <div id="smartRemedy" class="box remedy-box">
+            <h2 id="remedyTitle" style="color: var(--gold);">🛡️ Special Remedy</h2>
+            <ul class="remedy-list" id="remedyList"></ul>
         </div>
 
         <div class="box">
@@ -128,9 +137,11 @@
             todayTitle: "📅 Today's Lucky Vibes", lblLuckNo: "Lucky No.", lblLuckCol: "Lucky Color",
             lblEnergy: "Energy Meter", lblMoney: "Money Luck", lblDanger: "Danger Alert ⚠️", 
             lblVip: "👑 VIP Number", guideHead: "🌟 Number Guide", peakTime: "Time: ",
+            remedyTitle: "🛡️ Special Remedy",
             moneyTxt: ["Poor", "Average", "Good", "Very Good", "Excellent"],
             dangerMsgs: ["Hasty driving", "Argument with boss", "Losing wallet", "Health issue", "Wrong investment", "Trusting strangers", "Arguments", "Electric tools", "Anger"],
             colors: ["", "🔴 Red", "⚪ White", "🟡 Yellow", "🔵 Blue", "🟢 Green", "🌸 Pink", "💎 Sky Blue", "⚫ Black", "🟠 Orange"],
+            antiRemedies: ["Chant 'Om' 11 times", "Keep a silver coin", "Avoid black clothes", "Donate green grass"],
             alignments: {
                 excellent: "Alignment: Excellent! 💎",
                 good: "Alignment: Good Balance ✅",
@@ -146,9 +157,11 @@
             todayTitle: "📅 ଆଜିର ଶୁଭ ଫଳାଫଳ", lblLuckNo: "ଶୁଭ ସଂଖ୍ୟା", lblLuckCol: "ଶୁଭ ରଙ୍ଗ",
             lblEnergy: "ଶକ୍ତି ମିଟର", lblMoney: "ଧନ ଭାଗ୍ୟ", lblDanger: "ସତର୍କ ସୂଚନା ⚠️", 
             lblVip: "👑 VIP ସଂଖ୍ୟା", guideHead: "🌟 ସଂଖ୍ୟା ଗାଇଡ୍", peakTime: "ସମୟ: ",
+            remedyTitle: "🛡️ ସ୍ୱତନ୍ତ୍ର ପ୍ରତିକାର",
             moneyTxt: ["ଖରାପ", "ସାଧାରଣ", "ଭଲ", "ବହୁତ ଭଲ", "ଉତ୍ତମ"],
-            dangerMsgs: ["ଦ୍ରୁତ ଗାଡି ଚାଳନା", "ଉପରିସ୍ଥଙ୍କ ସହ ଯୁକ୍ତି", "ପର୍ସ ହଜିବା ଭୟ", "ସ୍ୱାସ୍ଥ୍ୟ ସମସ୍ୟା", "ଭୁଲ ନିବେଶ", "ଅଜଣାଙ୍କୁ ବିଶ୍ୱาସ", "ପାରିବାରିକ କଳି", "ବିଦ୍ୟୁତ୍ ଉପକରଣ", "ରାଗ ଉପରେ ନିୟନ୍ତ୍ରଣ"],
+            dangerMsgs: ["ଦ୍ରୁତ ଗାଡି ଚାଳନା", "ଉପରିସ୍ଥଙ୍କ ସହ ଯୁକ୍ତି", "ପର୍ସ ହଜିବା ଭୟ", "ସ୍ୱାସ୍ଥ୍ୟ ସମସ୍ୟା", "ଭୁଲ ନିବେଶ", "ଅଜଣାଙ୍କୁ ବିଶ୍ୱାସ", "ପାରିବାରିକ କଳି", "ବିଦ୍ୟୁତ୍ ଉପକରଣ", "ରାଗ ଉପରେ ନିୟନ୍ତ୍ରଣ"],
             colors: ["", "🔴 ନାଲି", "⚪ ଧଳା", "🟡 ହଳଦିଆ", "🔵 ନୀଳ", "🟢 ସବୁଜ", "🌸 ଗୋଲାପି", "💎 ଆକାଶୀ ନୀଳ", "⚫ କଳା", "🟠 କମଳା"],
+            antiRemedies: ["୧୧ ଥର 'ଓମ୍' ଜପ କରନ୍ତୁ", "ପାଖରେ ରୁପା ମୁଦ୍ରା ରଖନ୍ତୁ", "କଳା ରଙ୍ଗର ପୋଷାକ ପିନ୍ଧନ୍ତୁ ନାହିଁ", "ସବୁଜ ଘାସ ଦାନ କରନ୍ତୁ"],
             alignments: {
                 excellent: "ସମନ୍ୱୟ: ଅତି ଉତ୍ତମ! 💎",
                 good: "ସମନ୍ୱୟ: ବହୁତ ଭଲ ✅",
@@ -159,27 +172,10 @@
         }
     };
 
-    const friendly = {
-        1: [2, 3, 5, 9], 2: [1, 3, 5], 3: [1, 2, 5, 7, 9], 
-        4: [5, 6, 8], 5: [1, 4, 6], 6: [4, 5, 7, 8], 
-        7: [1, 3, 6], 8: [4, 5, 6], 9: [1, 2, 3]
-    };
-    const enemy = {
-        1: [8], 2: [4, 8, 9], 3: [6], 4: [1, 2, 9], 
-        5: [2], 6: [3], 7: [8, 9], 8: [1, 2, 9], 9: [4, 8]
-    };
+    const friendly = { 1: [2, 3, 5, 9], 2: [1, 3, 5], 3: [1, 2, 5, 7, 9], 4: [5, 6, 8], 5: [1, 4, 6], 6: [4, 5, 7, 8], 7: [1, 3, 6], 8: [4, 5, 6], 9: [1, 2, 3] };
+    const enemy = { 1: [8], 2: [4, 8, 9], 3: [6], 4: [1, 2, 9], 5: [2], 6: [3], 7: [8, 9], 8: [1, 2, 9], 9: [4, 8] };
 
-    const numData = {
-        1: { en: {title: "Number 1", rituals: ["Sun Namaste", "Drink Water", "1 Big Goal", "Red color"]}, or: {title: "ସଂଖ୍ୟା ୧", rituals: ["ସୂର୍ଯ୍ୟ ନମସ୍କାର", "ପାଣି ପିଅନ୍ତୁ", "୧ ମୁଖ୍ୟ ଲକ୍ଷ୍ୟ", "ନାଲି ରଙ୍ଗ"]} },
-        2: { en: {title: "Number 2", rituals: ["Meditation", "Silver glass water", "No arguments", "White color"]}, or: {title: "ସଂଖ୍ୟା ୨", rituals: ["ଧ୍ୟାନ କରନ୍ତୁ", "ରୁପା ଗ୍ଲାସ ପାଣି", "ଝଗଡା କରନ୍ତୁ ନାହିଁ", "ଧଳା ରଙ୍ଗ"]} },
-        3: { en: {title: "Number 3", rituals: ["Respect elders", "Read 5 mins", "Haldi Tilak", "Yellow color"]}, or: {title: "ସଂଖ୍ୟା ୩", rituals: ["ଗୁରୁଜନ ସମ୍ମାନ", "୫ ମିନିଟ୍ ପଢନ୍ତୁ", "ହଳଦୀ ଟିପା", "ହଳଦିଆ ରଙ୍ଗ"]} },
-        4: { en: {title: "Number 4", rituals: ["Clean desk", "Barefoot walk", "No phone", "Blue color"]}, or: {title: "ସଂଖ୍ୟା ୪", rituals: ["ଟେବୁଲ ସଫା", "ଖାଲି ପାଦ ଚଲା", "ନୋ ଫୋନ୍", "ନୀଳ ରଙ୍ଗ"]} },
-        5: { en: {title: "Number 5", rituals: ["Water plant", "Check emails", "Green fruit", "Green color"]}, or: {title: "ସଂଖ୍ୟା ୫", rituals: ["ଗଛରେ ପାଣି", "ମେଲ୍ ଚେକ୍", "ସବୁଜ ଫଳ", "ସବୁଜ ରଙ୍ଗ"]} },
-        6: { en: {title: "Number 6", rituals: ["Use perfume", "Ironed clothes", "Eat sweet", "Pink/White"]}, or: {title: "ସଂଖ୍ୟା ୬", rituals: ["ସେଣ୍ଟ ବ୍ୟବହାର", "ପ୍ରେସ ଲୁଗା", "ମିଠା ଖାଆନ୍ତୁ", "ଗୋଲାପି/ଧଳା"]} },
-        7: { en: {title: "Number 7", rituals: ["10 min Silence", "Feed birds", "Chant Om", "Sky Blue"]}, or: {title: "ସଂଖ୍ୟା ୭", rituals: ["୧୦ ମିନିଟ୍ ଚୁପ୍", "ପକ୍ଷୀ ସେବା", "ଓଁ ଜପ", "ଆକାଶୀ ନୀଳ"]} },
-        8: { en: {title: "Number 8", rituals: ["Exercise", "Hard task first", "Help needy", "Dark Blue"]}, or: {title: "ସଂଖ୍ୟା ୮", rituals: ["ବ୍ୟାୟାମ", "କଷ୍ଟ କାମ ପ୍ରଥମେ", "ସାହାଯ୍ୟ କରନ୍ତୁ", "କଳା ରଙ୍ଗ"]} },
-        9: { en: {title: "Number 9", rituals: ["Yoga", "Hanuman Chalisa", "Red fruit", "Dark Red"]}, or: {title: "ସଂଖ୍ୟା ୯", rituals: ["ଯୋଗ", "ହନୁମାନ ଚାଳିଶା", "ନାଲି ଫଳ", "ଗାଢ ନାଲି"]} }
-    };
+    const numData = { 1: { en: {title: "Number 1", rituals: ["Sun Namaste", "Drink Water", "1 Big Goal", "Red color"]}, or: {title: "ସଂଖ୍ୟା ୧", rituals: ["ସୂର୍ଯ୍ୟ ନମସ୍କାର", "ପାଣି ପିଅନ୍ତୁ", "୧ ମୁଖ୍ୟ ଲକ୍ଷ୍ୟ", "ନାଲି ରଙ୍ଗ"]} }, 2: { en: {title: "Number 2", rituals: ["Meditation", "Silver glass water", "No arguments", "White color"]}, or: {title: "ସଂଖ୍ୟା ୨", rituals: ["ଧ୍ୟାନ କରନ୍ତୁ", "ରୁପା ଗ୍ଲାସ ପାଣି", "ଝଗଡା କରନ୍ତୁ ନାହିଁ", "ଧଳା ରଙ୍ଗ"]} }, 3: { en: {title: "Number 3", rituals: ["Respect elders", "Read 5 mins", "Haldi Tilak", "Yellow color"]}, or: {title: "ସଂଖ୍ୟା ୩", rituals: ["ଗୁରୁଜନ ସମ୍ମାନ", "୫ ମିନିଟ୍ ପଢନ୍ତୁ", "ହଳଦୀ ଟିପା", "ହଳଦିଆ ରଙ୍ଗ"]} }, 4: { en: {title: "Number 4", rituals: ["Clean desk", "Barefoot walk", "No phone", "Blue color"]}, or: {title: "ସଂଖ୍ୟା ୪", rituals: ["ଟେବୁଲ ସଫା", "ଖାଲି ପାଦ ଚଲା", "ନୋ ଫୋନ୍", "ନୀଳ ରଙ୍ଗ"]} }, 5: { en: {title: "Number 5", rituals: ["Water plant", "Check emails", "Green fruit", "Green color"]}, or: {title: "ସଂଖ୍ୟା ୫", rituals: ["ଗଛରେ ପାଣି", "ମେଲ୍ ଚେକ୍", "ସବୁଜ ଫଳ", "ସବୁଜ ରଙ୍ଗ"]} }, 6: { en: {title: "Number 6", rituals: ["Use perfume", "Ironed clothes", "Eat sweet", "Pink/White"]}, or: {title: "ସଂଖ୍ୟା ୬", rituals: ["ସେଣ୍ଟ ବ୍ୟବହାର", "ପ୍ରେସ ଲୁଗା", "ମିଠା ଖାଆନ୍ତୁ", "ଗୋଲାପି/ଧଳା"]} }, 7: { en: {title: "Number 7", rituals: ["10 min Silence", "Feed birds", "Chant Om", "Sky Blue"]}, or: {title: "ସଂଖ୍ୟା ୭", rituals: ["୧୦ ମିନିଟ୍ ଚୁପ୍", "ପକ୍ଷୀ ସେବା", "ଓଁ ଜପ", "ଆକାଶୀ ନୀଳ"]} }, 8: { en: {title: "Number 8", rituals: ["Exercise", "Hard task first", "Help needy", "Dark Blue"]}, or: {title: "ସଂଖ୍ୟା ୮", rituals: ["ବ୍ୟାୟାମ", "କଷ୍ଟ କାମ ପ୍ରଥମେ", "ସାହାଯ୍ୟ କରନ୍ତୁ", "କଳା ରଙ୍ଗ"]} }, 9: { en: {title: "Number 9", rituals: ["Yoga", "Hanuman Chalisa", "Red fruit", "Dark Red"]}, or: {title: "ସଂଖ୍ୟା ୯", rituals: ["ଯୋଗ", "ହନୁମାନ ଚାଳିଶା", "ନାଲି ଫଳ", "ଗାଢ ନାଲି"]} } };
 
     function toggleLang() { currentLang = (currentLang === 'en') ? 'or' : 'en'; updateUI(); }
     function reduce(n) { while (n > 9) n = n.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0); return n; }
@@ -202,6 +198,7 @@
         document.getElementById("lblDanger").innerText = lang.lblDanger;
         document.getElementById("lblVip").innerText = lang.lblVip;
         document.getElementById("guideHead").innerText = lang.guideHead;
+        document.getElementById("remedyTitle").innerText = lang.remedyTitle;
         initAccordion();
         if (document.getElementById("personalContent").style.display === "block") calculateMagic(false);
     }
@@ -227,7 +224,6 @@
     function calculateMagic(scroll = true) {
         const dobVal = document.getElementById("dob").value; if (!dobVal) return;
         let d = new Date(dobVal), today = new Date();
-        
         let m = reduce(d.getDate()); 
         let b = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear()); 
         let uNum = reduce(today.getDate() + (today.getMonth() + 1) + today.getFullYear());
@@ -236,45 +232,36 @@
         document.getElementById("personalContent").style.display = "block";
         document.getElementById("valMulank").innerText = m;
         document.getElementById("valBhagyank").innerText = b;
-
-        // Show Friend/Enemy List based on Mulank
         document.getElementById("valFriends").innerText = friendly[m].join(", ");
         document.getElementById("valEnemies").innerText = enemy[m].join(", ");
 
-        // Alignment Logic
         let alignBox = document.getElementById("alignStatus");
         let alignDesc = document.getElementById("alignDesc");
+        let remedyBox = document.getElementById("smartRemedy");
         let aLang = translations[currentLang].alignments;
 
         if (m === b || friendly[m].includes(b)) {
-            alignBox.innerText = aLang.excellent;
-            alignBox.style.color = "var(--primary)";
-            alignDesc.innerText = aLang.desc[0];
+            alignBox.innerText = aLang.excellent; alignBox.style.color = "var(--primary)";
+            alignDesc.innerText = aLang.desc[0]; remedyBox.style.display = "none";
         } else if (enemy[m].includes(b)) {
-            alignBox.innerText = aLang.difficult;
-            alignBox.style.color = "var(--danger)";
+            alignBox.innerText = aLang.difficult; alignBox.style.color = "var(--danger)";
             alignDesc.innerText = aLang.desc[3];
+            remedyBox.style.display = "block";
+            const remList = document.getElementById("remedyList");
+            remList.innerHTML = translations[currentLang].antiRemedies.map(r => `<li>🔹 ${r}</li>`).join("");
         } else {
-            alignBox.innerText = aLang.good;
-            alignBox.style.color = "var(--gold)";
-            alignDesc.innerText = aLang.desc[1];
+            alignBox.innerText = aLang.good; alignBox.style.color = "var(--gold)";
+            alignDesc.innerText = aLang.desc[1]; remedyBox.style.display = "none";
         }
 
-        let luckyNumToday = reduce(m + uNum);
-        document.getElementById("pLuckNum").innerText = luckyNumToday;
-        document.getElementById("pLuckColor").innerText = translations[currentLang].colors[luckyNumToday];
+        document.getElementById("pLuckNum").innerText = reduce(m + uNum);
+        document.getElementById("pLuckColor").innerText = translations[currentLang].colors[reduce(m + uNum)];
         document.getElementById("vipNum").innerText = vip;
-        
         let energyVal = (vip * 11); if(energyVal > 100) energyVal = 95;
         document.getElementById("energyPercent").innerText = energyVal + "%";
         document.getElementById("meterFill").style.width = energyVal + "%";
-
-        let moneyLvl = reduce(vip + m);
-        let moneyIcons = ["", "💸", "💸💸", "💸💸💸", "💰💰💰", "💰💰💰💰"];
-        let idx = moneyLvl > 5 ? 4 : moneyLvl;
-        document.getElementById("moneyLuck").innerText = translations[currentLang].moneyTxt[idx % 5] + " " + moneyIcons[idx % 6];
+        document.getElementById("moneyLuck").innerText = translations[currentLang].moneyTxt[reduce(vip + m) % 5];
         document.getElementById("dangerAlert").innerText = translations[currentLang].dangerMsgs[vip - 1];
-
         const times = { 1: "6-8 AM", 2: "8-10 AM", 3: "10-12 PM", 4: "12-2 PM", 5: "2-4 PM", 6: "4-6 PM", 7: "6-8 PM", 8: "8-10 PM", 9: "Full Day" };
         document.getElementById("timeWindows").innerText = translations[currentLang].peakTime + times[vip];
 
