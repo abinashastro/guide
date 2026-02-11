@@ -70,7 +70,7 @@
 
         <div id="smartRemedy" class="box remedy-box">
             <h2 id="remedyTitle" style="color: var(--gold);">🛡️ Special Remedy</h2>
-            <div id="remedyText" style="font-size: 13px; text-align: left;"></div>
+            <div id="remedyText" style="font-size: 13px; text-align: left; line-height: 1.6;"></div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -102,22 +102,27 @@
             directions: ["", "South-East (Wealth)", "North-East (Success)", "South (Growth)", "North (Health)", "South-West (Stability)", "West (Career)", "North-West (Help)", "North-East (Knowledge)", "East (Fame)"],
             money: ["", "High Success", "Steady", "Good Profits", "Slow Progress", "Unexpected Gain", "Balance", "Be Careful", "Wealthy Day", "Cleanup"],
             danger: ["", "Low Risk", "Arguments", "Speeding", "Health", "Stress", "Family Issues", "Confusions", "Accidents", "Legal Loss"],
-            align: ["Perfect Match! ✅", "Anti-Vibration! ⚠️"], 
-            rem: "Add a letter to your name. Lucky Food: "
+            align: ["Perfect Match! ✅", "Anti-Vibration! ⚠️"],
+            foodHead: "Lucky Food: ", missHead: "Life Focus: "
         },
         or: {
             dailyTitle: "ଦୈନିକ ଶୁଭାଶୁଭ ଓ ବାସ୍ତୁ", dailyMsgs: ["", "ନୂଆ ଆରମ୍ଭ! ନେତୃତ୍ୱ ନିଅନ୍ତୁ |", "ଶାନ୍ତ ରୁହନ୍ତୁ, ସହଯୋଗ କରନ୍ତୁ |", "ସୃଜନଶୀଳତା ଉପରେ ଧ୍ୟାନ ଦିଅନ୍ତୁ |", "କଠିନ ପରିଶ୍ରମ! ସର୍ଟକଟ୍ ମାରନ୍ତୁ ନାହିଁ |", "ବଡ ପରିବର୍ତ୍ତନ! ସଜାଗ ରୁହନ୍ତୁ |", "ପରିବାରକୁ ସମୟ ଦିଅନ୍ତୁ |", "ଧ୍ୟାନ କରନ୍ତୁ, ଶାନ୍ତ ରୁହନ୍ତୁ |", "ଆର୍ଥିକ ଲାଭ! ପରିଶ୍ରମ କରନ୍ତୁ |", "ଅଧୁରା କାମ ଶେଷ କରନ୍ତୁ |"],
             directions: ["", "ଦକ୍ଷିଣ-ପୂର୍ବ (ଧନ)", "ଉତ୍ତର-ପୂର୍ବ (ସଫଳତା)", "ଦକ୍ଷିଣ (ଉନ୍ନତି)", "ଉତ୍ତର (ସ୍ୱାସ୍ଥ୍ୟ)", "ଦକ୍ଷିଣ-ପଶ୍ଚିମ (ସ୍ଥିରତା)", "ପଶ୍ଚିମ (କ୍ୟାରିୟର)", "ଉତ୍ତର-ପଶ୍ଚିମ (ସାହାଯ୍ୟ)", "ଉତ୍ତର-ପୂର୍ବ (ଜ୍ଞାନ)", "ପୂର୍ବ (ପ୍ରତିଷ୍ଠା)"],
             money: ["", "ଉଚ୍ଚ ସଫଳତା", "ସ୍ଥିର", "ଭଲ ଲାଭ", "ଧୀର ଉନ୍ନତି", "ଅଚାନକ ଲାଭ", "ସନ୍ତୁଳିତ", "ସତର୍କ ରୁହନ୍ତୁ", "ଧନ ପ୍ରାପ୍ତି", "ସମାପ୍ତି"],
             danger: ["", "କମ୍ ବିପଦ", "ଯୁକ୍ତିତର୍କ", "ଦ୍ରୁତ ଗାଡି", "ସ୍ୱାସ୍ଥ୍ୟ", "ମାନସିକ ଚାପ", "ପାରିବାରିକ", "ଦ୍ୱନ୍ଦ୍ୱ", "ଦୁର୍ଘଟଣା", "ଆଇନଗତ"],
-            align: ["ଅତି ଉତ୍ତମ! ✅", "ଅଶୁଭ ସମନ୍ୱୟ! ⚠️"], 
-            rem: "ନାମରେ ସାମାନ୍ୟ ପରିବର୍ତ୍ତନ କରନ୍ତୁ | ଶୁଭ ଖାଦ୍ୟ: "
+            align: ["ଅତି ଉତ୍ତମ! ✅", "ଅଶୁଭ ସମନ୍ୱୟ! ⚠️"],
+            foodHead: "ଶୁଭ ଖାଦ୍ୟ: ", missHead: "ମୁଖ୍ୟ ଲକ୍ଷ୍ୟ: "
         }
     };
 
     const foodRemedies = {
         en: ["", "Honey/Wheat", "Milk/Rice", "Chana/Saffron", "Coconut", "Green Veggies", "Curd/Sweets", "Seven Grains", "Mustard Oil", "Masoor Dal/Ghee"],
         or: ["", "ମହୁ/ଗହମ", "କ୍ଷୀର/ଭାତ", "ଚଣା/କେଶର", "ନଡିଆ", "ସବୁଜ ପନିପରିବା", "ଦହି/ମିଠା", "ସାତ ପ୍ରକାର ଶସ୍ୟ", "ଶୋରିଷ ତେଲ", "ମସୁର ଡାଲି/ଘିଅ"]
+    };
+
+    const missingRemedies = {
+        en: {1:"Drink water in copper vessel", 2:"Keep a silver coin", 3:"Respect elders/Teachers", 4:"Feed birds daily", 5:"Plant a green tree", 6:"Wear clean/perfumed clothes", 7:"Meditate in silence", 8:"Help laborers/Needy", 9:"Light a diya at home"},
+        or: {1:"ତମ୍ବା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ", 2:"ପାଖରେ ରୁପା ମୁଦ୍ରା ରଖନ୍ତୁ", 3:"ଗୁରୁଜନଙ୍କୁ ସମ୍ମାନ କରନ୍ତୁ", 4:"ପକ୍ଷୀଙ୍କୁ ଦାନା ଦିଅନ୍ତୁ", 5:"ସବୁଜ ଗଛ ଲଗାନ୍ତୁ", 6:"ସଫା ଓ ସେଣ୍ଟ ବ୍ୟବହାର କରନ୍ତୁ", 7:"କିଛି ସମୟ ଧ୍ୟାନ କରନ୍ତୁ", 8:"ଗରିବଙ୍କୁ ସାହାଯ୍ୟ କରନ୍ତୁ", 9:"ସନ୍ଧ୍ୟାରେ ଦୀପ ଜାଳନ୍ତୁ"}
     };
 
     const enemy = { 1:[8], 2:[4,8,9], 3:[6], 4:[1,2,9], 5:[2], 6:[3], 7:[8,9], 8:[1,2,9], 9:[4,8] };
@@ -127,24 +132,30 @@
 
     function calculateMagic() {
         const name = document.getElementById("userName").value;
-        const dob = document.getElementById("dob").value;
+        const dobVal = document.getElementById("dob").value;
         const gender = document.getElementById("gender").value;
-        if (!dob) return;
+        if (!dobVal) return;
 
-        let d = new Date(dob), today = new Date();
-        let m = reduce(d.getDate()), b = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear());
+        let d = new Date(dobVal), today = new Date();
+        let day = d.getDate(), month = d.getMonth() + 1, year = d.getFullYear();
+        let m = reduce(day), b = reduce(day + month + year);
         
         // Name Logic
         let nTotal = 0; name.toLowerCase().split('').forEach(c => { if(chaldeanValues[c]) nTotal += chaldeanValues[c]; });
         let n = reduce(nTotal);
 
+        // Missing Numbers (Loshu Check)
+        let dobStr = day.toString() + month.toString() + year.toString();
+        let firstMissing = 0;
+        for(let i=1; i<=9; i++) { if(!dobStr.includes(i.toString())) { firstMissing = i; break; } }
+
         // Advanced Logic (Personal Day & Kua)
-        let py = reduce(d.getDate() + (d.getMonth() + 1) + 2026);
+        let py = reduce(day + month + 2026);
         let pd = reduce(py + (today.getMonth() + 1) + today.getDate());
-        let yrSum = reduce(d.getFullYear());
+        let yrSum = reduce(year);
         let kua = (gender === "male") ? reduce(11 - yrSum) : reduce(4 + yrSum);
 
-        // Display
+        // Display Data
         document.getElementById("personalContent").style.display = "block";
         document.getElementById("valMulank").innerText = m;
         document.getElementById("valBhagyank").innerText = b;
@@ -157,15 +168,21 @@
         
         let status = document.getElementById("alignStatus"), remBox = document.getElementById("smartRemedy");
         let foodItem = foodRemedies[currentLang][pd];
+        let missRem = firstMissing > 0 ? missingRemedies[currentLang][firstMissing] : "Balanced Elements!";
+
+        // Remedy Section Update
+        remBox.style.display = "block";
+        let extraRem = (enemy[m].includes(n) || enemy[m].includes(b)) ? (currentLang === 'en' ? "Adjust Name spelling." : "ନାମରେ ସାମାନ୍ୟ ପରିବର୍ତ୍ତନ କରନ୍ତୁ |") : "";
+        
+        document.getElementById("remedyText").innerHTML = 
+            `<b>${translations[currentLang].foodHead}</b> ${foodItem}<br>` +
+            `<b>${translations[currentLang].missHead}</b> ${missRem}` +
+            (extraRem ? `<br><span style="color:var(--danger)">⚠️ ${extraRem}</span>` : "");
 
         if(enemy[m].includes(n) || enemy[m].includes(b)) {
             status.innerText = translations[currentLang].align[1]; status.style.color = "var(--danger)";
-            remBox.style.display = "block"; 
-            document.getElementById("remedyText").innerText = translations[currentLang].rem + foodItem;
         } else {
             status.innerText = translations[currentLang].align[0]; status.style.color = "var(--primary)";
-            remBox.style.display = "block"; 
-            document.getElementById("remedyText").innerText = "Today's Lucky Food: " + foodItem;
         }
 
         let energy = (pd === m || pd === n) ? 98 : (pd === 4 || pd === 8) ? 45 : 75;
