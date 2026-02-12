@@ -116,7 +116,6 @@
                 </div>
             </div>
         </div>
-
         <div class="box luck-box">
             <h2 id="tLuckTitle" class="h6 mb-3" style="color:var(--gold)"><i class="fa-solid fa-star"></i> What Activates My Luck Today?</h2>
             <div id="luckContent"></div>
@@ -196,45 +195,7 @@
                     </tbody>
                 </table>
             </div>
-
-            <h2 id="tTattvaTable" class="h6 mt-4" style="color:var(--success);"><i class="fa-solid fa-leaf"></i> Pancha Tattva Master Table</h2>
-            <div class="table-responsive">
-                <table class="table table-dark table-bordered">
-                    <thead><tr><th>Element</th><th>Nums</th><th>Direction</th><th>Attributes</th></tr></thead>
-                    <tbody>
-                        <tr><td style="color:#4ade80">Wood (କାଠ)</td><td>3, 4</td><td>East, NE</td><td>Growth, Health, Wealth</td></tr>
-                        <tr><td style="color:#ff4d4d">Fire (ନିଆଁ)</td><td>9</td><td>South</td><td>Fame, Energy, Power</td></tr>
-                        <tr><td style="color:#ffd700">Earth (ପୃଥିବୀ)</td><td>2, 5, 8</td><td>Center, SW</td><td>Stability, Property</td></tr>
-                        <tr><td style="color:#ddd">Metal (ଧାତୁ)</td><td>6, 7</td><td>West, NW</td><td>Support, Family, Luxury</td></tr>
-                        <tr><td style="color:#00f2ff">Water (ପାଣି)</td><td>1</td><td>North</td><td>Career, Opportunity</td></tr>
-                    </tbody>
-                </table>
             </div>
-
-            <h2 id="tPlanetTraits" class="h6 mt-4" style="color:var(--gold);"><i class="fa-solid fa-sun"></i> Navagraha Traits Master Table</h2>
-            <div class="table-responsive">
-                <table class="table table-dark table-bordered">
-                    <thead>
-                        <tr>
-                            <th id="thPlanet">Planet</th>
-                            <th id="thTraits">Core Traits (Swabhav)</th>
-                            <th id="thImpact">Positive / Negative</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><b style="color:#ffd700">1. Sun (ସୂର୍ଯ୍ୟ)</b></td><td>Leadership, Authority</td><td>Confidence / Ego</td></tr>
-                        <tr><td><b style="color:#ddd">2. Moon (ଚନ୍ଦ୍ର)</b></td><td>Emotion, Intuition</td><td>Peace / Anxiety</td></tr>
-                        <tr><td><b style="color:#ffd700">3. Jupiter (ଗୁରୁ)</b></td><td>Knowledge, Expansion</td><td>Wisdom / Laziness</td></tr>
-                        <tr><td><b style="color:#00f2ff">4. Rahu (ରାହୁ)</b></td><td>Illusion, Innovation</td><td>Smartness / Confusion</td></tr>
-                        <tr><td><b style="color:#4ade80">5. Mercury (ବୁଧ)</b></td><td>Logic, Business, Speech</td><td>Skills / Cunningness</td></tr>
-                        <tr><td><b style="color:#ffb6c1">6. Venus (ଶୁକ୍ର)</b></td><td>Luxury, Love, Arts</td><td>Comfort / Addiction</td></tr>
-                        <tr><td><b style="color:#ff4d4d">7. Ketu (କେତୁ)</b></td><td>Spirituality, Research</td><td>Insight / Isolation</td></tr>
-                        <tr><td><b style="color:#5c5c5c">8. Saturn (ଶନି)</b></td><td>Karma, Discipline</td><td>Stability / Delay</td></tr>
-                        <tr><td><b style="color:#ff4d4d">9. Mars (ମଙ୍ଗଳ)</b></td><td>Action, Energy, Courage</td><td>Bravery / Anger</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
         <div class="box">
             <h2 id="tGrid" class="h6"><i class="fa-solid fa-border-all"></i> Your Magic Grid</h2>
@@ -287,8 +248,6 @@
     let currentLang = 'en';
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     const planets = { 1:"Sun", 2:"Moon", 3:"Jupiter", 4:"Rahu", 5:"Mercury", 6:"Venus", 7:"Ketu", 8:"Saturn", 9:"Mars" };
-    
-    // ... all existing constant definitions remain the same ...
     const luckTriggers = { 1: { color: "Orange/Gold", colorOr: "କେସରୀ / ସୁନେଲୀ", dir: "East", dirOr: "ପୂର୍ବ", act: "Offer water to Sun", actOr: "ସୂର୍ଯ୍ୟଙ୍କୁ ଜଳ ଅର୍ପଣ କରନ୍ତୁ" }, 2: { color: "White/Silver", colorOr: "ଧଳା / ରୂପେଲୀ", dir: "North-West", dirOr: "ବାୟୁ କୋଣ", act: "Drink water in silver", actOr: "ରୂପା ଗ୍ଲାସରେ ପାଣି ପିଅନ୍ତୁ" }, 3: { color: "Yellow", colorOr: "ହଳଦିଆ", dir: "North-East", dirOr: "ଈଶାନ୍ୟ କୋଣ", act: "Apply Saffron Tilak", actOr: "କେସର ତିଳକ ଲଗାନ୍ତୁ" }, 4: { color: "Light Blue", colorOr: "ଆକାଶୀ ନୀଳ", dir: "South-West", dirOr: "ନୈଋତ୍ୟ କୋଣ", act: "Feed birds", actOr: "ପକ୍ଷୀଙ୍କୁ ଖାଦ୍ୟ ଦିଅନ୍ତୁ" }, 5: { color: "Green", colorOr: "ସବୁଜ", dir: "North", dirOr: "ଉତ୍ତର", act: "Keep a green plant", actOr: "ସବୁଜ ଗଛ ପାଖରେ ରଖନ୍ତୁ" }, 6: { color: "Cream/Pink", colorOr: "କ୍ରିମ୍ / ଗୋଲାପୀ", dir: "South-East", dirOr: "ଆଗ୍ନେୟ କୋଣ", act: "Use mild perfume", actOr: "ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ" }, 7: { color: "Grey/Smoke", colorOr: "ଧୂସର", dir: "Center", dirOr: "ମଧ୍ୟ ଭାଗ", act: "Meditate for 10 mins", actOr: "୧୦ ମିନିଟ୍ ଧ୍ୟାନ କରନ୍ତୁ" }, 8: { color: "Dark Blue/Black", colorOr: "ଗାଢ଼ ନୀଳ / କଳା", dir: "West", dirOr: "ପଶ୍ଚିମ", act: "Help someone needy", actOr: "ଗରିବଙ୍କୁ ସାହାଯ୍ୟ କରନ୍ତୁ" }, 9: { color: "Red", colorOr: "ନାଲି", dir: "South", dirOr: "ଦକ୍ଷିଣ", act: "Recite Hanuman Chalisa", actOr: "ହନୁମାନ ଚାଳିଶା ପାଠ କରନ୍ତୁ" } };
     const dailyRules = { 1: { do: "Start new tasks, meet authorities, wear orange.", dont: "Avoid egoistic arguments and pride.", doOr: "ନୂଆ କାମ ଆରମ୍ଭ କରନ୍ତୁ, କେସରୀ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "ଅହଂକାର କିମ୍ବା ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |" }, 2: { do: "Meditation, creative work, drink water in silver.", dont: "Don't take emotional decisions or overthink.", doOr: "ଧ୍ୟାନ କରନ୍ତୁ, ରୂପା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ |", dontOr: "ଭାବପ୍ରବଣ ହୋଇ କୌଣସି ନିଷ୍ପତ୍ତି ନିଅନ୍ତୁ ନାହିଁ |" }, 3: { do: "Take advice from elders, study, wear yellow.", dont: "Don't criticize others or ignore spiritual tasks.", doOr: "ଗୁରୁଜନଙ୍କ ପରାମର୍ଶ ନିଅନ୍ତୁ, ହଳଦିଆ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "ଅନ୍ୟର ସମାଲୋଚନା କରନ୍ତୁ ନାହିଁ |" }, 4: { do: "Organize your desk, research, be disciplined.", dont: "Avoid shortcut methods and gambling.", doOr: "ଅନୁଶାସନ ମଧ୍ୟରେ ରୁହନ୍ତୁ, ଗବେଷଣା କାର୍ଯ୍ୟ କରନ୍ତୁ |", dontOr: "ସର୍ଟକଟ୍ ରାସ୍ତା ଆପଣାନ୍ତୁ ନାହିଁ |" }, 5: { do: "Networking, business deals, wear green.", dont: "Don't make promises you can't keep.", doOr: "ବ୍ୟବସାୟିକ ଆଲୋଚନା ପାଇଁ ଶୁଭ, ସବୁଜ ପିନ୍ଧନ୍ତୁ |", dontOr: "ମିଥ୍ୟା ପ୍ରତିଶ୍ରୁତି ଦିଅନ୍ତୁ ନାହିଁ |" }, 6: { do: "Family time, shopping, grooming, wear white.", dont: "Avoid conflicts with partners/colleagues.", doOr: "ପରିବାର ସହ ସମୟ ବିତାନ୍ତୁ, ଧଳା ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "କାହାରି ସହ ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |" }, 7: { do: "Introspection, yoga, help needy people.", dont: "Don't sign important legal papers today.", doOr: "ଯୋଗ କରନ୍ତୁ, ନିଜ ଭୁଲ୍ ସୁଧାରିବାକୁ ଚେଷ୍ଟା କରନ୍ତୁ |", dontOr: "ଆଜି କୌଣସି ଚୁକ୍ତିପତ୍ରରେ ସ୍ଵାକ୍ଷର କରନ୍ତୁ ନାହିଁ |" }, 8: { do: "Hard work, long-term planning, wear dark blue.", dont: "Don't be lazy or treat laborers poorly.", doOr: "କଠିନ ପରିଶ୍ରମ କରନ୍ତୁ, ଗଭୀର ନୀଳ ବ୍ୟବହାର କରନ୍ତୁ |", dontOr: "ଆଳସ୍ୟ ତ୍ୟାଗ କରନ୍ତୁ |" }, 9: { do: "Physical exercise, finishing old tasks, wear red.", dont: "Avoid rash driving and sharp objects/fire.", doOr: "ବ୍ୟାୟାମ କରନ୍ତୁ, ପୁରୁଣା କାର୍ଯ୍ୟ ଶେଷ କରନ୍ତୁ |", dontOr: "ଦ୍ରୁତ ଗତିରେ ଗାଡ଼ି ଚଲାନ୍ତୁ ନାହିଁ |" } };
     const enemyLogic = { 1: { enemy: [8], msg: "Conflict with seniors or government rules.", sol: "Offer water to Sun (Surya) in a copper vessel." }, 2: { enemy: [4, 8, 9], msg: "High mental stress, mood swings, or emotional imbalance.", sol: "Meditate for 10 minutes and drink water from a silver glass." }, 3: { enemy: [6], msg: "Unnecessary luxury expenses or bad advice from friends.", sol: "Avoid making big financial investments today." }, 4: { enemy: [1, 2, 9], msg: "Unexpected delays, confusion, and obstacles in work.", sol: "Recite Ganesh Mantra and keep a blue handkerchief." }, 5: { enemy: [2], msg: "Restlessness or misunderstanding in communication.", sol: "Feed green grass to a cow or keep a green plant nearby." }, 6: { enemy: [3], msg: "Social reputation issues or ego clashes with partners.", sol: "Respect your elders and offer sweets to little girls." }, 7: { enemy: [8, 9], msg: "Sudden technical failures or hidden enemies causing trouble.", sol: "Feed a black dog or birds." }, 8: { enemy: [1, 2, 9], msg: "Heavy workload, physical fatigue, and slow results.", sol: "Chant Shani Mantra or light an oil lamp under a Peepal tree." }, 9: { enemy: [4, 7, 8], msg: "Angry outbursts, accidents, or heated arguments.", sol: "Recite Hanuman Chalisa and avoid wearing red today." } };
@@ -345,40 +304,40 @@
         
         let gridStr = day.toString() + month.toString() + year.toString() + m.toString() + b.toString();
 
-        // --- DYNAMIC UNIQUE ANALYSIS LOGIC (5 POINTS EACH) ---
+        // --- UPDATED UNIQUE ANALYSIS LOGIC ---
         let rel = {1:{f:[2,3,5,9],e:[8]},2:{f:[1,3,5],e:[4,8,9]},3:{f:[1,2,5,7,9],e:[6]},4:{f:[5,6,7,8],e:[1,2,9]},5:{f:[1,3,4,6,7,8,9],e:[2]},6:{f:[4,5,7,8],e:[3]},7:{f:[3,4,5,6],e:[8,9]},8:{f:[4,5,6,7],e:[1,2,9]},9:{f:[1,2,3,5],e:[4,7,8]}};
         
-        // 1. Destiny Impact
+        // 1. Destiny Impact (8-8 Unique Leadership)
         const dPoints = currentLang === 'en' ? [
             `Governed by ${planets[m]} (Mulank) & ${planets[b]} (Bhagyank).`,
-            `Your inner nature is ${m}, but the world sees you as ${b}.`,
-            `The combination of ${m}-${b} creates a unique leadership style.`,
-            `Karmic path suggests focus on ${m === b ? 'Mastery' : 'Balance'}.`,
-            `Potential for massive growth in ${b % 2 === 0 ? 'Service' : 'Business'}.`
+            `Leadership Style: **Visionary Execution** — Building long-term empires.`,
+            `Unique Vantage: **Fearless Decision Making** under high-pressure scenarios.`,
+            `Karmic Strength: **Extreme Resilience** — Rising stronger from every setback.`,
+            `Path: Success through **Unshakable Discipline** and Justice.`
         ] : [
             `ଆପଣ ${planets[m]} (ମୂଳାଙ୍କ) ଏବଂ ${planets[b]} (ଭାଗ୍ୟାଙ୍କ) ଦ୍ୱାରା ପରିଚାଳିତ |`,
-            `ଆପଣଙ୍କ ସ୍ୱଭାବ ${m} କିନ୍ତୁ କର୍ମ କ୍ଷେତ୍ର ${b} ଅଟେ |`,
-            `${m}-${b} ର ସମନ୍ୱୟ ଆପଣଙ୍କ ବ୍ୟକ୍ତିତ୍ୱକୁ ସ୍ୱତନ୍ତ୍ର କରେ |`,
-            `ଆପଣଙ୍କ କର୍ମ ପଥ ${m === b ? 'ନିପୁଣତା' : 'ସନ୍ତୁଳନ'} ଉପରେ ଆଧାରିତ |`,
-            `${b % 2 === 0 ? 'ସେବା' : 'ବ୍ୟବସାୟ'} କ୍ଷେତ୍ରରେ ଉନ୍ନତିର ଯୋଗ ଅଛି |`
+            `ନେତୃତ୍ୱ ଶୈଳୀ: **ଦୂରଦୃଷ୍ଟି ସମ୍ପନ୍ନ କାର୍ଯ୍ୟକାରିତା** — ସଫଳ ସାମ୍ରାଜ୍ୟ ଗଢିବାର କ୍ଷମତା |`,
+            `ସ୍ୱତନ୍ତ୍ରତା: **ଭୟଶୂନ୍ୟ ନିଷ୍ପତ୍ତି** — ଚାପ ମଧ୍ୟରେ ସଠିକ୍ ପଥ ବାଛିବା |`,
+            `କର୍ମ ଶକ୍ତି: **ଅଦମ୍ୟ ସହନଶୀଳତା** — ପ୍ରତିଟି ପରାଜୟକୁ ସଫଳତାରେ ବଦଳାଇବା |`,
+            `ଲକ୍ଷ୍ୟ: **ଅନୁଶାସନ ଓ ନ୍ୟାୟ** ସହିତ ବଡ଼ ଲକ୍ଷ୍ୟ ହାସଲ କରିବା |`
         ];
         document.getElementById("uDestinyList").innerHTML = dPoints.map(p => `<li>${p}</li>`).join('');
 
-        // 2. Grid Gaps
+        // 2. Grid Gaps (Life Hurdles)
         let missing = [];
         for(let i=1; i<=9; i++) if(!gridStr.includes(i)) missing.push(i);
         const gPoints = currentLang === 'en' ? [
-            `Missing Numbers detected: ${missing.join(', ') || 'None'}.`,
-            `${!gridStr.includes('5') ? 'Lack of stability in financial growth.' : 'Core stability is present.'}`,
-            `${!gridStr.includes('6') ? 'Family and luxury support needs activation.' : 'Strong family/luxury connections.'}`,
-            `${!gridStr.includes('2') ? 'Emotional decision making is a weakness.' : 'Good emotional intelligence.'}`,
-            `Missing vibrations cause ${missing.length > 3 ? 'Major' : 'Minor'} life hurdles.`
+            `Missing Numbers: ${missing.join(', ') || 'None'}.`,
+            `${!gridStr.includes('5') ? 'Lack of financial stability and focus.' : 'Core stability is present.'}`,
+            `${!gridStr.includes('6') ? 'Family and luxury support needs vibration fix.' : 'Strong family connections.'}`,
+            `${!gridStr.includes('2') ? 'Impulsive decisions due to emotional imbalance.' : 'Good emotional intelligence.'}`,
+            `Vibration Cause: ${missing.length > 3 ? 'Major life hurdles & delays in growth.' : 'Minor life obstacles.'}`
         ] : [
             `ଅନୁପସ୍ଥିତ ସଂଖ୍ୟା: ${missing.join(', ') || 'ନାହିଁ'} |`,
-            `${!gridStr.includes('5') ? 'ଆର୍ଥିକ ସ୍ଥିରତାର ଅଭାବ ରହିଛି |' : 'ଆର୍ଥିକ ସ୍ଥିରତା ଭଲ ଅଛି |'}`,
+            `${!gridStr.includes('5') ? 'ଆର୍ଥିକ ଅସ୍ଥିରତା ଏବଂ ଏକାଗ୍ରତାର ଅଭାବ |' : 'ଆର୍ଥିକ ସ୍ଥିରତା ଭଲ ଅଛି |'}`,
             `${!gridStr.includes('6') ? 'ପରିବାର ଏବଂ ସୁଖ ସୁବିଧାରେ ବାଧା ଅଛି |' : 'ପରିବାରର ସହଯୋଗ ମିଳିବ |'}`,
             `${!gridStr.includes('2') ? 'ଭାବପ୍ରବଣ ହୋଇ ଭୁଲ ନିଷ୍ପତ୍ତି ନେଇପାରନ୍ତି |' : 'ଭାବନାତ୍ମକ ଶକ୍ତି ବହୁତ ଭଲ |'}`,
-            `${missing.length > 3 ? 'ଅଧିକ' : 'ସାମାନ୍ୟ'} ସମସ୍ୟାର ସମ୍ମୁଖୀନ ହୋଇପାରନ୍ତି |`
+            `ପ୍ରଭାବ: ${missing.length > 3 ? 'ଜୀବନରେ ବଡ଼ ବାଧା ଏବଂ ସଫଳତାରେ ବିଳମ୍ବ |' : 'ସାମାନ୍ୟ ସମସ୍ୟା |'}`
         ];
         document.getElementById("uGridList").innerHTML = gPoints.map(p => `<li>${p}</li>`).join('');
 
@@ -388,13 +347,13 @@
             `Name Number ${n} is ${isEnemy ? 'Conflicting' : 'Syncing'} with Mulank.`,
             `${isEnemy ? 'Hidden enemies or delays' : 'Natural luck'} in career.`,
             `Social vibration: People see you as a ${n} personality.`,
-            `Your signature should be modified for ${isEnemy ? 'Correction' : 'Power'}.`,
-            `Current Name Vibration level: ${isEnemy ? 'Low (Needs Fix)' : 'High (Good)'}.`
+            `Signature modification is ${isEnemy ? 'required' : 'optional'}.`,
+            `Current Name Vibration level: ${isEnemy ? 'Low (Needs Fix)' : 'High'}.`
         ] : [
             `ନାମ ସଂଖ୍ୟା ${n} ମୂଳାଙ୍କ ସହିତ ${isEnemy ? 'ଶତ୍ରୁତା' : 'ମିତ୍ରତା'} ରଖୁଛି |`,
             `${isEnemy ? 'କ୍ୟାରିୟରରେ ବାଧା' : 'ଭାଗ୍ୟର ସହଯୋଗ'} ମିଳିବ |`,
             `ସମାଜରେ ଆପଣଙ୍କ ପରିଚୟ ${n} ପରି ହେବ |`,
-            `ଆପଣଙ୍କ ଦସ୍ତଖତ (Signature) ${isEnemy ? 'ସଂଶୋଧନ' : 'ଶକ୍ତି'} ଆବଶ୍ୟକ କରେ |`,
+            `ଦସ୍ତଖତ (Signature) ସଂଶୋଧନ ${isEnemy ? 'ଆବଶ୍ୟକ' : 'ଦରକାର ନାହିଁ'} |`,
             `ନାମର ପ୍ରଭାବ: ${isEnemy ? 'କମ୍ (ସଂଶୋଧନ ଦରକାର)' : 'ଉତ୍ତମ'} |`
         ];
         document.getElementById("uVibeList").innerHTML = vPoints.map(p => `<li>${p}</li>`).join('');
@@ -403,19 +362,19 @@
         const tPoints = currentLang === 'en' ? [
             `Current Personal Year: ${py}.`,
             `Impact: ${py === 1 ? 'New Beginnings' : py === 8 ? 'Hard Work' : 'Mixed Results'}.`,
-            `Today's Power Hour: Morning (due to ${planets[pd]}).`,
-            `Next 3 months focus: ${py < 5 ? 'Career' : 'Self-Care'}.`,
-            `Specific Lucky Window: ${luckData.dir} facing work.`
+            `Today's Power Hour: Morning (Planet ${planets[pd]}).`,
+            `Next 3 months focus: ${py < 5 ? 'Career Growth' : 'Self-Improvement'}.`,
+            `Lucky Direction: ${luckData.dir}.`
         ] : [
             `ବର୍ତ୍ତମାନର ବ୍ୟକ୍ତିଗତ ବର୍ଷ: ${py} |`,
             `ପ୍ରଭାବ: ${py === 1 ? 'ନୂତନ ଆରମ୍ଭ' : py === 8 ? 'କଠିନ ପରିଶ୍ରମ' : 'ମିଶ୍ରିତ ଫଳ'} |`,
             `ଆଜିର ଶୁଭ ସମୟ: ସକାଳ (ଗ୍ରହ: ${planets[pd]}) |`,
-            `ଆସନ୍ତା ୩ ମାସର ଲକ୍ଷ୍ୟ: ${py < 5 ? 'କ୍ୟାରିୟର' : 'ନିଜର ଯତ୍ନ'} |`,
-            `ଶୁଭ ଦିଗ: ${luckData.dirOr} ଅଟେ |`
+            `ଆସନ୍ତା ୩ ମାସର ଲକ୍ଷ୍ୟ: ${py < 5 ? 'କ୍ୟାରିୟର' : 'ନିଜର ଉନ୍ନତି'} |`,
+            `ଶୁଭ ଦିଗ: ${luckData.dirOr} |`
         ];
         document.getElementById("uTimeList").innerHTML = tPoints.map(p => `<li>${p}</li>`).join('');
 
-        // ... rest of the existing calculateMagic() logic (Health, Status, Remedies, etc.) ...
+        // --- REST OF THE CODE (UI UPDATES) ---
         const challengeBox = document.getElementById("challengeBox");
         const challengeContent = document.getElementById("challengeContent");
         let isTodayEnemy = enemyLogic[m].enemy.includes(pd);
