@@ -31,7 +31,6 @@
         .cell-label { font-size: 8px; text-transform: uppercase; margin-top: 2px; }
         .cell-planet { font-size: 7px; color: #aaa; font-weight: normal; }
 
-        /* New Plane Analysis Styles */
         .analysis-card { text-align: left; padding: 12px; border-radius: 12px; margin-bottom: 8px; border-left: 4px solid var(--primary); font-size: 13px; background: rgba(255,255,255,0.05); }
         .active-plane { border-left-color: var(--success); background: rgba(74, 222, 128, 0.1); }
         .missing-plane { border-left-color: var(--danger); background: rgba(255, 77, 77, 0.05); }
@@ -97,6 +96,31 @@
         </div>
 
         <div class="box">
+            <h2 id="tKnowledge" style="color:var(--primary)">Loshu Plane Knowledge Table</h2>
+            <table>
+                <tr><th>Plane</th><th>Nums</th><th>Benefit</th></tr>
+                <tr><td>Mental</td><td>4-9-2</td><td>Sharp Intellect & Logic</td></tr>
+                <tr><td>Emotional</td><td>3-5-7</td><td>Intuition & Balanced Heart</td></tr>
+                <tr><td>Practical</td><td>8-1-6</td><td>Hard Work & Stability</td></tr>
+                <tr><td>Thought</td><td>4-3-8</td><td>Strategy & Vision</td></tr>
+                <tr><td>Will</td><td>9-5-1</td><td>Determination & Power</td></tr>
+                <tr><td>Action</td><td>2-7-6</td><td>Quick Execution</td></tr>
+                <tr><td>Golden</td><td>4-5-6</td><td>Huge Wealth & Fortune</td></tr>
+                <tr><td>Silver</td><td>2-5-8</td><td>Property & Assets</td></tr>
+            </table>
+
+            <h2 id="tTattvaTable" style="color:var(--success); margin-top: 25px;">Pancha Tattva Master Table</h2>
+            <table>
+                <tr><th>Element</th><th>Nums</th><th>Direction</th><th>Attributes</th></tr>
+                <tr><td style="color:#4ade80">Wood (କାଠ)</td><td>3, 4</td><td>East, NE</td><td>Growth, Health, Wealth</td></tr>
+                <tr><td style="color:#ff4d4d">Fire (ନିଆଁ)</td><td>9</td><td>South</td><td>Fame, Energy, Power</td></tr>
+                <tr><td style="color:#ffd700">Earth (ପୃଥିବୀ)</td><td>2, 5, 8</td><td>Center, SW</td><td>Stability, Property</td></tr>
+                <tr><td style="color:#ddd">Metal (ଧାତୁ)</td><td>6, 7</td><td>West, NW</td><td>Support, Family, Luxury</td></tr>
+                <tr><td style="color:#00f2ff">Water (ପାଣି)</td><td>1</td><td>North</td><td>Career, Opportunity</td></tr>
+            </table>
+        </div>
+
+        <div class="box">
             <h2 id="tGrid">Your Magic Grid</h2>
             <div class="loshu-grid" id="gridUI">
                 <div class="grid-cell" id="c4"><span class="cell-num">4</span><span class="cell-planet">Rahu</span><span class="cell-label">Wealth</span></div>
@@ -117,7 +141,7 @@
         </div>
 
         <div class="box">
-            <h2 id="tElement">Pancha Tattva</h2>
+            <h2 id="tElement">Pancha Tattva Status</h2>
             <div class="element-grid" id="elGrid">
                 <div id="elWood" class="element-cell">WOOD<br>(3,4)</div>
                 <div id="elFire" class="element-cell">FIRE<br>(9)</div>
@@ -125,21 +149,6 @@
                 <div id="elMetal" class="element-cell">METAL<br>(6,7)</div>
                 <div id="elWater" class="element-cell">WATER<br>(1)</div>
             </div>
-        </div>
-
-        <div class="box">
-            <h2 id="tKnowledge" style="color:var(--primary)">Loshu Plane Knowledge Table</h2>
-            <table>
-                <tr><th>Plane</th><th>Nums</th><th>Benefit</th></tr>
-                <tr><td>Mental</td><td>4-9-2</td><td>Sharp Intellect & Logic</td></tr>
-                <tr><td>Emotional</td><td>3-5-7</td><td>Intuition & Balanced Heart</td></tr>
-                <tr><td>Practical</td><td>8-1-6</td><td>Hard Work & Stability</td></tr>
-                <tr><td>Thought</td><td>4-3-8</td><td>Strategy & Vision</td></tr>
-                <tr><td>Will</td><td>9-5-1</td><td>Determination & Power</td></tr>
-                <tr><td>Action</td><td>2-7-6</td><td>Quick Execution</td></tr>
-                <tr><td>Golden</td><td>4-5-6</td><td>Huge Wealth & Fortune</td></tr>
-                <tr><td>Silver</td><td>2-5-8</td><td>Property & Assets</td></tr>
-            </table>
         </div>
 
         <div class="box" style="border: 2px solid var(--primary); background: rgba(0, 242, 255, 0.05);">
@@ -157,11 +166,11 @@
 </div>
 
 <script>
+    // Script remains the same as provided in your base code
     let currentLang = 'en';
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     const planets = { 1:"Sun", 2:"Moon", 3:"Jupiter", 4:"Rahu", 5:"Mercury", 6:"Venus", 7:"Ketu", 8:"Saturn", 9:"Mars" };
     
-    // Planes Data for Logic
     const planeDef = [
         { name: "Mental Plane", nums: [4,9,2], benefit: "Sharp Mind & Logic", activation: "Keep North-East area clean." },
         { name: "Emotional Plane", nums: [3,5,7], benefit: "Intuition & Feelings", activation: "Wear a silver ring or coin." },
@@ -175,40 +184,27 @@
 
     const odiaData = {
         hTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", btnGen: "ରିପୋର୍ଟ ପ୍ରସ୍ତୁତ କରନ୍ତୁ", tInsights: "ବ୍ୟକ୍ତିଗତ ବିବରଣୀ", tFriends: "ବନ୍ଧୁ ସଂଖ୍ୟା:", tEnemies: "ଶତ୍ରୁ ସଂଖ୍ୟା:", 
-        tGrid: "ଆପଣଙ୍କ ମ୍ୟାଜିକ ଗ୍ରୀଡ୍", tElement: "ପଞ୍ଚ ତତ୍ତ୍ୱ", tMorning: "⚡ ସକାଳର କର୍ତ୍ତବ୍ୟ", tRemedies: "🔮 ବୈଦିକ ପ୍ରତିକାର", btnBook: "ଅଧିକ ପରାମର୍ଶ ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ",
-        tAlignment: "ସଂଖ୍ୟା ଆଲାଇନ୍ମେଣ୍ଟ ଡ୍ୟାସବୋର୍ଡ", lblMulank: "ମୂଳାଙ୍କ", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ", lblNameNo: "ନାମ ସଂଖ୍ୟା"
+        tGrid: "ଆପଣଙ୍କ ମ୍ୟାଜିକ ଗ୍ରୀଡ୍", tElement: "ପଞ୍ଚ ତତ୍ତ୍ୱ ସ୍ଥିତି", tMorning: "⚡ ସକାଳର କର୍ତ୍ତବ୍ୟ", tRemedies: "🔮 ବୈଦିକ ପ୍ରତିକାର", btnBook: "ଅଧିକ ପରାମର୍ଶ ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ",
+        tAlignment: "ସଂଖ୍ୟା ଆଲାଇନ୍ମେଣ୍ଟ ଡ୍ୟାସବୋର୍ଡ", lblMulank: "ମୂଳାଙ୍କ", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ", lblNameNo: "ନାମ ସଂଖ୍ୟା", tKnowledge: "ଲୋଶୁ ପ୍ଲେନ୍ ଜ୍ଞାନ ତାଲିକା", tTattvaTable: "ପଞ୍ଚ ତତ୍ତ୍ୱ ମାଷ୍ଟର ଟେବୁଲ୍"
     };
 
     const engData = {
         hTitle: "ASTRO ABHINASH 🔯", btnGen: "Generate Report", tInsights: "Personalized Insights", tFriends: "Friends:", tEnemies: "Enemies:", 
-        tGrid: "Your Magic Grid", tElement: "Pancha Tattva", tMorning: "⚡ Morning Activation", tRemedies: "🔮 Vedic Solutions", btnBook: "Book Deep Consultation",
-        tAlignment: "Number Alignment Dashboard", lblMulank: "Mulank", lblBhagyank: "Bhagyank", lblNameNo: "Name No."
+        tGrid: "Your Magic Grid", tElement: "Pancha Tattva Status", tMorning: "⚡ Morning Activation", tRemedies: "🔮 Vedic Solutions", btnBook: "Book Deep Consultation",
+        tAlignment: "Number Alignment Dashboard", lblMulank: "Mulank", lblBhagyank: "Bhagyank", lblNameNo: "Name No.", tKnowledge: "Loshu Plane Knowledge Table", tTattvaTable: "Pancha Tattva Master Table"
     };
 
-    const adviceM = {
-        1: "Focus on leadership but avoid ego.", 2: "Trust your intuition but stay emotionally strong.", 3: "Expand your knowledge and share with others.", 4: "Stay disciplined to achieve sudden wealth.", 5: "Communication is your key to business success.", 6: "Luxury is coming; focus on family and art.", 7: "Research and spirituality will guide you.", 8: "Hard work will bring permanent success.", 9: "Use your energy for humanitarian causes."
-    };
-
-    const adviceB = {
-        1: "Your destiny is to rule and lead the way.", 2: "Peace and cooperation are your life's path.", 3: "You are destined to be a teacher or advisor.", 4: "Your life involves struggle followed by massive gains.", 5: "Adaptability and travel will bring fortune.", 6: "You are born for a comfortable and loving life.", 7: "Mysteries and deep thinking define your journey.", 8: "Material success comes through patience and justice.", 9: "You are a warrior for a better world."
-    };
+    const adviceM = { 1: "Focus on leadership.", 2: "Trust intuition.", 3: "Expand knowledge.", 4: "Stay disciplined.", 5: "Communication is key.", 6: "Family & Art focus.", 7: "Spirituality.", 8: "Hard work.", 9: "Humanitarian." };
+    const adviceB = { 1: "Destiny to lead.", 2: "Peace & cooperation.", 3: "Advisory role.", 4: "Struggle then gains.", 5: "Travel & luck.", 6: "Comfortable life.", 7: "Mysteries journey.", 8: "Material success.", 9: "Warrior for world." };
 
     const remediesOdia = {
-        1: "ସୂର୍ଯ୍ୟ ପ୍ରତିକାର: ତମ୍ବା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ ଏବଂ ସୂର୍ଯ୍ୟଙ୍କୁ ଜଳ ଅର୍ପଣ କରନ୍ତୁ |",
-        2: "ଚନ୍ଦ୍ର ପ୍ରତିକାର: ପକେଟରେ ଏକ ରୂପା ମୁଦ୍ରା ରଖନ୍ତୁ ଏବଂ ମାଆଙ୍କୁ ସମ୍ମାନ କରନ୍ତୁ |",
-        3: "ବୃହସ୍ପତି ପ୍ରତିକାର: କେଶର ତିଳକ ଲଗାନ୍ତୁ ଏବଂ ଗୁରୁଜନଙ୍କୁ ସମ୍ମାନ କରନ୍ତୁ |",
-        4: "ରାହୁ ପ୍ରତିକାର: ପକ୍ଷୀଙ୍କୁ ଦାନା ଦିଅନ୍ତୁ ଏବଂ ଘର ସଫା ରଖନ୍ତୁ |",
-        5: "ବୁଧ ପ୍ରତିକାର: ବୁଧବାର ଦିନ ଗାଈକୁ ଘାସ ଖାଇବାକୁ ଦିଅନ୍ତୁ |",
-        6: "ଶୁକ୍ର ପ୍ରତିକାର: ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ ଏବଂ ଧଳା ପୋଷାକ ପିନ୍ଧନ୍ତୁ |",
-        7: "କେତୁ ପ୍ରତିକାର: କୁକୁରଙ୍କୁ ଖାଇବାକୁ ଦିଅନ୍ତୁ |",
-        8: "ଶନି ପ୍ରତିକାର: ଶନିବାର ସନ୍ଧ୍ୟାରେ ଓସ୍ତ ଗଛ ମୂଳେ ଦୀପ ଜାଳନ୍ତୁ |",
-        9: "ମଙ୍ଗଳ ପ୍ରତିକାର: ହନୁମାନ ଚାଳିଶା ପାଠ କରନ୍ତୁ |",
-        Wood: "🌳 ଉତ୍ତର-ପୂର୍ବ ଦିଗରେ ଏକ ଛୋଟ ସବୁଜ ଗଛ ରଖନ୍ତୁ |", Fire: "🔥 ଦକ୍ଷିଣ ଦିଗରେ ଏକ ନାଲି ଦୀପ ଜାଳନ୍ତୁ |", Earth: "⛰️ ହଳଦିଆ ରଙ୍ଗର ରୁମାଲ ବ୍ୟବହାର କରନ୍ତୁ |", Metal: "⚔️ ରୂପା ଚୁଡ଼ି କିମ୍ବା ଷ୍ଟିଲ୍ ଘଣ୍ଟା ପିନ୍ଧନ୍ତୁ |", Water: "💧 ଉତ୍ତର ଦିଗରେ ପରିଷ୍କାର ପାଣି ଏକ ପାତ୍ରରେ ରଖନ୍ତୁ |"
+        1: "ସୂର୍ଯ୍ୟ: ତମ୍ବା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ |", 2: "ଚନ୍ଦ୍ର: ରୂପା ମୁଦ୍ରା ପାଖରେ ରଖନ୍ତୁ |", 3: "ବୃହସ୍ପତି: କେଶର ତିଳକ ଲଗାନ୍ତୁ |", 4: "ରାହୁ: ପକ୍ଷୀଙ୍କୁ ଦାନା ଦିଅନ୍ତୁ |", 5: "ବୁଧ: ଗାଈକୁ ଘାସ ଦିଅନ୍ତୁ |", 6: "ଶୁକ୍ର: ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ |", 7: "କେତୁ: କୁକୁରକୁ ଖାଦ୍ୟ ଦିଅନ୍ତୁ |", 8: "ଶନି: ସନ୍ଧ୍ୟାରେ ଦୀପ ଜାଳନ୍ତୁ |", 9: "ମଙ୍ଗଳ: ହନୁମାନ ଚାଳିଶା ପାଠ କରନ୍ତୁ |",
+        Wood: "🌳 NE ରେ ଗୋଟିଏ ଗଛ ରଖନ୍ତୁ |", Fire: "🔥 ଦକ୍ଷିଣରେ ନାଲି ଦୀପ ଜାଳନ୍ତୁ |", Earth: "⛰️ ହଳଦିଆ ରୁମାଲ ବ୍ୟବହାର କରନ୍ତୁ |", Metal: "⚔️ ରୂପା ଚୁଡ଼ି ପିନ୍ଧନ୍ତୁ |", Water: "💧 ଉତ୍ତରରେ ପାଣି ରଖନ୍ତୁ |"
     };
 
     const remediesEng = {
-        1: "Sun: Drink water in copper and offer Arghya to Sun.", 2: "Moon: Keep a silver coin and respect your mother.", 3: "Jupiter: Apply saffron tilak and respect elders.", 4: "Rahu: Feed birds and keep home clutter-free.", 5: "Mercury: Feed green grass to cows on Wednesdays.", 6: "Venus: Use perfumes and wear clean clothes.", 7: "Ketu: Feed multi-colored dogs or birds.", 8: "Saturn: Light mustard oil lamp under Peepal tree on Saturdays.", 9: "Mars: Recite Hanuman Chalisa daily.",
-        Wood: "🌳 Place a small green plant in North-East.", Fire: "🔥 Light a red diya in South direction.", Earth: "⛰️ Use a yellow handkerchief.", Metal: "⚔️ Wear a metal watch or silver bangle.", Water: "💧 Keep fresh water in a bowl in North."
+        1: "Sun: Drink water in copper.", 2: "Moon: Keep silver coin.", 3: "Jupiter: Apply saffron tilak.", 4: "Rahu: Feed birds.", 5: "Mercury: Feed cows green grass.", 6: "Venus: Use perfumes.", 7: "Ketu: Feed dogs.", 8: "Saturn: Light lamp under Peepal tree.", 9: "Mars: Recite Hanuman Chalisa.",
+        Wood: "🌳 Place a small green plant in NE.", Fire: "🔥 Light a red diya in South.", Earth: "⛰️ Use a yellow handkerchief.", Metal: "⚔️ Wear a metal watch or bangle.", Water: "💧 Keep fresh water in North."
     };
 
     function toggleLanguage() {
@@ -251,24 +247,17 @@
 
         let isAligned = rel[m].f.includes(n) || m === n;
         let statusBox = document.getElementById("statusBox");
-        if(isAligned) {
-            statusBox.innerText = "✅ Name is Aligned with Mulank!";
-            statusBox.style.background = "rgba(74, 222, 128, 0.2)";
-            statusBox.style.color = "var(--success)";
-        } else {
-            statusBox.innerText = "⚠️ Name Alignment Needed with Mulank!";
-            statusBox.style.background = "rgba(255, 77, 77, 0.2)";
-            statusBox.style.color = "var(--danger)";
-        }
+        statusBox.innerText = isAligned ? "✅ Name is Aligned!" : "⚠️ Name Alignment Needed!";
+        statusBox.style.background = isAligned ? "rgba(74, 222, 128, 0.2)" : "rgba(255, 77, 77, 0.2)";
+        statusBox.style.color = isAligned ? "var(--success)" : "var(--danger)";
 
         let gridStr = day.toString() + month.toString() + year.toString() + m.toString() + b.toString();
         let rListHtml = "";
         let remData = currentLang === 'en' ? remediesEng : remediesOdia;
 
-        rListHtml += `<div class="trait-item" style="border-left-color:var(--gold)"><b>Mulank ${m} Advice:</b> ${adviceM[m]}</div>`;
-        rListHtml += `<div class="trait-item" style="border-left-color:var(--gold)"><b>Bhagyank ${b} Advice:</b> ${adviceB[b]}</div>`;
+        rListHtml += `<div class="trait-item" style="border-left-color:var(--gold)"><b>Mulank Advice:</b> ${adviceM[m]}</div>`;
+        rListHtml += `<div class="trait-item" style="border-left-color:var(--gold)"><b>Bhagyank Advice:</b> ${adviceB[b]}</div>`;
 
-        // Elements
         const elMap = { Wood:[3,4], Fire:[9], Earth:[2,5,8], Metal:[6,7], Water:[1] };
         for (let el in elMap) {
             let hasEl = elMap[el].some(num => gridStr.includes(num.toString()));
@@ -276,35 +265,22 @@
             if (!hasEl) rListHtml += `<div class="trait-item rem-item">${remData[el]}</div>`;
         }
 
-        // Update Grid UI
         for(let i=1; i<=9; i++) {
             let cell = document.getElementById("c"+i);
-            if(gridStr.includes(i)) { 
-                cell.classList.add("filled"); 
-            } else { 
-                cell.classList.remove("filled"); 
-                rListHtml += `<div class="trait-item"><b>${planets[i]}:</b> ${remData[i]}</div>`; 
-            }
+            if(gridStr.includes(i)) { cell.classList.add("filled"); } 
+            else { cell.classList.remove("filled"); rListHtml += `<div class="trait-item"><b>${planets[i]}:</b> ${remData[i]}</div>`; }
         }
 
-        // --- NEW PLANES LOGIC MERGED HERE ---
         let analysisHtml = "";
         planeDef.forEach(p => {
             let found = p.nums.filter(n => gridStr.includes(n.toString()));
-            let missing = p.nums.filter(n => !gridStr.includes(n.toString()));
-
             if (found.length === 3) {
-                analysisHtml += `<div class="analysis-card active-plane"><b>✅ ACTIVE: ${p.name}</b><br>Benefit: ${p.benefit}</div>`;
+                analysisHtml += `<div class="analysis-card active-plane"><b>✅ ACTIVE: ${p.name}</b><br>${p.benefit}</div>`;
             } else if (found.length > 0) {
-                analysisHtml += `<div class="analysis-card missing-plane"><b>⚠️ INCOMPLETE: ${p.name}</b><br>
-                <i>Missing: ${missing.join(", ")}</i><br>
-                <b>How to Activate:</b> ${p.activation}<br>
-                <b>Benefit after Activation:</b> ${p.benefit}</div>`;
+                analysisHtml += `<div class="analysis-card missing-plane"><b>⚠️ INCOMPLETE: ${p.name}</b><br>Activation: ${p.activation}</div>`;
             }
         });
         document.getElementById("planesAnalysis").innerHTML = analysisHtml;
-        // --- END OF PLANES LOGIC ---
-
         document.getElementById("remedyList").innerHTML = rListHtml;
         document.getElementById("morningRitual").innerHTML = `<b>Today's Planet: ${planets[pd]}</b><br>${remData[pd]}`;
     }
