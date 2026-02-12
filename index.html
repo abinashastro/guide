@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astro Abhinash | Numerology Expert</title>
     
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
@@ -12,9 +13,14 @@
         :root { --primary: #00f2ff; --gold: #ffd700; --danger: #ff4d4d; --success: #4ade80; --card-bg: rgba(255, 255, 255, 0.08); }
         body { margin: 0; font-family: 'Poppins', sans-serif; background: #020617; color: white; text-align: center; padding-bottom: 50px; }
         header { background: rgba(0, 0, 0, 0.9); padding: 15px; border-bottom: 2px solid var(--primary); font-weight: 700; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-        .container { max-width: 600px; margin: auto; padding: 15px; }
+        
+        /* Box and Container Adjustments */
+        .container-custom { max-width: 600px; margin: auto; padding: 15px; }
         .box { background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        input, select { padding: 12px; width: 85%; border-radius: 10px; border: none; margin-bottom: 10px; font-weight: bold; outline: none; background: #1e293b; color: white; }
+        
+        /* Input Overrides for Bootstrap Compatibility */
+        input, select { padding: 12px; width: 100%; border-radius: 10px; border: none; margin-bottom: 10px; font-weight: bold; outline: none; background: #1e293b; color: white; }
+        .form-control:focus, .form-select:focus { background: #1e293b; color: white; border-color: var(--primary); box-shadow: 0 0 0 0.25rem rgba(0, 242, 255, 0.25); }
         
         .toggle-btn { background: var(--primary); color: #000; border: none; padding: 5px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 12px; margin-top: 5px; }
         .calc-btn { padding: 15px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, var(--primary), #0066ff); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 10px; }
@@ -59,25 +65,35 @@
 </head>
 <body>
 
-<header>
-    <span id="hTitle"><i class="fa-solid fa-om"></i> ASTRO ABHINASH </span><br>
+<header class="container-fluid">
+    <span id="hTitle" class="h4 d-block"><i class="fa-solid fa-om"></i> ASTRO ABHINASH </span>
     <button class="toggle-btn" onclick="toggleLanguage()"><i class="fa-solid fa-language"></i> Odia / English</button>
 </header>
 
-<div class="container">
+<div class="container container-custom mt-4">
     <div class="box">
-        <input type="text" id="userName" placeholder="Full Name">
-        <input type="date" id="dob">
-        <select id="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select><br>
-        <button class="calc-btn" id="btnGen" onclick="calculateMagic()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Report</button>
+        <div class="row g-2">
+            <div class="col-12">
+                <input type="text" id="userName" class="form-control" placeholder="Full Name">
+            </div>
+            <div class="col-6">
+                <input type="date" id="dob" class="form-control">
+            </div>
+            <div class="col-6">
+                <select id="gender" class="form-select">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <button class="calc-btn mt-3" id="btnGen" onclick="calculateMagic()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Report</button>
+            </div>
+        </div>
     </div>
 
     <div id="personalContent">
         <div class="box">
-            <h2 id="tAlignment" style="color:var(--primary); font-size: 18px; margin-bottom: 15px;"><i class="fa-solid fa-chart-line"></i> Number Alignment Dashboard</h2>
+            <h2 id="tAlignment" class="h6 mb-3" style="color:var(--primary);"><i class="fa-solid fa-chart-line"></i> Number Alignment Dashboard</h2>
             <div class="alignment-grid">
                 <div class="align-card"><span class="align-label" id="lblMulank">Mulank</span><span class="align-val" id="valMulank">0</span></div>
                 <div class="align-card"><span class="align-label" id="lblBhagyank">Bhagyank</span><span class="align-val" id="valBhagyank">0</span></div>
@@ -87,71 +103,87 @@
         </div>
 
         <div class="box" id="challengeBox" style="border: 2px solid var(--danger); background: rgba(255, 77, 77, 0.05);">
-            <h2 id="tChallengeTitle" style="color:var(--danger)"><i class="fa-solid fa-triangle-exclamation"></i> Today's Challenge Radar</h2>
+            <h2 id="tChallengeTitle" class="h6" style="color:var(--danger)"><i class="fa-solid fa-triangle-exclamation"></i> Today's Challenge Radar</h2>
             <div id="challengeContent" style="font-size: 13px; text-align: left; line-height: 1.6;"></div>
         </div>
 
         <div class="box" id="healthBox" style="border: 2px solid var(--primary); background: rgba(0, 242, 255, 0.05);">
-            <h2 id="tHealthTitle" style="color:var(--primary)"><i class="fa-solid fa-heart-pulse"></i> Health Vitality Monitor</h2>
+            <h2 id="tHealthTitle" class="h6" style="color:var(--primary)"><i class="fa-solid fa-heart-pulse"></i> Health Vitality Monitor</h2>
             <div id="healthContent" style="font-size: 13px; text-align: left; line-height: 1.6;"></div>
         </div>
 
         <div class="box" id="dosDontsBox" style="border: 2px solid var(--gold); background: rgba(255, 215, 0, 0.05);">
-            <h2 id="tDosTitle" style="color:var(--gold)"><i class="fa-solid fa-scale-balanced"></i> Daily Do's & Don'ts</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; font-size: 12px;">
-                <div style="background: rgba(74, 222, 128, 0.1); padding: 12px; border-radius: 12px; border-top: 3px solid var(--success);">
-                    <b style="color:var(--success)" id="lblDo"><i class="fa-solid fa-circle-check"></i> DO'S</b>
-                    <div id="valDos" style="margin-top: 5px; line-height: 1.4;"></div>
+            <h2 id="tDosTitle" class="h6 mb-3" style="color:var(--gold)"><i class="fa-solid fa-scale-balanced"></i> Daily Do's & Don'ts</h2>
+            <div class="row g-2 text-start" style="font-size: 12px;">
+                <div class="col-6">
+                    <div class="h-100" style="background: rgba(74, 222, 128, 0.1); padding: 12px; border-radius: 12px; border-top: 3px solid var(--success);">
+                        <b style="color:var(--success)" id="lblDo"><i class="fa-solid fa-circle-check"></i> DO'S</b>
+                        <div id="valDos" style="margin-top: 5px; line-height: 1.4;"></div>
+                    </div>
                 </div>
-                <div style="background: rgba(255, 77, 77, 0.1); padding: 12px; border-radius: 12px; border-top: 3px solid var(--danger);">
-                    <b style="color:var(--danger)" id="lblDont"><i class="fa-solid fa-circle-xmark"></i> DON'TS</b>
-                    <div id="valDonts" style="margin-top: 5px; line-height: 1.4;"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="box">
-            <h2 id="tInsights" style="color:var(--primary)"><i class="fa-solid fa-lightbulb"></i> Personalized Insights</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px; text-align: left;">
-                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px;">
-                    <b id="tFriends" style="color:var(--gold)">Friends:</b> <span id="valFriends"></span><br>
-                    <b id="tEnemies" style="color:var(--danger)">Enemies:</b> <span id="valEnemies"></span>
-                </div>
-                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px;">
-                    <b>Today:</b> <span id="valToday" style="color:var(--primary); font-weight:bold;"></span><br>
-                    <b>Month:</b> <span id="valMonth" style="color:var(--primary); font-weight:bold;"></span><br>
-                    <b>Year:</b> <span id="valYear" style="color:var(--primary); font-weight:bold;"></span>
+                <div class="col-6">
+                    <div class="h-100" style="background: rgba(255, 77, 77, 0.1); padding: 12px; border-radius: 12px; border-top: 3px solid var(--danger);">
+                        <b style="color:var(--danger)" id="lblDont"><i class="fa-solid fa-circle-xmark"></i> DON'TS</b>
+                        <div id="valDonts" style="margin-top: 5px; line-height: 1.4;"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="box">
-            <h2 id="tKnowledge" style="color:var(--primary)"><i class="fa-solid fa-table"></i> Loshu Plane Knowledge Table</h2>
-            <table>
-                <tr><th>Plane</th><th>Nums</th><th>Benefit</th></tr>
-                <tr><td>Mental</td><td>4-9-2</td><td>Sharp Intellect & Logic</td></tr>
-                <tr><td>Emotional</td><td>3-5-7</td><td>Intuition & Balanced Heart</td></tr>
-                <tr><td>Practical</td><td>8-1-6</td><td>Hard Work & Stability</td></tr>
-                <tr><td>Thought</td><td>4-3-8</td><td>Strategy & Vision</td></tr>
-                <tr><td>Will</td><td>9-5-1</td><td>Determination & Power</td></tr>
-                <tr><td>Action</td><td>2-7-6</td><td>Quick Execution</td></tr>
-                <tr><td>Golden</td><td>4-5-6</td><td>Huge Wealth & Fortune</td></tr>
-                <tr><td>Silver</td><td>2-5-8</td><td>Property & Assets</td></tr>
-            </table>
-
-            <h2 id="tTattvaTable" style="color:var(--success); margin-top: 25px;"><i class="fa-solid fa-leaf"></i> Pancha Tattva Master Table</h2>
-            <table>
-                <tr><th>Element</th><th>Nums</th><th>Direction</th><th>Attributes</th></tr>
-                <tr><td style="color:#4ade80">Wood (କାଠ)</td><td>3, 4</td><td>East, NE</td><td>Growth, Health, Wealth</td></tr>
-                <tr><td style="color:#ff4d4d">Fire (ନିଆଁ)</td><td>9</td><td>South</td><td>Fame, Energy, Power</td></tr>
-                <tr><td style="color:#ffd700">Earth (ପୃଥିବୀ)</td><td>2, 5, 8</td><td>Center, SW</td><td>Stability, Property</td></tr>
-                <tr><td style="color:#ddd">Metal (ଧାତୁ)</td><td>6, 7</td><td>West, NW</td><td>Support, Family, Luxury</td></tr>
-                <tr><td style="color:#00f2ff">Water (ପାଣି)</td><td>1</td><td>North</td><td>Career, Opportunity</td></tr>
-            </table>
+            <h2 id="tInsights" class="h6" style="color:var(--primary)"><i class="fa-solid fa-lightbulb"></i> Personalized Insights</h2>
+            <div class="row g-2 text-start" style="font-size: 13px;">
+                <div class="col-6">
+                    <div class="p-2 h-100" style="background: rgba(255,255,255,0.05); border-radius: 12px;">
+                        <b id="tFriends" style="color:var(--gold)">Friends:</b> <span id="valFriends"></span><br>
+                        <b id="tEnemies" style="color:var(--danger)">Enemies:</b> <span id="valEnemies"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="p-2 h-100" style="background: rgba(255,255,255,0.05); border-radius: 12px;">
+                        <b>Today:</b> <span id="valToday" style="color:var(--primary); font-weight:bold;"></span><br>
+                        <b>Month:</b> <span id="valMonth" style="color:var(--primary); font-weight:bold;"></span><br>
+                        <b>Year:</b> <span id="valYear" style="color:var(--primary); font-weight:bold;"></span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="box">
-            <h2 id="tGrid"><i class="fa-solid fa-border-all"></i> Your Magic Grid</h2>
+            <h2 id="tKnowledge" class="h6" style="color:var(--primary)"><i class="fa-solid fa-table"></i> Loshu Plane Knowledge Table</h2>
+            <div class="table-responsive">
+                <table class="table table-dark table-bordered">
+                    <thead><tr><th>Plane</th><th>Nums</th><th>Benefit</th></tr></thead>
+                    <tbody>
+                        <tr><td>Mental</td><td>4-9-2</td><td>Sharp Intellect & Logic</td></tr>
+                        <tr><td>Emotional</td><td>3-5-7</td><td>Intuition & Balanced Heart</td></tr>
+                        <tr><td>Practical</td><td>8-1-6</td><td>Hard Work & Stability</td></tr>
+                        <tr><td>Thought</td><td>4-3-8</td><td>Strategy & Vision</td></tr>
+                        <tr><td>Will</td><td>9-5-1</td><td>Determination & Power</td></tr>
+                        <tr><td>Action</td><td>2-7-6</td><td>Quick Execution</td></tr>
+                        <tr><td>Golden</td><td>4-5-6</td><td>Huge Wealth & Fortune</td></tr>
+                        <tr><td>Silver</td><td>2-5-8</td><td>Property & Assets</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 id="tTattvaTable" class="h6 mt-4" style="color:var(--success);"><i class="fa-solid fa-leaf"></i> Pancha Tattva Master Table</h2>
+            <div class="table-responsive">
+                <table class="table table-dark table-bordered">
+                    <thead><tr><th>Element</th><th>Nums</th><th>Direction</th><th>Attributes</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:#4ade80">Wood (କାଠ)</td><td>3, 4</td><td>East, NE</td><td>Growth, Health, Wealth</td></tr>
+                        <tr><td style="color:#ff4d4d">Fire (ନିଆଁ)</td><td>9</td><td>South</td><td>Fame, Energy, Power</td></tr>
+                        <tr><td style="color:#ffd700">Earth (ପୃଥିବୀ)</td><td>2, 5, 8</td><td>Center, SW</td><td>Stability, Property</td></tr>
+                        <tr><td style="color:#ddd">Metal (ଧାତୁ)</td><td>6, 7</td><td>West, NW</td><td>Support, Family, Luxury</td></tr>
+                        <tr><td style="color:#00f2ff">Water (ପାଣି)</td><td>1</td><td>North</td><td>Career, Opportunity</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="box">
+            <h2 id="tGrid" class="h6"><i class="fa-solid fa-border-all"></i> Your Magic Grid</h2>
             <div class="loshu-grid" id="gridUI">
                 <div class="grid-cell" id="c4"><span class="cell-num">4</span><span class="cell-planet">Rahu</span><span class="cell-label">Wealth</span></div>
                 <div class="grid-cell" id="c9"><span class="cell-num">9</span><span class="cell-planet">Mars</span><span class="cell-label">Fame</span></div>
@@ -166,12 +198,12 @@
         </div>
 
         <div class="box">
-            <h2 id="tPlanesTitle" style="color:var(--success)"><i class="fa-solid fa-bolt"></i> Planes & Activation Analysis</h2>
+            <h2 id="tPlanesTitle" class="h6" style="color:var(--success)"><i class="fa-solid fa-bolt"></i> Planes & Activation Analysis</h2>
             <div id="planesAnalysis"></div>
         </div>
 
         <div class="box">
-            <h2 id="tElement"><i class="fa-solid fa-dharmachakra"></i> Pancha Tattva Status</h2>
+            <h2 id="tElement" class="h6"><i class="fa-solid fa-dharmachakra"></i> Pancha Tattva Status</h2>
             <div class="element-grid" id="elGrid">
                 <div id="elWood" class="element-cell">WOOD<br>(3,4)</div>
                 <div id="elFire" class="element-cell">FIRE<br>(9)</div>
@@ -182,12 +214,12 @@
         </div>
 
         <div class="box" style="border: 2px solid var(--primary); background: rgba(0, 242, 255, 0.05);">
-            <h2 id="tMorning" style="color:var(--primary)"><i class="fa-solid fa-sun"></i> Morning Activation</h2>
+            <h2 id="tMorning" class="h6" style="color:var(--primary)"><i class="fa-solid fa-sun"></i> Morning Activation</h2>
             <div id="morningRitual" style="font-size: 14px; line-height: 1.6; font-style: italic;"></div>
         </div>
 
         <div class="box">
-            <h2 id="tRemedies" style="color:var(--gold)"><i class="fa-solid fa-crystal-ball"></i> Vedic Solutions</h2>
+            <h2 id="tRemedies" class="h6" style="color:var(--gold)"><i class="fa-solid fa-crystal-ball"></i> Vedic Solutions</h2>
             <div id="remedyList" class="trait-list"></div>
         </div>
 
@@ -198,7 +230,7 @@
 </div>
 
 <script>
-    // [Saara JavaScript Logic Same Hai - No changes in logic as requested]
+    // [JavaScript Logic Code remained untouched as requested]
     let currentLang = 'en';
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     const planets = { 1:"Sun", 2:"Moon", 3:"Jupiter", 4:"Rahu", 5:"Mercury", 6:"Venus", 7:"Ketu", 8:"Saturn", 9:"Mars" };
@@ -405,5 +437,7 @@
         document.getElementById("morningRitual").innerHTML = `<b>Today's Planet: ${planets[pd]}</b><br>${remData[pd]}`;
     }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bundle.min.js"></script>
 </body>
 </html>
