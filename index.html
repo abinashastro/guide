@@ -12,23 +12,31 @@
         .container { max-width: 600px; margin: auto; padding: 15px; }
         .box { background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
         input, select { padding: 12px; width: 85%; border-radius: 10px; border: none; margin-bottom: 10px; font-weight: bold; outline: none; }
-        .calc-btn { padding: 15px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, var(--primary), #0066ff); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .calc-btn:active { transform: scale(0.95); }
+        
+        .calc-btn { padding: 15px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, var(--primary), #0066ff); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
+        .contact-btn { padding: 10px 25px; border: 1px solid var(--primary); border-radius: 50px; background: transparent; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 12px; text-decoration: none; display: inline-block; }
         
         /* Grid Styling */
         .loshu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 240px; margin: 15px auto; }
-        .grid-cell { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; }
+        .grid-cell { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; }
         .filled { border-color: var(--gold); background: rgba(255,215,0,0.1); color: var(--gold); box-shadow: 0 0 10px rgba(255,215,0,0.2); }
         .cell-num { font-size: 1.4rem; }
         .cell-label { font-size: 8px; text-transform: uppercase; margin-top: 2px; }
+        .cell-planet { font-size: 7px; color: #aaa; font-weight: normal; }
+
+        /* Element Grid */
+        .element-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 15px; }
+        .element-cell { padding: 10px 5px; border-radius: 10px; font-size: 10px; border: 1px solid rgba(255,255,255,0.1); }
+        .el-present { background: rgba(74, 222, 128, 0.15); border-color: var(--success); color: var(--success); }
+        .el-absent { background: rgba(255, 77, 77, 0.1); border-color: var(--danger); color: #888; }
 
         /* Master Reference Grid Styling */
         .master-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 15px; }
-        .master-cell { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 10px; padding: 10px 5px; min-height: 80px; display: flex; flex-direction: column; justify-content: center; }
-        .master-num { color: var(--primary); font-size: 1.2rem; font-weight: 800; margin-bottom: 4px; }
+        .master-cell { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 10px; padding: 10px 5px; min-height: 90px; display: flex; flex-direction: column; justify-content: center; }
+        .master-num { color: var(--primary); font-size: 1.1rem; font-weight: 800; }
+        .master-p { font-size: 9px; color: var(--gold); margin-bottom: 4px; text-transform: uppercase; }
         .master-trait { font-size: 9px; line-height: 1.2; color: #ccc; font-weight: 500; }
 
-        /* Trait & List Styling */
         .trait-list { text-align: left; padding: 0; list-style: none; }
         .trait-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; margin-bottom: 8px; border-left: 4px solid var(--primary); font-size: 13px; }
         .miss-item { border-left-color: var(--danger); opacity: 0.8; }
@@ -43,7 +51,10 @@
 </head>
 <body>
 
-<header>ASTRO ABHINASH 🔯</header>
+<header>
+    ASTRO ABHINASH 🔯<br>
+    <a href="https://wa.me/YOURNUMBER" class="contact-btn">Book Consultation</a>
+</header>
 
 <div class="container">
     <div class="box">
@@ -65,9 +76,9 @@
                     <b style="color:var(--danger)">Enemies:</b> <span id="valEnemies"></span>
                 </div>
                 <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px;">
-                    <b>Today's No:</b> <span id="valToday" style="color:var(--primary); font-weight:bold;"></span><br>
-                    <b>Month No:</b> <span id="valMonth" style="color:var(--primary); font-weight:bold;"></span><br>
-                    <b>Year No:</b> <span id="valYear" style="color:var(--primary); font-weight:bold;"></span>
+                    <b>Today (PD):</b> <span id="valToday" style="color:var(--primary); font-weight:bold;"></span><br>
+                    <b>Month (PM):</b> <span id="valMonth" style="color:var(--primary); font-weight:bold;"></span><br>
+                    <b>Year (PY):</b> <span id="valYear" style="color:var(--primary); font-weight:bold;"></span>
                 </div>
             </div>
         </div>
@@ -75,26 +86,27 @@
         <div class="box">
             <h2>Your Personal Magic Grid</h2>
             <div class="loshu-grid" id="gridUI">
-                <div class="grid-cell" id="c4"><span class="cell-num">4</span><span class="cell-label">Wealth</span></div>
-                <div class="grid-cell" id="c9"><span class="cell-num">9</span><span class="cell-label">Fame</span></div>
-                <div class="grid-cell" id="c2"><span class="cell-num">2</span><span class="cell-label">Love</span></div>
-                <div class="grid-cell" id="c3"><span class="cell-num">3</span><span class="cell-label">Health</span></div>
-                <div class="grid-cell" id="c5"><span class="cell-num">5</span><span class="cell-label">Balance</span></div>
-                <div class="grid-cell" id="c7"><span class="cell-num">7</span><span class="cell-label">Children</span></div>
-                <div class="grid-cell" id="c8"><span class="cell-num">8</span><span class="cell-label">Wisdom</span></div>
-                <div class="grid-cell" id="c1"><span class="cell-num">1</span><span class="cell-label">Career</span></div>
-                <div class="grid-cell" id="c6"><span class="cell-num">6</span><span class="cell-label">Travel</span></div>
+                <div class="grid-cell" id="c4"><span class="cell-num">4</span><span class="cell-planet">Rahu</span><span class="cell-label">Wealth</span></div>
+                <div class="grid-cell" id="c9"><span class="cell-num">9</span><span class="cell-planet">Mars</span><span class="cell-label">Fame</span></div>
+                <div class="grid-cell" id="c2"><span class="cell-num">2</span><span class="cell-planet">Moon</span><span class="cell-label">Love</span></div>
+                <div class="grid-cell" id="c3"><span class="cell-num">3</span><span class="cell-planet">Jupiter</span><span class="cell-label">Health</span></div>
+                <div class="grid-cell" id="c5"><span class="cell-num">5</span><span class="cell-planet">Mercury</span><span class="cell-label">Balance</span></div>
+                <div class="grid-cell" id="c7"><span class="cell-num">7</span><span class="cell-planet">Ketu</span><span class="cell-label">Children</span></div>
+                <div class="grid-cell" id="c8"><span class="cell-num">8</span><span class="cell-planet">Saturn</span><span class="cell-label">Wisdom</span></div>
+                <div class="grid-cell" id="c1"><span class="cell-num">1</span><span class="cell-planet">Sun</span><span class="cell-label">Career</span></div>
+                <div class="grid-cell" id="c6"><span class="cell-num">6</span><span class="cell-planet">Venus</span><span class="cell-label">Travel</span></div>
             </div>
         </div>
 
         <div class="box">
-            <h2>Compatibility Test</h2>
-            <div style="display: flex; justify-content: space-around; font-size: 14px;">
-                <div>Mulank: <b id="mVal"></b></div>
-                <div>Bhagyank: <b id="bVal"></b></div>
-                <div>Name: <b id="nVal"></b></div>
+            <h2 style="color:var(--primary)">Pancha Tattva Status</h2>
+            <div class="element-grid" id="elGrid">
+                <div id="elWood" class="element-cell">WOOD<br>(3,4)</div>
+                <div id="elFire" class="element-cell">FIRE<br>(9)</div>
+                <div id="elEarth" class="element-cell">EARTH<br>(2,5,8)</div>
+                <div id="elMetal" class="element-cell">METAL<br>(6,7)</div>
+                <div id="elWater" class="element-cell">WATER<br>(1)</div>
             </div>
-            <div id="compatStatus" class="compat-badge">--</div>
         </div>
 
         <div class="box" style="border: 2px solid var(--primary); background: rgba(0, 242, 255, 0.05);">
@@ -103,32 +115,22 @@
         </div>
 
         <div class="box">
-            <h2 style="color:var(--success)">✅ Strengths (Available)</h2>
-            <div id="strengthList" class="trait-list"></div>
-        </div>
-
-        <div class="box">
-            <h2 style="color:var(--danger)">❌ Challenges (Missing)</h2>
-            <div id="missingList" class="trait-list"></div>
-        </div>
-
-        <div class="box" style="border: 1px solid var(--gold); background: rgba(255,215,0,0.03);">
-            <h2 style="color:var(--gold)">🔮 Vedic Solutions (Remedies)</h2>
+            <h2 style="color:var(--gold)">🔮 Vedic & Element Solutions</h2>
             <div id="remedyList" class="trait-list"></div>
         </div>
 
         <div class="box" style="background: rgba(0, 242, 255, 0.02); border: 1px dashed var(--primary);">
-            <h2 style="color: var(--primary);">📚 Numbers & Traits Reference</h2>
+            <h2 style="color: var(--primary);">📚 Master Reference Guide</h2>
             <div class="master-grid">
-                <div class="master-cell"><span class="master-num">4</span><span class="master-trait">Wealth, Discipline, Asset</span></div>
-                <div class="master-cell"><span class="master-num">9</span><span class="master-trait">Fame, Energy, Humanity</span></div>
-                <div class="master-cell"><span class="master-num">2</span><span class="master-trait">Love, Emotion, Partnership</span></div>
-                <div class="master-cell"><span class="master-num">3</span><span class="master-trait">Knowledge, Growth, Family</span></div>
-                <div class="master-cell"><span class="master-num">5</span><span class="master-trait">Stability, Balance, Success</span></div>
-                <div class="master-cell"><span class="master-num">7</span><span class="master-trait">Creative, Research, Children</span></div>
-                <div class="master-cell"><span class="master-num">8</span><span class="master-trait">Wisdom, Practical, Finance</span></div>
-                <div class="master-cell"><span class="master-num">1</span><span class="master-trait">Career, Victory, Confidence</span></div>
-                <div class="master-cell"><span class="master-num">6</span><span class="master-trait">Luxury, Travel, Support</span></div>
+                <div class="master-cell"><span class="master-num">4</span><span class="master-p">Rahu</span><span class="master-trait">Wealth & Discipline</span></div>
+                <div class="master-cell"><span class="master-num">9</span><span class="master-p">Mars</span><span class="master-trait">Fame & Energy</span></div>
+                <div class="master-cell"><span class="master-num">2</span><span class="master-p">Moon</span><span class="master-trait">Love & Emotion</span></div>
+                <div class="master-cell"><span class="master-num">3</span><span class="master-p">Jupiter</span><span class="master-trait">Knowledge & Growth</span></div>
+                <div class="master-cell"><span class="master-num">5</span><span class="master-p">Mercury</span><span class="master-trait">Stability & Business</span></div>
+                <div class="master-cell"><span class="master-num">7</span><span class="master-p">Ketu</span><span class="master-trait">Creativity & Research</span></div>
+                <div class="master-cell"><span class="master-num">8</span><span class="master-p">Saturn</span><span class="master-trait">Wisdom & Practicality</span></div>
+                <div class="master-cell"><span class="master-num">1</span><span class="master-p">Sun</span><span class="master-trait">Career & Confidence</span></div>
+                <div class="master-cell"><span class="master-num">6</span><span class="master-p">Venus</span><span class="master-trait">Luxury & Support</span></div>
             </div>
         </div>
     </div>
@@ -136,53 +138,42 @@
 
 <script>
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
+    const planets = { 1:"Sun", 2:"Moon", 3:"Jupiter", 4:"Rahu", 5:"Mercury", 6:"Venus", 7:"Ketu", 8:"Saturn", 9:"Mars" };
     
-    const traits = {
-        1: "Strong Career & Communication. You are a natural leader.",
-        2: "Emotional Balance & Good Relationships. You are sensitive.",
-        3: "Knowledge & Creativity. You have great imagination.",
-        4: "Discipline & Wealth Management. You are hard-working.",
-        5: "Stability & Business Sense. You balance your life well.",
-        6: "Luxury & Helpful Friends. You attract comfort.",
-        7: "Research & Mental Strength. You think deeply.",
-        8: "Practical Wisdom & Finance. You are very organized.",
-        9: "Fame & Humanity. You have high energy and courage."
+    const elements = {
+        Wood: [3,4], Fire: [9], Earth: [2,5,8], Metal: [6,7], Water: [1]
+    };
+
+    const elRemedies = {
+        Wood: "🌳 Place a small green plant in the North-East of your room.",
+        Fire: "🔥 Light a red candle or diya in the South direction every evening.",
+        Earth: "⛰️ Wear a yellow thread or use a yellow handkerchief.",
+        Metal: "⚔️ Wear a silver bangle or a watch with a metal strap.",
+        Water: "💧 Keep a small water fountain or a bowl of fresh water in the North."
     };
 
     const morningActs = {
-        1: "Drink water in copper vessel and see the rising Sun to activate your leadership.",
-        2: "Drink a glass of water while sitting and meditate for 2 mins for emotional stability.",
-        3: "Apply a yellow tilak (Saffron/Turmeric) and pray to your Guru for wisdom.",
-        4: "Feed birds in the morning and touch the ground as soon as you wake up.",
-        5: "Stand on green grass barefoot and chant 'OM' 5 times for balance.",
-        6: "Use a luxury fragrance after bath and keep a white flower with you.",
-        7: "Feed multi-colored stray dogs and practice deep breathing (Pranayam).",
-        8: "Light a mustard oil lamp or help someone in need before starting work.",
-        9: "Recite Hanuman Chalisa or perform a 5-min intense workout to boost energy."
-    };
-
-    const missingTraits = {
-        1: "Difficulty in expressing yourself. Low confidence in career.",
-        2: "Emotional instability. Problems in partnership.",
-        3: "Lack of focus. Struggle in higher education.",
-        4: "Disorganized life. Wealth doesn't stay long.",
-        5: "Restlessness. Difficulty in making decisions.",
-        6: "Lack of luxury. Friends may not help when needed.",
-        7: "Disturbed peace. Lack of spiritual connection.",
-        8: "Financial struggles. Decisions based on emotions.",
-        9: "Low energy. Lack of name and fame in society."
+        1: "Drink water in copper vessel and offer Arghya to the Sun.",
+        2: "Drink water while sitting and meditate for 2 mins for peace.",
+        3: "Apply a yellow Saffron tilak and seek blessings from elders.",
+        4: "Feed birds in the morning and touch the Earth's feet.",
+        5: "Walk barefoot on green grass and chant 'OM' 5 times.",
+        6: "Use a pleasant perfume after bath and wear white clothes.",
+        7: "Feed multi-colored dogs and practice deep breathing.",
+        8: "Light a mustard oil lamp and help someone needy.",
+        9: "Recite Hanuman Chalisa or do a quick morning workout."
     };
 
     const remedies = {
-        1: "Drink water in a Copper vessel and offer water to the Sun daily.",
-        2: "Keep a small solid Silver ball or coin in your pocket/wallet.",
-        3: "Apply Kesar (Saffron) tilak on your forehead and respect elders.",
-        4: "Tie a Green thread on your wrist or keep a piece of Sandalwood.",
-        5: "Keep your home's center clean and feed Green Moong Dal to cows.",
-        6: "Use pleasant perfumes daily and wear clean, white clothes.",
-        7: "Wear a Silver chain and feed multi-colored dogs or birds.",
-        8: "Light a Diya with Mustard oil under a Peepal tree on Saturdays.",
-        9: "Recite Hanuman Chalisa and offer Sindoor to Lord Hanuman."
+        1: "Sun Remedy: Offer water to Sun and respect your father.",
+        2: "Moon Remedy: Keep a silver coin and respect your mother.",
+        3: "Jupiter Remedy: Apply Saffron tilak and respect teachers.",
+        4: "Rahu Remedy: Feed birds and keep your home clutter-free.",
+        5: "Mercury Remedy: Feed green grass to cows on Wednesdays.",
+        6: "Venus Remedy: Use perfumes and donate white sweets to girls.",
+        7: "Ketu Remedy: Feed multi-colored dogs or birds.",
+        8: "Saturn Remedy: Light a mustard oil lamp under a Peepal tree.",
+        9: "Mars Remedy: Recite Hanuman Chalisa and donate red items."
     };
 
     const relationship = {
@@ -212,58 +203,47 @@
         let day = d.getDate(), month = d.getMonth() + 1, year = d.getFullYear();
         let m = reduce(day), b = reduce(day + month + year);
         
-        let nT = 0; 
-        name.toLowerCase().replace(/\s/g, '').split('').forEach(c => nT += (chaldean[c] || 0));
+        let nT = 0; name.toLowerCase().replace(/\s/g, '').split('').forEach(c => nT += (chaldean[c] || 0));
         let n = reduce(nT);
 
-        // --- CORRECTED NUMEROLOGY LOGIC ---
         let now = new Date();
-        let cDay = now.getDate(), cMonth = now.getMonth() + 1, cYear = now.getFullYear();
-        
-        // 1. Personal Year (PY) = Birth Day + Birth Month + Current Year
-        let py = reduce(reduce(day) + reduce(month) + reduce(cYear));
-        
-        // 2. Personal Month (PM) = Personal Year + Current Month
-        let pm = reduce(py + reduce(cMonth));
-        
-        // 3. Personal Day (PD) = Personal Month + Current Day
-        let pd = reduce(pm + reduce(cDay));
+        let py = reduce(reduce(day) + reduce(month) + reduce(now.getFullYear()));
+        let pm = reduce(py + (now.getMonth() + 1));
+        let pd = reduce(pm + now.getDate());
 
         document.getElementById("personalContent").style.display = "block";
-        document.getElementById("mVal").innerText = m;
-        document.getElementById("bVal").innerText = b;
-        document.getElementById("nVal").innerText = n;
-        
-        document.getElementById("valFriends").innerText = relationship[m].friends.join(", ");
-        document.getElementById("valEnemies").innerText = relationship[m].enemies.join(", ");
         document.getElementById("valToday").innerText = pd;
         document.getElementById("valMonth").innerText = pm;
         document.getElementById("valYear").innerText = py;
-
-        document.getElementById("morningRitual").innerText = "Since your Personal Day is " + pd + ": " + morningActs[pd];
-
-        let isEnemy = relationship[m].enemies.includes(b) || relationship[m].enemies.includes(n);
-        let status = document.getElementById("compatStatus");
-        status.innerText = isEnemy ? "Anti-Vibration (Conflicts Found)" : "Harmonious Vibration (Great Match!)";
-        status.className = "compat-badge " + (isEnemy ? "bad" : "good");
+        document.getElementById("valFriends").innerText = relationship[m].friends.join(", ");
+        document.getElementById("valEnemies").innerText = relationship[m].enemies.join(", ");
+        document.getElementById("morningRitual").innerHTML = `<b>Today's Planet: ${planets[pd]}</b><br>${morningActs[pd]}`;
 
         let gridStr = day.toString() + month.toString() + year.toString() + m.toString() + b.toString();
-        let sList = "", mList = "", rList = "";
-        
-        for(let i=1; i<=9; i++) {
-            let cell = document.getElementById("c"+i);
-            if(gridStr.includes(i)) {
-                cell.classList.add("filled");
-                sList += `<div class="trait-item"><b>Number ${i}:</b> ${traits[i]}</div>`;
+        let rListHtml = "";
+
+        // Check Elements
+        for (let el in elements) {
+            let hasEl = elements[el].some(num => gridStr.includes(num.toString()));
+            let elBox = document.getElementById("el" + el);
+            if (hasEl) {
+                elBox.className = "element-cell el-present";
             } else {
-                cell.classList.remove("filled");
-                mList += `<div class="trait-item miss-item"><b>Missing ${i}:</b> ${missingTraits[i]}</div>`;
-                rList += `<div class="trait-item rem-item"><b style="color:var(--gold)">For Number ${i}:</b> ${remedies[i]}</div>`;
+                elBox.className = "element-cell el-absent";
+                rListHtml += `<div class="trait-item rem-item"><b>Missing ${el} Element:</b> ${elRemedies[el]}</div>`;
             }
         }
-        document.getElementById("strengthList").innerHTML = sList;
-        document.getElementById("missingList").innerHTML = mList;
-        document.getElementById("remedyList").innerHTML = rList || "<div class='trait-item'>All numbers present!</div>";
+
+        // Fill Main Remedies
+        for(let i=1; i<=9; i++) {
+            let cell = document.getElementById("c"+i);
+            if(gridStr.includes(i)) { cell.classList.add("filled"); } 
+            else { 
+                cell.classList.remove("filled"); 
+                rListHtml += `<div class="trait-item"><b>Solution for ${planets[i]}:</b> ${remedies[i]}</div>`;
+            }
+        }
+        document.getElementById("remedyList").innerHTML = rListHtml;
     }
 </script>
 </body>
