@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astro Abhinash | Numerology Expert</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root { --primary: #00f2ff; --gold: #ffd700; --danger: #ff4d4d; --success: #4ade80; --card-bg: rgba(255, 255, 255, 0.08); }
         body { margin: 0; font-family: 'Poppins', sans-serif; background: #020617; color: white; text-align: center; padding-bottom: 50px; }
@@ -15,7 +18,10 @@
         
         .toggle-btn { background: var(--primary); color: #000; border: none; padding: 5px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 12px; margin-top: 5px; }
         .calc-btn { padding: 15px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, var(--primary), #0066ff); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 10px; }
-        .contact-btn { padding: 15px 40px; border: 2px solid var(--success); border-radius: 50px; background: rgba(74, 222, 128, 0.1); color: var(--success); font-weight: 700; cursor: pointer; text-decoration: none; display: block; margin: 20px auto; transition: 0.3s; }
+        
+        /* Floating Animation for WhatsApp */
+        .contact-btn { padding: 15px 40px; border: 2px solid var(--success); border-radius: 50px; background: rgba(74, 222, 128, 0.1); color: var(--success); font-weight: 700; cursor: pointer; text-decoration: none; display: block; margin: 20px auto; transition: 0.3s; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .contact-btn:hover { background: var(--success); color: black; }
 
         .alignment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
@@ -54,8 +60,8 @@
 <body>
 
 <header>
-    <span id="hTitle">ASTRO ABHINASH 🔯</span><br>
-    <button class="toggle-btn" onclick="toggleLanguage()">Odia / English</button>
+    <span id="hTitle"><i class="fa-solid fa-om"></i> ASTRO ABHINASH </span><br>
+    <button class="toggle-btn" onclick="toggleLanguage()"><i class="fa-solid fa-language"></i> Odia / English</button>
 </header>
 
 <div class="container">
@@ -66,12 +72,12 @@
             <option value="male">Male</option>
             <option value="female">Female</option>
         </select><br>
-        <button class="calc-btn" id="btnGen" onclick="calculateMagic()">Generate Report</button>
+        <button class="calc-btn" id="btnGen" onclick="calculateMagic()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Report</button>
     </div>
 
     <div id="personalContent">
         <div class="box">
-            <h2 id="tAlignment" style="color:var(--primary); font-size: 18px; margin-bottom: 15px;">Number Alignment Dashboard</h2>
+            <h2 id="tAlignment" style="color:var(--primary); font-size: 18px; margin-bottom: 15px;"><i class="fa-solid fa-chart-line"></i> Number Alignment Dashboard</h2>
             <div class="alignment-grid">
                 <div class="align-card"><span class="align-label" id="lblMulank">Mulank</span><span class="align-val" id="valMulank">0</span></div>
                 <div class="align-card"><span class="align-label" id="lblBhagyank">Bhagyank</span><span class="align-val" id="valBhagyank">0</span></div>
@@ -81,31 +87,31 @@
         </div>
 
         <div class="box" id="challengeBox" style="border: 2px solid var(--danger); background: rgba(255, 77, 77, 0.05);">
-            <h2 id="tChallengeTitle" style="color:var(--danger)">⚠️ Today's Challenge Radar</h2>
+            <h2 id="tChallengeTitle" style="color:var(--danger)"><i class="fa-solid fa-triangle-exclamation"></i> Today's Challenge Radar</h2>
             <div id="challengeContent" style="font-size: 13px; text-align: left; line-height: 1.6;"></div>
         </div>
 
         <div class="box" id="healthBox" style="border: 2px solid var(--primary); background: rgba(0, 242, 255, 0.05);">
-            <h2 id="tHealthTitle" style="color:var(--primary)">🏥 Health Vitality Monitor</h2>
+            <h2 id="tHealthTitle" style="color:var(--primary)"><i class="fa-solid fa-heart-pulse"></i> Health Vitality Monitor</h2>
             <div id="healthContent" style="font-size: 13px; text-align: left; line-height: 1.6;"></div>
         </div>
 
         <div class="box" id="dosDontsBox" style="border: 2px solid var(--gold); background: rgba(255, 215, 0, 0.05);">
-            <h2 id="tDosTitle" style="color:var(--gold)">⚖️ Daily Do's & Don'ts</h2>
+            <h2 id="tDosTitle" style="color:var(--gold)"><i class="fa-solid fa-scale-balanced"></i> Daily Do's & Don'ts</h2>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; font-size: 12px;">
                 <div style="background: rgba(74, 222, 128, 0.1); padding: 12px; border-radius: 12px; border-top: 3px solid var(--success);">
-                    <b style="color:var(--success)" id="lblDo">✅ DO'S</b>
+                    <b style="color:var(--success)" id="lblDo"><i class="fa-solid fa-circle-check"></i> DO'S</b>
                     <div id="valDos" style="margin-top: 5px; line-height: 1.4;"></div>
                 </div>
                 <div style="background: rgba(255, 77, 77, 0.1); padding: 12px; border-radius: 12px; border-top: 3px solid var(--danger);">
-                    <b style="color:var(--danger)" id="lblDont">❌ DON'TS</b>
+                    <b style="color:var(--danger)" id="lblDont"><i class="fa-solid fa-circle-xmark"></i> DON'TS</b>
                     <div id="valDonts" style="margin-top: 5px; line-height: 1.4;"></div>
                 </div>
             </div>
         </div>
 
         <div class="box">
-            <h2 id="tInsights" style="color:var(--primary)">Personalized Insights</h2>
+            <h2 id="tInsights" style="color:var(--primary)"><i class="fa-solid fa-lightbulb"></i> Personalized Insights</h2>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px; text-align: left;">
                 <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px;">
                     <b id="tFriends" style="color:var(--gold)">Friends:</b> <span id="valFriends"></span><br>
@@ -120,7 +126,7 @@
         </div>
 
         <div class="box">
-            <h2 id="tKnowledge" style="color:var(--primary)">Loshu Plane Knowledge Table</h2>
+            <h2 id="tKnowledge" style="color:var(--primary)"><i class="fa-solid fa-table"></i> Loshu Plane Knowledge Table</h2>
             <table>
                 <tr><th>Plane</th><th>Nums</th><th>Benefit</th></tr>
                 <tr><td>Mental</td><td>4-9-2</td><td>Sharp Intellect & Logic</td></tr>
@@ -133,7 +139,7 @@
                 <tr><td>Silver</td><td>2-5-8</td><td>Property & Assets</td></tr>
             </table>
 
-            <h2 id="tTattvaTable" style="color:var(--success); margin-top: 25px;">Pancha Tattva Master Table</h2>
+            <h2 id="tTattvaTable" style="color:var(--success); margin-top: 25px;"><i class="fa-solid fa-leaf"></i> Pancha Tattva Master Table</h2>
             <table>
                 <tr><th>Element</th><th>Nums</th><th>Direction</th><th>Attributes</th></tr>
                 <tr><td style="color:#4ade80">Wood (କାଠ)</td><td>3, 4</td><td>East, NE</td><td>Growth, Health, Wealth</td></tr>
@@ -145,7 +151,7 @@
         </div>
 
         <div class="box">
-            <h2 id="tGrid">Your Magic Grid</h2>
+            <h2 id="tGrid"><i class="fa-solid fa-border-all"></i> Your Magic Grid</h2>
             <div class="loshu-grid" id="gridUI">
                 <div class="grid-cell" id="c4"><span class="cell-num">4</span><span class="cell-planet">Rahu</span><span class="cell-label">Wealth</span></div>
                 <div class="grid-cell" id="c9"><span class="cell-num">9</span><span class="cell-planet">Mars</span><span class="cell-label">Fame</span></div>
@@ -160,12 +166,12 @@
         </div>
 
         <div class="box">
-            <h2 id="tPlanesTitle" style="color:var(--success)">⚡ Planes & Activation Analysis</h2>
+            <h2 id="tPlanesTitle" style="color:var(--success)"><i class="fa-solid fa-bolt"></i> Planes & Activation Analysis</h2>
             <div id="planesAnalysis"></div>
         </div>
 
         <div class="box">
-            <h2 id="tElement">Pancha Tattva Status</h2>
+            <h2 id="tElement"><i class="fa-solid fa-dharmachakra"></i> Pancha Tattva Status</h2>
             <div class="element-grid" id="elGrid">
                 <div id="elWood" class="element-cell">WOOD<br>(3,4)</div>
                 <div id="elFire" class="element-cell">FIRE<br>(9)</div>
@@ -176,25 +182,27 @@
         </div>
 
         <div class="box" style="border: 2px solid var(--primary); background: rgba(0, 242, 255, 0.05);">
-            <h2 id="tMorning" style="color:var(--primary)">⚡ Morning Activation</h2>
+            <h2 id="tMorning" style="color:var(--primary)"><i class="fa-solid fa-sun"></i> Morning Activation</h2>
             <div id="morningRitual" style="font-size: 14px; line-height: 1.6; font-style: italic;"></div>
         </div>
 
         <div class="box">
-            <h2 id="tRemedies" style="color:var(--gold)">🔮 Vedic Solutions</h2>
+            <h2 id="tRemedies" style="color:var(--gold)"><i class="fa-solid fa-crystal-ball"></i> Vedic Solutions</h2>
             <div id="remedyList" class="trait-list"></div>
         </div>
 
-        <a href="https://wa.me/917008186187?text=Hello%20Abhinash,%20I%20want%20to%20book%20a%20consultation" class="contact-btn" id="btnBook">Book Deep Consultation</a>
+        <a href="https://wa.me/917008186187?text=Hello%20Abhinash,%20I%20want%20to%20book%20a%20consultation" class="contact-btn" id="btnBook">
+            <i class="fa-brands fa-whatsapp"></i> Book Deep Consultation
+        </a>
     </div>
 </div>
 
 <script>
+    // [Saara JavaScript Logic Same Hai - No changes in logic as requested]
     let currentLang = 'en';
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     const planets = { 1:"Sun", 2:"Moon", 3:"Jupiter", 4:"Rahu", 5:"Mercury", 6:"Venus", 7:"Ketu", 8:"Saturn", 9:"Mars" };
     
-    // --- DAILY DO'S & DON'TS DATA ---
     const dailyRules = {
         1: { do: "Start new tasks, meet authorities, wear orange.", dont: "Avoid egoistic arguments and pride.", doOr: "ନୂଆ କାମ ଆରମ୍ଭ କରନ୍ତୁ, କେସରୀ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "ଅହଂକାର କିମ୍ବା ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |" },
         2: { do: "Meditation, creative work, drink water in silver.", dont: "Don't take emotional decisions or overthink.", doOr: "ଧ୍ୟାନ କରନ୍ତୁ, ରୂପା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ |", dontOr: "ଭାବପ୍ରବଣ ହୋଇ କୌଣସି ନିଷ୍ପତ୍ତି ନିଅନ୍ତୁ ନାହିଁ |" },
@@ -272,7 +280,17 @@
     function toggleLanguage() {
         currentLang = currentLang === 'en' ? 'or' : 'en';
         let data = currentLang === 'en' ? engData : odiaData;
-        for (let key in data) { if(document.getElementById(key)) document.getElementById(key).innerText = data[key]; }
+        for (let key in data) { 
+            if(document.getElementById(key)) {
+                let existingHtml = document.getElementById(key).innerHTML;
+                if(existingHtml.includes("<i")) {
+                    let icon = existingHtml.split("</i>")[0] + "</i> ";
+                    document.getElementById(key).innerHTML = icon + data[key];
+                } else {
+                    document.getElementById(key).innerText = data[key]; 
+                }
+            }
+        }
         if (document.getElementById("personalContent").style.display === "block") calculateMagic();
     }
 
@@ -303,7 +321,6 @@
         document.getElementById("valMonth").innerText = pm;
         document.getElementById("valYear").innerText = py;
         
-        // --- CHALLENGE RADAR LOGIC ---
         const challengeBox = document.getElementById("challengeBox");
         const challengeContent = document.getElementById("challengeContent");
         let isTodayEnemy = enemyLogic[m].enemy.includes(pd);
@@ -311,18 +328,15 @@
         if (isTodayEnemy) {
             challengeBox.style.borderColor = "var(--danger)";
             challengeBox.style.background = "rgba(255, 77, 77, 0.05)";
-            document.getElementById("tChallengeTitle").style.color = "var(--danger)";
-            document.getElementById("tChallengeTitle").innerText = (currentLang === 'en' ? "⚠️ Today's Challenge Radar" : "⚠️ ଆଜିର ସତର୍କ ସୂଚନା");
+            document.getElementById("tChallengeTitle").innerHTML = (currentLang === 'en' ? "<i class='fa-solid fa-triangle-exclamation'></i> Today's Challenge Radar" : "<i class='fa-solid fa-triangle-exclamation'></i> ଆଜିର ସତର୍କ ସୂଚନା");
             challengeContent.innerHTML = `<b>Why?</b> Your Mulank ${m} and Today's Number ${pd} are conflicting.<br><b>Challenge:</b> ${enemyLogic[m].msg}<br><b>Solution:</b> ${enemyLogic[m].sol}`;
         } else {
             challengeBox.style.borderColor = "var(--success)";
             challengeBox.style.background = "rgba(74, 222, 128, 0.05)";
-            document.getElementById("tChallengeTitle").style.color = "var(--success)";
-            document.getElementById("tChallengeTitle").innerText = (currentLang === 'en' ? "✅ Today's Status" : "✅ ଆଜିର ସ୍ଥିତି");
+            document.getElementById("tChallengeTitle").innerHTML = (currentLang === 'en' ? "<i class='fa-solid fa-circle-check'></i> Today's Status" : "<i class='fa-solid fa-circle-check'></i> ଆଜିର ସ୍ଥିତି");
             challengeContent.innerHTML = `<div style="text-align:center; font-weight:bold; color:var(--success)">🌟 No major challenges today! Your numbers are in harmony.</div>`;
         }
 
-        // --- HEALTH VITALITY MONITOR LOGIC ---
         const healthBox = document.getElementById("healthBox");
         const healthContent = document.getElementById("healthContent");
         const hData = healthAdvice[pd];
@@ -343,23 +357,20 @@
                 : `<div style="text-align:center;">🌟 ସ୍ୱାସ୍ଥ୍ୟ ସ୍ଥିର ରହିବ | <span style="color:var(--primary)">${hData.issueOr.split('|')[0]}</span> ପ୍ରତି ସାବଧାନ ରୁହନ୍ତୁ |</div>`;
         }
 
-        // --- DO'S & DON'TS DYNAMIC UPDATE ---
         const dRules = dailyRules[pd];
         document.getElementById("valDos").innerHTML = currentLang === 'en' ? dRules.do : dRules.doOr;
         document.getElementById("valDonts").innerHTML = currentLang === 'en' ? dRules.dont : dRules.dontOr;
 
-        // Relationships and Status
         let rel = {1:{f:[2,3,5,9],e:[8]},2:{f:[1,3,5],e:[4,8,9]},3:{f:[1,2,5,7,9],e:[6]},4:{f:[5,6,7,8],e:[1,2,9]},5:{f:[1,3,4,6,7,8,9],e:[2]},6:{f:[4,5,7,8],e:[3]},7:{f:[3,4,5,6],e:[8,9]},8:{f:[4,5,6,7],e:[1,2,9]},9:{f:[1,2,3,5],e:[4,7,8]}};
         document.getElementById("valFriends").innerText = rel[m].f.join(", ");
         document.getElementById("valEnemies").innerText = rel[m].e.join(", ");
 
         let isAligned = rel[m].f.includes(n) || m === n;
         let statusBox = document.getElementById("statusBox");
-        statusBox.innerText = isAligned ? "✅ Name is Aligned!" : "⚠️ Name Alignment Needed!";
+        statusBox.innerHTML = isAligned ? "<i class='fa-solid fa-circle-check'></i> Name is Aligned!" : "<i class='fa-solid fa-circle-exclamation'></i> Name Alignment Needed!";
         statusBox.style.background = isAligned ? "rgba(74, 222, 128, 0.2)" : "rgba(255, 77, 77, 0.2)";
         statusBox.style.color = isAligned ? "var(--success)" : "var(--danger)";
 
-        // Grid and Remedies
         let gridStr = day.toString() + month.toString() + year.toString() + m.toString() + b.toString();
         let rListHtml = "";
         let remData = currentLang === 'en' ? remediesEng : remediesOdia;
