@@ -93,6 +93,30 @@
     </div>
 
     <div id="personalContent">
+        <div class="box" style="border: 2px solid var(--gold); background: rgba(255, 215, 0, 0.03);">
+            <h2 id="tUniqueTitle" class="h6 mb-3" style="color:var(--gold); text-transform: uppercase;">
+                <i class="fa-solid fa-microscope"></i> Why Your Report is Unique?
+            </h2>
+            <div class="text-start" style="font-size: 12px;">
+                <div class="analysis-card" style="border-left-color: var(--primary);">
+                    <b style="color:var(--primary)">1. Destiny Impact (Karmic Blueprint)</b>
+                    <ul id="uDestinyList" class="ps-3 mt-1 mb-0" style="color: #ccc; list-style-type: square;"></ul>
+                </div>
+                <div class="analysis-card" style="border-left-color: var(--danger);">
+                    <b style="color:var(--danger)">2. Grid Gaps (Hidden Weakness)</b>
+                    <ul id="uGridList" class="ps-3 mt-1 mb-0" style="color: #ccc; list-style-type: square;"></ul>
+                </div>
+                <div class="analysis-card" style="border-left-color: var(--success);">
+                    <b style="color:var(--success)">3. Vibration Match (Name Power)</b>
+                    <ul id="uVibeList" class="ps-3 mt-1 mb-0" style="color: #ccc; list-style-type: square;"></ul>
+                </div>
+                <div class="analysis-card" style="border-left-color: var(--gold);">
+                    <b style="color:var(--gold)">4. Time Window (Peak Cycles)</b>
+                    <ul id="uTimeList" class="ps-3 mt-1 mb-0" style="color: #ccc; list-style-type: square;"></ul>
+                </div>
+            </div>
+        </div>
+
         <div class="box luck-box">
             <h2 id="tLuckTitle" class="h6 mb-3" style="color:var(--gold)"><i class="fa-solid fa-star"></i> What Activates My Luck Today?</h2>
             <div id="luckContent"></div>
@@ -264,108 +288,23 @@
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     const planets = { 1:"Sun", 2:"Moon", 3:"Jupiter", 4:"Rahu", 5:"Mercury", 6:"Venus", 7:"Ketu", 8:"Saturn", 9:"Mars" };
     
-    const luckTriggers = {
-        1: { color: "Orange/Gold", colorOr: "କେସରୀ / ସୁନେଲୀ", dir: "East", dirOr: "ପୂର୍ବ", act: "Offer water to Sun", actOr: "ସୂର୍ଯ୍ୟଙ୍କୁ ଜଳ ଅର୍ପଣ କରନ୍ତୁ" },
-        2: { color: "White/Silver", colorOr: "ଧଳା / ରୂପେଲୀ", dir: "North-West", dirOr: "ବାୟୁ କୋଣ", act: "Drink water in silver", actOr: "ରୂପା ଗ୍ଲାସରେ ପାଣି ପିଅନ୍ତୁ" },
-        3: { color: "Yellow", colorOr: "ହଳଦିଆ", dir: "North-East", dirOr: "ଈଶାନ୍ୟ କୋଣ", act: "Apply Saffron Tilak", actOr: "କେସର ତିଳକ ଲଗାନ୍ତୁ" },
-        4: { color: "Light Blue", colorOr: "ଆକାଶୀ ନୀଳ", dir: "South-West", dirOr: "ନୈଋତ୍ୟ କୋଣ", act: "Feed birds", actOr: "ପକ୍ଷୀଙ୍କୁ ଖାଦ୍ୟ ଦିଅନ୍ତୁ" },
-        5: { color: "Green", colorOr: "ସବୁଜ", dir: "North", dirOr: "ଉତ୍ତର", act: "Keep a green plant", actOr: "ସବୁଜ ଗଛ ପାଖରେ ରଖନ୍ତୁ" },
-        6: { color: "Cream/Pink", colorOr: "କ୍ରିମ୍ / ଗୋଲାପୀ", dir: "South-East", dirOr: "ଆଗ୍ନେୟ କୋଣ", act: "Use mild perfume", actOr: "ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ" },
-        7: { color: "Grey/Smoke", colorOr: "ଧୂସର", dir: "Center", dirOr: "ମଧ୍ୟ ଭାଗ", act: "Meditate for 10 mins", actOr: "୧୦ ମିନିଟ୍ ଧ୍ୟାନ କରନ୍ତୁ" },
-        8: { color: "Dark Blue/Black", colorOr: "ଗାଢ଼ ନୀଳ / କଳା", dir: "West", dirOr: "ପଶ୍ଚିମ", act: "Help someone needy", actOr: "ଗରିବଙ୍କୁ ସାହାଯ୍ୟ କରନ୍ତୁ" },
-        9: { color: "Red", colorOr: "ନାଲି", dir: "South", dirOr: "ଦକ୍ଷିଣ", act: "Recite Hanuman Chalisa", actOr: "ହନୁମାନ ଚାଳିଶା ପାଠ କରନ୍ତୁ" }
-    };
-
-    const dailyRules = {
-        1: { do: "Start new tasks, meet authorities, wear orange.", dont: "Avoid egoistic arguments and pride.", doOr: "ନୂଆ କାମ ଆରମ୍ଭ କରନ୍ତୁ, କେସରୀ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "ଅହଂକାର କିମ୍ବା ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |" },
-        2: { do: "Meditation, creative work, drink water in silver.", dont: "Don't take emotional decisions or overthink.", doOr: "ଧ୍ୟାନ କରନ୍ତୁ, ରୂପା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ |", dontOr: "ଭାବପ୍ରବଣ ହୋଇ କୌଣସି ନିଷ୍ପତ୍ତି ନିଅନ୍ତୁ ନାହିଁ |" },
-        3: { do: "Take advice from elders, study, wear yellow.", dont: "Don't criticize others or ignore spiritual tasks.", doOr: "ଗୁରୁଜନଙ୍କ ପରାମର୍ଶ ନିଅନ୍ତୁ, ହଳଦିଆ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "ଅନ୍ୟର ସମାଲୋଚନା କରନ୍ତୁ ନାହିଁ |" },
-        4: { do: "Organize your desk, research, be disciplined.", dont: "Avoid shortcut methods and gambling.", doOr: "ଅନୁଶାସନ ମଧ୍ୟରେ ରୁହନ୍ତୁ, ଗବେଷଣା କାର୍ଯ୍ୟ କରନ୍ତୁ |", dontOr: "ସର୍ଟକଟ୍ ରାସ୍ତା ଆପଣାନ୍ତୁ ନାହିଁ |" },
-        5: { do: "Networking, business deals, wear green.", dont: "Don't make promises you can't keep.", doOr: "ବ୍ୟବସାୟିକ ଆଲୋଚନା ପାଇଁ ଶୁଭ, ସବୁଜ ପିନ୍ଧନ୍ତୁ |", dontOr: "ମିଥ୍ୟା ପ୍ରତିଶ୍ରୁତି ଦିଅନ୍ତୁ ନାହିଁ |" },
-        6: { do: "Family time, shopping, grooming, wear white.", dont: "Avoid conflicts with partners/colleagues.", doOr: "ପରିବାର ସହ ସମୟ ବିତାନ୍ତୁ, ଧଳା ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "କାହାରି ସହ ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |" },
-        7: { do: "Introspection, yoga, help needy people.", dont: "Don't sign important legal papers today.", doOr: "ଯୋଗ କରନ୍ତୁ, ନିଜ ଭୁଲ୍ ସୁଧାରିବାକୁ ଚେଷ୍ଟା କରନ୍ତୁ |", dontOr: "ଆଜି କୌଣସି ଚୁକ୍ତିପତ୍ରରେ ସ୍ଵାକ୍ଷର କରନ୍ତୁ ନାହିଁ |" },
-        8: { do: "Hard work, long-term planning, wear dark blue.", dont: "Don't be lazy or treat laborers poorly.", doOr: "କଠିନ ପରିଶ୍ରମ କରନ୍ତୁ, ଗଭୀର ନୀଳ ବ୍ୟବହାର କରନ୍ତୁ |", dontOr: "ଆଳସ୍ୟ ତ୍ୟାଗ କରନ୍ତୁ |" },
-        9: { do: "Physical exercise, finishing old tasks, wear red.", dont: "Avoid rash driving and sharp objects/fire.", doOr: "ବ୍ୟାୟାମ କରନ୍ତୁ, ପୁରୁଣା କାର୍ଯ୍ୟ ଶେଷ କରନ୍ତୁ |", dontOr: "ଦ୍ରୁତ ଗତିରେ ଗାଡ଼ି ଚଲାନ୍ତୁ ନାହିଁ |" }
-    };
-
-    const enemyLogic = {
-        1: { enemy: [8], msg: "Conflict with seniors or government rules.", sol: "Offer water to Sun (Surya) in a copper vessel." },
-        2: { enemy: [4, 8, 9], msg: "High mental stress, mood swings, or emotional imbalance.", sol: "Meditate for 10 minutes and drink water from a silver glass." },
-        3: { enemy: [6], msg: "Unnecessary luxury expenses or bad advice from friends.", sol: "Avoid making big financial investments today." },
-        4: { enemy: [1, 2, 9], msg: "Unexpected delays, confusion, and obstacles in work.", sol: "Recite Ganesh Mantra and keep a blue handkerchief." },
-        5: { enemy: [2], msg: "Restlessness or misunderstanding in communication.", sol: "Feed green grass to a cow or keep a green plant nearby." },
-        6: { enemy: [3], msg: "Social reputation issues or ego clashes with partners.", sol: "Respect your elders and offer sweets to little girls." },
-        7: { enemy: [8, 9], msg: "Sudden technical failures or hidden enemies causing trouble.", sol: "Feed a black dog or birds." },
-        8: { enemy: [1, 2, 9], msg: "Heavy workload, physical fatigue, and slow results.", sol: "Chant Shani Mantra or light an oil lamp under a Peepal tree." },
-        9: { enemy: [4, 7, 8], msg: "Angry outbursts, accidents, or heated arguments.", sol: "Recite Hanuman Chalisa and avoid wearing red today." }
-    };
-
-    const healthAdvice = {
-        1: { issue: "Eye strain, Headache or Heart-related heat.", issueOr: "ଆଖି ସମସ୍ୟା, ମୁଣ୍ଡବିନ୍ଧା କିମ୍ବା ରକ୍ତଚାପ |", sol: "Drink plenty of water and avoid direct sun.", solOr: "ପ୍ରଚୁର ପାଣି ପିଅନ୍ତୁ ଏବଂ କଡ଼ା ଖରାକୁ ଯାଆନ୍ତୁ ନାହିଁ |" },
-        2: { issue: "Digestive issues, Cold or Water retention.", issueOr: "ପେଟ ସମସ୍ୟା, ଥଣ୍ଡା କିମ୍ବା କାଶ |", sol: "Avoid cold drinks and keep feet warm.", solOr: "ଥଣ୍ଡା ପାନୀୟ ଠାରୁ ଦୂରେଇ ରୁହନ୍ତୁ |" },
-        3: { issue: "Liver fatigue or Nervous system stress.", issueOr: "ଲିଭର ସମସ୍ୟା କିମ୍ବା ମାନସିକ ଚାପ |", sol: "Eat light food and avoid excess sugar.", solOr: "ହାଲୁକା ଖାଦ୍ୟ ଖାଆନ୍ତୁ ଏବଂ ଚିନି କମ କରନ୍ତୁ |" },
-        4: { issue: "Back pain or Sudden breathing issues.", issueOr: "ପିଠି ଯନ୍ତ୍ରଣା କିମ୍ବା ଶ୍ୱାସକ୍ରିୟାରେ ଅସୁବିଧା |", sol: "Do light stretching and breathing exercises.", solOr: "ପ୍ରାଣାୟାମ କରନ୍ତୁ |" },
-        5: { issue: "Skin allergies or Throat irritation.", issueOr: "ଚର୍ମ ରୋଗ କିମ୍ବା ଗଳା ସମସ୍ୟା |", sol: "Feed green grass to cow and avoid spicy food.", solOr: "ଗାଈକୁ ଘାସ ଖାଇବାକୁ ଦିଅନ୍ତୁ |" },
-        6: { issue: "Kidney or Lower abdomen discomfort.", issueOr: "କିଡନୀ କିମ୍ବା ତଳ ପେଟରେ ଯନ୍ତ୍ରଣା |", sol: "Use perfumes and keep body hydrated.", solOr: "ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ |" },
-        7: { issue: "Mental anxiety or Sleep disturbances.", issueOr: "ମାନସିକ ଦୁଶ୍ଚିନ୍ତା କିମ୍ବା ଶୋଇବାରେ ଅସୁବିଧା |", sol: "Avoid screens before bed and drink milk.", solOr: "ରାତିରେ ଶୋଇବା ପୂର୍ବରୁ କ୍ଷୀର ପିଅନ୍ତୁ |" },
-        8: { issue: "Joint pain, Teeth or Bone discomfort.", issueOr: "ଗଣ୍ଠି ଯନ୍ତ୍ରଣା କିମ୍ବା ହାଡ଼ରେ ସମସ୍ୟା |", sol: "Chant Shani Mantra and avoid cold air.", solOr: "ଶନି ମନ୍ତ୍ର ଜପ କରନ୍ତୁ |" },
-        9: { issue: "Blood pressure, Fever or Small injuries.", issueOr: "ରକ୍ତଚାପ, ଜ୍ୱର କିମ୍ବା ଆଘାତ |", sol: "Avoid spicy food and drive carefully.", solOr: "ସାବଧାନରେ ଗାଡ଼ି ଚଲାନ୍ତୁ |" }
-    };
-
-    const planeDef = [
-        { name: "Mental Plane", nums: [4,9,2], benefit: "Sharp Mind & Logic", activation: "Keep North-East area clean." },
-        { name: "Emotional Plane", nums: [3,5,7], benefit: "Intuition & Feelings", activation: "Wear a silver ring or coin." },
-        { name: "Practical Plane", nums: [8,1,6], benefit: "Solid Material Success", activation: "Wear a metal strap watch." },
-        { name: "Thought Plane", nums: [4,3,8], benefit: "Strategy & Planning", activation: "Use yellow handkerchief." },
-        { name: "Will Plane", nums: [9,5,1], benefit: "Determination & Success", activation: "Offer water to Sun daily." },
-        { name: "Action Plane", nums: [2,7,6], benefit: "Fast Results & Execution", activation: "Use white/cream colors." },
-        { name: "Golden Success", nums: [4,5,6], benefit: "Wealth & Fortune", activation: "Keep a green plant in NE." },
-        { name: "Silver Assets", nums: [2,5,8], benefit: "Property & Stability", activation: "Tie black thread or wear metal watch." }
-    ];
-
-    const odiaData = {
-        hTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", btnGen: "ରିପୋର୍ଟ ପ୍ରସ୍ତୁତ କରନ୍ତୁ", tInsights: "ବ୍ୟକ୍ତିଗତ ବିବରଣୀ", tFriends: "ବନ୍ଧୁ ସଂଖ୍ୟା:", tEnemies: "ଶତ୍ରୁ ସଂଖ୍ୟା:", 
-        tGrid: "ଆପଣଙ୍କ ମ୍ୟାଜିକ ଗ୍ରୀଡ୍", tElement: "ପଞ୍ଚ ତତ୍ତ୍ୱ ସ୍ଥିତି", tMorning: "⚡ ସକାଳର କର୍ତ୍ତବ୍ୟ", tRemedies: "🔮 ବୈଦିକ ପ୍ରତିକାର", btnBook: "ଅଧିକ ପରାମର୍ଶ ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ",
-        tAlignment: "ସଂଖ୍ୟା ଆଲାଇନ୍ମେଣ୍ଟ ଡ୍ୟାସବୋର୍ଡ", lblMulank: "ମୂଳାଙ୍କ", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ", lblNameNo: "ନାମ ସଂଖ୍ୟା", tKnowledge: "ଲୋଶୁ ପ୍ଲେନ୍ ଜ୍ଞାନ ତାଲିକା", tTattvaTable: "ପଞ୍ଚ ତତ୍ତ୍ୱ ମାଷ୍ଟର ଟେବୁଲ୍",
-        tHealthTitle: "🏥 ସ୍ୱାସ୍ଥ୍ୟ ସୂଚନା", tDosTitle: "⚖️ ଆଜି କ’ଣ କରିବେ ଏବଂ କ’ଣ କରିବେ ନାହିଁ", lblDo: "✅ କରନ୍ତୁ", lblDont: "❌ କରନ୍ତୁ ନାହିଁ", tLuckTitle: "🌟 ଆଜି କିପରି ଭାଗ୍ୟ ବୃଦ୍ଧି ହେବ?",
-        tPlanetTraits: "ନବଗ୍ରହ ସ୍ଵଭାବ ମାଷ୍ଟର ଟେବୁଲ୍", thPlanet: "ଗ୍ରହ", thTraits: "ମୂଳ ସ୍ଵଭାବ", thImpact: "ଶୁଭ / ଅଶୁଭ ପ୍ରଭାବ"
-    };
-
-    const engData = {
-        hTitle: "ASTRO ABHINASH 🔯", btnGen: "Generate Report", tInsights: "Personalized Insights", tFriends: "Friends:", tEnemies: "Enemies:", 
-        tGrid: "Your Magic Grid", tElement: "Pancha Tattva Status", tMorning: "⚡ Morning Activation", tRemedies: "🔮 Vedic Solutions", btnBook: "Book Deep Consultation",
-        tAlignment: "Number Alignment Dashboard", lblMulank: "Mulank", lblBhagyank: "Bhagyank", lblNameNo: "Name No.", tKnowledge: "Loshu Plane Knowledge Table", tTattvaTable: "Pancha Tattva Master Table",
-        tHealthTitle: "🏥 Health Vitality Monitor", tDosTitle: "⚖️ Daily Do's & Don'ts", lblDo: "✅ DO'S", lblDont: "❌ DON'TS", tLuckTitle: "🌟 What Activates My Luck Today?",
-        tPlanetTraits: "Navagraha Traits Master Table", thPlanet: "Planet", thTraits: "Core Traits (Swabhav)", thImpact: "Positive / Negative"
-    };
-
+    // ... all existing constant definitions remain the same ...
+    const luckTriggers = { 1: { color: "Orange/Gold", colorOr: "କେସରୀ / ସୁନେଲୀ", dir: "East", dirOr: "ପୂର୍ବ", act: "Offer water to Sun", actOr: "ସୂର୍ଯ୍ୟଙ୍କୁ ଜଳ ଅର୍ପଣ କରନ୍ତୁ" }, 2: { color: "White/Silver", colorOr: "ଧଳା / ରୂପେଲୀ", dir: "North-West", dirOr: "ବାୟୁ କୋଣ", act: "Drink water in silver", actOr: "ରୂପା ଗ୍ଲାସରେ ପାଣି ପିଅନ୍ତୁ" }, 3: { color: "Yellow", colorOr: "ହଳଦିଆ", dir: "North-East", dirOr: "ଈଶାନ୍ୟ କୋଣ", act: "Apply Saffron Tilak", actOr: "କେସର ତିଳକ ଲଗାନ୍ତୁ" }, 4: { color: "Light Blue", colorOr: "ଆକାଶୀ ନୀଳ", dir: "South-West", dirOr: "ନୈଋତ୍ୟ କୋଣ", act: "Feed birds", actOr: "ପକ୍ଷୀଙ୍କୁ ଖାଦ୍ୟ ଦିଅନ୍ତୁ" }, 5: { color: "Green", colorOr: "ସବୁଜ", dir: "North", dirOr: "ଉତ୍ତର", act: "Keep a green plant", actOr: "ସବୁଜ ଗଛ ପାଖରେ ରଖନ୍ତୁ" }, 6: { color: "Cream/Pink", colorOr: "କ୍ରିମ୍ / ଗୋଲାପୀ", dir: "South-East", dirOr: "ଆଗ୍ନେୟ କୋଣ", act: "Use mild perfume", actOr: "ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ" }, 7: { color: "Grey/Smoke", colorOr: "ଧୂସର", dir: "Center", dirOr: "ମଧ୍ୟ ଭାଗ", act: "Meditate for 10 mins", actOr: "୧୦ ମିନିଟ୍ ଧ୍ୟାନ କରନ୍ତୁ" }, 8: { color: "Dark Blue/Black", colorOr: "ଗାଢ଼ ନୀଳ / କଳା", dir: "West", dirOr: "ପଶ୍ଚିମ", act: "Help someone needy", actOr: "ଗରିବଙ୍କୁ ସାହାଯ୍ୟ କରନ୍ତୁ" }, 9: { color: "Red", colorOr: "ନାଲି", dir: "South", dirOr: "ଦକ୍ଷିଣ", act: "Recite Hanuman Chalisa", actOr: "ହନୁମାନ ଚାଳିଶା ପାଠ କରନ୍ତୁ" } };
+    const dailyRules = { 1: { do: "Start new tasks, meet authorities, wear orange.", dont: "Avoid egoistic arguments and pride.", doOr: "ନୂଆ କାମ ଆରମ୍ଭ କରନ୍ତୁ, କେସରୀ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "ଅହଂକାର କିମ୍ବା ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |" }, 2: { do: "Meditation, creative work, drink water in silver.", dont: "Don't take emotional decisions or overthink.", doOr: "ଧ୍ୟାନ କରନ୍ତୁ, ରୂପା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ |", dontOr: "ଭାବପ୍ରବଣ ହୋଇ କୌଣସି ନିଷ୍ପତ୍ତି ନିଅନ୍ତୁ ନାହିଁ |" }, 3: { do: "Take advice from elders, study, wear yellow.", dont: "Don't criticize others or ignore spiritual tasks.", doOr: "ଗୁରୁଜନଙ୍କ ପରାମର୍ଶ ନିଅନ୍ତୁ, ହଳଦିଆ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "ଅନ୍ୟର ସମାଲୋଚନା କରନ୍ତୁ ନାହିଁ |" }, 4: { do: "Organize your desk, research, be disciplined.", dont: "Avoid shortcut methods and gambling.", doOr: "ଅନୁଶାସନ ମଧ୍ୟରେ ରୁହନ୍ତୁ, ଗବେଷଣା କାର୍ଯ୍ୟ କରନ୍ତୁ |", dontOr: "ସର୍ଟକଟ୍ ରାସ୍ତା ଆପଣାନ୍ତୁ ନାହିଁ |" }, 5: { do: "Networking, business deals, wear green.", dont: "Don't make promises you can't keep.", doOr: "ବ୍ୟବସାୟିକ ଆଲୋଚନା ପାଇଁ ଶୁଭ, ସବୁଜ ପିନ୍ଧନ୍ତୁ |", dontOr: "ମିଥ୍ୟା ପ୍ରତିଶ୍ରୁତି ଦିଅନ୍ତୁ ନାହିଁ |" }, 6: { do: "Family time, shopping, grooming, wear white.", dont: "Avoid conflicts with partners/colleagues.", doOr: "ପରିବାର ସହ ସମୟ ବିତାନ୍ତୁ, ଧଳା ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "କାହାରି ସହ ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |" }, 7: { do: "Introspection, yoga, help needy people.", dont: "Don't sign important legal papers today.", doOr: "ଯୋଗ କରନ୍ତୁ, ନିଜ ଭୁଲ୍ ସୁଧାରିବାକୁ ଚେଷ୍ଟା କରନ୍ତୁ |", dontOr: "ଆଜି କୌଣସି ଚୁକ୍ତିପତ୍ରରେ ସ୍ଵାକ୍ଷର କରନ୍ତୁ ନାହିଁ |" }, 8: { do: "Hard work, long-term planning, wear dark blue.", dont: "Don't be lazy or treat laborers poorly.", doOr: "କଠିନ ପରିଶ୍ରମ କରନ୍ତୁ, ଗଭୀର ନୀଳ ବ୍ୟବହାର କରନ୍ତୁ |", dontOr: "ଆଳସ୍ୟ ତ୍ୟାଗ କରନ୍ତୁ |" }, 9: { do: "Physical exercise, finishing old tasks, wear red.", dont: "Avoid rash driving and sharp objects/fire.", doOr: "ବ୍ୟାୟାମ କରନ୍ତୁ, ପୁରୁଣା କାର୍ଯ୍ୟ ଶେଷ କରନ୍ତୁ |", dontOr: "ଦ୍ରୁତ ଗତିରେ ଗାଡ଼ି ଚଲାନ୍ତୁ ନାହିଁ |" } };
+    const enemyLogic = { 1: { enemy: [8], msg: "Conflict with seniors or government rules.", sol: "Offer water to Sun (Surya) in a copper vessel." }, 2: { enemy: [4, 8, 9], msg: "High mental stress, mood swings, or emotional imbalance.", sol: "Meditate for 10 minutes and drink water from a silver glass." }, 3: { enemy: [6], msg: "Unnecessary luxury expenses or bad advice from friends.", sol: "Avoid making big financial investments today." }, 4: { enemy: [1, 2, 9], msg: "Unexpected delays, confusion, and obstacles in work.", sol: "Recite Ganesh Mantra and keep a blue handkerchief." }, 5: { enemy: [2], msg: "Restlessness or misunderstanding in communication.", sol: "Feed green grass to a cow or keep a green plant nearby." }, 6: { enemy: [3], msg: "Social reputation issues or ego clashes with partners.", sol: "Respect your elders and offer sweets to little girls." }, 7: { enemy: [8, 9], msg: "Sudden technical failures or hidden enemies causing trouble.", sol: "Feed a black dog or birds." }, 8: { enemy: [1, 2, 9], msg: "Heavy workload, physical fatigue, and slow results.", sol: "Chant Shani Mantra or light an oil lamp under a Peepal tree." }, 9: { enemy: [4, 7, 8], msg: "Angry outbursts, accidents, or heated arguments.", sol: "Recite Hanuman Chalisa and avoid wearing red today." } };
+    const healthAdvice = { 1: { issue: "Eye strain, Headache or Heart-related heat.", issueOr: "ଆଖି ସମସ୍ୟା, ମୁଣ୍ଡବିନ୍ଧା କିମ୍ବା ରକ୍ତଚାପ |", sol: "Drink plenty of water and avoid direct sun.", solOr: "ପ୍ରଚୁର ପାଣି ପିଅନ୍ତୁ ଏବଂ କଡ଼ା ଖରାକୁ ଯାଆନ୍ତୁ ନାହିଁ |" }, 2: { issue: "Digestive issues, Cold or Water retention.", issueOr: "ପେଟ ସମସ୍ୟା, ଥଣ୍ଡା କିମ୍ବା କାଶ |", sol: "Avoid cold drinks and keep feet warm.", solOr: "ଥଣ୍ଡା ପାନୀୟ ଠାରୁ ଦୂରେଇ ରୁହନ୍ତୁ |" }, 3: { issue: "Liver fatigue or Nervous system stress.", issueOr: "ଲିଭର ସମସ୍ୟା କିମ୍ବା ମାନସିକ ଚାପ |", sol: "Eat light food and avoid excess sugar.", solOr: "ହାଲୁକା ଖାଦ୍ୟ ଖାଆନ୍ତୁ ଏବଂ ଚିନି କମ କରନ୍ତୁ |" }, 4: { issue: "Back pain or Sudden breathing issues.", issueOr: "ପିଠି ଯନ୍ତ୍ରଣା କିମ୍ବା ଶ୍ୱାସକ୍ରିୟାରେ ଅସୁବିଧା |", sol: "Do light stretching and breathing exercises.", solOr: "ପ୍ରାଣାୟାମ କରନ୍ତୁ |" }, 5: { issue: "Skin allergies or Throat irritation.", issueOr: "ଚର୍ମ ରୋଗ କିମ୍ବା ଗଳା ସମସ୍ୟା |", sol: "Feed green grass to cow and avoid spicy food.", solOr: "ଗାଈକୁ ଘାସ ଖାଇବାକୁ ଦିଅନ୍ତୁ |" }, 6: { issue: "Kidney or Lower abdomen discomfort.", issueOr: "କିଡନୀ କିମ୍ବା ତଳ ପେଟରେ ଯନ୍ତ୍ରଣା |", sol: "Use perfumes and keep body hydrated.", solOr: "ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ |" }, 7: { issue: "Mental anxiety or Sleep disturbances.", issueOr: "ମାନସିକ ଦୁଶ୍ଚିନ୍ତା କିମ୍ବା ଶୋଇବାରେ ଅସୁବିଧା |", sol: "Avoid screens before bed and drink milk.", solOr: "ରାତିରେ ଶୋଇବା ପୂର୍ବରୁ କ୍ଷୀର ପିଅନ୍ତୁ |" }, 8: { issue: "Joint pain, Teeth or Bone discomfort.", issueOr: "ଗଣ୍ଠି ଯନ୍ତ୍ରଣା କିମ୍ବା ହାଡ଼ରେ ସମସ୍ୟା |", sol: "Chant Shani Mantra and avoid cold air.", solOr: "ଶନି ମନ୍ତ୍ର ଜପ କରନ୍ତୁ |" }, 9: { issue: "Blood pressure, Fever or Small injuries.", issueOr: "ରକ୍ତଚାପ, ଜ୍ୱର କିମ୍ବା ଆଘାତ |", sol: "Avoid spicy food and drive carefully.", solOr: "ସାବଧାନରେ ଗାଡ଼ି ଚଲାନ୍ତୁ |" } };
+    const planeDef = [ { name: "Mental Plane", nums: [4,9,2], benefit: "Sharp Mind & Logic", activation: "Keep North-East area clean." }, { name: "Emotional Plane", nums: [3,5,7], benefit: "Intuition & Feelings", activation: "Wear a silver ring or coin." }, { name: "Practical Plane", nums: [8,1,6], benefit: "Solid Material Success", activation: "Wear a metal strap watch." }, { name: "Thought Plane", nums: [4,3,8], benefit: "Strategy & Planning", activation: "Use yellow handkerchief." }, { name: "Will Plane", nums: [9,5,1], benefit: "Determination & Success", activation: "Offer water to Sun daily." }, { name: "Action Plane", nums: [2,7,6], benefit: "Fast Results & Execution", activation: "Use white/cream colors." }, { name: "Golden Success", nums: [4,5,6], benefit: "Wealth & Fortune", activation: "Keep a green plant in NE." }, { name: "Silver Assets", nums: [2,5,8], benefit: "Property & Stability", activation: "Tie black thread or wear metal watch." } ];
+    const odiaData = { hTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", btnGen: "ରିପୋର୍ଟ ପ୍ରସ୍ତୁତ କରନ୍ତୁ", tInsights: "ବ୍ୟକ୍ତିଗତ ବିବରଣୀ", tFriends: "ବନ୍ଧୁ ସଂଖ୍ୟା:", tEnemies: "ଶତ୍ରୁ ସଂଖ୍ୟା:", tGrid: "ଆପଣଙ୍କ ମ୍ୟାଜିକ ଗ୍ରୀଡ୍", tElement: "ପଞ୍ଚ ତତ୍ତ୍ୱ ସ୍ଥିତି", tMorning: "⚡ ସକାଳର କର୍ତ୍ତବ୍ୟ", tRemedies: "🔮 ବୈଦିକ ପ୍ରତିକାର", btnBook: "ଅଧିକ ପରାମର୍ଶ ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ", tAlignment: "ସଂଖ୍ୟା ଆଲାଇନ୍ମେଣ୍ଟ ଡ୍ୟାସବୋର୍ଡ", lblMulank: "ମୂଳାଙ୍କ", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ", lblNameNo: "ନାମ ସଂଖ୍ୟା", tKnowledge: "ଲୋଶୁ ପ୍ଲେନ୍ ଜ୍ଞାନ ତାଲିକା", tTattvaTable: "ପଞ୍ଚ ତତ୍ତ୍ୱ ମାଷ୍ଟର ଟେବୁଲ୍", tHealthTitle: "🏥 ସ୍ୱାସ୍ଥ୍ୟ ସୂଚନା", tDosTitle: "⚖️ ଆଜି କ’ଣ କରିବେ ଏବଂ କ’ଣ କରିବେ ନାହିଁ", lblDo: "✅ କରନ୍ତୁ", lblDont: "❌ କରନ୍ତୁ ନାହିଁ", tLuckTitle: "🌟 ଆଜି କିପରି ଭାଗ୍ୟ ବୃଦ୍ଧି ହେବ?", tPlanetTraits: "ନବଗ୍ରହ ସ୍ଵଭାବ ମାଷ୍ଟର ଟେବୁଲ୍", thPlanet: "ଗ୍ରହ", thTraits: "ମୂଳ ସ୍ଵଭାବ", thImpact: "ଶୁଭ / ଅଶୁଭ ପ୍ରଭାବ" };
+    const engData = { hTitle: "ASTRO ABHINASH 🔯", btnGen: "Generate Report", tInsights: "Personalized Insights", tFriends: "Friends:", tEnemies: "Enemies:", tGrid: "Your Magic Grid", tElement: "Pancha Tattva Status", tMorning: "⚡ Morning Activation", tRemedies: "🔮 Vedic Solutions", btnBook: "Book Deep Consultation", tAlignment: "Number Alignment Dashboard", lblMulank: "Mulank", lblBhagyank: "Bhagyank", lblNameNo: "Name No.", tKnowledge: "Loshu Plane Knowledge Table", tTattvaTable: "Pancha Tattva Master Table", tHealthTitle: "🏥 Health Vitality Monitor", tDosTitle: "⚖️ Daily Do's & Don't's", lblDo: "✅ DO'S", lblDont: "❌ DON'TS", tLuckTitle: "🌟 What Activates My Luck Today?", tPlanetTraits: "Navagraha Traits Master Table", thPlanet: "Planet", thTraits: "Core Traits (Swabhav)", thImpact: "Positive / Negative" };
     const adviceM = { 1: "Focus on leadership.", 2: "Trust intuition.", 3: "Expand knowledge.", 4: "Stay disciplined.", 5: "Communication is key.", 6: "Family & Art focus.", 7: "Spirituality.", 8: "Hard work.", 9: "Humanitarian." };
     const adviceB = { 1: "Destiny to lead.", 2: "Peace & cooperation.", 3: "Advisory role.", 4: "Struggle then gains.", 5: "Travel & luck.", 6: "Comfortable life.", 7: "Mysteries journey.", 8: "Material success.", 9: "Warrior for world." };
-
-    const remediesOdia = {
-        1: "ସୂର୍ଯ୍ୟ: ତମ୍ବା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ |", 2: "ଚନ୍ଦ୍ର: ରୂପା ମୁଦ୍ରା ପାଖରେ ରଖନ୍ତୁ |", 3: "ବୃହସ୍ପତି: କେଶର ତିଳକ ଲଗାନ୍ତୁ |", 4: "ରାହୁ: ପକ୍ଷୀଙ୍କୁ ଦାନା ଦିଅନ୍ତୁ |", 5: "ବୁଧ: ଗାଈକୁ ଘାସ ଦିଅନ୍ତୁ |", 6: "ଶୁକ୍ର: ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ |", 7: "କେତୁ: କୁକୁରକୁ ଖାଦ୍ୟ ଦିଅନ୍ତୁ |", 8: "ଶନି: ସନ୍ଧ୍ୟାରେ ଦୀପ ଜାଳନ୍ତୁ |", 9: "ମଙ୍ଗଳ: ହନୁମାନ ଚାଳିଶା ପାଠ କରନ୍ତୁ |",
-        Wood: "🌳 NE ରେ ଗୋଟିଏ ଗଛ ରଖନ୍ତୁ |", Fire: "🔥 ଦକ୍ଷିଣରେ ନାଲି ଦୀପ ଜାଳନ୍ତୁ |", Earth: "⛰️ ହଳଦିଆ ରୁମାଲ ବ୍ୟବହାର କରନ୍ତୁ |", Metal: "⚔️ ରୂପା ଚୁଡ଼ି ପିନ୍ଧନ୍ତୁ |", Water: "💧 ଉତ୍ତରରେ ପାଣି ରଖନ୍ତୁ |"
-    };
-
-    const remediesEng = {
-        1: "Sun: Drink water in copper.", 2: "Moon: Keep silver coin.", 3: "Jupiter: Apply saffron tilak.", 4: "Rahu: Feed birds.", 5: "Mercury: Feed cows green grass.", 6: "Venus: Use perfumes.", 7: "Ketu: Feed dogs.", 8: "Saturn: Light lamp under Peepal tree.", 9: "Mars: Recite Hanuman Chalisa.",
-        Wood: "🌳 Place a small green plant in NE.", Fire: "🔥 Light a red diya in South.", Earth: "⛰️ Use a yellow handkerchief.", Metal: "⚔️ Wear a metal watch or bangle.", Water: "💧 Keep fresh water in North."
-    };
+    const remediesOdia = { 1: "ସୂର୍ଯ୍ୟ: ତମ୍ବା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ |", 2: "ଚନ୍ଦ୍ର: ରୂପା ମୁଦ୍ରା ପାଖରେ ରଖନ୍ତୁ |", 3: "ବୃହସ୍ପତି: କେଶର ତିଳକ ଲଗାନ୍ତୁ |", 4: "ରାହୁ: ପକ୍ଷୀଙ୍କୁ ଦାନା ଦିଅନ୍ତୁ |", 5: "ବୁଧ: ଗାଈକୁ ଘାସ ଦିଅନ୍ତୁ |", 6: "ଶୁକ୍ର: ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ |", 7: "କେତୁ: କୁକୁରକୁ ଖାଦ୍ୟ ଦିଅନ୍ତୁ |", 8: "ଶନି: ସନ୍ଧ୍ୟାରେ ଦୀପ ଜାଳନ୍ତୁ |", 9: "ମଙ୍ଗଳ: ହନୁମାନ ଚାଳିଶା ପାଠ କରନ୍ତୁ |", Wood: "🌳 NE ରେ ଗୋଟିଏ ଗଛ ରଖନ୍ତୁ |", Fire: "🔥 ଦକ୍ଷିଣରେ ନାଲି ଦୀପ ଜାଳନ୍ତୁ |", Earth: "⛰️ ହଳଦିଆ ରୁମାଲ ବ୍ୟବହାର କରନ୍ତୁ |", Metal: "⚔️ ରୂପା ଚୁଡ଼ି ପିନ୍ଧନ୍ତୁ |", Water: "💧 ଉତ୍ତରରେ ପାଣି ରଖନ୍ତୁ |" };
+    const remediesEng = { 1: "Sun: Drink water in copper.", 2: "Moon: Keep silver coin.", 3: "Jupiter: Apply saffron tilak.", 4: "Rahu: Feed birds.", 5: "Mercury: Feed cows green grass.", 6: "Venus: Use perfumes.", 7: "Ketu: Feed dogs.", 8: "Saturn: Light lamp under Peepal tree.", 9: "Mars: Recite Hanuman Chalisa.", Wood: "🌳 Place a small green plant in NE.", Fire: "🔥 Light a red diya in South.", Earth: "⛰️ Use a yellow handkerchief.", Metal: "⚔️ Wear a metal watch or bangle.", Water: "💧 Keep fresh water in North." };
 
     function toggleLanguage() {
         currentLang = currentLang === 'en' ? 'or' : 'en';
         let data = currentLang === 'en' ? engData : odiaData;
-        for (let key in data) { 
-            if(document.getElementById(key)) {
-                let existingHtml = document.getElementById(key).innerHTML;
-                if(existingHtml.includes("<i")) {
-                    let icon = existingHtml.split("</i>")[0] + "</i> ";
-                    document.getElementById(key).innerHTML = icon + data[key];
-                } else {
-                    document.getElementById(key).innerText = data[key]; 
-                }
-            }
-        }
+        for (let key in data) { if(document.getElementById(key)) { let existingHtml = document.getElementById(key).innerHTML; if(existingHtml.includes("<i")) { let icon = existingHtml.split("</i>")[0] + "</i> "; document.getElementById(key).innerHTML = icon + data[key]; } else { document.getElementById(key).innerText = data[key]; } } }
         if (document.getElementById("personalContent").style.display === "block") calculateMagic();
     }
 
@@ -404,10 +343,82 @@
         `;
         document.getElementById("luckContent").innerHTML = luckHtml;
         
+        let gridStr = day.toString() + month.toString() + year.toString() + m.toString() + b.toString();
+
+        // --- DYNAMIC UNIQUE ANALYSIS LOGIC (5 POINTS EACH) ---
+        let rel = {1:{f:[2,3,5,9],e:[8]},2:{f:[1,3,5],e:[4,8,9]},3:{f:[1,2,5,7,9],e:[6]},4:{f:[5,6,7,8],e:[1,2,9]},5:{f:[1,3,4,6,7,8,9],e:[2]},6:{f:[4,5,7,8],e:[3]},7:{f:[3,4,5,6],e:[8,9]},8:{f:[4,5,6,7],e:[1,2,9]},9:{f:[1,2,3,5],e:[4,7,8]}};
+        
+        // 1. Destiny Impact
+        const dPoints = currentLang === 'en' ? [
+            `Governed by ${planets[m]} (Mulank) & ${planets[b]} (Bhagyank).`,
+            `Your inner nature is ${m}, but the world sees you as ${b}.`,
+            `The combination of ${m}-${b} creates a unique leadership style.`,
+            `Karmic path suggests focus on ${m === b ? 'Mastery' : 'Balance'}.`,
+            `Potential for massive growth in ${b % 2 === 0 ? 'Service' : 'Business'}.`
+        ] : [
+            `ଆପଣ ${planets[m]} (ମୂଳାଙ୍କ) ଏବଂ ${planets[b]} (ଭାଗ୍ୟାଙ୍କ) ଦ୍ୱାରା ପରିଚାଳିତ |`,
+            `ଆପଣଙ୍କ ସ୍ୱଭାବ ${m} କିନ୍ତୁ କର୍ମ କ୍ଷେତ୍ର ${b} ଅଟେ |`,
+            `${m}-${b} ର ସମନ୍ୱୟ ଆପଣଙ୍କ ବ୍ୟକ୍ତିତ୍ୱକୁ ସ୍ୱତନ୍ତ୍ର କରେ |`,
+            `ଆପଣଙ୍କ କର୍ମ ପଥ ${m === b ? 'ନିପୁଣତା' : 'ସନ୍ତୁଳନ'} ଉପରେ ଆଧାରିତ |`,
+            `${b % 2 === 0 ? 'ସେବା' : 'ବ୍ୟବସାୟ'} କ୍ଷେତ୍ରରେ ଉନ୍ନତିର ଯୋଗ ଅଛି |`
+        ];
+        document.getElementById("uDestinyList").innerHTML = dPoints.map(p => `<li>${p}</li>`).join('');
+
+        // 2. Grid Gaps
+        let missing = [];
+        for(let i=1; i<=9; i++) if(!gridStr.includes(i)) missing.push(i);
+        const gPoints = currentLang === 'en' ? [
+            `Missing Numbers detected: ${missing.join(', ') || 'None'}.`,
+            `${!gridStr.includes('5') ? 'Lack of stability in financial growth.' : 'Core stability is present.'}`,
+            `${!gridStr.includes('6') ? 'Family and luxury support needs activation.' : 'Strong family/luxury connections.'}`,
+            `${!gridStr.includes('2') ? 'Emotional decision making is a weakness.' : 'Good emotional intelligence.'}`,
+            `Missing vibrations cause ${missing.length > 3 ? 'Major' : 'Minor'} life hurdles.`
+        ] : [
+            `ଅନୁପସ୍ଥିତ ସଂଖ୍ୟା: ${missing.join(', ') || 'ନାହିଁ'} |`,
+            `${!gridStr.includes('5') ? 'ଆର୍ଥିକ ସ୍ଥିରତାର ଅଭାବ ରହିଛି |' : 'ଆର୍ଥିକ ସ୍ଥିରତା ଭଲ ଅଛି |'}`,
+            `${!gridStr.includes('6') ? 'ପରିବାର ଏବଂ ସୁଖ ସୁବିଧାରେ ବାଧା ଅଛି |' : 'ପରିବାରର ସହଯୋଗ ମିଳିବ |'}`,
+            `${!gridStr.includes('2') ? 'ଭାବପ୍ରବଣ ହୋଇ ଭୁଲ ନିଷ୍ପତ୍ତି ନେଇପାରନ୍ତି |' : 'ଭାବନାତ୍ମକ ଶକ୍ତି ବହୁତ ଭଲ |'}`,
+            `${missing.length > 3 ? 'ଅଧିକ' : 'ସାମାନ୍ୟ'} ସମସ୍ୟାର ସମ୍ମୁଖୀନ ହୋଇପାରନ୍ତି |`
+        ];
+        document.getElementById("uGridList").innerHTML = gPoints.map(p => `<li>${p}</li>`).join('');
+
+        // 3. Vibration Match
+        let isEnemy = rel[m].e.includes(n);
+        const vPoints = currentLang === 'en' ? [
+            `Name Number ${n} is ${isEnemy ? 'Conflicting' : 'Syncing'} with Mulank.`,
+            `${isEnemy ? 'Hidden enemies or delays' : 'Natural luck'} in career.`,
+            `Social vibration: People see you as a ${n} personality.`,
+            `Your signature should be modified for ${isEnemy ? 'Correction' : 'Power'}.`,
+            `Current Name Vibration level: ${isEnemy ? 'Low (Needs Fix)' : 'High (Good)'}.`
+        ] : [
+            `ନାମ ସଂଖ୍ୟା ${n} ମୂଳାଙ୍କ ସହିତ ${isEnemy ? 'ଶତ୍ରୁତା' : 'ମିତ୍ରତା'} ରଖୁଛି |`,
+            `${isEnemy ? 'କ୍ୟାରିୟରରେ ବାଧା' : 'ଭାଗ୍ୟର ସହଯୋଗ'} ମିଳିବ |`,
+            `ସମାଜରେ ଆପଣଙ୍କ ପରିଚୟ ${n} ପରି ହେବ |`,
+            `ଆପଣଙ୍କ ଦସ୍ତଖତ (Signature) ${isEnemy ? 'ସଂଶୋଧନ' : 'ଶକ୍ତି'} ଆବଶ୍ୟକ କରେ |`,
+            `ନାମର ପ୍ରଭାବ: ${isEnemy ? 'କମ୍ (ସଂଶୋଧନ ଦରକାର)' : 'ଉତ୍ତମ'} |`
+        ];
+        document.getElementById("uVibeList").innerHTML = vPoints.map(p => `<li>${p}</li>`).join('');
+
+        // 4. Time Window
+        const tPoints = currentLang === 'en' ? [
+            `Current Personal Year: ${py}.`,
+            `Impact: ${py === 1 ? 'New Beginnings' : py === 8 ? 'Hard Work' : 'Mixed Results'}.`,
+            `Today's Power Hour: Morning (due to ${planets[pd]}).`,
+            `Next 3 months focus: ${py < 5 ? 'Career' : 'Self-Care'}.`,
+            `Specific Lucky Window: ${luckData.dir} facing work.`
+        ] : [
+            `ବର୍ତ୍ତମାନର ବ୍ୟକ୍ତିଗତ ବର୍ଷ: ${py} |`,
+            `ପ୍ରଭାବ: ${py === 1 ? 'ନୂତନ ଆରମ୍ଭ' : py === 8 ? 'କଠିନ ପରିଶ୍ରମ' : 'ମିଶ୍ରିତ ଫଳ'} |`,
+            `ଆଜିର ଶୁଭ ସମୟ: ସକାଳ (ଗ୍ରହ: ${planets[pd]}) |`,
+            `ଆସନ୍ତା ୩ ମାସର ଲକ୍ଷ୍ୟ: ${py < 5 ? 'କ୍ୟାରିୟର' : 'ନିଜର ଯତ୍ନ'} |`,
+            `ଶୁଭ ଦିଗ: ${luckData.dirOr} ଅଟେ |`
+        ];
+        document.getElementById("uTimeList").innerHTML = tPoints.map(p => `<li>${p}</li>`).join('');
+
+        // ... rest of the existing calculateMagic() logic (Health, Status, Remedies, etc.) ...
         const challengeBox = document.getElementById("challengeBox");
         const challengeContent = document.getElementById("challengeContent");
         let isTodayEnemy = enemyLogic[m].enemy.includes(pd);
-
         if (isTodayEnemy) {
             challengeBox.style.borderColor = "var(--danger)";
             challengeBox.style.background = "rgba(255, 77, 77, 0.05)";
@@ -423,28 +434,21 @@
         const healthBox = document.getElementById("healthBox");
         const healthContent = document.getElementById("healthContent");
         const hData = healthAdvice[pd];
-        
         if (isTodayEnemy) {
             healthBox.style.borderColor = "var(--danger)";
             healthBox.style.background = "rgba(255, 77, 77, 0.05)";
             document.getElementById("tHealthTitle").style.color = "var(--danger)";
-            healthContent.innerHTML = currentLang === 'en' 
-                ? `<b>Warning:</b> Vitality low. Possible <span style="color:var(--gold)">${hData.issue}</span>.<br><b>Precaution:</b> ${hData.sol}`
-                : `<b>ସତର୍କତା:</b> ଆଜି <span style="color:var(--gold)">${hData.issueOr}</span> ହୋଇପାରେ |<br><b>ପ୍ରତିକାର:</b> ${hData.solOr}`;
+            healthContent.innerHTML = currentLang === 'en' ? `<b>Warning:</b> Vitality low. Possible <span style="color:var(--gold)">${hData.issue}</span>.<br><b>Precaution:</b> ${hData.sol}` : `<b>ସତର୍କତା:</b> ଆଜି <span style="color:var(--gold)">${hData.issueOr}</span> ହୋଇପାରେ |<br><b>ପ୍ରତିକାର:</b> ${hData.solOr}`;
         } else {
             healthBox.style.borderColor = "var(--primary)";
             healthBox.style.background = "rgba(0, 242, 255, 0.05)";
             document.getElementById("tHealthTitle").style.color = "var(--primary)";
-            healthContent.innerHTML = currentLang === 'en'
-                ? `<div style="text-align:center;">🌟 Health stable. Focus on <span style="color:var(--primary)">${hData.issue.split('or')[0]}</span>. ${hData.sol}</div>`
-                : `<div style="text-align:center;">🌟 ସ୍ୱାସ୍ଥ୍ୟ ସ୍ଥିର ରହିବ | <span style="color:var(--primary)">${hData.issueOr.split('|')[0]}</span> ପ୍ରତି ସାବଧାନ ରୁହନ୍ତୁ |</div>`;
+            healthContent.innerHTML = currentLang === 'en' ? `<div style="text-align:center;">🌟 Health stable. Focus on <span style="color:var(--primary)">${hData.issue.split('or')[0]}</span>. ${hData.sol}</div>` : `<div style="text-align:center;">🌟 ସ୍ୱାସ୍ଥ୍ୟ ସ୍ଥିର ରହିବ | <span style="color:var(--primary)">${hData.issueOr.split('|')[0]}</span> ପ୍ରତି ସାବଧାନ ରୁହନ୍ତୁ |</div>`;
         }
 
         const dRules = dailyRules[pd];
         document.getElementById("valDos").innerHTML = currentLang === 'en' ? dRules.do : dRules.doOr;
         document.getElementById("valDonts").innerHTML = currentLang === 'en' ? dRules.dont : dRules.dontOr;
-
-        let rel = {1:{f:[2,3,5,9],e:[8]},2:{f:[1,3,5],e:[4,8,9]},3:{f:[1,2,5,7,9],e:[6]},4:{f:[5,6,7,8],e:[1,2,9]},5:{f:[1,3,4,6,7,8,9],e:[2]},6:{f:[4,5,7,8],e:[3]},7:{f:[3,4,5,6],e:[8,9]},8:{f:[4,5,6,7],e:[1,2,9]},9:{f:[1,2,3,5],e:[4,7,8]}};
         document.getElementById("valFriends").innerText = rel[m].f.join(", ");
         document.getElementById("valEnemies").innerText = rel[m].e.join(", ");
 
@@ -454,10 +458,8 @@
         statusBox.style.background = isAligned ? "rgba(74, 222, 128, 0.2)" : "rgba(255, 77, 77, 0.2)";
         statusBox.style.color = isAligned ? "var(--success)" : "var(--danger)";
 
-        let gridStr = day.toString() + month.toString() + year.toString() + m.toString() + b.toString();
         let rListHtml = "";
         let remData = currentLang === 'en' ? remediesEng : remediesOdia;
-
         rListHtml += `<div class="trait-item" style="border-left-color:var(--gold)"><b>Mulank Advice:</b> ${adviceM[m]}</div>`;
         rListHtml += `<div class="trait-item" style="border-left-color:var(--gold)"><b>Bhagyank Advice:</b> ${adviceB[b]}</div>`;
 
@@ -477,11 +479,8 @@
         let analysisHtml = "";
         planeDef.forEach(p => {
             let found = p.nums.filter(n => gridStr.includes(n.toString()));
-            if (found.length === 3) {
-                analysisHtml += `<div class="analysis-card active-plane"><b>✅ ACTIVE: ${p.name}</b><br>${p.benefit}</div>`;
-            } else if (found.length > 0) {
-                analysisHtml += `<div class="analysis-card missing-plane"><b>⚠️ INCOMPLETE: ${p.name}</b><br>Activation: ${p.activation}</div>`;
-            }
+            if (found.length === 3) analysisHtml += `<div class="analysis-card active-plane"><b>✅ ACTIVE: ${p.name}</b><br>${p.benefit}</div>`;
+            else if (found.length > 0) analysisHtml += `<div class="analysis-card missing-plane"><b>⚠️ INCOMPLETE: ${p.name}</b><br>Activation: ${p.activation}</div>`;
         });
         document.getElementById("planesAnalysis").innerHTML = analysisHtml;
         document.getElementById("remedyList").innerHTML = rListHtml;
@@ -492,5 +491,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bundle.min.js"></script>
 </body>
 </html>
-
-
