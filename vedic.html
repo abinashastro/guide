@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astro Abhinash | Vedic Astrology</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--gold:#FFD700;
+--primary:#00f2ff;
+--bg:#020617;
+--card:rgba(255,255,255,0.06);
+}
+
+body{
+margin:0;
+font-family:Poppins;
+background: radial-gradient(circle at top,#0f172a,#020617);
+color:white;
+text-align:center;
+}
+
+/* header */
+header{
+background:black;
+padding:18px;
+font-size:22px;
+font-weight:800;
+border-bottom:2px solid var(--gold);
+letter-spacing:1px;
+}
+
+.sub{
+font-size:12px;
+color:#aaa;
+margin-top:3px;
+}
+
+/* hero */
+.hero{
+padding:40px 20px;
+}
+
+.hero h1{
+font-size:28px;
+color:var(--gold);
+margin-bottom:10px;
+}
+
+.hero p{
+color:#ccc;
+font-size:14px;
+max-width:500px;
+margin:auto;
+}
+
+.btn{
+margin-top:25px;
+padding:15px 35px;
+border:none;
+border-radius:40px;
+background:linear-gradient(45deg,#00f2ff,#0066ff);
+color:white;
+font-weight:bold;
+font-size:16px;
+cursor:pointer;
+box-shadow:0 0 20px rgba(0,242,255,0.4);
+}
+
+/* services */
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.card{
+background:var(--card);
+padding:20px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.1);
+backdrop-filter:blur(10px);
+}
+
+.card h3{
+color:var(--primary);
+margin:5px 0;
+font-size:16px;
+}
+
+.card p{
+font-size:13px;
+color:#ccc;
+}
+
+/* daily */
+.daily{
+background:rgba(255,215,0,0.05);
+border:1px solid var(--gold);
+border-radius:20px;
+padding:25px;
+margin-top:30px;
+}
+
+.lucky{
+font-size:32px;
+color:var(--gold);
+font-weight:800;
+}
+
+/* whatsapp */
+.whatsapp{
+display:block;
+margin:35px auto;
+background:#25D366;
+color:white;
+padding:16px;
+border-radius:40px;
+text-decoration:none;
+font-weight:700;
+width:80%;
+max-width:350px;
+}
+
+/* footer */
+footer{
+margin-top:40px;
+padding:25px;
+font-size:12px;
+color:#888;
+border-top:1px solid rgba(255,255,255,0.1);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ASTRO ABHINASH 🔯
+<div class="sub">India's Modern Vedic Astrology</div>
+</header>
+
+<section class="hero">
+<h1>Unlock Your Destiny</h1>
+<p>Accurate Vedic astrology, numerology & life predictions.  
+Know your future, money luck, career & marriage timing.</p>
+
+<button class="btn" onclick="scrollToServices()">Check My Destiny</button>
+</section>
+
+<div class="container" id="services">
+
+<div class="grid">
+
+<div class="card">
+<h3>🔮 Birth Chart Reading</h3>
+<p>जानिए career, marriage, success और future prediction.</p>
+</div>
+
+<div class="card">
+<h3>💰 Money & Career Report</h3>
+<p>Business growth, job success और धन योग analysis.</p>
+</div>
+
+<div class="card">
+<h3>❤️ Love & Marriage</h3>
+<p>Marriage timing, compatibility & relationship future.</p>
+</div>
+
+<div class="card">
+<h3>🔢 Numerology Report</h3>
+<p>Mulank, Bhagyank, name correction & lucky number.</p>
+</div>
+
+<div class="card">
+<h3>🪬 Vastu & Remedies</h3>
+<p>घर, shop, office vastu & powerful remedies.</p>
+</div>
+
+<div class="card">
+<h3>👶 Baby Name Suggestion</h3>
+<p>Lucky name & powerful destiny number for child.</p>
+</div>
+
+</div>
+
+<div class="daily">
+<h3>🌟 Today's Cosmic Energy</h3>
+<div class="lucky" id="todayNum">--</div>
+<div id="todayMsg">Checking planetary vibration...</div>
+</div>
+
+<a class="whatsapp" 
+href="https://wa.me/917008186187?text=Hello%20Astro%20Abhinash%20I%20want%20consultation">
+📞 Book Personal Consultation
+</a>
+
+</div>
+
+<footer>
+© 2026 Astro Abhinash | Vedic Astrology & Numerology  
+Powered by destiny science
+</footer>
+
+<script>
+function scrollToServices(){
+document.getElementById("services").scrollIntoView({behavior:"smooth"});
+}
+
+/* daily number */
+let today=new Date();
+let num=(today.getDate()+today.getMonth()+1+today.getFullYear())%9;
+if(num==0) num=9;
+
+document.getElementById("todayNum").innerText="Lucky Number "+num;
+
+const msg=[
+"",
+"Sun power active today",
+"Moon emotions strong",
+"Jupiter blessing day",
+"Rahu sudden gains",
+"Mercury business luck",
+"Venus luxury day",
+"Ketu spiritual day",
+"Saturn karma day",
+"Mars action day"
+];
+
+document.getElementById("todayMsg").innerText=msg[num];
+</script>
+
+</body>
+</html>
