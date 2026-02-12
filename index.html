@@ -14,18 +14,20 @@
         body { margin: 0; font-family: 'Poppins', sans-serif; background: #020617; color: white; text-align: center; padding-bottom: 50px; }
         header { background: rgba(0, 0, 0, 0.9); padding: 15px; border-bottom: 2px solid var(--primary); font-weight: 700; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
         
-        /* Box and Container Adjustments */
         .container-custom { max-width: 600px; margin: auto; padding: 15px; }
         .box { background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
         
-        /* Input Overrides for Bootstrap Compatibility */
+        /* New Luck Box Style */
+        .luck-box { border: 2px solid var(--gold); background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 242, 255, 0.05)); box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+        .luck-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 14px; text-align: left; }
+        .luck-icon { font-size: 20px; color: var(--gold); }
+
         input, select { padding: 12px; width: 100%; border-radius: 10px; border: none; margin-bottom: 10px; font-weight: bold; outline: none; background: #1e293b; color: white; }
         .form-control:focus, .form-select:focus { background: #1e293b; color: white; border-color: var(--primary); box-shadow: 0 0 0 0.25rem rgba(0, 242, 255, 0.25); }
         
         .toggle-btn { background: var(--primary); color: #000; border: none; padding: 5px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 12px; margin-top: 5px; }
         .calc-btn { padding: 15px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, var(--primary), #0066ff); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 10px; }
         
-        /* Floating Animation for WhatsApp */
         .contact-btn { padding: 15px 40px; border: 2px solid var(--success); border-radius: 50px; background: rgba(74, 222, 128, 0.1); color: var(--success); font-weight: 700; cursor: pointer; text-decoration: none; display: block; margin: 20px auto; transition: 0.3s; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         .contact-btn:hover { background: var(--success); color: black; }
@@ -92,6 +94,10 @@
     </div>
 
     <div id="personalContent">
+        <div class="box luck-box">
+            <h2 id="tLuckTitle" class="h6 mb-3" style="color:var(--gold)"><i class="fa-solid fa-star"></i> What Activates My Luck Today?</h2>
+            <div id="luckContent"></div>
+        </div>
         <div class="box">
             <h2 id="tAlignment" class="h6 mb-3" style="color:var(--primary);"><i class="fa-solid fa-chart-line"></i> Number Alignment Dashboard</h2>
             <div class="alignment-grid">
@@ -230,11 +236,23 @@
 </div>
 
 <script>
-    // [JavaScript Logic Code remained untouched as requested]
     let currentLang = 'en';
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     const planets = { 1:"Sun", 2:"Moon", 3:"Jupiter", 4:"Rahu", 5:"Mercury", 6:"Venus", 7:"Ketu", 8:"Saturn", 9:"Mars" };
     
+    // Data for the Luck Section
+    const luckTriggers = {
+        1: { color: "Orange/Gold", colorOr: "କେସରୀ / ସୁନେଲୀ", dir: "East", dirOr: "ପୂର୍ବ", act: "Offer water to Sun", actOr: "ସୂର୍ଯ୍ୟଙ୍କୁ ଜଳ ଅର୍ପଣ କରନ୍ତୁ" },
+        2: { color: "White/Silver", colorOr: "ଧଳା / ରୂପେଲୀ", dir: "North-West", dirOr: "ବାୟୁ କୋଣ", act: "Drink water in silver", actOr: "ରୂପା ଗ୍ଲାସରେ ପାଣି ପିଅନ୍ତୁ" },
+        3: { color: "Yellow", colorOr: "ହଳଦିଆ", dir: "North-East", dirOr: "ଈଶାନ୍ୟ କୋଣ", act: "Apply Saffron Tilak", actOr: "କେସର ତିଳକ ଲଗାନ୍ତୁ" },
+        4: { color: "Light Blue", colorOr: "ଆକାଶୀ ନୀଳ", dir: "South-West", dirOr: "ନୈଋତ୍ୟ କୋଣ", act: "Feed birds", actOr: "ପକ୍ଷୀଙ୍କୁ ଖାଦ୍ୟ ଦିଅନ୍ତୁ" },
+        5: { color: "Green", colorOr: "ସବୁଜ", dir: "North", dirOr: "ଉତ୍ତର", act: "Keep a green plant", actOr: "ସବୁଜ ଗଛ ପାଖରେ ରଖନ୍ତୁ" },
+        6: { color: "Cream/Pink", colorOr: "କ୍ରିମ୍ / ଗୋଲାପୀ", dir: "South-East", dirOr: "ଆଗ୍ନେୟ କୋଣ", act: "Use mild perfume", actOr: "ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ" },
+        7: { color: "Grey/Smoke", colorOr: "ଧୂସର", dir: "Center", dirOr: "ମଧ୍ୟ ଭାଗ", act: "Meditate for 10 mins", actOr: "୧୦ ମିନିଟ୍ ଧ୍ୟାନ କରନ୍ତୁ" },
+        8: { color: "Dark Blue/Black", colorOr: "ଗାଢ଼ ନୀଳ / କଳା", dir: "West", dirOr: "ପଶ୍ଚିମ", act: "Help someone needy", actOr: "ଗରିବଙ୍କୁ ସାହାଯ୍ୟ କରନ୍ତୁ" },
+        9: { color: "Red", colorOr: "ନାଲି", dir: "South", dirOr: "ଦକ୍ଷିଣ", act: "Recite Hanuman Chalisa", actOr: "ହନୁମାନ ଚାଳିଶା ପାଠ କରନ୍ତୁ" }
+    };
+
     const dailyRules = {
         1: { do: "Start new tasks, meet authorities, wear orange.", dont: "Avoid egoistic arguments and pride.", doOr: "ନୂଆ କାମ ଆରମ୍ଭ କରନ୍ତୁ, କେସରୀ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "ଅହଂକାର କିମ୍ବା ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |" },
         2: { do: "Meditation, creative work, drink water in silver.", dont: "Don't take emotional decisions or overthink.", doOr: "ଧ୍ୟାନ କରନ୍ତୁ, ରୂପା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ |", dontOr: "ଭାବପ୍ରବଣ ହୋଇ କୌଣସି ନିଷ୍ପତ୍ତି ନିଅନ୍ତୁ ନାହିଁ |" },
@@ -286,14 +304,14 @@
         hTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", btnGen: "ରିପୋର୍ଟ ପ୍ରସ୍ତୁତ କରନ୍ତୁ", tInsights: "ବ୍ୟକ୍ତିଗତ ବିବରଣୀ", tFriends: "ବନ୍ଧୁ ସଂଖ୍ୟା:", tEnemies: "ଶତ୍ରୁ ସଂଖ୍ୟା:", 
         tGrid: "ଆପଣଙ୍କ ମ୍ୟାଜିକ ଗ୍ରୀଡ୍", tElement: "ପଞ୍ଚ ତତ୍ତ୍ୱ ସ୍ଥିତି", tMorning: "⚡ ସକାଳର କର୍ତ୍ତବ୍ୟ", tRemedies: "🔮 ବୈଦିକ ପ୍ରତିକାର", btnBook: "ଅଧିକ ପରାମର୍ଶ ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ",
         tAlignment: "ସଂଖ୍ୟା ଆଲାଇନ୍ମେଣ୍ଟ ଡ୍ୟାସବୋର୍ଡ", lblMulank: "ମୂଳାଙ୍କ", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ", lblNameNo: "ନାମ ସଂଖ୍ୟା", tKnowledge: "ଲୋଶୁ ପ୍ଲେନ୍ ଜ୍ଞାନ ତାଲିକା", tTattvaTable: "ପଞ୍ଚ ତତ୍ତ୍ୱ ମାଷ୍ଟର ଟେବୁଲ୍",
-        tHealthTitle: "🏥 ସ୍ୱାସ୍ଥ୍ୟ ସୂଚନା", tDosTitle: "⚖️ ଆଜି କ’ଣ କରିବେ ଏବଂ କ’ଣ କରିବେ ନାହିଁ", lblDo: "✅ କରନ୍ତୁ", lblDont: "❌ କରନ୍ତୁ ନାହିଁ"
+        tHealthTitle: "🏥 ସ୍ୱାସ୍ଥ୍ୟ ସୂଚନା", tDosTitle: "⚖️ ଆଜି କ’ଣ କରିବେ ଏବଂ କ’ଣ କରିବେ ନାହିଁ", lblDo: "✅ କରନ୍ତୁ", lblDont: "❌ କରନ୍ତୁ ନାହିଁ", tLuckTitle: "🌟 ଆଜି କିପରି ଭାଗ୍ୟ ବୃଦ୍ଧି ହେବ?"
     };
 
     const engData = {
         hTitle: "ASTRO ABHINASH 🔯", btnGen: "Generate Report", tInsights: "Personalized Insights", tFriends: "Friends:", tEnemies: "Enemies:", 
         tGrid: "Your Magic Grid", tElement: "Pancha Tattva Status", tMorning: "⚡ Morning Activation", tRemedies: "🔮 Vedic Solutions", btnBook: "Book Deep Consultation",
         tAlignment: "Number Alignment Dashboard", lblMulank: "Mulank", lblBhagyank: "Bhagyank", lblNameNo: "Name No.", tKnowledge: "Loshu Plane Knowledge Table", tTattvaTable: "Pancha Tattva Master Table",
-        tHealthTitle: "🏥 Health Vitality Monitor", tDosTitle: "⚖️ Daily Do's & Don'ts", lblDo: "✅ DO'S", lblDont: "❌ DON'TS"
+        tHealthTitle: "🏥 Health Vitality Monitor", tDosTitle: "⚖️ Daily Do's & Don'ts", lblDo: "✅ DO'S", lblDont: "❌ DON'TS", tLuckTitle: "🌟 What Activates My Luck Today?"
     };
 
     const adviceM = { 1: "Focus on leadership.", 2: "Trust intuition.", 3: "Expand knowledge.", 4: "Stay disciplined.", 5: "Communication is key.", 6: "Family & Art focus.", 7: "Spirituality.", 8: "Hard work.", 9: "Humanitarian." };
@@ -352,6 +370,15 @@
         document.getElementById("valToday").innerText = pd;
         document.getElementById("valMonth").innerText = pm;
         document.getElementById("valYear").innerText = py;
+
+        // Luck Activation Logic
+        const luckData = luckTriggers[pd];
+        const luckHtml = `
+            <div class="luck-item"><i class="fa-solid fa-palette luck-icon"></i> <span><b>Lucky Color:</b> ${currentLang === 'en' ? luckData.color : luckData.colorOr}</span></div>
+            <div class="luck-item"><i class="fa-solid fa-compass luck-icon"></i> <span><b>Lucky Direction:</b> ${currentLang === 'en' ? luckData.dir : luckData.dirOr}</span></div>
+            <div class="luck-item"><i class="fa-solid fa-bolt-lightning luck-icon"></i> <span><b>Quick Action:</b> ${currentLang === 'en' ? luckData.act : luckData.actOr}</span></div>
+        `;
+        document.getElementById("luckContent").innerHTML = luckHtml;
         
         const challengeBox = document.getElementById("challengeBox");
         const challengeContent = document.getElementById("challengeContent");
