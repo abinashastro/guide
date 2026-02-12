@@ -90,6 +90,20 @@
             <div id="healthContent" style="font-size: 13px; text-align: left; line-height: 1.6;"></div>
         </div>
 
+        <div class="box" id="dosDontsBox" style="border: 2px solid var(--gold); background: rgba(255, 215, 0, 0.05);">
+            <h2 id="tDosTitle" style="color:var(--gold)">⚖️ Daily Do's & Don'ts</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; font-size: 12px;">
+                <div style="background: rgba(74, 222, 128, 0.1); padding: 12px; border-radius: 12px; border-top: 3px solid var(--success);">
+                    <b style="color:var(--success)" id="lblDo">✅ DO'S</b>
+                    <div id="valDos" style="margin-top: 5px; line-height: 1.4;"></div>
+                </div>
+                <div style="background: rgba(255, 77, 77, 0.1); padding: 12px; border-radius: 12px; border-top: 3px solid var(--danger);">
+                    <b style="color:var(--danger)" id="lblDont">❌ DON'TS</b>
+                    <div id="valDonts" style="margin-top: 5px; line-height: 1.4;"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="box">
             <h2 id="tInsights" style="color:var(--primary)">Personalized Insights</h2>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px; text-align: left;">
@@ -180,6 +194,19 @@
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     const planets = { 1:"Sun", 2:"Moon", 3:"Jupiter", 4:"Rahu", 5:"Mercury", 6:"Venus", 7:"Ketu", 8:"Saturn", 9:"Mars" };
     
+    // --- DAILY DO'S & DON'TS DATA ---
+    const dailyRules = {
+        1: { do: "Start new tasks, meet authorities, wear orange.", dont: "Avoid egoistic arguments and pride.", doOr: "ନୂଆ କାମ ଆରମ୍ଭ କରନ୍ତୁ, କେସରୀ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "ଅହଂକାର କିମ୍ବା ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |" },
+        2: { do: "Meditation, creative work, drink water in silver.", dont: "Don't take emotional decisions or overthink.", doOr: "ଧ୍ୟାନ କରନ୍ତୁ, ରୂପା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ |", dontOr: "ଭାବପ୍ରବଣ ହୋଇ କୌଣସି ନିଷ୍ପତ୍ତି ନିଅନ୍ତୁ ନାହିଁ |" },
+        3: { do: "Take advice from elders, study, wear yellow.", dont: "Don't criticize others or ignore spiritual tasks.", doOr: "ଗୁରୁଜନଙ୍କ ପରାମର୍ଶ ନିଅନ୍ତୁ, ହଳଦିଆ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "ଅନ୍ୟର ସମାଲୋଚନା କରନ୍ତୁ ନାହିଁ |" },
+        4: { do: "Organize your desk, research, be disciplined.", dont: "Avoid shortcut methods and gambling.", doOr: "ଅନୁଶାସନ ମଧ୍ୟରେ ରୁହନ୍ତୁ, ଗବେଷଣା କାର୍ଯ୍ୟ କରନ୍ତୁ |", dontOr: "ସର୍ଟକଟ୍ ରାସ୍ତା ଆପଣାନ୍ତୁ ନାହିଁ |" },
+        5: { do: "Networking, business deals, wear green.", dont: "Don't make promises you can't keep.", doOr: "ବ୍ୟବସାୟିକ ଆଲୋଚନା ପାଇଁ ଶୁଭ, ସବୁଜ ପିନ୍ଧନ୍ତୁ |", dontOr: "ମିଥ୍ୟା ପ୍ରତିଶ୍ରୁତି ଦିଅନ୍ତୁ ନାହିଁ |" },
+        6: { do: "Family time, shopping, grooming, wear white.", dont: "Avoid conflicts with partners/colleagues.", doOr: "ପରିବାର ସହ ସମୟ ବିତାନ୍ତୁ, ଧଳା ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "କାହାରି ସହ ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |" },
+        7: { do: "Introspection, yoga, help needy people.", dont: "Don't sign important legal papers today.", doOr: "ଯୋଗ କରନ୍ତୁ, ନିଜ ଭୁଲ୍ ସୁଧାରିବାକୁ ଚେଷ୍ଟା କରନ୍ତୁ |", dontOr: "ଆଜି କୌଣସି ଚୁକ୍ତିପତ୍ରରେ ସ୍ଵାକ୍ଷର କରନ୍ତୁ ନାହିଁ |" },
+        8: { do: "Hard work, long-term planning, wear dark blue.", dont: "Don't be lazy or treat laborers poorly.", doOr: "କଠିନ ପରିଶ୍ରମ କରନ୍ତୁ, ଗଭୀର ନୀଳ ବ୍ୟବହାର କରନ୍ତୁ |", dontOr: "ଆଳସ୍ୟ ତ୍ୟାଗ କରନ୍ତୁ |" },
+        9: { do: "Physical exercise, finishing old tasks, wear red.", dont: "Avoid rash driving and sharp objects/fire.", doOr: "ବ୍ୟାୟାମ କରନ୍ତୁ, ପୁରୁଣା କାର୍ଯ୍ୟ ଶେଷ କରନ୍ତୁ |", dontOr: "ଦ୍ରୁତ ଗତିରେ ଗାଡ଼ି ଚଲାନ୍ତୁ ନାହିଁ |" }
+    };
+
     const enemyLogic = {
         1: { enemy: [8], msg: "Conflict with seniors or government rules.", sol: "Offer water to Sun (Surya) in a copper vessel." },
         2: { enemy: [4, 8, 9], msg: "High mental stress, mood swings, or emotional imbalance.", sol: "Meditate for 10 minutes and drink water from a silver glass." },
@@ -219,14 +246,14 @@
         hTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", btnGen: "ରିପୋର୍ଟ ପ୍ରସ୍ତୁତ କରନ୍ତୁ", tInsights: "ବ୍ୟକ୍ତିଗତ ବିବରଣୀ", tFriends: "ବନ୍ଧୁ ସଂଖ୍ୟା:", tEnemies: "ଶତ୍ରୁ ସଂଖ୍ୟା:", 
         tGrid: "ଆପଣଙ୍କ ମ୍ୟାଜିକ ଗ୍ରୀଡ୍", tElement: "ପଞ୍ଚ ତତ୍ତ୍ୱ ସ୍ଥିତି", tMorning: "⚡ ସକାଳର କର୍ତ୍ତବ୍ୟ", tRemedies: "🔮 ବୈଦିକ ପ୍ରତିକାର", btnBook: "ଅଧିକ ପରାମର୍ଶ ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ",
         tAlignment: "ସଂଖ୍ୟା ଆଲାଇନ୍ମେଣ୍ଟ ଡ୍ୟାସବୋର୍ଡ", lblMulank: "ମୂଳାଙ୍କ", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ", lblNameNo: "ନାମ ସଂଖ୍ୟା", tKnowledge: "ଲୋଶୁ ପ୍ଲେନ୍ ଜ୍ଞାନ ତାଲିକା", tTattvaTable: "ପଞ୍ଚ ତତ୍ତ୍ୱ ମାଷ୍ଟର ଟେବୁଲ୍",
-        tHealthTitle: "🏥 ସ୍ୱାସ୍ଥ୍ୟ ସୂଚନା"
+        tHealthTitle: "🏥 ସ୍ୱାସ୍ଥ୍ୟ ସୂଚନା", tDosTitle: "⚖️ ଆଜି କ’ଣ କରିବେ ଏବଂ କ’ଣ କରିବେ ନାହିଁ", lblDo: "✅ କରନ୍ତୁ", lblDont: "❌ କରନ୍ତୁ ନାହିଁ"
     };
 
     const engData = {
         hTitle: "ASTRO ABHINASH 🔯", btnGen: "Generate Report", tInsights: "Personalized Insights", tFriends: "Friends:", tEnemies: "Enemies:", 
         tGrid: "Your Magic Grid", tElement: "Pancha Tattva Status", tMorning: "⚡ Morning Activation", tRemedies: "🔮 Vedic Solutions", btnBook: "Book Deep Consultation",
         tAlignment: "Number Alignment Dashboard", lblMulank: "Mulank", lblBhagyank: "Bhagyank", lblNameNo: "Name No.", tKnowledge: "Loshu Plane Knowledge Table", tTattvaTable: "Pancha Tattva Master Table",
-        tHealthTitle: "🏥 Health Vitality Monitor"
+        tHealthTitle: "🏥 Health Vitality Monitor", tDosTitle: "⚖️ Daily Do's & Don'ts", lblDo: "✅ DO'S", lblDont: "❌ DON'TS"
     };
 
     const adviceM = { 1: "Focus on leadership.", 2: "Trust intuition.", 3: "Expand knowledge.", 4: "Stay disciplined.", 5: "Communication is key.", 6: "Family & Art focus.", 7: "Spirituality.", 8: "Hard work.", 9: "Humanitarian." };
@@ -292,7 +319,7 @@
             challengeBox.style.background = "rgba(74, 222, 128, 0.05)";
             document.getElementById("tChallengeTitle").style.color = "var(--success)";
             document.getElementById("tChallengeTitle").innerText = (currentLang === 'en' ? "✅ Today's Status" : "✅ ଆଜିର ସ୍ଥିତି");
-            challengeContent.innerHTML = `<div style="text-align:center; font-weight:bold; color:var(--success)">🌟 No major challenges today! Your numbers are in harmony. Go ahead and conquer your goals.</div>`;
+            challengeContent.innerHTML = `<div style="text-align:center; font-weight:bold; color:var(--success)">🌟 No major challenges today! Your numbers are in harmony.</div>`;
         }
 
         // --- HEALTH VITALITY MONITOR LOGIC ---
@@ -305,17 +332,23 @@
             healthBox.style.background = "rgba(255, 77, 77, 0.05)";
             document.getElementById("tHealthTitle").style.color = "var(--danger)";
             healthContent.innerHTML = currentLang === 'en' 
-                ? `<b>Warning:</b> Your vitality might be low today. Possible <span style="color:var(--gold)">${hData.issue}</span>.<br><b>Precaution:</b> ${hData.sol}`
-                : `<b>ସତର୍କତା:</b> ଆଜି ଆପଣଙ୍କୁ <span style="color:var(--gold)">${hData.issueOr}</span> ହୋଇପାରେ |<br><b>ପ୍ରତିକାର:</b> ${hData.solOr}`;
+                ? `<b>Warning:</b> Vitality low. Possible <span style="color:var(--gold)">${hData.issue}</span>.<br><b>Precaution:</b> ${hData.sol}`
+                : `<b>ସତର୍କତା:</b> ଆଜି <span style="color:var(--gold)">${hData.issueOr}</span> ହୋଇପାରେ |<br><b>ପ୍ରତିକାର:</b> ${hData.solOr}`;
         } else {
             healthBox.style.borderColor = "var(--primary)";
             healthBox.style.background = "rgba(0, 242, 255, 0.05)";
             document.getElementById("tHealthTitle").style.color = "var(--primary)";
             healthContent.innerHTML = currentLang === 'en'
-                ? `<div style="text-align:center;">🌟 Health looks stable. Just take care of <span style="color:var(--primary)">${hData.issue.split('or')[0]}</span>. ${hData.sol}</div>`
-                : `<div style="text-align:center;">🌟 ସ୍ୱାସ୍ଥ୍ୟ ସ୍ଥିର ରହିବ | କେବଳ <span style="color:var(--primary)">${hData.issueOr.split('|')[0]}</span> ପ୍ରତି ସାବଧାନ ରୁହନ୍ତୁ |</div>`;
+                ? `<div style="text-align:center;">🌟 Health stable. Focus on <span style="color:var(--primary)">${hData.issue.split('or')[0]}</span>. ${hData.sol}</div>`
+                : `<div style="text-align:center;">🌟 ସ୍ୱାସ୍ଥ୍ୟ ସ୍ଥିର ରହିବ | <span style="color:var(--primary)">${hData.issueOr.split('|')[0]}</span> ପ୍ରତି ସାବଧାନ ରୁହନ୍ତୁ |</div>`;
         }
 
+        // --- DO'S & DON'TS DYNAMIC UPDATE ---
+        const dRules = dailyRules[pd];
+        document.getElementById("valDos").innerHTML = currentLang === 'en' ? dRules.do : dRules.doOr;
+        document.getElementById("valDonts").innerHTML = currentLang === 'en' ? dRules.dont : dRules.dontOr;
+
+        // Relationships and Status
         let rel = {1:{f:[2,3,5,9],e:[8]},2:{f:[1,3,5],e:[4,8,9]},3:{f:[1,2,5,7,9],e:[6]},4:{f:[5,6,7,8],e:[1,2,9]},5:{f:[1,3,4,6,7,8,9],e:[2]},6:{f:[4,5,7,8],e:[3]},7:{f:[3,4,5,6],e:[8,9]},8:{f:[4,5,6,7],e:[1,2,9]},9:{f:[1,2,3,5],e:[4,7,8]}};
         document.getElementById("valFriends").innerText = rel[m].f.join(", ");
         document.getElementById("valEnemies").innerText = rel[m].e.join(", ");
@@ -326,6 +359,7 @@
         statusBox.style.background = isAligned ? "rgba(74, 222, 128, 0.2)" : "rgba(255, 77, 77, 0.2)";
         statusBox.style.color = isAligned ? "var(--success)" : "var(--danger)";
 
+        // Grid and Remedies
         let gridStr = day.toString() + month.toString() + year.toString() + m.toString() + b.toString();
         let rListHtml = "";
         let remData = currentLang === 'en' ? remediesEng : remediesOdia;
