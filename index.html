@@ -8,13 +8,15 @@
     <style>
         :root { --primary: #00f2ff; --gold: #ffd700; --danger: #ff4d4d; --success: #4ade80; --card-bg: rgba(255, 255, 255, 0.08); }
         body { margin: 0; font-family: 'Poppins', sans-serif; background: #020617; color: white; text-align: center; padding-bottom: 50px; }
-        header { background: rgba(0, 0, 0, 0.9); padding: 15px; border-bottom: 2px solid var(--primary); font-weight: 700; }
+        header { background: rgba(0, 0, 0, 0.9); padding: 15px; border-bottom: 2px solid var(--primary); font-weight: 700; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
         .container { max-width: 600px; margin: auto; padding: 15px; }
         .box { background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        input, select { padding: 12px; width: 85%; border-radius: 10px; border: none; margin-bottom: 10px; font-weight: bold; outline: none; }
+        input, select { padding: 12px; width: 85%; border-radius: 10px; border: none; margin-bottom: 10px; font-weight: bold; outline: none; background: #1e293b; color: white; }
         
-        .calc-btn { padding: 15px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, var(--primary), #0066ff); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
-        .contact-btn { padding: 10px 25px; border: 1px solid var(--primary); border-radius: 50px; background: transparent; color: var(--primary); font-weight: 600; cursor: pointer; font-size: 12px; text-decoration: none; display: inline-block; }
+        .toggle-btn { background: var(--primary); color: #000; border: none; padding: 5px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 12px; margin-top: 5px; }
+        .calc-btn { padding: 15px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, var(--primary), #0066ff); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 10px; }
+        .contact-btn { padding: 15px 40px; border: 2px solid var(--success); border-radius: 50px; background: rgba(74, 222, 128, 0.1); color: var(--success); font-weight: 700; cursor: pointer; text-decoration: none; display: block; margin: 20px auto; transition: 0.3s; }
+        .contact-btn:hover { background: var(--success); color: black; }
         
         /* Grid Styling */
         .loshu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 240px; margin: 15px auto; }
@@ -26,25 +28,13 @@
 
         /* Element Grid */
         .element-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 15px; }
-        .element-cell { padding: 10px 5px; border-radius: 10px; font-size: 10px; border: 1px solid rgba(255,255,255,0.1); }
+        .element-cell { padding: 10px 2px; border-radius: 10px; font-size: 9px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
         .el-present { background: rgba(74, 222, 128, 0.15); border-color: var(--success); color: var(--success); }
-        .el-absent { background: rgba(255, 77, 77, 0.1); border-color: var(--danger); color: #888; }
-
-        /* Master Reference Grid Styling */
-        .master-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 15px; }
-        .master-cell { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 10px; padding: 10px 5px; min-height: 90px; display: flex; flex-direction: column; justify-content: center; }
-        .master-num { color: var(--primary); font-size: 1.1rem; font-weight: 800; }
-        .master-p { font-size: 9px; color: var(--gold); margin-bottom: 4px; text-transform: uppercase; }
-        .master-trait { font-size: 9px; line-height: 1.2; color: #ccc; font-weight: 500; }
+        .el-absent { background: rgba(255, 77, 77, 0.05); border-color: rgba(255, 77, 77, 0.3); color: #666; }
 
         .trait-list { text-align: left; padding: 0; list-style: none; }
         .trait-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; margin-bottom: 8px; border-left: 4px solid var(--primary); font-size: 13px; }
-        .miss-item { border-left-color: var(--danger); opacity: 0.8; }
         .rem-item { border-left-color: var(--gold); background: rgba(255, 215, 0, 0.05); }
-        
-        .compat-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-top: 10px; }
-        .good { background: rgba(74, 222, 128, 0.2); color: var(--success); }
-        .bad { background: rgba(255, 77, 77, 0.2); color: var(--danger); }
         
         #personalContent { display: none; }
     </style>
@@ -52,8 +42,8 @@
 <body>
 
 <header>
-    ASTRO ABHINASH 🔯<br>
-    <a href="https://wa.me/YOURNUMBER" class="contact-btn">Book Consultation</a>
+    <span id="hTitle">ASTRO ABHINASH 🔯</span><br>
+    <button class="toggle-btn" onclick="toggleLanguage()">Odia / English</button>
 </header>
 
 <div class="container">
@@ -64,27 +54,27 @@
             <option value="male">Male</option>
             <option value="female">Female</option>
         </select><br>
-        <button class="calc-btn" onclick="calculateMagic()">Generate Report</button>
+        <button class="calc-btn" id="btnGen" onclick="calculateMagic()">Generate Report</button>
     </div>
 
     <div id="personalContent">
         <div class="box">
-            <h2 style="color:var(--primary)">Personalized Insights</h2>
+            <h2 id="tInsights" style="color:var(--primary)">Personalized Insights</h2>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px; text-align: left;">
                 <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px;">
-                    <b style="color:var(--gold)">Friends:</b> <span id="valFriends"></span><br>
-                    <b style="color:var(--danger)">Enemies:</b> <span id="valEnemies"></span>
+                    <b id="tFriends" style="color:var(--gold)">Friends:</b> <span id="valFriends"></span><br>
+                    <b id="tEnemies" style="color:var(--danger)">Enemies:</b> <span id="valEnemies"></span>
                 </div>
                 <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px;">
-                    <b>Today (PD):</b> <span id="valToday" style="color:var(--primary); font-weight:bold;"></span><br>
-                    <b>Month (PM):</b> <span id="valMonth" style="color:var(--primary); font-weight:bold;"></span><br>
-                    <b>Year (PY):</b> <span id="valYear" style="color:var(--primary); font-weight:bold;"></span>
+                    <b>Today:</b> <span id="valToday" style="color:var(--primary); font-weight:bold;"></span><br>
+                    <b>Month:</b> <span id="valMonth" style="color:var(--primary); font-weight:bold;"></span><br>
+                    <b>Year:</b> <span id="valYear" style="color:var(--primary); font-weight:bold;"></span>
                 </div>
             </div>
         </div>
 
         <div class="box">
-            <h2>Your Personal Magic Grid</h2>
+            <h2 id="tGrid">Your Magic Grid</h2>
             <div class="loshu-grid" id="gridUI">
                 <div class="grid-cell" id="c4"><span class="cell-num">4</span><span class="cell-planet">Rahu</span><span class="cell-label">Wealth</span></div>
                 <div class="grid-cell" id="c9"><span class="cell-num">9</span><span class="cell-planet">Mars</span><span class="cell-label">Fame</span></div>
@@ -99,7 +89,7 @@
         </div>
 
         <div class="box">
-            <h2 style="color:var(--primary)">Pancha Tattva Status</h2>
+            <h2 id="tElement">Pancha Tattva</h2>
             <div class="element-grid" id="elGrid">
                 <div id="elWood" class="element-cell">WOOD<br>(3,4)</div>
                 <div id="elFire" class="element-cell">FIRE<br>(9)</div>
@@ -110,102 +100,85 @@
         </div>
 
         <div class="box" style="border: 2px solid var(--primary); background: rgba(0, 242, 255, 0.05);">
-            <h2 style="color:var(--primary)">⚡ Morning Activation</h2>
+            <h2 id="tMorning" style="color:var(--primary)">⚡ Morning Activation</h2>
             <div id="morningRitual" style="font-size: 14px; line-height: 1.6; font-style: italic;"></div>
         </div>
 
         <div class="box">
-            <h2 style="color:var(--gold)">🔮 Vedic & Element Solutions</h2>
+            <h2 id="tRemedies" style="color:var(--gold)">🔮 Vedic Solutions</h2>
             <div id="remedyList" class="trait-list"></div>
         </div>
 
-        <div class="box" style="background: rgba(0, 242, 255, 0.02); border: 1px dashed var(--primary);">
-            <h2 style="color: var(--primary);">📚 Master Reference Guide</h2>
-            <div class="master-grid">
-                <div class="master-cell"><span class="master-num">4</span><span class="master-p">Rahu</span><span class="master-trait">Wealth & Discipline</span></div>
-                <div class="master-cell"><span class="master-num">9</span><span class="master-p">Mars</span><span class="master-trait">Fame & Energy</span></div>
-                <div class="master-cell"><span class="master-num">2</span><span class="master-p">Moon</span><span class="master-trait">Love & Emotion</span></div>
-                <div class="master-cell"><span class="master-num">3</span><span class="master-p">Jupiter</span><span class="master-trait">Knowledge & Growth</span></div>
-                <div class="master-cell"><span class="master-num">5</span><span class="master-p">Mercury</span><span class="master-trait">Stability & Business</span></div>
-                <div class="master-cell"><span class="master-num">7</span><span class="master-p">Ketu</span><span class="master-trait">Creativity & Research</span></div>
-                <div class="master-cell"><span class="master-num">8</span><span class="master-p">Saturn</span><span class="master-trait">Wisdom & Practicality</span></div>
-                <div class="master-cell"><span class="master-num">1</span><span class="master-p">Sun</span><span class="master-trait">Career & Confidence</span></div>
-                <div class="master-cell"><span class="master-num">6</span><span class="master-p">Venus</span><span class="master-trait">Luxury & Support</span></div>
-            </div>
-        </div>
+        <a href="https://wa.me/917008186187?text=Hello%20Abhinash,%20I%20want%20to%20book%20a%20consultation" class="contact-btn" id="btnBook">Book Deep Consultation</a>
     </div>
 </div>
 
 <script>
+    let currentLang = 'en';
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     const planets = { 1:"Sun", 2:"Moon", 3:"Jupiter", 4:"Rahu", 5:"Mercury", 6:"Venus", 7:"Ketu", 8:"Saturn", 9:"Mars" };
     
-    const elements = {
-        Wood: [3,4], Fire: [9], Earth: [2,5,8], Metal: [6,7], Water: [1]
+    const odiaData = {
+        hTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", btnGen: "ରିପୋର୍ଟ ପ୍ରସ୍ତୁତ କରନ୍ତୁ", tInsights: "ବ୍ୟକ୍ତିଗତ ବିବରଣୀ", tFriends: "ବନ୍ଧୁ ସଂଖ୍ୟା:", tEnemies: "ଶତ୍ରୁ ସଂଖ୍ୟା:", 
+        tGrid: "ଆପଣଙ୍କ ମ୍ୟାଜିକ ଗ୍ରୀଡ୍", tElement: "ପଞ୍ଚ ତତ୍ତ୍ୱ", tMorning: "⚡ ସକାଳର କର୍ତ୍ତବ୍ୟ", tRemedies: "🔮 ବୈଦିକ ପ୍ରତିକାର", btnBook: "ଅଧିକ ପରାମର୍ଶ ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ"
     };
 
-    const elRemedies = {
-        Wood: "🌳 Place a small green plant in the North-East of your room.",
-        Fire: "🔥 Light a red candle or diya in the South direction every evening.",
-        Earth: "⛰️ Wear a yellow thread or use a yellow handkerchief.",
-        Metal: "⚔️ Wear a silver bangle or a watch with a metal strap.",
-        Water: "💧 Keep a small water fountain or a bowl of fresh water in the North."
+    const engData = {
+        hTitle: "ASTRO ABHINASH 🔯", btnGen: "Generate Report", tInsights: "Personalized Insights", tFriends: "Friends:", tEnemies: "Enemies:", 
+        tGrid: "Your Magic Grid", tElement: "Pancha Tattva", tMorning: "⚡ Morning Activation", tRemedies: "🔮 Vedic Solutions", btnBook: "Book Deep Consultation"
     };
 
-    const morningActs = {
-        1: "Drink water in copper vessel and offer Arghya to the Sun.",
-        2: "Drink water while sitting and meditate for 2 mins for peace.",
-        3: "Apply a yellow Saffron tilak and seek blessings from elders.",
-        4: "Feed birds in the morning and touch the Earth's feet.",
-        5: "Walk barefoot on green grass and chant 'OM' 5 times.",
-        6: "Use a pleasant perfume after bath and wear white clothes.",
-        7: "Feed multi-colored dogs and practice deep breathing.",
-        8: "Light a mustard oil lamp and help someone needy.",
-        9: "Recite Hanuman Chalisa or do a quick morning workout."
+    const remediesOdia = {
+        1: "ସୂର୍ଯ୍ୟ ପ୍ରତିକାର: ତମ୍ବା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ ଏବଂ ସୂର୍ଯ୍ୟଙ୍କୁ ଜଳ ଅର୍ପଣ କରନ୍ତୁ |",
+        2: "ଚନ୍ଦ୍ର ପ୍ରତିକାର: ପକେଟରେ ଏକ ରୂପା ମୁଦ୍ରା ରଖନ୍ତୁ ଏବଂ ମାଆଙ୍କୁ ସମ୍ମାନ କରନ୍ତୁ |",
+        3: "ବୃହସ୍ପତି ପ୍ରତିକାର: କେଶର ତିଳକ ଲଗାନ୍ତୁ ଏବଂ ଗୁରୁଜନଙ୍କୁ ସମ୍ମାନ କରନ୍ତୁ |",
+        4: "ରାହୁ ପ୍ରତିକାର: ପକ୍ଷୀଙ୍କୁ ଦାନା ଦିଅନ୍ତୁ ଏବଂ ଘର ସଫା ରଖନ୍ତୁ |",
+        5: "ବୁଧ ପ୍ରତିକାର: ବୁଧବାର ଦିନ ଗାଈକୁ ଘାସ ଖାଇବାକୁ ଦିଅନ୍ତୁ |",
+        6: "ଶୁକ୍ର ପ୍ରତିକାର: ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ ଏବଂ ଧଳା ପୋଷାକ ପିନ୍ଧନ୍ତୁ |",
+        7: "କେତୁ ପ୍ରତିକାର: କୁକୁରଙ୍କୁ ଖାଇବାକୁ ଦିଅନ୍ତୁ |",
+        8: "ଶନି ପ୍ରତିକାର: ଶନିବାର ସନ୍ଧ୍ୟାରେ ଓସ୍ତ ଗଛ ମୂଳେ ଦୀପ ଜାଳନ୍ତୁ |",
+        9: "ମଙ୍ଗଳ ପ୍ରତିକାର: ହନୁମାନ ଚାଳିଶା ପାଠ କରନ୍ତୁ |",
+        Wood: "🌳 ଉତ୍ତର-ପୂର୍ବ ଦିଗରେ ଏକ ଛୋଟ ସବୁଜ ଗଛ ରଖନ୍ତୁ |",
+        Fire: "🔥 ଦକ୍ଷିଣ ଦିଗରେ ଏକ ନାଲି ଦୀପ ଜାଳନ୍ତୁ |",
+        Earth: "⛰️ ହଳଦିଆ ରଙ୍ଗର ରୁମାଲ ବ୍ୟବହାର କରନ୍ତୁ |",
+        Metal: "⚔️ ରୂପା ଚୁଡ଼ି କିମ୍ବା ଷ୍ଟିଲ୍ ଘଣ୍ଟା ପିନ୍ଧନ୍ତୁ |",
+        Water: "💧 ଉତ୍ତର ଦିଗରେ ପରିଷ୍କାର ପାଣି ଏକ ପାତ୍ରରେ ରଖନ୍ତୁ |"
     };
 
-    const remedies = {
-        1: "Sun Remedy: Offer water to Sun and respect your father.",
-        2: "Moon Remedy: Keep a silver coin and respect your mother.",
-        3: "Jupiter Remedy: Apply Saffron tilak and respect teachers.",
-        4: "Rahu Remedy: Feed birds and keep your home clutter-free.",
-        5: "Mercury Remedy: Feed green grass to cows on Wednesdays.",
-        6: "Venus Remedy: Use perfumes and donate white sweets to girls.",
-        7: "Ketu Remedy: Feed multi-colored dogs or birds.",
-        8: "Saturn Remedy: Light a mustard oil lamp under a Peepal tree.",
-        9: "Mars Remedy: Recite Hanuman Chalisa and donate red items."
+    const remediesEng = {
+        1: "Sun: Drink water in copper and offer Arghya to Sun.",
+        2: "Moon: Keep a silver coin and respect your mother.",
+        3: "Jupiter: Apply saffron tilak and respect elders.",
+        4: "Rahu: Feed birds and keep home clutter-free.",
+        5: "Mercury: Feed green grass to cows on Wednesdays.",
+        6: "Venus: Use perfumes and wear clean clothes.",
+        7: "Ketu: Feed multi-colored dogs or birds.",
+        8: "Saturn: Light mustard oil lamp under Peepal tree on Saturdays.",
+        9: "Mars: Recite Hanuman Chalisa daily.",
+        Wood: "🌳 Place a small green plant in North-East.",
+        Fire: "🔥 Light a red diya in South direction.",
+        Earth: "⛰️ Use a yellow handkerchief.",
+        Metal: "⚔️ Wear a metal watch or silver bangle.",
+        Water: "💧 Keep fresh water in a bowl in North."
     };
 
-    const relationship = {
-        1: { friends: [2,3,5,9], enemies: [8] },
-        2: { friends: [1,3,5], enemies: [4,8,9] },
-        3: { friends: [1,2,5,7,9], enemies: [6] },
-        4: { friends: [5,6,7,8], enemies: [1,2,9] },
-        5: { friends: [1,3,4,6,7,8,9], enemies: [2] },
-        6: { friends: [4,5,7,8], enemies: [3] },
-        7: { friends: [3,4,5,6], enemies: [8,9] },
-        8: { friends: [4,5,6,7], enemies: [1,2,9] },
-        9: { friends: [1,2,3,5], enemies: [4,7,8] }
-    };
-
-    function reduce(n) { 
-        if (n == 0) return 0;
-        let res = n % 9;
-        return res == 0 ? 9 : res; 
+    function toggleLanguage() {
+        currentLang = currentLang === 'en' ? 'or' : 'en';
+        let data = currentLang === 'en' ? engData : odiaData;
+        for (let key in data) { document.getElementById(key).innerText = data[key]; }
+        if (document.getElementById("personalContent").style.display === "block") calculateMagic();
     }
+
+    function reduce(n) { return (n == 0) ? 0 : (n % 9 == 0 ? 9 : n % 9); }
 
     function calculateMagic() {
         const name = document.getElementById("userName").value;
         const dobVal = document.getElementById("dob").value;
         if (!dobVal) return;
-
         let d = new Date(dobVal);
         let day = d.getDate(), month = d.getMonth() + 1, year = d.getFullYear();
         let m = reduce(day), b = reduce(day + month + year);
         
-        let nT = 0; name.toLowerCase().replace(/\s/g, '').split('').forEach(c => nT += (chaldean[c] || 0));
-        let n = reduce(nT);
-
         let now = new Date();
         let py = reduce(reduce(day) + reduce(month) + reduce(now.getFullYear()));
         let pm = reduce(py + (now.getMonth() + 1));
@@ -215,35 +188,30 @@
         document.getElementById("valToday").innerText = pd;
         document.getElementById("valMonth").innerText = pm;
         document.getElementById("valYear").innerText = py;
-        document.getElementById("valFriends").innerText = relationship[m].friends.join(", ");
-        document.getElementById("valEnemies").innerText = relationship[m].enemies.join(", ");
-        document.getElementById("morningRitual").innerHTML = `<b>Today's Planet: ${planets[pd]}</b><br>${morningActs[pd]}`;
+        
+        let rel = {1:{f:[2,3,5,9],e:[8]},2:{f:[1,3,5],e:[4,8,9]},3:{f:[1,2,5,7,9],e:[6]},4:{f:[5,6,7,8],e:[1,2,9]},5:{f:[1,3,4,6,7,8,9],e:[2]},6:{f:[4,5,7,8],e:[3]},7:{f:[3,4,5,6],e:[8,9]},8:{f:[4,5,6,7],e:[1,2,9]},9:{f:[1,2,3,5],e:[4,7,8]}};
+        document.getElementById("valFriends").innerText = rel[m].f.join(", ");
+        document.getElementById("valEnemies").innerText = rel[m].e.join(", ");
 
         let gridStr = day.toString() + month.toString() + year.toString() + m.toString() + b.toString();
         let rListHtml = "";
+        let remData = currentLang === 'en' ? remediesEng : remediesOdia;
 
-        // Check Elements
-        for (let el in elements) {
-            let hasEl = elements[el].some(num => gridStr.includes(num.toString()));
-            let elBox = document.getElementById("el" + el);
-            if (hasEl) {
-                elBox.className = "element-cell el-present";
-            } else {
-                elBox.className = "element-cell el-absent";
-                rListHtml += `<div class="trait-item rem-item"><b>Missing ${el} Element:</b> ${elRemedies[el]}</div>`;
-            }
+        // Elements
+        const elMap = { Wood:[3,4], Fire:[9], Earth:[2,5,8], Metal:[6,7], Water:[1] };
+        for (let el in elMap) {
+            let hasEl = elMap[el].some(num => gridStr.includes(num.toString()));
+            document.getElementById("el" + el).className = "element-cell " + (hasEl ? "el-present" : "el-absent");
+            if (!hasEl) rListHtml += `<div class="trait-item rem-item">${remData[el]}</div>`;
         }
 
-        // Fill Main Remedies
         for(let i=1; i<=9; i++) {
             let cell = document.getElementById("c"+i);
             if(gridStr.includes(i)) { cell.classList.add("filled"); } 
-            else { 
-                cell.classList.remove("filled"); 
-                rListHtml += `<div class="trait-item"><b>Solution for ${planets[i]}:</b> ${remedies[i]}</div>`;
-            }
+            else { cell.classList.remove("filled"); rListHtml += `<div class="trait-item"><b>${planets[i]}:</b> ${remData[i]}</div>`; }
         }
         document.getElementById("remedyList").innerHTML = rListHtml;
+        document.getElementById("morningRitual").innerHTML = `<b>Today's Planet: ${planets[pd]}</b><br>${remData[pd]}`;
     }
 </script>
 </body>
