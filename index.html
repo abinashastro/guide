@@ -11,12 +11,13 @@
         header { background: rgba(0, 0, 0, 0.9); padding: 15px; border-bottom: 2px solid var(--primary); font-weight: 700; }
         .container { max-width: 600px; margin: auto; padding: 15px; }
         .box { background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        input, select { padding: 12px; width: 85%; border-radius: 10px; border: none; margin-bottom: 10px; font-weight: bold; }
-        .calc-btn { padding: 15px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, var(--primary), #0066ff); color: white; font-weight: bold; cursor: pointer; }
+        input, select { padding: 12px; width: 85%; border-radius: 10px; border: none; margin-bottom: 10px; font-weight: bold; outline: none; }
+        .calc-btn { padding: 15px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, var(--primary), #0066ff); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .calc-btn:active { transform: scale(0.95); }
         
         /* Grid Styling */
         .loshu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 240px; margin: 15px auto; }
-        .grid-cell { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; position: relative; }
+        .grid-cell { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; }
         .filled { border-color: var(--gold); background: rgba(255,215,0,0.1); color: var(--gold); box-shadow: 0 0 10px rgba(255,215,0,0.2); }
         .cell-num { font-size: 1.4rem; }
         .cell-label { font-size: 8px; text-transform: uppercase; margin-top: 2px; }
@@ -33,7 +34,7 @@
         .miss-item { border-left-color: var(--danger); opacity: 0.8; }
         .rem-item { border-left-color: var(--gold); background: rgba(255, 215, 0, 0.05); }
         
-        .compat-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-top: 5px; }
+        .compat-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-top: 10px; }
         .good { background: rgba(74, 222, 128, 0.2); color: var(--success); }
         .bad { background: rgba(255, 77, 77, 0.2); color: var(--danger); }
         
@@ -57,6 +58,21 @@
 
     <div id="personalContent">
         <div class="box">
+            <h2 style="color:var(--primary)">Personalized Insights</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px; text-align: left;">
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px;">
+                    <b style="color:var(--gold)">Friends:</b> <span id="valFriends"></span><br>
+                    <b style="color:var(--danger)">Enemies:</b> <span id="valEnemies"></span>
+                </div>
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px;">
+                    <b>Today's No:</b> <span id="valToday" style="color:var(--primary); font-weight:bold;"></span><br>
+                    <b>Month No:</b> <span id="valMonth" style="color:var(--primary); font-weight:bold;"></span><br>
+                    <b>Year No:</b> <span id="valYear" style="color:var(--primary); font-weight:bold;"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
             <h2>Your Personal Magic Grid</h2>
             <div class="loshu-grid" id="gridUI">
                 <div class="grid-cell" id="c4"><span class="cell-num">4</span><span class="cell-label">Wealth</span></div>
@@ -79,6 +95,11 @@
                 <div>Name: <b id="nVal"></b></div>
             </div>
             <div id="compatStatus" class="compat-badge">--</div>
+        </div>
+
+        <div class="box" style="border: 2px solid var(--primary); background: rgba(0, 242, 255, 0.05);">
+            <h2 style="color:var(--primary)">⚡ Morning Activation</h2>
+            <div id="morningRitual" style="font-size: 14px; line-height: 1.6; font-style: italic;"></div>
         </div>
 
         <div class="box">
@@ -128,6 +149,18 @@
         9: "Fame & Humanity. You have high energy and courage."
     };
 
+    const morningActs = {
+        1: "Drink water in copper vessel and see the rising Sun to activate your leadership.",
+        2: "Drink a glass of water while sitting and meditate for 2 mins for emotional stability.",
+        3: "Apply a yellow tilak (Saffron/Turmeric) and pray to your Guru for wisdom.",
+        4: "Feed birds in the morning and touch the ground as soon as you wake up.",
+        5: "Stand on green grass barefoot and chant 'OM' 5 times for balance.",
+        6: "Use a luxury fragrance after bath and keep a white flower with you.",
+        7: "Feed multi-colored stray dogs and practice deep breathing (Pranayam).",
+        8: "Light a mustard oil lamp or help someone in need before starting work.",
+        9: "Recite Hanuman Chalisa or perform a 5-min intense workout to boost energy."
+    };
+
     const missingTraits = {
         1: "Difficulty in expressing yourself. Low confidence in career.",
         2: "Emotional instability. Problems in partnership.",
@@ -164,7 +197,11 @@
         9: { friends: [1,2,3,5], enemies: [4,7,8] }
     };
 
-    function reduce(n) { while (n > 9) n = String(n).split('').reduce((a, b) => +a + +b, 0); return n; }
+    function reduce(n) { 
+        if (n == 0) return 0;
+        let res = n % 9;
+        return res == 0 ? 9 : res; 
+    }
 
     function calculateMagic() {
         const name = document.getElementById("userName").value;
@@ -174,13 +211,36 @@
         let d = new Date(dobVal);
         let day = d.getDate(), month = d.getMonth() + 1, year = d.getFullYear();
         let m = reduce(day), b = reduce(day + month + year);
-        let nT = 0; name.toLowerCase().split('').forEach(c => nT += (chaldean[c] || 0));
+        
+        let nT = 0; 
+        name.toLowerCase().replace(/\s/g, '').split('').forEach(c => nT += (chaldean[c] || 0));
         let n = reduce(nT);
+
+        // --- CORRECTED NUMEROLOGY LOGIC ---
+        let now = new Date();
+        let cDay = now.getDate(), cMonth = now.getMonth() + 1, cYear = now.getFullYear();
+        
+        // 1. Personal Year (PY) = Birth Day + Birth Month + Current Year
+        let py = reduce(reduce(day) + reduce(month) + reduce(cYear));
+        
+        // 2. Personal Month (PM) = Personal Year + Current Month
+        let pm = reduce(py + reduce(cMonth));
+        
+        // 3. Personal Day (PD) = Personal Month + Current Day
+        let pd = reduce(pm + reduce(cDay));
 
         document.getElementById("personalContent").style.display = "block";
         document.getElementById("mVal").innerText = m;
         document.getElementById("bVal").innerText = b;
         document.getElementById("nVal").innerText = n;
+        
+        document.getElementById("valFriends").innerText = relationship[m].friends.join(", ");
+        document.getElementById("valEnemies").innerText = relationship[m].enemies.join(", ");
+        document.getElementById("valToday").innerText = pd;
+        document.getElementById("valMonth").innerText = pm;
+        document.getElementById("valYear").innerText = py;
+
+        document.getElementById("morningRitual").innerText = "Since your Personal Day is " + pd + ": " + morningActs[pd];
 
         let isEnemy = relationship[m].enemies.includes(b) || relationship[m].enemies.includes(n);
         let status = document.getElementById("compatStatus");
@@ -208,4 +268,3 @@
 </script>
 </body>
 </html>
-
