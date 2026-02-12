@@ -1,98 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel - Astro Abhinash</title>
-
-<style>
-body{
-font-family:Arial;
-background:black;
-color:white;
-text-align:center;
-margin:0;
-}
-
-header{
-background:linear-gradient(45deg,#000,#111);
-padding:20px;
-font-size:28px;
-box-shadow:0 0 20px cyan;
-}
-
-.box{
-margin:30px;
-padding:20px;
-background:#111;
-border-radius:15px;
-box-shadow:0 0 20px cyan;
-}
-
-button{
-padding:12px 25px;
-border:none;
-background:cyan;
-font-size:16px;
-border-radius:8px;
-margin:10px;
-}
-
-#users{
-margin-top:20px;
-font-size:16px;
-color:gold;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Admin | Leads Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body { background: #0f172a; color: white; font-family: 'Outfit', sans-serif; padding: 20px; }
+        .admin-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; }
+        .table { color: white; border-color: rgba(255,255,255,0.1); }
+        .btn-delete { color: #ff4d4d; cursor: pointer; }
+        .stats-box { background: linear-gradient(135deg, #00f2ff, #0066ff); color: black; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-weight: bold; }
+    </style>
 </head>
-
 <body>
 
-<header>
-👑 ADMIN PANEL  
-<br>Astro Abhinash
-</header>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fa-solid fa-user-shield text-info"></i> Admin Dashboard</h2>
+        <button class="btn btn-outline-danger btn-sm" onclick="clearLeads()">Clear All Data</button>
+    </div>
 
-<div class="box">
-<h2>All Website Users</h2>
-<button onclick="loadUsers()">Load Users</button>
-<div id="users"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="stats-box">
+                Total Leads: <span id="totalLeads">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-card">
+        <h5 class="mb-3">Recent Inquiries (User Data)</h5>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Date/Time</th>
+                        <th>Name</th>
+                        <th>D.O.B</th>
+                        <th>M / B</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="leadTableBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-<!-- Firebase -->
-<script type="module">
+<script>
+    function loadLeads() {
+        const leads = JSON.parse(localStorage.getItem("astroLeads")) || [];
+        const tableBody = document.getElementById("leadTableBody");
+        const totalLeads = document.getElementById("totalLeads");
+        
+        tableBody.innerHTML = "";
+        totalLeads.innerText = leads.length;
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        leads.reverse().forEach((lead, index) => {
+            let row = `<tr>
+                <td><small>${lead.time}</small></td>
+                <td><b>${lead.name}</b></td>
+                <td>${lead.dob}</td>
+                <td><span class="badge bg-info text-dark">${lead.mulank}</span> / <span class="badge bg-warning text-dark">${lead.bhagyank}</span></td>
+                <td>
+                    <a href="https://wa.me/917008186187?text=Hi ${lead.name}, I saw your numerology report..." target="_blank" class="text-success me-2"><i class="fa-brands fa-whatsapp"></i></a>
+                    <i class="fa-solid fa-trash btn-delete" onclick="deleteLead(${index})"></i>
+                </td>
+            </tr>`;
+            tableBody.innerHTML += row;
+        });
+    }
 
-const firebaseConfig = {
-apiKey: "AIzaSyC0yF3kviJ6U-rdOMUyAOOQyTgSFoWG6co",
-authDomain: "astro-c7b1e.firebaseapp.com",
-projectId: "astro-c7b1e",
-storageBucket: "astro-c7b1e.firebasestorage.app",
-messagingSenderId: "885607895929",
-appId: "1:885607895929:web:8f1bf85f7d8aab1b1d55a8"
-};
+    function deleteLead(index) {
+        let leads = JSON.parse(localStorage.getItem("astroLeads")) || [];
+        leads.splice(leads.length - 1 - index, 1);
+        localStorage.setItem("astroLeads", JSON.stringify(leads));
+        loadLeads();
+    }
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+    function clearLeads() {
+        if(confirm("Are you sure you want to delete all user data?")) {
+            localStorage.removeItem("astroLeads");
+            loadLeads();
+        }
+    }
 
-// load users
-window.loadUsers = async function(){
-
-let html="<h3>📋 All Registered Users</h3><br>";
-
-const querySnapshot = await getDocs(collection(db,"users"));
-
-querySnapshot.forEach((doc)=>{
-let d=doc.data();
-html+= "📧 "+d.email+"<br>🕒 "+d.time+"<br><br>";
-});
-
-document.getElementById("users").innerHTML=html;
-}
-
+    // Load data on start
+    window.onload = loadLeads;
 </script>
 
 </body>
