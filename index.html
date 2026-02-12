@@ -17,6 +17,13 @@
         .calc-btn { padding: 15px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, var(--primary), #0066ff); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 10px; }
         .contact-btn { padding: 15px 40px; border: 2px solid var(--success); border-radius: 50px; background: rgba(74, 222, 128, 0.1); color: var(--success); font-weight: 700; cursor: pointer; text-decoration: none; display: block; margin: 20px auto; transition: 0.3s; }
         .contact-btn:hover { background: var(--success); color: black; }
+
+        /* New Numbers Grid */
+        .alignment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+        .align-card { background: rgba(0, 242, 255, 0.05); border: 1px solid var(--primary); border-radius: 15px; padding: 10px; }
+        .align-val { font-size: 1.8rem; font-weight: 800; color: var(--primary); display: block; }
+        .align-label { font-size: 9px; text-transform: uppercase; color: var(--gold); }
+        .status-bar { padding: 8px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 10px; }
         
         /* Grid Styling */
         .loshu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 240px; margin: 15px auto; }
@@ -26,7 +33,6 @@
         .cell-label { font-size: 8px; text-transform: uppercase; margin-top: 2px; }
         .cell-planet { font-size: 7px; color: #aaa; font-weight: normal; }
 
-        /* Element Grid */
         .element-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 15px; }
         .element-cell { padding: 10px 2px; border-radius: 10px; font-size: 9px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
         .el-present { background: rgba(74, 222, 128, 0.15); border-color: var(--success); color: var(--success); }
@@ -58,6 +64,25 @@
     </div>
 
     <div id="personalContent">
+        <div class="box">
+            <h2 id="tAlignment" style="color:var(--primary); font-size: 18px; margin-bottom: 15px;">Number Alignment Dashboard</h2>
+            <div class="alignment-grid">
+                <div class="align-card">
+                    <span class="align-label" id="lblMulank">Mulank</span>
+                    <span class="align-val" id="valMulank">0</span>
+                </div>
+                <div class="align-card">
+                    <span class="align-label" id="lblBhagyank">Bhagyank</span>
+                    <span class="align-val" id="valBhagyank">0</span>
+                </div>
+                <div class="align-card">
+                    <span class="align-label" id="lblNameNo">Name No.</span>
+                    <span class="align-val" id="valNameNo">0</span>
+                </div>
+            </div>
+            <div id="statusBox" class="status-bar"></div>
+        </div>
+
         <div class="box">
             <h2 id="tInsights" style="color:var(--primary)">Personalized Insights</h2>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px; text-align: left;">
@@ -120,12 +145,22 @@
     
     const odiaData = {
         hTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", btnGen: "ରିପୋର୍ଟ ପ୍ରସ୍ତୁତ କରନ୍ତୁ", tInsights: "ବ୍ୟକ୍ତିଗତ ବିବରଣୀ", tFriends: "ବନ୍ଧୁ ସଂଖ୍ୟା:", tEnemies: "ଶତ୍ରୁ ସଂଖ୍ୟା:", 
-        tGrid: "ଆପଣଙ୍କ ମ୍ୟାଜିକ ଗ୍ରୀଡ୍", tElement: "ପଞ୍ଚ ତତ୍ତ୍ୱ", tMorning: "⚡ ସକାଳର କର୍ତ୍ତବ୍ୟ", tRemedies: "🔮 ବୈଦିକ ପ୍ରତିକାର", btnBook: "ଅଧିକ ପରାମର୍ଶ ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ"
+        tGrid: "ଆପଣଙ୍କ ମ୍ୟାଜିକ ଗ୍ରୀଡ୍", tElement: "ପଞ୍ଚ ତତ୍ତ୍ୱ", tMorning: "⚡ ସକାଳର କର୍ତ୍ତବ୍ୟ", tRemedies: "🔮 ବୈଦିକ ପ୍ରତିକାର", btnBook: "ଅଧିକ ପରାମର୍ଶ ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ",
+        tAlignment: "ସଂଖ୍ୟା ଆଲାଇନ୍ମେଣ୍ଟ ଡ୍ୟାସବୋର୍ଡ", lblMulank: "ମୂଳାଙ୍କ", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ", lblNameNo: "ନାମ ସଂଖ୍ୟା"
     };
 
     const engData = {
         hTitle: "ASTRO ABHINASH 🔯", btnGen: "Generate Report", tInsights: "Personalized Insights", tFriends: "Friends:", tEnemies: "Enemies:", 
-        tGrid: "Your Magic Grid", tElement: "Pancha Tattva", tMorning: "⚡ Morning Activation", tRemedies: "🔮 Vedic Solutions", btnBook: "Book Deep Consultation"
+        tGrid: "Your Magic Grid", tElement: "Pancha Tattva", tMorning: "⚡ Morning Activation", tRemedies: "🔮 Vedic Solutions", btnBook: "Book Deep Consultation",
+        tAlignment: "Number Alignment Dashboard", lblMulank: "Mulank", lblBhagyank: "Bhagyank", lblNameNo: "Name No."
+    };
+
+    const adviceM = {
+        1: "Focus on leadership but avoid ego.", 2: "Trust your intuition but stay emotionally strong.", 3: "Expand your knowledge and share with others.", 4: "Stay disciplined to achieve sudden wealth.", 5: "Communication is your key to business success.", 6: "Luxury is coming; focus on family and art.", 7: "Research and spirituality will guide you.", 8: "Hard work will bring permanent success.", 9: "Use your energy for humanitarian causes."
+    };
+
+    const adviceB = {
+        1: "Your destiny is to rule and lead the way.", 2: "Peace and cooperation are your life's path.", 3: "You are destined to be a teacher or advisor.", 4: "Your life involves struggle followed by massive gains.", 5: "Adaptability and travel will bring fortune.", 6: "You are born for a comfortable and loving life.", 7: "Mysteries and deep thinking define your journey.", 8: "Material success comes through patience and justice.", 9: "You are a warrior for a better world."
     };
 
     const remediesOdia = {
@@ -138,34 +173,18 @@
         7: "କେତୁ ପ୍ରତିକାର: କୁକୁରଙ୍କୁ ଖାଇବାକୁ ଦିଅନ୍ତୁ |",
         8: "ଶନି ପ୍ରତିକାର: ଶନିବାର ସନ୍ଧ୍ୟାରେ ଓସ୍ତ ଗଛ ମୂଳେ ଦୀପ ଜାଳନ୍ତୁ |",
         9: "ମଙ୍ଗଳ ପ୍ରତିକାର: ହନୁମାନ ଚାଳିଶା ପାଠ କରନ୍ତୁ |",
-        Wood: "🌳 ଉତ୍ତର-ପୂର୍ବ ଦିଗରେ ଏକ ଛୋଟ ସବୁଜ ଗଛ ରଖନ୍ତୁ |",
-        Fire: "🔥 ଦକ୍ଷିଣ ଦିଗରେ ଏକ ନାଲି ଦୀପ ଜାଳନ୍ତୁ |",
-        Earth: "⛰️ ହଳଦିଆ ରଙ୍ଗର ରୁମାଲ ବ୍ୟବହାର କରନ୍ତୁ |",
-        Metal: "⚔️ ରୂପା ଚୁଡ଼ି କିମ୍ବା ଷ୍ଟିଲ୍ ଘଣ୍ଟା ପିନ୍ଧନ୍ତୁ |",
-        Water: "💧 ଉତ୍ତର ଦିଗରେ ପରିଷ୍କାର ପାଣି ଏକ ପାତ୍ରରେ ରଖନ୍ତୁ |"
+        Wood: "🌳 ଉତ୍ତର-ପୂର୍ବ ଦିଗରେ ଏକ ଛୋଟ ସବୁଜ ଗଛ ରଖନ୍ତୁ |", Fire: "🔥 ଦକ୍ଷିଣ ଦିଗରେ ଏକ ନାଲି ଦୀପ ଜାଳନ୍ତୁ |", Earth: "⛰️ ହଳଦିଆ ରଙ୍ଗର ରୁମାଲ ବ୍ୟବହାର କରନ୍ତୁ |", Metal: "⚔️ ରୂପା ଚୁଡ଼ି କିମ୍ବା ଷ୍ଟିଲ୍ ଘଣ୍ଟା ପିନ୍ଧନ୍ତୁ |", Water: "💧 ଉତ୍ତର ଦିଗରେ ପରିଷ୍କାର ପାଣି ଏକ ପାତ୍ରରେ ରଖନ୍ତୁ |"
     };
 
     const remediesEng = {
-        1: "Sun: Drink water in copper and offer Arghya to Sun.",
-        2: "Moon: Keep a silver coin and respect your mother.",
-        3: "Jupiter: Apply saffron tilak and respect elders.",
-        4: "Rahu: Feed birds and keep home clutter-free.",
-        5: "Mercury: Feed green grass to cows on Wednesdays.",
-        6: "Venus: Use perfumes and wear clean clothes.",
-        7: "Ketu: Feed multi-colored dogs or birds.",
-        8: "Saturn: Light mustard oil lamp under Peepal tree on Saturdays.",
-        9: "Mars: Recite Hanuman Chalisa daily.",
-        Wood: "🌳 Place a small green plant in North-East.",
-        Fire: "🔥 Light a red diya in South direction.",
-        Earth: "⛰️ Use a yellow handkerchief.",
-        Metal: "⚔️ Wear a metal watch or silver bangle.",
-        Water: "💧 Keep fresh water in a bowl in North."
+        1: "Sun: Drink water in copper and offer Arghya to Sun.", 2: "Moon: Keep a silver coin and respect your mother.", 3: "Jupiter: Apply saffron tilak and respect elders.", 4: "Rahu: Feed birds and keep home clutter-free.", 5: "Mercury: Feed green grass to cows on Wednesdays.", 6: "Venus: Use perfumes and wear clean clothes.", 7: "Ketu: Feed multi-colored dogs or birds.", 8: "Saturn: Light mustard oil lamp under Peepal tree on Saturdays.", 9: "Mars: Recite Hanuman Chalisa daily.",
+        Wood: "🌳 Place a small green plant in North-East.", Fire: "🔥 Light a red diya in South direction.", Earth: "⛰️ Use a yellow handkerchief.", Metal: "⚔️ Wear a metal watch or silver bangle.", Water: "💧 Keep fresh water in a bowl in North."
     };
 
     function toggleLanguage() {
         currentLang = currentLang === 'en' ? 'or' : 'en';
         let data = currentLang === 'en' ? engData : odiaData;
-        for (let key in data) { document.getElementById(key).innerText = data[key]; }
+        for (let key in data) { if(document.getElementById(key)) document.getElementById(key).innerText = data[key]; }
         if (document.getElementById("personalContent").style.display === "block") calculateMagic();
     }
 
@@ -179,23 +198,50 @@
         let day = d.getDate(), month = d.getMonth() + 1, year = d.getFullYear();
         let m = reduce(day), b = reduce(day + month + year);
         
+        // Name Number Calculation
+        let nTotal = 0;
+        name.toLowerCase().replace(/\s/g, '').split('').forEach(char => {
+            nTotal += chaldean[char] || 0;
+        });
+        let n = reduce(nTotal);
+
         let now = new Date();
         let py = reduce(reduce(day) + reduce(month) + reduce(now.getFullYear()));
         let pm = reduce(py + (now.getMonth() + 1));
         let pd = reduce(pm + now.getDate());
 
         document.getElementById("personalContent").style.display = "block";
+        document.getElementById("valMulank").innerText = m;
+        document.getElementById("valBhagyank").innerText = b;
+        document.getElementById("valNameNo").innerText = n;
         document.getElementById("valToday").innerText = pd;
         document.getElementById("valMonth").innerText = pm;
         document.getElementById("valYear").innerText = py;
         
+        // Alignment Logic
         let rel = {1:{f:[2,3,5,9],e:[8]},2:{f:[1,3,5],e:[4,8,9]},3:{f:[1,2,5,7,9],e:[6]},4:{f:[5,6,7,8],e:[1,2,9]},5:{f:[1,3,4,6,7,8,9],e:[2]},6:{f:[4,5,7,8],e:[3]},7:{f:[3,4,5,6],e:[8,9]},8:{f:[4,5,6,7],e:[1,2,9]},9:{f:[1,2,3,5],e:[4,7,8]}};
         document.getElementById("valFriends").innerText = rel[m].f.join(", ");
         document.getElementById("valEnemies").innerText = rel[m].e.join(", ");
 
+        let isAligned = rel[m].f.includes(n) || m === n;
+        let statusBox = document.getElementById("statusBox");
+        if(isAligned) {
+            statusBox.innerText = "✅ Name is Aligned with Mulank!";
+            statusBox.style.background = "rgba(74, 222, 128, 0.2)";
+            statusBox.style.color = "var(--success)";
+        } else {
+            statusBox.innerText = "⚠️ Name Alignment Needed with Mulank!";
+            statusBox.style.background = "rgba(255, 77, 77, 0.2)";
+            statusBox.style.color = "var(--danger)";
+        }
+
         let gridStr = day.toString() + month.toString() + year.toString() + m.toString() + b.toString();
         let rListHtml = "";
         let remData = currentLang === 'en' ? remediesEng : remediesOdia;
+
+        // Add Mulank & Bhagyank Advise to the top of remedy list
+        rListHtml += `<div class="trait-item" style="border-left-color:var(--gold)"><b>Mulank ${m} Advice:</b> ${adviceM[m]}</div>`;
+        rListHtml += `<div class="trait-item" style="border-left-color:var(--gold)"><b>Bhagyank ${b} Advice:</b> ${adviceB[b]}</div>`;
 
         // Elements
         const elMap = { Wood:[3,4], Fire:[9], Earth:[2,5,8], Metal:[6,7], Water:[1] };
