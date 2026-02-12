@@ -17,7 +17,6 @@
         .container-custom { max-width: 600px; margin: auto; padding: 15px; }
         .box { background: var(--card-bg); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
         
-        /* New Luck Box Style */
         .luck-box { border: 2px solid var(--gold); background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 242, 255, 0.05)); box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
         .luck-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 14px; text-align: left; }
         .luck-icon { font-size: 20px; color: var(--gold); }
@@ -98,6 +97,7 @@
             <h2 id="tLuckTitle" class="h6 mb-3" style="color:var(--gold)"><i class="fa-solid fa-star"></i> What Activates My Luck Today?</h2>
             <div id="luckContent"></div>
         </div>
+        
         <div class="box">
             <h2 id="tAlignment" class="h6 mb-3" style="color:var(--primary);"><i class="fa-solid fa-chart-line"></i> Number Alignment Dashboard</h2>
             <div class="alignment-grid">
@@ -186,6 +186,30 @@
                     </tbody>
                 </table>
             </div>
+
+            <h2 id="tPlanetTraits" class="h6 mt-4" style="color:var(--gold);"><i class="fa-solid fa-sun"></i> Navagraha Traits Master Table</h2>
+            <div class="table-responsive">
+                <table class="table table-dark table-bordered">
+                    <thead>
+                        <tr>
+                            <th id="thPlanet">Planet</th>
+                            <th id="thTraits">Core Traits (Swabhav)</th>
+                            <th id="thImpact">Positive / Negative</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><b style="color:#ffd700">1. Sun (ସୂର୍ଯ୍ୟ)</b></td><td>Leadership, Authority</td><td>Confidence / Ego</td></tr>
+                        <tr><td><b style="color:#ddd">2. Moon (ଚନ୍ଦ୍ର)</b></td><td>Emotion, Intuition</td><td>Peace / Anxiety</td></tr>
+                        <tr><td><b style="color:#ffd700">3. Jupiter (ଗୁରୁ)</b></td><td>Knowledge, Expansion</td><td>Wisdom / Laziness</td></tr>
+                        <tr><td><b style="color:#00f2ff">4. Rahu (ରାହୁ)</b></td><td>Illusion, Innovation</td><td>Smartness / Confusion</td></tr>
+                        <tr><td><b style="color:#4ade80">5. Mercury (ବୁଧ)</b></td><td>Logic, Business, Speech</td><td>Skills / Cunningness</td></tr>
+                        <tr><td><b style="color:#ffb6c1">6. Venus (ଶୁକ୍ର)</b></td><td>Luxury, Love, Arts</td><td>Comfort / Addiction</td></tr>
+                        <tr><td><b style="color:#ff4d4d">7. Ketu (କେତୁ)</b></td><td>Spirituality, Research</td><td>Insight / Isolation</td></tr>
+                        <tr><td><b style="color:#5c5c5c">8. Saturn (ଶନି)</b></td><td>Karma, Discipline</td><td>Stability / Delay</td></tr>
+                        <tr><td><b style="color:#ff4d4d">9. Mars (ମଙ୍ଗଳ)</b></td><td>Action, Energy, Courage</td><td>Bravery / Anger</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="box">
@@ -240,7 +264,6 @@
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     const planets = { 1:"Sun", 2:"Moon", 3:"Jupiter", 4:"Rahu", 5:"Mercury", 6:"Venus", 7:"Ketu", 8:"Saturn", 9:"Mars" };
     
-    // Data for the Luck Section
     const luckTriggers = {
         1: { color: "Orange/Gold", colorOr: "କେସରୀ / ସୁନେଲୀ", dir: "East", dirOr: "ପୂର୍ବ", act: "Offer water to Sun", actOr: "ସୂର୍ଯ୍ୟଙ୍କୁ ଜଳ ଅର୍ପଣ କରନ୍ତୁ" },
         2: { color: "White/Silver", colorOr: "ଧଳା / ରୂପେଲୀ", dir: "North-West", dirOr: "ବାୟୁ କୋଣ", act: "Drink water in silver", actOr: "ରୂପା ଗ୍ଲାସରେ ପାଣି ପିଅନ୍ତୁ" },
@@ -304,14 +327,16 @@
         hTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", btnGen: "ରିପୋର୍ଟ ପ୍ରସ୍ତୁତ କରନ୍ତୁ", tInsights: "ବ୍ୟକ୍ତିଗତ ବିବରଣୀ", tFriends: "ବନ୍ଧୁ ସଂଖ୍ୟା:", tEnemies: "ଶତ୍ରୁ ସଂଖ୍ୟା:", 
         tGrid: "ଆପଣଙ୍କ ମ୍ୟାଜିକ ଗ୍ରୀଡ୍", tElement: "ପଞ୍ଚ ତତ୍ତ୍ୱ ସ୍ଥିତି", tMorning: "⚡ ସକାଳର କର୍ତ୍ତବ୍ୟ", tRemedies: "🔮 ବୈଦିକ ପ୍ରତିକାର", btnBook: "ଅଧିକ ପରାମର୍ଶ ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ",
         tAlignment: "ସଂଖ୍ୟା ଆଲାଇନ୍ମେଣ୍ଟ ଡ୍ୟାସବୋର୍ଡ", lblMulank: "ମୂଳାଙ୍କ", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ", lblNameNo: "ନାମ ସଂଖ୍ୟା", tKnowledge: "ଲୋଶୁ ପ୍ଲେନ୍ ଜ୍ଞାନ ତାଲିକା", tTattvaTable: "ପଞ୍ଚ ତତ୍ତ୍ୱ ମାଷ୍ଟର ଟେବୁଲ୍",
-        tHealthTitle: "🏥 ସ୍ୱାସ୍ଥ୍ୟ ସୂଚନା", tDosTitle: "⚖️ ଆଜି କ’ଣ କରିବେ ଏବଂ କ’ଣ କରିବେ ନାହିଁ", lblDo: "✅ କରନ୍ତୁ", lblDont: "❌ କରନ୍ତୁ ନାହିଁ", tLuckTitle: "🌟 ଆଜି କିପରି ଭାଗ୍ୟ ବୃଦ୍ଧି ହେବ?"
+        tHealthTitle: "🏥 ସ୍ୱାସ୍ଥ୍ୟ ସୂଚନା", tDosTitle: "⚖️ ଆଜି କ’ଣ କରିବେ ଏବଂ କ’ଣ କରିବେ ନାହିଁ", lblDo: "✅ କରନ୍ତୁ", lblDont: "❌ କରନ୍ତୁ ନାହିଁ", tLuckTitle: "🌟 ଆଜି କିପରି ଭାଗ୍ୟ ବୃଦ୍ଧି ହେବ?",
+        tPlanetTraits: "ନବଗ୍ରହ ସ୍ଵଭାବ ମାଷ୍ଟର ଟେବୁଲ୍", thPlanet: "ଗ୍ରହ", thTraits: "ମୂଳ ସ୍ଵଭାବ", thImpact: "ଶୁଭ / ଅଶୁଭ ପ୍ରଭାବ"
     };
 
     const engData = {
         hTitle: "ASTRO ABHINASH 🔯", btnGen: "Generate Report", tInsights: "Personalized Insights", tFriends: "Friends:", tEnemies: "Enemies:", 
         tGrid: "Your Magic Grid", tElement: "Pancha Tattva Status", tMorning: "⚡ Morning Activation", tRemedies: "🔮 Vedic Solutions", btnBook: "Book Deep Consultation",
         tAlignment: "Number Alignment Dashboard", lblMulank: "Mulank", lblBhagyank: "Bhagyank", lblNameNo: "Name No.", tKnowledge: "Loshu Plane Knowledge Table", tTattvaTable: "Pancha Tattva Master Table",
-        tHealthTitle: "🏥 Health Vitality Monitor", tDosTitle: "⚖️ Daily Do's & Don'ts", lblDo: "✅ DO'S", lblDont: "❌ DON'TS", tLuckTitle: "🌟 What Activates My Luck Today?"
+        tHealthTitle: "🏥 Health Vitality Monitor", tDosTitle: "⚖️ Daily Do's & Don'ts", lblDo: "✅ DO'S", lblDont: "❌ DON'TS", tLuckTitle: "🌟 What Activates My Luck Today?",
+        tPlanetTraits: "Navagraha Traits Master Table", thPlanet: "Planet", thTraits: "Core Traits (Swabhav)", thImpact: "Positive / Negative"
     };
 
     const adviceM = { 1: "Focus on leadership.", 2: "Trust intuition.", 3: "Expand knowledge.", 4: "Stay disciplined.", 5: "Communication is key.", 6: "Family & Art focus.", 7: "Spirituality.", 8: "Hard work.", 9: "Humanitarian." };
@@ -371,7 +396,6 @@
         document.getElementById("valMonth").innerText = pm;
         document.getElementById("valYear").innerText = py;
 
-        // Luck Activation Logic
         const luckData = luckTriggers[pd];
         const luckHtml = `
             <div class="luck-item"><i class="fa-solid fa-palette luck-icon"></i> <span><b>Lucky Color:</b> ${currentLang === 'en' ? luckData.color : luckData.colorOr}</span></div>
