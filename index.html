@@ -18,20 +18,23 @@
         .contact-btn { padding: 15px 40px; border: 2px solid var(--success); border-radius: 50px; background: rgba(74, 222, 128, 0.1); color: var(--success); font-weight: 700; cursor: pointer; text-decoration: none; display: block; margin: 20px auto; transition: 0.3s; }
         .contact-btn:hover { background: var(--success); color: black; }
 
-        /* New Numbers Grid */
         .alignment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
         .align-card { background: rgba(0, 242, 255, 0.05); border: 1px solid var(--primary); border-radius: 15px; padding: 10px; }
         .align-val { font-size: 1.8rem; font-weight: 800; color: var(--primary); display: block; }
         .align-label { font-size: 9px; text-transform: uppercase; color: var(--gold); }
         .status-bar { padding: 8px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 10px; }
         
-        /* Grid Styling */
         .loshu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 240px; margin: 15px auto; }
         .grid-cell { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; }
         .filled { border-color: var(--gold); background: rgba(255,215,0,0.1); color: var(--gold); box-shadow: 0 0 10px rgba(255,215,0,0.2); }
         .cell-num { font-size: 1.4rem; }
         .cell-label { font-size: 8px; text-transform: uppercase; margin-top: 2px; }
         .cell-planet { font-size: 7px; color: #aaa; font-weight: normal; }
+
+        /* New Plane Analysis Styles */
+        .analysis-card { text-align: left; padding: 12px; border-radius: 12px; margin-bottom: 8px; border-left: 4px solid var(--primary); font-size: 13px; background: rgba(255,255,255,0.05); }
+        .active-plane { border-left-color: var(--success); background: rgba(74, 222, 128, 0.1); }
+        .missing-plane { border-left-color: var(--danger); background: rgba(255, 77, 77, 0.05); }
 
         .element-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 15px; }
         .element-cell { padding: 10px 2px; border-radius: 10px; font-size: 9px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
@@ -41,6 +44,10 @@
         .trait-list { text-align: left; padding: 0; list-style: none; }
         .trait-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; margin-bottom: 8px; border-left: 4px solid var(--primary); font-size: 13px; }
         .rem-item { border-left-color: var(--gold); background: rgba(255, 215, 0, 0.05); }
+
+        table { width: 100%; border-collapse: collapse; font-size: 10px; margin-top: 10px; color: #ddd; }
+        th, td { border: 1px solid rgba(255,255,255,0.1); padding: 8px; text-align: left; }
+        th { background: rgba(0, 242, 255, 0.1); color: var(--primary); }
         
         #personalContent { display: none; }
     </style>
@@ -67,18 +74,9 @@
         <div class="box">
             <h2 id="tAlignment" style="color:var(--primary); font-size: 18px; margin-bottom: 15px;">Number Alignment Dashboard</h2>
             <div class="alignment-grid">
-                <div class="align-card">
-                    <span class="align-label" id="lblMulank">Mulank</span>
-                    <span class="align-val" id="valMulank">0</span>
-                </div>
-                <div class="align-card">
-                    <span class="align-label" id="lblBhagyank">Bhagyank</span>
-                    <span class="align-val" id="valBhagyank">0</span>
-                </div>
-                <div class="align-card">
-                    <span class="align-label" id="lblNameNo">Name No.</span>
-                    <span class="align-val" id="valNameNo">0</span>
-                </div>
+                <div class="align-card"><span class="align-label" id="lblMulank">Mulank</span><span class="align-val" id="valMulank">0</span></div>
+                <div class="align-card"><span class="align-label" id="lblBhagyank">Bhagyank</span><span class="align-val" id="valBhagyank">0</span></div>
+                <div class="align-card"><span class="align-label" id="lblNameNo">Name No.</span><span class="align-val" id="valNameNo">0</span></div>
             </div>
             <div id="statusBox" class="status-bar"></div>
         </div>
@@ -114,6 +112,11 @@
         </div>
 
         <div class="box">
+            <h2 id="tPlanesTitle" style="color:var(--success)">⚡ Planes & Activation Analysis</h2>
+            <div id="planesAnalysis"></div>
+        </div>
+
+        <div class="box">
             <h2 id="tElement">Pancha Tattva</h2>
             <div class="element-grid" id="elGrid">
                 <div id="elWood" class="element-cell">WOOD<br>(3,4)</div>
@@ -122,6 +125,21 @@
                 <div id="elMetal" class="element-cell">METAL<br>(6,7)</div>
                 <div id="elWater" class="element-cell">WATER<br>(1)</div>
             </div>
+        </div>
+
+        <div class="box">
+            <h2 id="tKnowledge" style="color:var(--primary)">Loshu Plane Knowledge Table</h2>
+            <table>
+                <tr><th>Plane</th><th>Nums</th><th>Benefit</th></tr>
+                <tr><td>Mental</td><td>4-9-2</td><td>Sharp Intellect & Logic</td></tr>
+                <tr><td>Emotional</td><td>3-5-7</td><td>Intuition & Balanced Heart</td></tr>
+                <tr><td>Practical</td><td>8-1-6</td><td>Hard Work & Stability</td></tr>
+                <tr><td>Thought</td><td>4-3-8</td><td>Strategy & Vision</td></tr>
+                <tr><td>Will</td><td>9-5-1</td><td>Determination & Power</td></tr>
+                <tr><td>Action</td><td>2-7-6</td><td>Quick Execution</td></tr>
+                <tr><td>Golden</td><td>4-5-6</td><td>Huge Wealth & Fortune</td></tr>
+                <tr><td>Silver</td><td>2-5-8</td><td>Property & Assets</td></tr>
+            </table>
         </div>
 
         <div class="box" style="border: 2px solid var(--primary); background: rgba(0, 242, 255, 0.05);">
@@ -143,6 +161,18 @@
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     const planets = { 1:"Sun", 2:"Moon", 3:"Jupiter", 4:"Rahu", 5:"Mercury", 6:"Venus", 7:"Ketu", 8:"Saturn", 9:"Mars" };
     
+    // Planes Data for Logic
+    const planeDef = [
+        { name: "Mental Plane", nums: [4,9,2], benefit: "Sharp Mind & Logic", activation: "Keep North-East area clean." },
+        { name: "Emotional Plane", nums: [3,5,7], benefit: "Intuition & Feelings", activation: "Wear a silver ring or coin." },
+        { name: "Practical Plane", nums: [8,1,6], benefit: "Solid Material Success", activation: "Wear a metal strap watch." },
+        { name: "Thought Plane", nums: [4,3,8], benefit: "Strategy & Planning", activation: "Use yellow handkerchief." },
+        { name: "Will Plane", nums: [9,5,1], benefit: "Determination & Success", activation: "Offer water to Sun daily." },
+        { name: "Action Plane", nums: [2,7,6], benefit: "Fast Results & Execution", activation: "Use white/cream colors." },
+        { name: "Golden Success", nums: [4,5,6], benefit: "Wealth & Fortune", activation: "Keep a green plant in NE." },
+        { name: "Silver Assets", nums: [2,5,8], benefit: "Property & Stability", activation: "Tie black thread or wear metal watch." }
+    ];
+
     const odiaData = {
         hTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", btnGen: "ରିପୋର୍ଟ ପ୍ରସ୍ତୁତ କରନ୍ତୁ", tInsights: "ବ୍ୟକ୍ତିଗତ ବିବରଣୀ", tFriends: "ବନ୍ଧୁ ସଂଖ୍ୟା:", tEnemies: "ଶତ୍ରୁ ସଂଖ୍ୟା:", 
         tGrid: "ଆପଣଙ୍କ ମ୍ୟାଜିକ ଗ୍ରୀଡ୍", tElement: "ପଞ୍ଚ ତତ୍ତ୍ୱ", tMorning: "⚡ ସକାଳର କର୍ତ୍ତବ୍ୟ", tRemedies: "🔮 ବୈଦିକ ପ୍ରତିକାର", btnBook: "ଅଧିକ ପରାମର୍ଶ ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ",
@@ -198,11 +228,8 @@
         let day = d.getDate(), month = d.getMonth() + 1, year = d.getFullYear();
         let m = reduce(day), b = reduce(day + month + year);
         
-        // Name Number Calculation
         let nTotal = 0;
-        name.toLowerCase().replace(/\s/g, '').split('').forEach(char => {
-            nTotal += chaldean[char] || 0;
-        });
+        name.toLowerCase().replace(/\s/g, '').split('').forEach(char => { nTotal += chaldean[char] || 0; });
         let n = reduce(nTotal);
 
         let now = new Date();
@@ -218,7 +245,6 @@
         document.getElementById("valMonth").innerText = pm;
         document.getElementById("valYear").innerText = py;
         
-        // Alignment Logic
         let rel = {1:{f:[2,3,5,9],e:[8]},2:{f:[1,3,5],e:[4,8,9]},3:{f:[1,2,5,7,9],e:[6]},4:{f:[5,6,7,8],e:[1,2,9]},5:{f:[1,3,4,6,7,8,9],e:[2]},6:{f:[4,5,7,8],e:[3]},7:{f:[3,4,5,6],e:[8,9]},8:{f:[4,5,6,7],e:[1,2,9]},9:{f:[1,2,3,5],e:[4,7,8]}};
         document.getElementById("valFriends").innerText = rel[m].f.join(", ");
         document.getElementById("valEnemies").innerText = rel[m].e.join(", ");
@@ -239,7 +265,6 @@
         let rListHtml = "";
         let remData = currentLang === 'en' ? remediesEng : remediesOdia;
 
-        // Add Mulank & Bhagyank Advise to the top of remedy list
         rListHtml += `<div class="trait-item" style="border-left-color:var(--gold)"><b>Mulank ${m} Advice:</b> ${adviceM[m]}</div>`;
         rListHtml += `<div class="trait-item" style="border-left-color:var(--gold)"><b>Bhagyank ${b} Advice:</b> ${adviceB[b]}</div>`;
 
@@ -251,11 +276,35 @@
             if (!hasEl) rListHtml += `<div class="trait-item rem-item">${remData[el]}</div>`;
         }
 
+        // Update Grid UI
         for(let i=1; i<=9; i++) {
             let cell = document.getElementById("c"+i);
-            if(gridStr.includes(i)) { cell.classList.add("filled"); } 
-            else { cell.classList.remove("filled"); rListHtml += `<div class="trait-item"><b>${planets[i]}:</b> ${remData[i]}</div>`; }
+            if(gridStr.includes(i)) { 
+                cell.classList.add("filled"); 
+            } else { 
+                cell.classList.remove("filled"); 
+                rListHtml += `<div class="trait-item"><b>${planets[i]}:</b> ${remData[i]}</div>`; 
+            }
         }
+
+        // --- NEW PLANES LOGIC MERGED HERE ---
+        let analysisHtml = "";
+        planeDef.forEach(p => {
+            let found = p.nums.filter(n => gridStr.includes(n.toString()));
+            let missing = p.nums.filter(n => !gridStr.includes(n.toString()));
+
+            if (found.length === 3) {
+                analysisHtml += `<div class="analysis-card active-plane"><b>✅ ACTIVE: ${p.name}</b><br>Benefit: ${p.benefit}</div>`;
+            } else if (found.length > 0) {
+                analysisHtml += `<div class="analysis-card missing-plane"><b>⚠️ INCOMPLETE: ${p.name}</b><br>
+                <i>Missing: ${missing.join(", ")}</i><br>
+                <b>How to Activate:</b> ${p.activation}<br>
+                <b>Benefit after Activation:</b> ${p.benefit}</div>`;
+            }
+        });
+        document.getElementById("planesAnalysis").innerHTML = analysisHtml;
+        // --- END OF PLANES LOGIC ---
+
         document.getElementById("remedyList").innerHTML = rListHtml;
         document.getElementById("morningRitual").innerHTML = `<b>Today's Planet: ${planets[pd]}</b><br>${remData[pd]}`;
     }
