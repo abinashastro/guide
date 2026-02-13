@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Abhinash | Destiny & Rituals AI</title>
+    <title>Astro Abhinash | Premium Destiny AI</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -16,16 +16,13 @@
         input, select { padding: 15px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; background: rgba(0,0,0,0.3); color: white; outline: none; }
         .calc-btn { padding: 18px; border: none; border-radius: 15px; background: linear-gradient(135deg, var(--primary), #0066ff); color: white; font-weight: 700; width: 100%; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
         .calc-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,242,255,0.3); }
-        
         .destiny-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
         .destiny-card { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
         .num-val { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
         .num-label { font-size: 9px; color: var(--gold); text-transform: uppercase; }
-        
-        .ritual-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid var(--primary); font-size: 14px; text-align: left; }
-        .ritual-item i { margin-right: 10px; color: var(--gold); }
-        
-        .blur-lock { filter: blur(15px); pointer-events: none; user-select: none; transition: 0.5s ease; }
+        .ritual-item { background: rgba(255,255,255,0.05); padding: 14px; border-radius: 14px; margin-bottom: 10px; border-left: 4px solid var(--primary); font-size: 14px; text-align: left; display: flex; align-items: center; }
+        .ritual-item i { margin-right: 12px; color: var(--gold); font-size: 1.1rem; }
+        .blur-lock { filter: blur(18px); pointer-events: none; user-select: none; transition: 0.5s ease; }
         .unlock-box { position: fixed; bottom: 0; left: 0; right: 0; background: #020617; padding: 30px; border-top: 3px solid var(--gold); z-index: 1000; display: none; border-radius: 30px 30px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,0.8); }
         #personalContent { display: none; }
     </style>
@@ -37,7 +34,7 @@
 <div class="container container-custom">
     <div class="box shadow">
         <h6 class="text-center mb-3 text-muted small">ENTER BIRTH DETAILS</h6>
-        <input type="text" id="userName" placeholder="Full Name">
+        <input type="text" id="userName" placeholder="Apna Pura Naam Likhein">
         <div class="row g-2">
             <div class="col-7"><input type="date" id="dob"></div>
             <div class="col-5">
@@ -55,23 +52,21 @@
                 <div class="destiny-card"><span class="num-val" id="resB">0</span><span class="num-label">Bhagyank</span></div>
                 <div class="destiny-card"><span class="num-val" id="resN">0</span><span class="num-label">Name No.</span></div>
             </div>
-
-            <h6 class="text-secondary small mt-4 mb-3">PERSONAL CYCLES (TODAY)</h6>
+            <h6 class="text-secondary small mt-4 mb-3">YOUR PERSONAL CYCLES</h6>
             <div class="destiny-grid">
-                <div class="destiny-card" style="border-color: var(--gold);"><span class="num-val text-white" id="resDay">0</span><span class="num-label">Daily No.</span></div>
-                <div class="destiny-card" style="border-color: var(--gold);"><span class="num-val text-white" id="resMonth">0</span><span class="num-label">Monthly No.</span></div>
-                <div class="destiny-card" style="border-color: var(--gold);"><span class="num-val text-white" id="resYear">0</span><span class="num-label">Yearly No.</span></div>
+                <div class="destiny-card"><span class="num-val text-white" id="resDay">0</span><span class="num-label">Daily</span></div>
+                <div class="destiny-card"><span class="num-val text-white" id="resMonth">0</span><span class="num-label">Monthly</span></div>
+                <div class="destiny-card"><span class="num-val text-white" id="resYear">0</span><span class="num-label">Yearly</span></div>
             </div>
         </div>
-
         <div id="ritualContainer"></div>
     </div>
 </div>
 
 <div class="unlock-box" id="unlockBox">
-    <h4 class="fw-800 text-center text-white">🔒 Report Locked</h4>
-    <p class="text-center text-secondary small">Pay to see your full destiny cycles & remedies</p>
-    <button class="calc-btn" id="unlockBtn" onclick="unlockReport()" style="background:var(--gold); color:black">Pay to Unlock</button>
+    <h4 class="fw-800 text-center text-white">🔒 Premium Rituals Locked</h4>
+    <p class="text-center text-secondary small">Pay ₹49 to unlock Color Power, Daan and special Remedies</p>
+    <button class="calc-btn" id="unlockBtn" onclick="unlockReport()" style="background:var(--gold); color:black">Unlock Full Report</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -92,15 +87,15 @@
     const db = firebase.database();
 
     const activationData = {
-        1: { name: "Sun (Surya)", color: "#FF8C00", mantra: "Om Suryaya Namah", tasks: ["East face karke Surya Jal chadhao", "Orange/Golden color touch karein", "Father/Elders ko respect dein", "I am a leader - Mirror affirmation"] },
-        2: { name: "Moon (Chandra)", color: "#FFFFFF", mantra: "Om Chandraya Namah", tasks: ["Subah 1 glass paani piyein", "Maa ko pranam/message karein", "White object touch karein", "2 min Deep Breathing karein"] },
-        3: { name: "Jupiter (Guru)", color: "#FFD700", mantra: "Om Gurave Namah", tasks: ["Haldi Tilak lagayein", "Yellow color touch karein", "5 min Reading/Study karein", "Kids ko bless karein"] },
-        4: { name: "Rahu", color: "#4B0082", mantra: "I Control My Destiny", tasks: ["Work desk/Room clean karein", "Birds ko dana dein", "Today's plan likhein", "Mobile use discipline follow karein"] },
-        5: { name: "Mercury (Budh)", color: "#00FF7F", mantra: "Om Budhaya Namah", tasks: ["Green color touch karein", "Plants ko water dein", "New business idea likhein", "Smile with confidence"] },
-        6: { name: "Venus (Shukra)", color: "#FFB6C1", mantra: "Om Shukraya Namah", tasks: ["Perfume/Attar use karein", "Clean ironed clothes pehne", "Mirror mein smile karein", "Partner ko sweet message dein"] },
-        7: { name: "Ketu", color: "#708090", mantra: "Om Ketave Namah", tasks: ["5 min meditation/silence", "Dogs ko food dein", "Sky dekhein 1 min", "Intuition par trust karein"] },
-        8: { name: "Saturn (Shani)", color: "#1E90FF", mantra: "Om Sham Shanicharaya Namah", tasks: ["Sabse hard task pehle karein", "Shoes clean rakhein", "Helping mindset rakhein", "Work hard with discipline"] },
-        9: { name: "Mars (Mangal)", color: "#FF4500", mantra: "Om Mangalaya Namah", tasks: ["Pushups/Exercise karein", "Red color touch karein", "Fast walking karein", "Hanuman Chalisa/Pranam"] }
+        1: { name: "Sun (Surya)", color: "#FF8C00", mantra: "Om Suryaya Namah", tasks: ["Surya ko jal chadhao", "Papa ke pair chhuo", "Mirror mein bolo 'Main Leader Hun'", "Thoda sa Gud khao", "Pink ya Orange rumaal sath rakho", "Aaj kisi buzurg ko paani pilao"] },
+        2: { name: "Moon (Chandra)", color: "#FFFFFF", mantra: "Om Chandraya Namah", tasks: ["Baith kar 1 glass paani piyo", "Maa ko pranam karo", "Pocket mein Chandi ka sikka rakho", "White rumaal sath rakho", "Aaj thoda dahi khao", "Shivling par jal chadhao"] },
+        3: { name: "Jupiter (Guru)", color: "#FFD700", mantra: "Om Gurave Namah", tasks: ["Haldi ka tilak lagao", "Guru ya bade bhai ki izzat karo", "Bachon ko chocolate do", "Aaj kuch naya seekho", "Yellow kapda pehno", "Chana daal ka daan karo"] },
+        4: { name: "Rahu", color: "#4B0082", mantra: "Main hi apna naseeb hun", tasks: ["Birds ko dana daalo", "Phone ki gallery saaf karo", "Aaj ka kaam paper par likho", "Blue color use karo", "Ghar ki chhat saaf rakho", "Grey rumaal pocket mein rakho"] },
+        5: { name: "Mercury (Budh)", color: "#00FF7F", mantra: "Om Budhaya Namah", tasks: ["Green plants ko paani do", "Behen ya beti ko gift do", "1 Hari Elaichi chaba kar niklo", "Doston ko call karo", "Hara rang (Green) pehno", "Pakshiyon ko Moong daalo"] },
+        6: { name: "Venus (Shukra)", color: "#FFB6C1", mantra: "Om Shukraya Namah", tasks: ["Achha Perfume lagao", "Saaf iron kiye kapde pehno", "Mirror mein dekh kar muskurao", "Partner ko sweet message do", "Aaj thoda Chawal daan karo", "Ghar mein White phool rakho"] },
+        7: { name: "Ketu", color: "#708090", mantra: "Om Ketave Namah", tasks: ["Kutte (Dog) ko roti ya food do", "5 min bilkul shant baitho", "1 min khule aasmaan ko dekho", "Apni intuition par bharosa karo", "Grey ya Smoke color pehno", "Aaj kisi mandir mein namak daan karo"] },
+        8: { name: "Saturn (Shani)", color: "#1E90FF", mantra: "Om Sham Shanicharaya Namah", tasks: ["Sabse mushkil kaam pehle karo", "Apne joote saaf rakho", "Helper ya gareeb ki madad karo", "Aaj jhooth mat bolo", "Kaale kutte ko roti do", "Aaj thoda Sarson tel daan karo"] },
+        9: { name: "Mars (Mangal)", color: "#FF4500", mantra: "Om Mangalaya Namah", tasks: ["Exercise ya pushups karo", "Hanuman ji ko pranam karo", "Aaj gussa nahi karne ka wada karo", "Red color touch karo", "Lal Masoor daal daan karo", "Meethi roti kutte ko do"] }
     };
 
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
@@ -113,25 +108,17 @@
         if(!name || !dobVal) return alert("Details bharo!");
 
         const d = new Date(dobVal);
-        const birthDate = d.getDate();
-        const birthMonth = d.getMonth() + 1;
-        const birthYear = d.getFullYear();
-
-        // Core Numbers
-        const m = reduce(birthDate);
-        const b = reduce(sumStr(birthDate) + sumStr(birthMonth) + sumStr(birthYear));
+        const m = reduce(d.getDate());
+        const b = reduce(sumStr(d.getDate()) + sumStr(d.getMonth()+1) + sumStr(d.getFullYear()));
         let nSum = 0;
         for(let char of name.toLowerCase().replace(/\s/g, '')) { nSum += chaldean[char] || 0; }
         const nNo = reduce(nSum);
 
-        // Personal Cycles
         const now = new Date();
-        const curYearSum = reduce(sumStr(now.getFullYear()));
-        const pYear = reduce(m + reduce(birthMonth) + curYearSum);
+        const pYear = reduce(m + reduce(d.getMonth()+1) + reduce(sumStr(now.getFullYear())));
         const pMonth = reduce(pYear + (now.getMonth() + 1));
         const pDay = reduce(pMonth + now.getDate());
 
-        // Update UI
         document.getElementById("resM").innerText = m;
         document.getElementById("resB").innerText = b;
         document.getElementById("resN").innerText = nNo;
@@ -139,31 +126,25 @@
         document.getElementById("resMonth").innerText = pMonth;
         document.getElementById("resYear").innerText = pYear;
 
-        // Rituals
-        const planet = activationData[m];
+        const p = activationData[m];
         document.getElementById("ritualContainer").innerHTML = `
-            <div class="box shadow" style="border-top: 4px solid ${planet.color}">
-                <h5 class="text-center mb-1" style="color:${planet.color}">${planet.name} Activation</h5>
-                <p class="text-center small text-muted mb-3">Your Daily Master Rituals</p>
-                ${planet.tasks.map(t => `<div class="ritual-item"><i class="fa-solid fa-circle-check"></i> ${t}</div>`).join('')}
-                <div class="text-center mt-3 p-3" style="background:rgba(0,0,0,0.2); border-radius:15px; border:1px dashed ${planet.color}">
-                    <span class="small text-gold d-block mb-1">CHANT 11 TIMES</span>
-                    <strong>${planet.mantra}</strong>
+            <div class="box shadow" style="border-top: 4px solid ${p.color}">
+                <h5 class="text-center" style="color:${p.color}">${p.name} Activation</h5>
+                <p class="text-center small text-muted mb-4">Master Rituals for Success</p>
+                ${p.tasks.map(t => `<div class="ritual-item"><i class="fa-solid fa-circle-check"></i> ${t}</div>`).join('')}
+                <div class="text-center mt-3 p-3" style="background:rgba(0,0,0,0.2); border-radius:15px; border:1px dashed ${p.color}">
+                    <span class="small text-gold d-block mb-1">MANTRA (11 BAAR)</span>
+                    <strong style="font-size:1.1rem">${p.mantra}</strong>
                 </div>
             </div>`;
 
         document.getElementById("personalContent").style.display = "block";
-        
-        // Save to Firebase
         db.ref('astroLeads').push({ name, mulank: m, bhagyank: b, time: new Date().toLocaleString() });
 
-        // Check Lock
         db.ref('astroSettings').once('value', snap => {
-            const s = snap.val();
-            if(s && s.mode === "Premium (Locked)") {
+            if(snap.val()?.mode === "Premium (Locked)") {
                 document.getElementById("personalContent").classList.add("blur-lock");
                 document.getElementById("unlockBox").style.display = "block";
-                document.getElementById("unlockBtn").innerText = `Pay ₹${s.price} to Unlock`;
             }
         });
     }
