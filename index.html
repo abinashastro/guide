@@ -22,497 +22,183 @@
         .luck-icon { font-size: 20px; color: var(--gold); }
 
         input, select { padding: 12px; width: 100%; border-radius: 10px; border: none; margin-bottom: 10px; font-weight: bold; outline: none; background: #1e293b; color: white; }
-        .form-control:focus, .form-select:focus { background: #1e293b; color: white; border-color: var(--primary); box-shadow: 0 0 0 0.25rem rgba(0, 242, 255, 0.25); }
-        
         .toggle-btn { background: var(--primary); color: #000; border: none; padding: 5px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 12px; margin-top: 5px; }
         .calc-btn { padding: 15px 40px; border: none; border-radius: 50px; background: linear-gradient(45deg, var(--primary), #0066ff); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 10px; }
         
         .contact-btn { padding: 15px 40px; border: 2px solid var(--success); border-radius: 50px; background: rgba(74, 222, 128, 0.1); color: var(--success); font-weight: 700; cursor: pointer; text-decoration: none; display: block; margin: 20px auto; transition: 0.3s; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        .contact-btn:hover { background: var(--success); color: black; }
 
         .alignment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
         .align-card { background: rgba(0, 242, 255, 0.05); border: 1px solid var(--primary); border-radius: 15px; padding: 10px; }
         .align-val { font-size: 1.8rem; font-weight: 800; color: var(--primary); display: block; }
         .align-label { font-size: 9px; text-transform: uppercase; color: var(--gold); }
-        .status-bar { padding: 8px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-top: 10px; }
         
         .loshu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 240px; margin: 15px auto; }
         .grid-cell { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; }
-        .filled { border-color: var(--gold); background: rgba(255,215,0,0.1); color: var(--gold); box-shadow: 0 0 10px rgba(255,215,0,0.2); }
-        .cell-num { font-size: 1.4rem; }
-        .cell-label { font-size: 8px; text-transform: uppercase; margin-top: 2px; }
-        .cell-planet { font-size: 7px; color: #aaa; font-weight: normal; }
-
+        .filled { border-color: var(--gold); background: rgba(255,215,0,0.1); color: var(--gold); }
+        
         .analysis-card { text-align: left; padding: 12px; border-radius: 12px; margin-bottom: 8px; border-left: 4px solid var(--primary); font-size: 13px; background: rgba(255,255,255,0.05); }
-        .active-plane { border-left-color: var(--success); background: rgba(74, 222, 128, 0.1); }
-        .missing-plane { border-left-color: var(--danger); background: rgba(255, 77, 77, 0.05); }
-
         .element-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 15px; }
         .element-cell { padding: 10px 2px; border-radius: 10px; font-size: 9px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
         .el-present { background: rgba(74, 222, 128, 0.15); border-color: var(--success); color: var(--success); }
-        .el-absent { background: rgba(255, 77, 77, 0.05); border-color: rgba(255, 77, 77, 0.3); color: #666; }
+        .trait-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; margin-bottom: 8px; border-left: 4px solid var(--primary); font-size: 13px; text-align: left; }
 
-        .trait-list { text-align: left; padding: 0; list-style: none; }
-        .trait-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; margin-bottom: 8px; border-left: 4px solid var(--primary); font-size: 13px; }
-        .rem-item { border-left-color: var(--gold); background: rgba(255, 215, 0, 0.05); }
-
-        table { width: 100%; border-collapse: collapse; font-size: 10px; margin-top: 10px; color: #ddd; }
-        th, td { border: 1px solid rgba(255,255,255,0.1); padding: 8px; text-align: left; }
-        th { background: rgba(0, 242, 255, 0.1); color: var(--primary); }
-        
+        /* VIP LOCK SYSTEM */
+        .blur-lock { filter: blur(12px); pointer-events: none; user-select: none; transition: 0.5s; }
+        .unlock-box {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: #020617; padding: 25px;
+            border-top: 3px solid var(--gold); z-index: 1000; display: none;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+            animation: slideUp 0.5s;
+        }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .unlock-btn {
+            background: linear-gradient(45deg, #ffd700, #ff9900);
+            border: none; padding: 15px 40px; border-radius: 30px;
+            font-weight: 800; color: black; font-size: 18px; margin-top: 10px;
+        }
         #personalContent { display: none; }
-        
-        /* VIP BLUR LOCK */
-.blur-lock{
-filter:blur(8px);
-pointer-events:none;
-user-select:none;
-}
-
-.unlock-box{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:#020617;
-padding:20px;
-border-top:2px solid gold;
-text-align:center;
-z-index:999;
-display:none;
-animation:slideUp .5s;
-}
-
-@keyframes slideUp{
-from{transform:translateY(100%);}
-to{transform:translateY(0);}
-}
-
-.unlock-btn{
-background:linear-gradient(45deg,#ffd700,#ff9900);
-border:none;
-padding:15px 30px;
-border-radius:30px;
-font-weight:bold;
-font-size:18px;
-margin-top:10px;
-}
     </style>
 </head>
 <body>
 
-<header class="container-fluid">
-    <span id="hTitle" class="h4 d-block"><i class="fa-solid fa-om"></i> ASTRO ABHINASH </span>
-    <button class="toggle-btn" onclick="toggleLanguage()"><i class="fa-solid fa-language"></i> Odia / English</button>
+<header>
+    <span id="hTitle"><i class="fa-solid fa-om"></i> ASTRO ABHINASH </span>
+    <button class="toggle-btn ms-2" onclick="toggleLanguage()">Odia / English</button>
 </header>
 
 <div class="container container-custom mt-4">
     <div class="box">
+        <input type="text" id="userName" placeholder="Full Name">
         <div class="row g-2">
-            <div class="col-12">
-                <input type="text" id="userName" class="form-control" placeholder="Full Name">
-            </div>
+            <div class="col-6"><input type="date" id="dob"></div>
             <div class="col-6">
-                <input type="date" id="dob" class="form-control">
-            </div>
-            <div class="col-6">
-                <select id="gender" class="form-select">
+                <select id="gender">
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                 </select>
             </div>
-            <div class="col-12">
-                <button class="calc-btn mt-3" id="btnGen" onclick="calculateMagic()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Report</button>
-            </div>
         </div>
+        <button class="calc-btn" id="btnGen" onclick="calculateMagic()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Report</button>
     </div>
 
     <div id="personalContent">
-        <div class="box" style="border: 2px solid var(--gold); background: rgba(255, 215, 0, 0.03);">
-            <h2 id="tUniqueTitle" class="h6 mb-3" style="color:var(--gold); text-transform: uppercase;">
-                <i class="fa-solid fa-microscope"></i> Why Your Report is Unique?
-            </h2>
-            <div class="text-start" style="font-size: 12px;">
-                <div class="analysis-card" style="border-left-color: var(--primary);">
-                    <b style="color:var(--primary)">1. Destiny Impact (Karmic Blueprint)</b>
-                    <ul id="uDestinyList" class="ps-3 mt-1 mb-0" style="color: #ccc; list-style-type: square;"></ul>
-                </div>
-                <div class="analysis-card" style="border-left-color: var(--danger);">
-                    <b style="color:var(--danger)">2. Grid Gaps (Hidden Weakness)</b>
-                    <ul id="uGridList" class="ps-3 mt-1 mb-0" style="color: #ccc; list-style-type: square;"></ul>
-                </div>
-                <div class="analysis-card" style="border-left-color: var(--success);">
-                    <b style="color:var(--success)">3. Vibration Match (Name Power)</b>
-                    <ul id="uVibeList" class="ps-3 mt-1 mb-0" style="color: #ccc; list-style-type: square;"></ul>
-                </div>
-                <div class="analysis-card" style="border-left-color: var(--gold);">
-                    <b style="color:var(--gold)">4. Time Window (Peak Cycles)</b>
-                    <ul id="uTimeList" class="ps-3 mt-1 mb-0" style="color: #ccc; list-style-type: square;"></ul>
-                </div>
-            </div>
-        </div>
         <div class="box luck-box">
-            <h2 id="tLuckTitle" class="h6 mb-3" style="color:var(--gold)"><i class="fa-solid fa-star"></i> What Activates My Luck Today?</h2>
+            <h2 id="tLuckTitle" class="h6 mb-3" style="color:var(--gold)">🌟 Luck Activation</h2>
             <div id="luckContent"></div>
         </div>
-        
+
         <div class="box">
-            <h2 id="tAlignment" class="h6 mb-3" style="color:var(--primary);"><i class="fa-solid fa-chart-line"></i> Number Alignment Dashboard</h2>
+            <h2 id="tAlignment" class="h6 mb-3">Number Dashboard</h2>
             <div class="alignment-grid">
                 <div class="align-card"><span class="align-label" id="lblMulank">Mulank</span><span class="align-val" id="valMulank">0</span></div>
                 <div class="align-card"><span class="align-label" id="lblBhagyank">Bhagyank</span><span class="align-val" id="valBhagyank">0</span></div>
                 <div class="align-card"><span class="align-label" id="lblNameNo">Name No.</span><span class="align-val" id="valNameNo">0</span></div>
             </div>
-            <div id="statusBox" class="status-bar"></div>
-        </div>
-
-        <div class="box" id="challengeBox" style="border: 2px solid var(--danger); background: rgba(255, 77, 77, 0.05);">
-            <h2 id="tChallengeTitle" class="h6" style="color:var(--danger)"><i class="fa-solid fa-triangle-exclamation"></i> Today's Challenge Radar</h2>
-            <div id="challengeContent" style="font-size: 13px; text-align: left; line-height: 1.6;"></div>
-        </div>
-
-        <div class="box" id="healthBox" style="border: 2px solid var(--primary); background: rgba(0, 242, 255, 0.05);">
-            <h2 id="tHealthTitle" class="h6" style="color:var(--primary)"><i class="fa-solid fa-heart-pulse"></i> Health Vitality Monitor</h2>
-            <div id="healthContent" style="font-size: 13px; text-align: left; line-height: 1.6;"></div>
-        </div>
-
-        <div class="box" id="dosDontsBox" style="border: 2px solid var(--gold); background: rgba(255, 215, 0, 0.05);">
-            <h2 id="tDosTitle" class="h6 mb-3" style="color:var(--gold)"><i class="fa-solid fa-scale-balanced"></i> Daily Do's & Don'ts</h2>
-            <div class="row g-2 text-start" style="font-size: 12px;">
-                <div class="col-6">
-                    <div class="h-100" style="background: rgba(74, 222, 128, 0.1); padding: 12px; border-radius: 12px; border-top: 3px solid var(--success);">
-                        <b style="color:var(--success)" id="lblDo"><i class="fa-solid fa-circle-check"></i> DO'S</b>
-                        <div id="valDos" style="margin-top: 5px; line-height: 1.4;"></div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="h-100" style="background: rgba(255, 77, 77, 0.1); padding: 12px; border-radius: 12px; border-top: 3px solid var(--danger);">
-                        <b style="color:var(--danger)" id="lblDont"><i class="fa-solid fa-circle-xmark"></i> DON'TS</b>
-                        <div id="valDonts" style="margin-top: 5px; line-height: 1.4;"></div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="box">
-            <h2 id="tInsights" class="h6" style="color:var(--primary)"><i class="fa-solid fa-lightbulb"></i> Personalized Insights</h2>
-            <div class="row g-2 text-start" style="font-size: 13px;">
-                <div class="col-6">
-                    <div class="p-2 h-100" style="background: rgba(255,255,255,0.05); border-radius: 12px;">
-                        <b id="tFriends" style="color:var(--gold)">Friends:</b> <span id="valFriends"></span><br>
-                        <b id="tEnemies" style="color:var(--danger)">Enemies:</b> <span id="valEnemies"></span>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="p-2 h-100" style="background: rgba(255,255,255,0.05); border-radius: 12px;">
-                        <b>Today:</b> <span id="valToday" style="color:var(--primary); font-weight:bold;"></span><br>
-                        <b>Month:</b> <span id="valMonth" style="color:var(--primary); font-weight:bold;"></span><br>
-                        <b>Year:</b> <span id="valYear" style="color:var(--primary); font-weight:bold;"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="box">
-            <h2 id="tKnowledge" class="h6" style="color:var(--primary)"><i class="fa-solid fa-table"></i> Loshu Plane Knowledge Table</h2>
-            <div class="table-responsive">
-                <table class="table table-dark table-bordered">
-                    <thead><tr><th>Plane</th><th>Nums</th><th>Benefit</th></tr></thead>
-                    <tbody>
-                        <tr><td>Mental</td><td>4-9-2</td><td>Sharp Intellect & Logic</td></tr>
-                        <tr><td>Emotional</td><td>3-5-7</td><td>Intuition & Balanced Heart</td></tr>
-                        <tr><td>Practical</td><td>8-1-6</td><td>Hard Work & Stability</td></tr>
-                        <tr><td>Thought</td><td>4-3-8</td><td>Strategy & Vision</td></tr>
-                        <tr><td>Will</td><td>9-5-1</td><td>Determination & Power</td></tr>
-                        <tr><td>Action</td><td>2-7-6</td><td>Quick Execution</td></tr>
-                        <tr><td>Golden</td><td>4-5-6</td><td>Huge Wealth & Fortune</td></tr>
-                        <tr><td>Silver</td><td>2-5-8</td><td>Property & Assets</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            </div>
-
-        <div class="box">
-            <h2 id="tGrid" class="h6"><i class="fa-solid fa-border-all"></i> Your Magic Grid</h2>
+            <h2 id="tGrid" class="h6">Magic Grid</h2>
             <div class="loshu-grid" id="gridUI">
-                <div class="grid-cell" id="c4"><span class="cell-num">4</span><span class="cell-planet">Rahu</span><span class="cell-label">Wealth</span></div>
-                <div class="grid-cell" id="c9"><span class="cell-num">9</span><span class="cell-planet">Mars</span><span class="cell-label">Fame</span></div>
-                <div class="grid-cell" id="c2"><span class="cell-num">2</span><span class="cell-planet">Moon</span><span class="cell-label">Love</span></div>
-                <div class="grid-cell" id="c3"><span class="cell-num">3</span><span class="cell-planet">Jupiter</span><span class="cell-label">Health</span></div>
-                <div class="grid-cell" id="c5"><span class="cell-num">5</span><span class="cell-planet">Mercury</span><span class="cell-label">Balance</span></div>
-                <div class="grid-cell" id="c7"><span class="cell-num">7</span><span class="cell-planet">Ketu</span><span class="cell-label">Children</span></div>
-                <div class="grid-cell" id="c8"><span class="cell-num">8</span><span class="cell-planet">Saturn</span><span class="cell-label">Wisdom</span></div>
-                <div class="grid-cell" id="c1"><span class="cell-num">1</span><span class="cell-planet">Sun</span><span class="cell-label">Career</span></div>
-                <div class="grid-cell" id="c6"><span class="cell-num">6</span><span class="cell-planet">Venus</span><span class="cell-label">Travel</span></div>
+                <div class="grid-cell" id="c4">4</div><div class="grid-cell" id="c9">9</div><div class="grid-cell" id="c2">2</div>
+                <div class="grid-cell" id="c3">3</div><div class="grid-cell" id="c5">5</div><div class="grid-cell" id="c7">7</div>
+                <div class="grid-cell" id="c8">8</div><div class="grid-cell" id="c1">1</div><div class="grid-cell" id="c6">6</div>
             </div>
         </div>
 
         <div class="box">
-            <h2 id="tPlanesTitle" class="h6" style="color:var(--success)"><i class="fa-solid fa-bolt"></i> Planes & Activation Analysis</h2>
-            <div id="planesAnalysis"></div>
+            <h2 id="tRemedies" class="h6" style="color:var(--gold)">🔮 Vedic Remedies</h2>
+            <div id="remedyList"></div>
         </div>
 
-        <div class="box">
-            <h2 id="tElement" class="h6"><i class="fa-solid fa-dharmachakra"></i> Pancha Tattva Status</h2>
-            <div class="element-grid" id="elGrid">
-                <div id="elWood" class="element-cell">WOOD<br>(3,4)</div>
-                <div id="elFire" class="element-cell">FIRE<br>(9)</div>
-                <div id="elEarth" class="element-cell">EARTH<br>(2,5,8)</div>
-                <div id="elMetal" class="element-cell">METAL<br>(6,7)</div>
-                <div id="elWater" class="element-cell">WATER<br>(1)</div>
-            </div>
-        </div>
-
-        <div class="box" style="border: 2px solid var(--primary); background: rgba(0, 242, 255, 0.05);">
-            <h2 id="tMorning" class="h6" style="color:var(--primary)"><i class="fa-solid fa-sun"></i> Morning Activation</h2>
-            <div id="morningRitual" style="font-size: 14px; line-height: 1.6; font-style: italic;"></div>
-        </div>
-
-        <div class="box">
-            <h2 id="tRemedies" class="h6" style="color:var(--gold)"><i class="fa-solid fa-crystal-ball"></i> Vedic Solutions</h2>
-            <div id="remedyList" class="trait-list"></div>
-        </div>
-
-        <a href="https://wa.me/917008186187?text=Hello%20Abhinash,%20I%20want%20to%20book%20a%20consultation" class="contact-btn" id="btnBook">
-            <i class="fa-brands fa-whatsapp"></i> Book Deep Consultation
-        </a>
+        <a href="https://wa.me/917008186187" class="contact-btn" id="btnBook">WhatsApp Consultation</a>
     </div>
 </div>
 
-<script>
-    let currentLang = 'en';
-    const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
-    const planets = { 1:"Sun", 2:"Moon", 3:"Jupiter", 4:"Rahu", 5:"Mercury", 6:"Venus", 7:"Ketu", 8:"Saturn", 9:"Mars" };
-    const luckTriggers = { 1: { color: "Orange/Gold", colorOr: "କେସରୀ / ସୁନେଲୀ", dir: "East", dirOr: "ପୂର୍ବ", act: "Offer water to Sun", actOr: "ସୂର୍ଯ୍ୟଙ୍କୁ ଜଳ ଅର୍ପଣ କରନ୍ତୁ" }, 2: { color: "White/Silver", colorOr: "ଧଳା / ରୂପେଲୀ", dir: "North-West", dirOr: "ବାୟୁ କୋଣ", act: "Drink water in silver", actOr: "ରୂପା ଗ୍ଲାସରେ ପାଣି ପିଅନ୍ତୁ" }, 3: { color: "Yellow", colorOr: "ହଳଦିଆ", dir: "North-East", dirOr: "ଈଶାନ୍ୟ କୋଣ", act: "Apply Saffron Tilak", actOr: "କେସର ତିଳକ ଲଗାନ୍ତୁ" }, 4: { color: "Light Blue", colorOr: "ଆକାଶୀ ନୀଳ", dir: "South-West", dirOr: "ନୈଋତ୍ୟ କୋଣ", act: "Feed birds", actOr: "ପକ୍ଷୀଙ୍କୁ ଖାଦ୍ୟ ଦିଅନ୍ତୁ" }, 5: { color: "Green", colorOr: "ସବୁଜ", dir: "North", dirOr: "ଉତ୍ତର", act: "Keep a green plant", actOr: "ସବୁଜ ଗଛ ପାଖରେ ରଖନ୍ତୁ" }, 6: { color: "Cream/Pink", colorOr: "କ୍ରିମ୍ / ଗୋଲାପୀ", dir: "South-East", dirOr: "ଆଗ୍ନେୟ କୋଣ", act: "Use mild perfume", actOr: "ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ" }, 7: { color: "Grey/Smoke", colorOr: "ଧୂସର", dir: "Center", dirOr: "ମଧ୍ୟ ଭାଗ", act: "Meditate for 10 mins", actOr: "୧୦ ମିନିଟ୍ ଧ୍ୟାନ କରନ୍ତୁ" }, 8: { color: "Dark Blue/Black", colorOr: "ଗାଢ଼ ନୀଳ / କଳା", dir: "West", dirOr: "ପଶ୍ଚିମ", act: "Help someone needy", actOr: "ଗରିବଙ୍କୁ ସାହାଯ୍ୟ କରନ୍ତୁ" }, 9: { color: "Red", colorOr: "ନାଲି", dir: "South", dirOr: "ଦକ୍ଷିଣ", act: "Recite Hanuman Chalisa", actOr: "ହନୁମାନ ଚାଳିଶା ପାଠ କରନ୍ତୁ" } };
-    const dailyRules = { 1: { do: "Start new tasks, meet authorities, wear orange.", dont: "Avoid egoistic arguments and pride.", doOr: "ନୂଆ କାମ ଆରମ୍ଭ କରନ୍ତୁ, କେସରୀ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "ଅହଂକାର କିମ୍ବା ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |" }, 2: { do: "Meditation, creative work, drink water in silver.", dont: "Don't take emotional decisions or overthink.", doOr: "ଧ୍ୟାନ କରନ୍ତୁ, ରୂପା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ |", dontOr: "ଭାବପ୍ରବଣ ହୋଇ କୌଣସି ନିଷ୍ପତ୍ତି ନିଅନ୍ତୁ ନାହିଁ |" }, 3: { do: "Take advice from elders, study, wear yellow.", dont: "Don't criticize others or ignore spiritual tasks.", doOr: "ଗୁରୁଜନଙ୍କ ପରାମର୍ଶ ନିଅନ୍ତୁ, ହଳଦିଆ ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "ଅନ୍ୟର ସମାଲୋଚନା କରନ୍ତୁ ନାହିଁ |" }, 4: { do: "Organize your desk, research, be disciplined.", dont: "Avoid shortcut methods and gambling.", doOr: "ଅନୁଶାସନ ମଧ୍ୟରେ ରୁହନ୍ତୁ, ଗବେଷଣା କାର୍ଯ୍ୟ କରନ୍ତୁ |", dontOr: "ସର୍ଟକଟ୍ ରାସ୍ତା ଆପଣାନ୍ତୁ ନାହିଁ |" }, 5: { do: "Networking, business deals, wear green.", dont: "Don't make promises you can't keep.", doOr: "ବ୍ୟବସାୟିକ ଆଲୋଚନା ପାଇଁ ଶୁଭ, ସବୁଜ ପିନ୍ଧନ୍ତୁ |", dontOr: "ମିଥ୍ୟା ପ୍ରତିଶ୍ରୁତି ଦିଅନ୍ତୁ ନାହିଁ |" }, 6: { do: "Family time, shopping, grooming, wear white.", dont: "Avoid conflicts with partners/colleagues.", doOr: "ପରିବାର ସହ ସମୟ ବିତାନ୍ତୁ, ଧଳା ରଙ୍ଗ ପିନ୍ଧନ୍ତୁ |", dontOr: "କାହାରି ସହ ଯୁକ୍ତିତର୍କ କରନ୍ତୁ ନାହିଁ |" }, 7: { do: "Introspection, yoga, help needy people.", dont: "Don't sign important legal papers today.", doOr: "ଯୋଗ କରନ୍ତୁ, ନିଜ ଭୁଲ୍ ସୁଧାରିବାକୁ ଚେଷ୍ଟା କରନ୍ତୁ |", dontOr: "ଆଜି କୌଣସି ଚୁକ୍ତିପତ୍ରରେ ସ୍ଵାକ୍ଷର କରନ୍ତୁ ନାହିଁ |" }, 8: { do: "Hard work, long-term planning, wear dark blue.", dont: "Don't be lazy or treat laborers poorly.", doOr: "କଠିନ ପରିଶ୍ରମ କରନ୍ତୁ, ଗଭୀର ନୀଳ ବ୍ୟବହାର କରନ୍ତୁ |", dontOr: "ଆଳସ୍ୟ ତ୍ୟାଗ କରନ୍ତୁ |" }, 9: { do: "Physical exercise, finishing old tasks, wear red.", dont: "Avoid rash driving and sharp objects/fire.", doOr: "ବ୍ୟାୟାମ କରନ୍ତୁ, ପୁରୁଣା କାର୍ଯ୍ୟ ଶେଷ କରନ୍ତୁ |", dontOr: "ଦ୍ରୁତ ଗତିରେ ଗାଡ଼ି ଚଲାନ୍ତୁ ନାହିଁ |" } };
-    const enemyLogic = { 1: { enemy: [8], msg: "Conflict with seniors or government rules.", sol: "Offer water to Sun (Surya) in a copper vessel." }, 2: { enemy: [4, 8, 9], msg: "High mental stress, mood swings, or emotional imbalance.", sol: "Meditate for 10 minutes and drink water from a silver glass." }, 3: { enemy: [6], msg: "Unnecessary luxury expenses or bad advice from friends.", sol: "Avoid making big financial investments today." }, 4: { enemy: [1, 2, 9], msg: "Unexpected delays, confusion, and obstacles in work.", sol: "Recite Ganesh Mantra and keep a blue handkerchief." }, 5: { enemy: [2], msg: "Restlessness or misunderstanding in communication.", sol: "Feed green grass to a cow or keep a green plant nearby." }, 6: { enemy: [3], msg: "Social reputation issues or ego clashes with partners.", sol: "Respect your elders and offer sweets to little girls." }, 7: { enemy: [8, 9], msg: "Sudden technical failures or hidden enemies causing trouble.", sol: "Feed a black dog or birds." }, 8: { enemy: [1, 2, 9], msg: "Heavy workload, physical fatigue, and slow results.", sol: "Chant Shani Mantra or light an oil lamp under a Peepal tree." }, 9: { enemy: [4, 7, 8], msg: "Angry outbursts, accidents, or heated arguments.", sol: "Recite Hanuman Chalisa and avoid wearing red today." } };
-    const healthAdvice = { 1: { issue: "Eye strain, Headache or Heart-related heat.", issueOr: "ଆଖି ସମସ୍ୟା, ମୁଣ୍ଡବିନ୍ଧା କିମ୍ବା ରକ୍ତଚାପ |", sol: "Drink plenty of water and avoid direct sun.", solOr: "ପ୍ରଚୁର ପାଣି ପିଅନ୍ତୁ ଏବଂ କଡ଼ା ଖରାକୁ ଯାଆନ୍ତୁ ନାହିଁ |" }, 2: { issue: "Digestive issues, Cold or Water retention.", issueOr: "ପେଟ ସମସ୍ୟା, ଥଣ୍ଡା କିମ୍ବା କାଶ |", sol: "Avoid cold drinks and keep feet warm.", solOr: "ଥଣ୍ଡା ପାନୀୟ ଠାରୁ ଦୂରେଇ ରୁହନ୍ତୁ |" }, 3: { issue: "Liver fatigue or Nervous system stress.", issueOr: "ଲିଭର ସମସ୍ୟା କିମ୍ବା ମାନସିକ ଚାପ |", sol: "Eat light food and avoid excess sugar.", solOr: "ହାଲୁକା ଖାଦ୍ୟ ଖାଆନ୍ତୁ ଏବଂ ଚିନି କମ କରନ୍ତୁ |" }, 4: { issue: "Back pain or Sudden breathing issues.", issueOr: "ପିଠି ଯନ୍ତ୍ରଣା କିମ୍ବା ଶ୍ୱାସକ୍ରିୟାରେ ଅସୁବିଧା |", sol: "Do light stretching and breathing exercises.", solOr: "ପ୍ରାଣାୟାମ କରନ୍ତୁ |" }, 5: { issue: "Skin allergies or Throat irritation.", issueOr: "ଚର୍ମ ରୋଗ କିମ୍ବା ଗଳା ସମସ୍ୟା |", sol: "Feed green grass to cow and avoid spicy food.", solOr: "ଗାଈକୁ ଘାସ ଖାଇବାକୁ ଦିଅନ୍ତୁ |" }, 6: { issue: "Kidney or Lower abdomen discomfort.", issueOr: "କିଡନୀ କିମ୍ବା ତଳ ପେଟରେ ଯନ୍ତ୍ରଣା |", sol: "Use perfumes and keep body hydrated.", solOr: "ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ |" }, 7: { issue: "Mental anxiety or Sleep disturbances.", issueOr: "ମାନସିକ ଦୁଶ୍ଚିନ୍ତା କିମ୍ବା ଶୋଇବାରେ ଅସୁବିଧା |", sol: "Avoid screens before bed and drink milk.", solOr: "ରାତିରେ ଶୋଇବା ପୂର୍ବରୁ କ୍ଷୀର ପିଅନ୍ତୁ |" }, 8: { issue: "Joint pain, Teeth or Bone discomfort.", issueOr: "ଗଣ୍ଠି ଯନ୍ତ୍ରଣା କିମ୍ବା ହାଡ଼ରେ ସମସ୍ୟା |", sol: "Chant Shani Mantra and avoid cold air.", solOr: "ଶନି ମନ୍ତ୍ର ଜପ କରନ୍ତୁ |" }, 9: { issue: "Blood pressure, Fever or Small injuries.", issueOr: "ରକ୍ତଚାପ, ଜ୍ୱର କିମ୍ବା ଆଘାତ |", sol: "Avoid spicy food and drive carefully.", solOr: "ସାବଧାନରେ ଗାଡ଼ି ଚଲାନ୍ତୁ |" } };
-    const planeDef = [ { name: "Mental Plane", nums: [4,9,2], benefit: "Sharp Mind & Logic", activation: "Keep North-East area clean." }, { name: "Emotional Plane", nums: [3,5,7], benefit: "Intuition & Feelings", activation: "Wear a silver ring or coin." }, { name: "Practical Plane", nums: [8,1,6], benefit: "Solid Material Success", activation: "Wear a metal strap watch." }, { name: "Thought Plane", nums: [4,3,8], benefit: "Strategy & Planning", activation: "Use yellow handkerchief." }, { name: "Will Plane", nums: [9,5,1], benefit: "Determination & Success", activation: "Offer water to Sun daily." }, { name: "Action Plane", nums: [2,7,6], benefit: "Fast Results & Execution", activation: "Use white/cream colors." }, { name: "Golden Success", nums: [4,5,6], benefit: "Wealth & Fortune", activation: "Keep a green plant in NE." }, { name: "Silver Assets", nums: [2,5,8], benefit: "Property & Stability", activation: "Tie black thread or wear metal watch." } ];
-    const odiaData = { hTitle: "ଆଷ୍ଟ୍ରୋ ଅଭିନାଶ 🔯", btnGen: "ରିପୋର୍ଟ ପ୍ରସ୍ତୁତ କରନ୍ତୁ", tInsights: "ବ୍ୟକ୍ତିଗତ ବିବରଣୀ", tFriends: "ବନ୍ଧୁ ସଂଖ୍ୟା:", tEnemies: "ଶତ୍ରୁ ସଂଖ୍ୟା:", tGrid: "ଆପଣଙ୍କ ମ୍ୟାଜିକ ଗ୍ରୀଡ୍", tElement: "ପଞ୍ଚ ତତ୍ତ୍ୱ ସ୍ଥିତି", tMorning: "⚡ ସକାଳର କର୍ତ୍ତବ୍ୟ", tRemedies: "🔮 ବୈଦିକ ପ୍ରତିକାର", btnBook: "ଅଧିକ ପରାମର୍ଶ ପାଇଁ ଯୋଗାଯୋଗ କରନ୍ତୁ", tAlignment: "ସଂଖ୍ୟା ଆଲାଇନ୍ମେଣ୍ଟ ଡ୍ୟାସବୋର୍ଡ", lblMulank: "ମୂଳାଙ୍କ", lblBhagyank: "ଭାଗ୍ୟାଙ୍କ", lblNameNo: "ନାମ ସଂଖ୍ୟା", tKnowledge: "ଲୋଶୁ ପ୍ଲେନ୍ ଜ୍ଞାନ ତାଲିକା", tTattvaTable: "ପଞ୍ଚ ତତ୍ତ୍ୱ ମାଷ୍ଟର ଟେବୁଲ୍", tHealthTitle: "🏥 ସ୍ୱାସ୍ଥ୍ୟ ସୂଚନା", tDosTitle: "⚖️ ଆଜି କ’ଣ କରିବେ ଏବଂ କ’ଣ କରିବେ ନାହିଁ", lblDo: "✅ କରନ୍ତୁ", lblDont: "❌ କରନ୍ତୁ ନାହିଁ", tLuckTitle: "🌟 ଆଜି କିପରି ଭାଗ୍ୟ ବୃଦ୍ଧି ହେବ?", tPlanetTraits: "ନବଗ୍ରହ ସ୍ଵଭାବ ମାଷ୍ଟର ଟେବୁଲ୍", thPlanet: "ଗ୍ରହ", thTraits: "ମୂଳ ସ୍ଵଭାବ", thImpact: "ଶୁଭ / ଅଶୁଭ ପ୍ରଭାବ" };
-    const engData = { hTitle: "ASTRO ABHINASH 🔯", btnGen: "Generate Report", tInsights: "Personalized Insights", tFriends: "Friends:", tEnemies: "Enemies:", tGrid: "Your Magic Grid", tElement: "Pancha Tattva Status", tMorning: "⚡ Morning Activation", tRemedies: "🔮 Vedic Solutions", btnBook: "Book Deep Consultation", tAlignment: "Number Alignment Dashboard", lblMulank: "Mulank", lblBhagyank: "Bhagyank", lblNameNo: "Name No.", tKnowledge: "Loshu Plane Knowledge Table", tTattvaTable: "Pancha Tattva Master Table", tHealthTitle: "🏥 Health Vitality Monitor", tDosTitle: "⚖️ Daily Do's & Don't's", lblDo: "✅ DO'S", lblDont: "❌ DON'TS", tLuckTitle: "🌟 What Activates My Luck Today?", tPlanetTraits: "Navagraha Traits Master Table", thPlanet: "Planet", thTraits: "Core Traits (Swabhav)", thImpact: "Positive / Negative" };
-    const adviceM = { 1: "Focus on leadership.", 2: "Trust intuition.", 3: "Expand knowledge.", 4: "Stay disciplined.", 5: "Communication is key.", 6: "Family & Art focus.", 7: "Spirituality.", 8: "Hard work.", 9: "Humanitarian." };
-    const adviceB = { 1: "Destiny to lead.", 2: "Peace & cooperation.", 3: "Advisory role.", 4: "Struggle then gains.", 5: "Travel & luck.", 6: "Comfortable life.", 7: "Mysteries journey.", 8: "Material success.", 9: "Warrior for world." };
-    const remediesOdia = { 1: "ସୂର୍ଯ୍ୟ: ତମ୍ବା ପାତ୍ରରେ ପାଣି ପିଅନ୍ତୁ |", 2: "ଚନ୍ଦ୍ର: ରୂପା ମୁଦ୍ରା ପାଖରେ ରଖନ୍ତୁ |", 3: "ବୃହସ୍ପତି: କେଶର ତିଳକ ଲଗାନ୍ତୁ |", 4: "ରାହୁ: ପକ୍ଷୀଙ୍କୁ ଦାନା ଦିଅନ୍ତୁ |", 5: "ବୁଧ: ଗାଈକୁ ଘାସ ଦିଅନ୍ତୁ |", 6: "ଶୁକ୍ର: ସୁଗନ୍ଧ ବ୍ୟବହାର କରନ୍ତୁ |", 7: "କେତୁ: କୁକୁରକୁ ଖାଦ୍ୟ ଦିଅନ୍ତୁ |", 8: "ଶନି: ସନ୍ଧ୍ୟାରେ ଦୀପ ଜାଳନ୍ତୁ |", 9: "ମଙ୍ଗଳ: ହନୁମାନ ଚାଳିଶା ପାଠ କରନ୍ତୁ |", Wood: "🌳 NE ରେ ଗୋଟିଏ ଗଛ ରଖନ୍ତୁ |", Fire: "🔥 ଦକ୍ଷିଣରେ ନାଲି ଦୀପ ଜାଳନ୍ତୁ |", Earth: "⛰️ ହଳଦିଆ ରୁମାଲ ବ୍ୟବହାର କରନ୍ତୁ |", Metal: "⚔️ ରୂପା ଚୁଡ଼ି ପିନ୍ଧନ୍ତୁ |", Water: "💧 ଉତ୍ତରରେ ପାଣି ରଖନ୍ତୁ |" };
-    const remediesEng = { 1: "Sun: Drink water in copper.", 2: "Moon: Keep silver coin.", 3: "Jupiter: Apply saffron tilak.", 4: "Rahu: Feed birds.", 5: "Mercury: Feed cows green grass.", 6: "Venus: Use perfumes.", 7: "Ketu: Feed dogs.", 8: "Saturn: Light lamp under Peepal tree.", 9: "Mars: Recite Hanuman Chalisa.", Wood: "🌳 Place a small green plant in NE.", Fire: "🔥 Light a red diya in South.", Earth: "⛰️ Use a yellow handkerchief.", Metal: "⚔️ Wear a metal watch or bangle.", Water: "💧 Keep fresh water in North." };
+<div class="unlock-box" id="unlockBox">
+    <h3 class="h5">🔒 Premium Report Locked</h3>
+    <p class="small text-secondary">Unlock remedies, wealth analysis & hidden cycles</p>
+    <button class="unlock-btn" onclick="unlockReport()" id="unlockBtn">🔓 Unlock Now @ ₹49</button>
+</div>
 
-    function toggleLanguage() {
-        currentLang = currentLang === 'en' ? 'or' : 'en';
-        let data = currentLang === 'en' ? engData : odiaData;
-        for (let key in data) { if(document.getElementById(key)) { let existingHtml = document.getElementById(key).innerHTML; if(existingHtml.includes("<i")) { let icon = existingHtml.split("</i>")[0] + "</i> "; document.getElementById(key).innerHTML = icon + data[key]; } else { document.getElementById(key).innerText = data[key]; } } }
-        if (document.getElementById("personalContent").style.display === "block") calculateMagic();
+<script>
+    // --- ADMIN SYNC CORE ---
+    function getSettings() {
+        const saved = localStorage.getItem("astroSettings");
+        return saved ? JSON.parse(saved) : { lock: "on", price: "49", vip: "astro49" };
     }
 
-    function reduce(n) { return (n == 0) ? 0 : (n % 9 == 0 ? 9 : n % 9); }
+    function applyAdminSettings() {
+        const settings = getSettings();
+        const unlockBtn = document.getElementById("unlockBtn");
+        const content = document.getElementById("personalContent");
+        const lockBox = document.getElementById("unlockBox");
 
+        if(unlockBtn) unlockBtn.innerText = `🔓 Unlock Now @ ₹${settings.price}`;
+
+        if(content.style.display === "block") {
+            if(settings.lock === "on") {
+                content.classList.add("blur-lock");
+                lockBox.style.display = "block";
+            } else {
+                content.classList.remove("blur-lock");
+                lockBox.style.display = "none";
+            }
+        }
+    }
+
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'astroSettings') applyAdminSettings();
+    });
+
+    // --- CALCULATION LOGIC ---
     function calculateMagic() {
         const name = document.getElementById("userName").value;
         const dobVal = document.getElementById("dob").value;
-        if (!dobVal) return;
+        if(!name || !dobVal) return alert("Please fill details");
+
         let d = new Date(dobVal);
-        let day = d.getDate(), month = d.getMonth() + 1, year = d.getFullYear();
-        let m = reduce(day), b = reduce(day + month + year);
-        
-        let nTotal = 0;
-        name.toLowerCase().replace(/\s/g, '').split('').forEach(char => { nTotal += chaldean[char] || 0; });
-        let n = reduce(nTotal);
+        let day = d.getDate(), month = d.getMonth()+1, year = d.getFullYear();
+        const reduce = n => (n % 9 || 9);
+        let m = reduce(day), b = reduce(day+month+year);
 
-        let now = new Date();
-        let py = reduce(reduce(day) + reduce(month) + reduce(now.getFullYear()));
-        let pm = reduce(py + (now.getMonth() + 1));
-        let pd = reduce(pm + now.getDate());
+        // Save Lead for Admin
+        let leads = JSON.parse(localStorage.getItem("astroLeads") || "[]");
+        leads.push({name, dob: dobVal, m, b, time: new Date().toLocaleString()});
+        localStorage.setItem("astroLeads", JSON.stringify(leads));
 
-        document.getElementById("personalContent").style.display = "block";
+        // Update UI
         document.getElementById("valMulank").innerText = m;
         document.getElementById("valBhagyank").innerText = b;
-        document.getElementById("valNameNo").innerText = n;
-        document.getElementById("valToday").innerText = pd;
-        document.getElementById("valMonth").innerText = pm;
-        document.getElementById("valYear").innerText = py;
+        document.getElementById("personalContent").style.display = "block";
 
-        const luckData = luckTriggers[pd];
-        const luckHtml = `
-            <div class="luck-item"><i class="fa-solid fa-palette luck-icon"></i> <span><b>Lucky Color:</b> ${currentLang === 'en' ? luckData.color : luckData.colorOr}</span></div>
-            <div class="luck-item"><i class="fa-solid fa-compass luck-icon"></i> <span><b>Lucky Direction:</b> ${currentLang === 'en' ? luckData.dir : luckData.dirOr}</span></div>
-            <div class="luck-item"><i class="fa-solid fa-bolt-lightning luck-icon"></i> <span><b>Quick Action:</b> ${currentLang === 'en' ? luckData.act : luckData.actOr}</span></div>
-        `;
-        document.getElementById("luckContent").innerHTML = luckHtml;
-        
-        let gridStr = day.toString() + month.toString() + year.toString() + m.toString() + b.toString();
-
-        // --- UPDATED UNIQUE ANALYSIS LOGIC ---
-        let rel = {1:{f:[2,3,5,9],e:[8]},2:{f:[1,3,5],e:[4,8,9]},3:{f:[1,2,5,7,9],e:[6]},4:{f:[5,6,7,8],e:[1,2,9]},5:{f:[1,3,4,6,7,8,9],e:[2]},6:{f:[4,5,7,8],e:[3]},7:{f:[3,4,5,6],e:[8,9]},8:{f:[4,5,6,7],e:[1,2,9]},9:{f:[1,2,3,5],e:[4,7,8]}};
-        
-        // 1. Destiny Impact (8-8 Unique Leadership)
-        const dPoints = currentLang === 'en' ? [
-            `Governed by ${planets[m]} (Mulank) & ${planets[b]} (Bhagyank).`,
-            `Leadership Style: **Visionary Execution** — Building long-term empires.`,
-            `Unique Vantage: **Fearless Decision Making** under high-pressure scenarios.`,
-            `Karmic Strength: **Extreme Resilience** — Rising stronger from every setback.`,
-            `Path: Success through **Unshakable Discipline** and Justice.`
-        ] : [
-            `ଆପଣ ${planets[m]} (ମୂଳାଙ୍କ) ଏବଂ ${planets[b]} (ଭାଗ୍ୟାଙ୍କ) ଦ୍ୱାରା ପରିଚାଳିତ |`,
-            `ନେତୃତ୍ୱ ଶୈଳୀ: **ଦୂରଦୃଷ୍ଟି ସମ୍ପନ୍ନ କାର୍ଯ୍ୟକାରିତା** — ସଫଳ ସାମ୍ରାଜ୍ୟ ଗଢିବାର କ୍ଷମତା |`,
-            `ସ୍ୱତନ୍ତ୍ରତା: **ଭୟଶୂନ୍ୟ ନିଷ୍ପତ୍ତି** — ଚାପ ମଧ୍ୟରେ ସଠିକ୍ ପଥ ବାଛିବା |`,
-            `କର୍ମ ଶକ୍ତି: **ଅଦମ୍ୟ ସହନଶୀଳତା** — ପ୍ରତିଟି ପରାଜୟକୁ ସଫଳତାରେ ବଦଳାଇବା |`,
-            `ଲକ୍ଷ୍ୟ: **ଅନୁଶାସନ ଓ ନ୍ୟାୟ** ସହିତ ବଡ଼ ଲକ୍ଷ୍ୟ ହାସଲ କରିବା |`
-        ];
-        document.getElementById("uDestinyList").innerHTML = dPoints.map(p => `<li>${p}</li>`).join('');
-
-        // 2. Grid Gaps (Life Hurdles)
-        let missing = [];
-        for(let i=1; i<=9; i++) if(!gridStr.includes(i)) missing.push(i);
-        const gPoints = currentLang === 'en' ? [
-            `Missing Numbers: ${missing.join(', ') || 'None'}.`,
-            `${!gridStr.includes('5') ? 'Lack of financial stability and focus.' : 'Core stability is present.'}`,
-            `${!gridStr.includes('6') ? 'Family and luxury support needs vibration fix.' : 'Strong family connections.'}`,
-            `${!gridStr.includes('2') ? 'Impulsive decisions due to emotional imbalance.' : 'Good emotional intelligence.'}`,
-            `Vibration Cause: ${missing.length > 3 ? 'Major life hurdles & delays in growth.' : 'Minor life obstacles.'}`
-        ] : [
-            `ଅନୁପସ୍ଥିତ ସଂଖ୍ୟା: ${missing.join(', ') || 'ନାହିଁ'} |`,
-            `${!gridStr.includes('5') ? 'ଆର୍ଥିକ ଅସ୍ଥିରତା ଏବଂ ଏକାଗ୍ରତାର ଅଭାବ |' : 'ଆର୍ଥିକ ସ୍ଥିରତା ଭଲ ଅଛି |'}`,
-            `${!gridStr.includes('6') ? 'ପରିବାର ଏବଂ ସୁଖ ସୁବିଧାରେ ବାଧା ଅଛି |' : 'ପରିବାରର ସହଯୋଗ ମିଳିବ |'}`,
-            `${!gridStr.includes('2') ? 'ଭାବପ୍ରବଣ ହୋଇ ଭୁଲ ନିଷ୍ପତ୍ତି ନେଇପାରନ୍ତି |' : 'ଭାବନାତ୍ମକ ଶକ୍ତି ବହୁତ ଭଲ |'}`,
-            `ପ୍ରଭାବ: ${missing.length > 3 ? 'ଜୀବନରେ ବଡ଼ ବାଧା ଏବଂ ସଫଳତାରେ ବିଳମ୍ବ |' : 'ସାମାନ୍ୟ ସମସ୍ୟା |'}`
-        ];
-        document.getElementById("uGridList").innerHTML = gPoints.map(p => `<li>${p}</li>`).join('');
-
-        // 3. Vibration Match
-        let isEnemy = rel[m].e.includes(n);
-        const vPoints = currentLang === 'en' ? [
-            `Name Number ${n} is ${isEnemy ? 'Conflicting' : 'Syncing'} with Mulank.`,
-            `${isEnemy ? 'Hidden enemies or delays' : 'Natural luck'} in career.`,
-            `Social vibration: People see you as a ${n} personality.`,
-            `Signature modification is ${isEnemy ? 'required' : 'optional'}.`,
-            `Current Name Vibration level: ${isEnemy ? 'Low (Needs Fix)' : 'High'}.`
-        ] : [
-            `ନାମ ସଂଖ୍ୟା ${n} ମୂଳାଙ୍କ ସହିତ ${isEnemy ? 'ଶତ୍ରୁତା' : 'ମିତ୍ରତା'} ରଖୁଛି |`,
-            `${isEnemy ? 'କ୍ୟାରିୟରରେ ବାଧା' : 'ଭାଗ୍ୟର ସହଯୋଗ'} ମିଳିବ |`,
-            `ସମାଜରେ ଆପଣଙ୍କ ପରିଚୟ ${n} ପରି ହେବ |`,
-            `ଦସ୍ତଖତ (Signature) ସଂଶୋଧନ ${isEnemy ? 'ଆବଶ୍ୟକ' : 'ଦରକାର ନାହିଁ'} |`,
-            `ନାମର ପ୍ରଭାବ: ${isEnemy ? 'କମ୍ (ସଂଶୋଧନ ଦରକାର)' : 'ଉତ୍ତମ'} |`
-        ];
-        document.getElementById("uVibeList").innerHTML = vPoints.map(p => `<li>${p}</li>`).join('');
-
-        // 4. Time Window
-        const tPoints = currentLang === 'en' ? [
-            `Current Personal Year: ${py}.`,
-            `Impact: ${py === 1 ? 'New Beginnings' : py === 8 ? 'Hard Work' : 'Mixed Results'}.`,
-            `Today's Power Hour: Morning (Planet ${planets[pd]}).`,
-            `Next 3 months focus: ${py < 5 ? 'Career Growth' : 'Self-Improvement'}.`,
-            `Lucky Direction: ${luckData.dir}.`
-        ] : [
-            `ବର୍ତ୍ତମାନର ବ୍ୟକ୍ତିଗତ ବର୍ଷ: ${py} |`,
-            `ପ୍ରଭାବ: ${py === 1 ? 'ନୂତନ ଆରମ୍ଭ' : py === 8 ? 'କଠିନ ପରିଶ୍ରମ' : 'ମିଶ୍ରିତ ଫଳ'} |`,
-            `ଆଜିର ଶୁଭ ସମୟ: ସକାଳ (ଗ୍ରହ: ${planets[pd]}) |`,
-            `ଆସନ୍ତା ୩ ମାସର ଲକ୍ଷ୍ୟ: ${py < 5 ? 'କ୍ୟାରିୟର' : 'ନିଜର ଉନ୍ନତି'} |`,
-            `ଶୁଭ ଦିଗ: ${luckData.dirOr} |`
-        ];
-        document.getElementById("uTimeList").innerHTML = tPoints.map(p => `<li>${p}</li>`).join('');
-
-        // --- REST OF THE CODE (UI UPDATES) ---
-        const challengeBox = document.getElementById("challengeBox");
-        const challengeContent = document.getElementById("challengeContent");
-        let isTodayEnemy = enemyLogic[m].enemy.includes(pd);
-        if (isTodayEnemy) {
-            challengeBox.style.borderColor = "var(--danger)";
-            challengeBox.style.background = "rgba(255, 77, 77, 0.05)";
-            document.getElementById("tChallengeTitle").innerHTML = (currentLang === 'en' ? "<i class='fa-solid fa-triangle-exclamation'></i> Today's Challenge Radar" : "<i class='fa-solid fa-triangle-exclamation'></i> ଆଜିର ସତର୍କ ସୂଚନା");
-            challengeContent.innerHTML = `<b>Why?</b> Your Mulank ${m} and Today's Number ${pd} are conflicting.<br><b>Challenge:</b> ${enemyLogic[m].msg}<br><b>Solution:</b> ${enemyLogic[m].sol}`;
-        } else {
-            challengeBox.style.borderColor = "var(--success)";
-            challengeBox.style.background = "rgba(74, 222, 128, 0.05)";
-            document.getElementById("tChallengeTitle").innerHTML = (currentLang === 'en' ? "<i class='fa-solid fa-circle-check'></i> Today's Status" : "<i class='fa-solid fa-circle-check'></i> ଆଜିର ସ୍ଥିତି");
-            challengeContent.innerHTML = `<div style="text-align:center; font-weight:bold; color:var(--success)">🌟 No major challenges today! Your numbers are in harmony.</div>`;
-        }
-
-        const healthBox = document.getElementById("healthBox");
-        const healthContent = document.getElementById("healthContent");
-        const hData = healthAdvice[pd];
-        if (isTodayEnemy) {
-            healthBox.style.borderColor = "var(--danger)";
-            healthBox.style.background = "rgba(255, 77, 77, 0.05)";
-            document.getElementById("tHealthTitle").style.color = "var(--danger)";
-            healthContent.innerHTML = currentLang === 'en' ? `<b>Warning:</b> Vitality low. Possible <span style="color:var(--gold)">${hData.issue}</span>.<br><b>Precaution:</b> ${hData.sol}` : `<b>ସତର୍କତା:</b> ଆଜି <span style="color:var(--gold)">${hData.issueOr}</span> ହୋଇପାରେ |<br><b>ପ୍ରତିକାର:</b> ${hData.solOr}`;
-        } else {
-            healthBox.style.borderColor = "var(--primary)";
-            healthBox.style.background = "rgba(0, 242, 255, 0.05)";
-            document.getElementById("tHealthTitle").style.color = "var(--primary)";
-            healthContent.innerHTML = currentLang === 'en' ? `<div style="text-align:center;">🌟 Health stable. Focus on <span style="color:var(--primary)">${hData.issue.split('or')[0]}</span>. ${hData.sol}</div>` : `<div style="text-align:center;">🌟 ସ୍ୱାସ୍ଥ୍ୟ ସ୍ଥିର ରହିବ | <span style="color:var(--primary)">${hData.issueOr.split('|')[0]}</span> ପ୍ରତି ସାବଧାନ ରୁହନ୍ତୁ |</div>`;
-        }
-
-        const dRules = dailyRules[pd];
-        document.getElementById("valDos").innerHTML = currentLang === 'en' ? dRules.do : dRules.doOr;
-        document.getElementById("valDonts").innerHTML = currentLang === 'en' ? dRules.dont : dRules.dontOr;
-        document.getElementById("valFriends").innerText = rel[m].f.join(", ");
-        document.getElementById("valEnemies").innerText = rel[m].e.join(", ");
-
-        let isAligned = rel[m].f.includes(n) || m === n;
-        let statusBox = document.getElementById("statusBox");
-        statusBox.innerHTML = isAligned ? "<i class='fa-solid fa-circle-check'></i> Name is Aligned!" : "<i class='fa-solid fa-circle-exclamation'></i> Name Alignment Needed!";
-        statusBox.style.background = isAligned ? "rgba(74, 222, 128, 0.2)" : "rgba(255, 77, 77, 0.2)";
-        statusBox.style.color = isAligned ? "var(--success)" : "var(--danger)";
-
-        let rListHtml = "";
-        let remData = currentLang === 'en' ? remediesEng : remediesOdia;
-        rListHtml += `<div class="trait-item" style="border-left-color:var(--gold)"><b>Mulank Advice:</b> ${adviceM[m]}</div>`;
-        rListHtml += `<div class="trait-item" style="border-left-color:var(--gold)"><b>Bhagyank Advice:</b> ${adviceB[b]}</div>`;
-
-        const elMap = { Wood:[3,4], Fire:[9], Earth:[2,5,8], Metal:[6,7], Water:[1] };
-        for (let el in elMap) {
-            let hasEl = elMap[el].some(num => gridStr.includes(num.toString()));
-            document.getElementById("el" + el).className = "element-cell " + (hasEl ? "el-present" : "el-absent");
-            if (!hasEl) rListHtml += `<div class="trait-item rem-item">${remData[el]}</div>`;
-        }
-
+        // Grid Logic
+        let s = day.toString() + month.toString() + year.toString() + m + b;
         for(let i=1; i<=9; i++) {
-            let cell = document.getElementById("c"+i);
-            if(gridStr.includes(i)) { cell.classList.add("filled"); } 
-            else { cell.classList.remove("filled"); rListHtml += `<div class="trait-item"><b>${planets[i]}:</b> ${remData[i]}</div>`; }
+            document.getElementById("c"+i).className = s.includes(i) ? "grid-cell filled" : "grid-cell";
         }
 
-        let analysisHtml = "";
-        planeDef.forEach(p => {
-            let found = p.nums.filter(n => gridStr.includes(n.toString()));
-            if (found.length === 3) analysisHtml += `<div class="analysis-card active-plane"><b>✅ ACTIVE: ${p.name}</b><br>${p.benefit}</div>`;
-            else if (found.length > 0) analysisHtml += `<div class="analysis-card missing-plane"><b>⚠️ INCOMPLETE: ${p.name}</b><br>Activation: ${p.activation}</div>`;
-        });
-        document.getElementById("planesAnalysis").innerHTML = analysisHtml;
-        document.getElementById("remedyList").innerHTML = rListHtml;
-        document.getElementById("morningRitual").innerHTML = `<b>Today's Planet: ${planets[pd]}</b><br>${remData[pd]}`;
-        setTimeout(lockReport,2000);
+        // Apply dynamic lock from Admin
+        setTimeout(applyAdminSettings, 1000);
     }
-    
-    
-    
-    
-    function lockReport(){
-document.getElementById("personalContent").classList.add("blur-lock");
-document.getElementById("unlockBox").style.display="block";
-}
 
-function unlockReport(){
-let pass=prompt("Enter VIP Code after payment:");
-if(pass=="astro49"){
-document.getElementById("personalContent").classList.remove("blur-lock");
-document.getElementById("unlockBox").style.display="none";
-alert("Report Unlocked 🔓");
-}else{
-alert("Invalid code");
-}
-}
+    function unlockReport() {
+        const settings = getSettings();
+        let code = prompt("Enter Unlock Code:");
+        if(code === settings.vip) {
+            document.getElementById("personalContent").classList.remove("blur-lock");
+            document.getElementById("unlockBox").style.display = "none";
+            alert("Unlocked Successfully!");
+        } else {
+            alert("Invalid Code!");
+        }
+    }
+
+    function toggleLanguage() {
+        // Language logic can be added here
+        alert("Language switching...");
+    }
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bundle.min.js"></script>
-
-
-
-<!-- VIP UNLOCK BOX -->
-<div class="unlock-box" id="unlockBox">
-<h3>🔒 Premium Astro Report Locked</h3>
-<p>Unlock Full Report + Remedies + Wealth Timing</p>
-<button class="unlock-btn" onclick="unlockReport()">🔓 Unlock Now ₹49</button>
-<p style="font-size:12px;color:gray;">UPI / Manual payment supported</p>
-</div>
 </body>
 </html>
