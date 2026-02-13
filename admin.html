@@ -2,58 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Astro Admin | Cloud Control</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Admin | Control Center</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        body { background: #020617; color: white; font-family: 'Outfit', sans-serif; padding: 20px; }
-        .admin-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 25px; margin-bottom: 20px; }
-        input, select { background: #0f172a !important; color: white !important; border: 1px solid #334155 !important; margin-bottom: 15px; }
-        .btn-apply { background: #ffd700; color: black; font-weight: 800; width: 100%; padding: 12px; border: none; border-radius: 10px; transition: 0.3s; }
-        .btn-apply:hover { background: #ffcc00; transform: scale(1.02); }
-        .table { color: white; font-size: 13px; }
-        .btn-wa { background: #25d366; color: white; border: none; padding: 4px 8px; border-radius: 5px; text-decoration: none; }
+        body { background: #050b1a; color: white; font-family: 'Segoe UI', sans-serif; padding-bottom: 50px; }
+        .admin-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(10px); }
+        .status-badge { padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: bold; }
+        .bg-locked { background: #ff4d4d; color: white; }
+        .bg-unlocked { background: #2ecc71; color: white; }
+        .lead-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0; }
+        .btn-action { border-radius: 12px; padding: 12px; font-weight: 600; width: 100%; margin-top: 10px; }
+        input { background: rgba(0,0,0,0.3) !important; color: white !important; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 10px !important; }
+        header { background: #00f2ff; color: #000; padding: 15px; text-align: center; font-weight: 900; margin-bottom: 25px; }
     </style>
 </head>
 <body>
 
-<div class="container" style="max-width: 750px;">
-    <h3 class="mb-4 text-info"><i class="fa-solid fa-circle-nodes"></i> Astro Live Controller</h3>
+<header><i class="fa-solid fa-shield-halved"></i> ASTRO ADMIN PANEL</header>
 
-    <div class="admin-card shadow">
-        <h6>System Configuration</h6>
-        <div class="row">
-            <div class="col-md-4">
-                <label class="small text-muted">System Mode</label>
-                <select id="mode" class="form-select">
-                    <option value="Free (No Lock)">Free (No Lock)</option>
-                    <option value="Premium (Locked)">Premium (Locked)</option>
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label class="small text-muted">Report Price (₹)</label>
-                <input type="number" id="price" class="form-control" placeholder="49">
-            </div>
-            <div class="col-md-4">
-                <label class="small text-muted">VIP Code</label>
-                <input type="text" id="vip" class="form-control" placeholder="astro49">
-            </div>
+<div class="container">
+    <div class="admin-card">
+        <h5 class="mb-3 text-info"><i class="fa-solid fa-gear"></i> Portal Settings</h5>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span>Rituals Status:</span>
+            <span id="lockStatus" class="status-badge">Loading...</span>
         </div>
-        <button class="btn-apply" onclick="saveSettings()">Push Changes to Cloud</button>
+        <button class="btn btn-primary btn-action" onclick="toggleMode('Free (Unlocked)')">Unlock All</button>
+        <button class="btn btn-danger btn-action" onclick="toggleMode('Premium (Locked)')">Lock (VIP Only)</button>
+        
+        <hr class="my-4">
+        
+        <label class="small text-muted mb-2">Change VIP Passcode</label>
+        <div class="input-group">
+            <input type="text" id="newVipCode" class="form-control" placeholder="New Code">
+            <button class="btn btn-success" onclick="updateVip()">Update</button>
+        </div>
     </div>
 
-    <div class="admin-card shadow">
-        <div class="d-flex justify-content-between mb-3">
-            <h6>User Leads Database</h6>
-            <span class="badge bg-primary" id="count">0 Leads</span>
+    <div class="admin-card">
+        <h5 class="mb-3 text-warning"><i class="fa-solid fa-users"></i> Recent Leads</h5>
+        <div id="leadsList">
+            <p class="text-center text-muted">Fetching leads...</p>
         </div>
-        <div class="table-responsive">
-            <table class="table table-dark table-hover">
-                <thead><tr><th>Name</th><th>M/B</th><th>Time</th><th>Action</th></tr></thead>
-                <tbody id="leadsBody"><tr><td colspan="4" class="text-center">Connecting to Realtime DB...</td></tr></tbody>
-            </table>
-        </div>
-        <button class="btn btn-outline-danger btn-sm w-100 mt-3" onclick="clearLeads()">Wipe All Leads</button>
     </div>
 </div>
 
@@ -61,6 +53,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
+    // Firebase Configuration (Same as your main app)
     const firebaseConfig = {
       apiKey: "AIzaSyC0yF3kviJ6U-rdOMUyAOOQyTgSFoWG6co",
       authDomain: "astro-c7b1e.firebaseapp.com",
@@ -70,56 +63,56 @@
       messagingSenderId: "885607895929",
       appId: "1:885607895929:web:8f1bf85f7d8aab1b1d55a8"
     };
-
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    function saveSettings() {
-        db.ref('astroSettings').set({
-            mode: document.getElementById("mode").value,
-            price: document.getElementById("price").value || "49",
-            vip: document.getElementById("vip").value || "astro49"
-        }).then(() => alert("✅ Cloud Updated Successfully!"));
-    }
-
-    db.ref('astroLeads').on('value', (snap) => {
-        const body = document.getElementById("leadsBody");
-        const count = document.getElementById("count");
-        body.innerHTML = "";
+    // Fetch Settings
+    db.ref('astroSettings').on('value', snap => {
         const data = snap.val();
-        if(data) {
-            const keys = Object.keys(data).reverse();
-            count.innerText = keys.length + " Leads";
-            keys.forEach(key => {
-                const l = data[key];
-                body.innerHTML += `<tr>
-                    <td class="text-info fw-bold">${l.name}</td>
-                    <td>${l.mulank}/${l.bhagyank}</td>
-                    <td class="small text-muted">${l.time}</td>
-                    <td>
-                        <button class="btn btn-sm btn-danger me-1" onclick="deleteLead('${key}')"><i class="fa-solid fa-trash"></i></button>
-                        <a href="https://wa.me/?text=Hi%20${l.name},%20your%20analysis%20is%20ready!" target="_blank" class="btn-wa"><i class="fa-brands fa-whatsapp"></i></a>
-                    </td>
-                </tr>`;
-            });
-        } else {
-            count.innerText = "0 Leads";
-            body.innerHTML = "<tr><td colspan='4' class='text-center text-muted'>No Data Found</td></tr>";
-        }
+        const statusEl = document.getElementById('lockStatus');
+        statusEl.innerText = data.mode;
+        statusEl.className = 'status-badge ' + (data.mode.includes('Locked') ? 'bg-locked' : 'bg-unlocked');
     });
 
-    function deleteLead(key) { if(confirm("Delete?")) db.ref('astroLeads/'+key).remove(); }
-    function clearLeads() { if(confirm("Clear all?")) db.ref('astroLeads').remove(); }
+    // Toggle Mode
+    function toggleMode(newMode) {
+        db.ref('astroSettings').update({ mode: newMode })
+          .then(() => alert("Mode Updated: " + newMode));
+    }
 
-    window.onload = () => {
-        db.ref('astroSettings').once('value', s => {
-            const v = s.val(); if(v) {
-                document.getElementById("mode").value = v.mode;
-                document.getElementById("price").value = v.price;
-                document.getElementById("vip").value = v.vip;
-            }
-        });
-    };
+    // Update VIP Passcode
+    function updateVip() {
+        const code = document.getElementById('newVipCode').value;
+        if(!code) return alert("Enter a code!");
+        db.ref('astroSettings').update({ vip: code })
+          .then(() => {
+              alert("VIP Code updated to: " + code);
+              document.getElementById('newVipCode').value = '';
+          });
+    }
+
+    // Fetch Leads (Last 10)
+    db.ref('astroLeads').limitToLast(10).on('value', snap => {
+        const list = document.getElementById('leadsList');
+        list.innerHTML = "";
+        const data = snap.val();
+        if(data) {
+            Object.values(data).reverse().forEach(lead => {
+                list.innerHTML += `
+                    <div class="lead-item">
+                        <div class="d-flex justify-content-between">
+                            <strong>${lead.name}</strong>
+                            <span class="text-info">No: ${lead.mulank}</span>
+                        </div>
+                        <small class="text-muted" style="font-size:10px">${lead.time}</small>
+                    </div>
+                `;
+            });
+        } else {
+            list.innerHTML = "<p class='text-center text-muted'>No leads yet.</p>";
+        }
+    });
 </script>
+
 </body>
 </html>
