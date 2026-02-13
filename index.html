@@ -77,12 +77,32 @@
         }
         .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: bold; }
 
-        /* Blur Lock */
-        .blur-lock { filter: blur(15px); pointer-events: none; }
+        /* Lock & Unlock Styling */
+        .blur-lock { 
+            filter: blur(12px); 
+            pointer-events: none; 
+            user-select: none; 
+            transition: 0.5s ease;
+        }
+
         .unlock-box { 
-            position: fixed; bottom: 0; left: 0; right: 0; 
-            background: #020617; padding: 30px; border-top: 2px solid var(--gold); 
-            z-index: 1000; display: none; border-radius: 30px 30px 0 0;
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            background: #020617; 
+            padding: 30px; 
+            border-top: 3px solid var(--gold); 
+            z-index: 1000; 
+            display: none; 
+            border-radius: 30px 30px 0 0;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
 
         #personalContent { display: none; }
@@ -93,7 +113,7 @@
 <header>✨ ASTRO ABHINASH</header>
 
 <div class="container container-custom">
-    <div class="box">
+    <div class="box" id="inputBox">
         <input type="text" id="userName" placeholder="Full Name (Aadhar/Bank)">
         <div class="row g-2">
             <div class="col-7"><input type="date" id="dob"></div>
@@ -132,8 +152,9 @@
 
 <div class="unlock-box" id="unlockBox">
     <h4 class="fw-800">🔒 Premium Report Locked</h4>
-    <p class="text-secondary small">Unlock hidden cycles and remedies</p>
+    <p class="text-secondary small">Unlock hidden cycles, remedies & wealth timing</p>
     <button class="calc-btn" id="unlockBtn" onclick="unlockReport()" style="background:var(--gold); color:black">Pay ₹49 to Unlock</button>
+    <p class="text-center mt-2 small text-muted">UPI / Manual payment supported</p>
 </div>
 
 <script>
@@ -143,6 +164,7 @@
     function reduce(n) { return (n % 9 || 9); }
     function sumStr(s) { return s.split('').reduce((a,b)=>a + (parseInt(b)||0), 0); }
 
+    // --- CORE LOGIC ---
     function revealDestiny() {
         const name = document.getElementById("userName").value.toLowerCase();
         const dobVal = document.getElementById("dob").value;
@@ -161,10 +183,11 @@
         for(let char of name.replace(/\s/g, '')) { nSum += chaldean[char] || 0; }
         const nNo = reduce(nSum);
 
-        // 3. Alignment Check
-        const isFriendly = friendship[m].includes(nNo);
+        // 3. Alignment Check UI
         const alignBox = document.getElementById("alignBox");
         const alignTag = document.getElementById("alignTag");
+        const isFriendly = friendship[m].includes(nNo);
+
         if(isFriendly || m === nNo) {
             alignTag.innerHTML = '<span class="status-badge bg-success">Perfect Alignment</span>';
             document.getElementById("alignText").innerText = "Aapka naam aapki kismat ke saath sahi sync mein hai.";
@@ -175,37 +198,67 @@
             alignBox.style.borderColor = "#ff4d4d";
         }
 
-        // 4. Daily, Monthly, Yearly Cycles
-        const personalYear = reduce(day + month + sumStr(today.getFullYear().toString()));
-        const personalMonth = reduce(personalYear + (today.getMonth()+1));
-        const personalDay = reduce(personalMonth + today.getDate());
+        // 4. Cycles
+        const pYear = reduce(day + month + sumStr(today.getFullYear().toString()));
+        const pMonth = reduce(pYear + (today.getMonth()+1));
+        const pDay = reduce(pMonth + today.getDate());
 
         // Update UI
         document.getElementById("resM").innerText = m;
         document.getElementById("resB").innerText = b;
         document.getElementById("resN").innerText = nNo;
-        document.getElementById("cycleY").innerText = personalYear;
-        document.getElementById("cycleM").innerText = personalMonth;
-        document.getElementById("cycleD").innerText = personalDay;
+        document.getElementById("cycleY").innerText = pYear;
+        document.getElementById("cycleM").innerText = pMonth;
+        document.getElementById("cycleD").innerText = pDay;
 
+        // Show Result
         document.getElementById("personalContent").style.display = "block";
+
+        // Admin Sync Check
         applyAdminSettings();
     }
 
+    // --- ADMIN CONTROL FUNCTIONS ---
     function applyAdminSettings() {
-        const settings = JSON.parse(localStorage.getItem("astroSettings") || '{"mode":"Free (No Lock)","price":"49","vip":"astro49"}');
-        document.getElementById("unlockBtn").innerText = `Pay ₹${settings.price} to Unlock`;
-        if(settings.mode === "Premium (Locked)") {
-            document.getElementById("personalContent").classList.add("blur-lock");
-            document.getElementById("unlockBox").style.display = "block";
+        // Fetch from localStorage (same key used in Admin Panel)
+        const saved = localStorage.getItem("astroSettings");
+        const settings = saved ? JSON.parse(saved) : { mode: "Free (No Lock)", price: "49", vip: "astro49" };
+        
+        const content = document.getElementById("personalContent");
+        const lockBox = document.getElementById("unlockBox");
+        const unlockBtn = document.getElementById("unlockBtn");
+
+        // Update Price
+        unlockBtn.innerText = `Pay ₹${settings.price} to Unlock`;
+
+        // Check Mode (Aapke Admin Panel ke Dropdown ki values match honi chahiye)
+        if(content.style.display === "block") {
+            if(settings.mode === "Premium (Locked)") {
+                content.classList.add("blur-lock");
+                lockBox.style.display = "block";
+            } else {
+                content.classList.remove("blur-lock");
+                lockBox.style.display = "none";
+            }
         }
     }
 
+    // Storage update listener: Jab Admin Panel save karega, Index apne aap badal jayega
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'astroSettings') applyAdminSettings();
+    });
+
     function unlockReport() {
-        const settings = JSON.parse(localStorage.getItem("astroSettings") || '{"vip":"astro49"}');
-        if(prompt("Enter Code:") === settings.vip) {
+        const saved = localStorage.getItem("astroSettings");
+        const settings = saved ? JSON.parse(saved) : { vip: "astro49" };
+        
+        let code = prompt("Enter VIP Unlock Code:");
+        if(code === settings.vip) {
             document.getElementById("personalContent").classList.remove("blur-lock");
             document.getElementById("unlockBox").style.display = "none";
+            alert("Unlocked Successfully! 🔓");
+        } else {
+            alert("Wrong Code! Please contact support.");
         }
     }
 </script>
