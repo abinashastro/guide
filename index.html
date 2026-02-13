@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Abhinash | Premium Destiny AI</title>
+    <title>Astro Abhinash | Dynamic Daily Rituals</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -21,9 +21,9 @@
         .num-val { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
         .num-label { font-size: 9px; color: var(--gold); text-transform: uppercase; }
         .ritual-item { background: rgba(255,255,255,0.05); padding: 14px; border-radius: 14px; margin-bottom: 10px; border-left: 4px solid var(--primary); font-size: 14px; text-align: left; display: flex; align-items: center; }
-        .ritual-item i { margin-right: 12px; color: var(--gold); font-size: 1.1rem; }
+        .ritual-item i { margin-right: 12px; color: var(--gold); }
         .blur-lock { filter: blur(18px); pointer-events: none; user-select: none; transition: 0.5s ease; }
-        .unlock-box { position: fixed; bottom: 0; left: 0; right: 0; background: #020617; padding: 30px; border-top: 3px solid var(--gold); z-index: 1000; display: none; border-radius: 30px 30px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,0.8); }
+        .unlock-box { position: fixed; bottom: 0; left: 0; right: 0; background: #020617; padding: 30px; border-top: 3px solid var(--gold); z-index: 1000; display: none; border-radius: 30px 30px 0 0; }
         #personalContent { display: none; }
     </style>
 </head>
@@ -34,7 +34,7 @@
 <div class="container container-custom">
     <div class="box shadow">
         <h6 class="text-center mb-3 text-muted small">ENTER BIRTH DETAILS</h6>
-        <input type="text" id="userName" placeholder="Apna Pura Naam Likhein">
+        <input type="text" id="userName" placeholder="Apna Pura Naam">
         <div class="row g-2">
             <div class="col-7"><input type="date" id="dob"></div>
             <div class="col-5">
@@ -64,9 +64,9 @@
 </div>
 
 <div class="unlock-box" id="unlockBox">
-    <h4 class="fw-800 text-center text-white">🔒 Premium Rituals Locked</h4>
-    <p class="text-center text-secondary small">Pay ₹49 to unlock Color Power, Daan and special Remedies</p>
-    <button class="calc-btn" id="unlockBtn" onclick="unlockReport()" style="background:var(--gold); color:black">Unlock Full Report</button>
+    <h4 class="fw-800 text-center text-white">🔒 Today's Ritual Locked</h4>
+    <p class="text-center text-secondary small">Pay ₹49 to unlock your Daily Planet Activation steps</p>
+    <button class="calc-btn" id="unlockBtn" onclick="unlockReport()" style="background:var(--gold); color:black">Unlock Today's Guide</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -87,15 +87,15 @@
     const db = firebase.database();
 
     const activationData = {
-        1: { name: "Sun (Surya)", color: "#FF8C00", mantra: "Om Suryaya Namah", tasks: ["Surya ko jal chadhao", "Papa ke pair chhuo", "Mirror mein bolo 'Main Leader Hun'", "Thoda sa Gud khao", "Pink ya Orange rumaal sath rakho", "Aaj kisi buzurg ko paani pilao"] },
-        2: { name: "Moon (Chandra)", color: "#FFFFFF", mantra: "Om Chandraya Namah", tasks: ["Baith kar 1 glass paani piyo", "Maa ko pranam karo", "Pocket mein Chandi ka sikka rakho", "White rumaal sath rakho", "Aaj thoda dahi khao", "Shivling par jal chadhao"] },
-        3: { name: "Jupiter (Guru)", color: "#FFD700", mantra: "Om Gurave Namah", tasks: ["Haldi ka tilak lagao", "Guru ya bade bhai ki izzat karo", "Bachon ko chocolate do", "Aaj kuch naya seekho", "Yellow kapda pehno", "Chana daal ka daan karo"] },
-        4: { name: "Rahu", color: "#4B0082", mantra: "Main hi apna naseeb hun", tasks: ["Birds ko dana daalo", "Phone ki gallery saaf karo", "Aaj ka kaam paper par likho", "Blue color use karo", "Ghar ki chhat saaf rakho", "Grey rumaal pocket mein rakho"] },
-        5: { name: "Mercury (Budh)", color: "#00FF7F", mantra: "Om Budhaya Namah", tasks: ["Green plants ko paani do", "Behen ya beti ko gift do", "1 Hari Elaichi chaba kar niklo", "Doston ko call karo", "Hara rang (Green) pehno", "Pakshiyon ko Moong daalo"] },
-        6: { name: "Venus (Shukra)", color: "#FFB6C1", mantra: "Om Shukraya Namah", tasks: ["Achha Perfume lagao", "Saaf iron kiye kapde pehno", "Mirror mein dekh kar muskurao", "Partner ko sweet message do", "Aaj thoda Chawal daan karo", "Ghar mein White phool rakho"] },
-        7: { name: "Ketu", color: "#708090", mantra: "Om Ketave Namah", tasks: ["Kutte (Dog) ko roti ya food do", "5 min bilkul shant baitho", "1 min khule aasmaan ko dekho", "Apni intuition par bharosa karo", "Grey ya Smoke color pehno", "Aaj kisi mandir mein namak daan karo"] },
-        8: { name: "Saturn (Shani)", color: "#1E90FF", mantra: "Om Sham Shanicharaya Namah", tasks: ["Sabse mushkil kaam pehle karo", "Apne joote saaf rakho", "Helper ya gareeb ki madad karo", "Aaj jhooth mat bolo", "Kaale kutte ko roti do", "Aaj thoda Sarson tel daan karo"] },
-        9: { name: "Mars (Mangal)", color: "#FF4500", mantra: "Om Mangalaya Namah", tasks: ["Exercise ya pushups karo", "Hanuman ji ko pranam karo", "Aaj gussa nahi karne ka wada karo", "Red color touch karo", "Lal Masoor daal daan karo", "Meethi roti kutte ko do"] }
+        1: { name: "Sun (Surya)", color: "#FF8C00", mantra: "Om Suryaya Namah", tasks: ["Surya ko jal chadhao", "Papa ke pair chhuo", "Mirror mein affirmation bolo", "Gud khao", "Orange rumaal rakho", "Buzurg ko paani pilao"] },
+        2: { name: "Moon (Chandra)", color: "#FFFFFF", mantra: "Om Chandraya Namah", tasks: ["Baith kar paani piyo", "Maa ko pranam karo", "Silver coin pocket mein rakho", "White rumaal rakho", "Thoda dahi khao", "Shivling par jal chadhao"] },
+        3: { name: "Jupiter (Guru)", color: "#FFD700", mantra: "Om Gurave Namah", tasks: ["Haldi ka tilak lagao", "Guru samman karo", "Bachon ko chocolate do", "Naya seekho", "Yellow kapda pehno", "Chana daal daan karo"] },
+        4: { name: "Rahu", color: "#4B0082", mantra: "Main hi apna naseeb hun", tasks: ["Birds ko dana daalo", "Phone gallery saaf karo", "Plan paper par likho", "Blue color use karo", "Ghar ki chhat saaf rakho", "Grey rumaal rakho"] },
+        5: { name: "Mercury (Budh)", color: "#00FF7F", mantra: "Om Budhaya Namah", tasks: ["Plants ko paani do", "Behen ko gift do", "Hari Elaichi khao", "Doston ko call karo", "Hara rang pehno", "Pakshiyon ko Moong daalo"] },
+        6: { name: "Venus (Shukra)", color: "#FFB6C1", mantra: "Om Shukraya Namah", tasks: ["Perfume lagao", "Iron kapde pehno", "Mirror mein smile karo", "Partner ko sweet message do", "Chawal daan karo", "White phool rakho"] },
+        7: { name: "Ketu", color: "#708090", mantra: "Om Ketave Namah", tasks: ["Dog ko food do", "5 min shant baitho", "Aasmaan ko dekho", "Intuition par bharosa karo", "Smoke color pehno", "Namak daan karo"] },
+        8: { name: "Saturn (Shani)", color: "#1E90FF", mantra: "Om Sham Shanicharaya Namah", tasks: ["Mushkil kaam pehle karo", "Joote saaf rakho", "Gareeb ki madad karo", "Jhooth mat bolo", "Kaale kutte ko roti do", "Sarson tel daan karo"] },
+        9: { name: "Mars (Mangal)", color: "#FF4500", mantra: "Om Mangalaya Namah", tasks: ["Exercise karo", "Hanuman ji ko pranam karo", "Gussa mat karo", "Red color touch karo", "Lal Masoor daal daan karo", "Meethi roti kutte ko do"] }
     };
 
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
@@ -126,24 +126,25 @@
         document.getElementById("resMonth").innerText = pMonth;
         document.getElementById("resYear").innerText = pYear;
 
-        const p = activationData[m];
+        // CRITICAL CHANGE: Activation depends on Daily Number (pDay) instead of Mulank (m)
+        const p = activationData[pDay]; 
         document.getElementById("ritualContainer").innerHTML = `
             <div class="box shadow" style="border-top: 4px solid ${p.color}">
                 <h5 class="text-center" style="color:${p.color}">${p.name} Activation</h5>
-                <p class="text-center small text-muted mb-4">Master Rituals for Success</p>
+                <p class="text-center small text-muted mb-4">Based on your Daily Number: ${pDay}</p>
                 ${p.tasks.map(t => `<div class="ritual-item"><i class="fa-solid fa-circle-check"></i> ${t}</div>`).join('')}
                 <div class="text-center mt-3 p-3" style="background:rgba(0,0,0,0.2); border-radius:15px; border:1px dashed ${p.color}">
                     <span class="small text-gold d-block mb-1">MANTRA (11 BAAR)</span>
-                    <strong style="font-size:1.1rem">${p.mantra}</strong>
+                    <strong>${p.mantra}</strong>
                 </div>
             </div>`;
 
         document.getElementById("personalContent").style.display = "block";
-        db.ref('astroLeads').push({ name, mulank: m, bhagyank: b, time: new Date().toLocaleString() });
+        db.ref('astroLeads').push({ name, mulank: m, daily: pDay, time: new Date().toLocaleString() });
 
         db.ref('astroSettings').once('value', snap => {
             if(snap.val()?.mode === "Premium (Locked)") {
-                document.getElementById("personalContent").classList.add("blur-lock");
+                document.getElementById("ritualContainer").classList.add("blur-lock"); // Only blur rituals
                 document.getElementById("unlockBox").style.display = "block";
             }
         });
@@ -152,7 +153,7 @@
     function unlockReport() {
         db.ref('astroSettings/vip').once('value', s => {
             if(prompt("Enter VIP Code:") === s.val()) {
-                document.getElementById("personalContent").classList.remove("blur-lock");
+                document.getElementById("ritualContainer").classList.remove("blur-lock");
                 document.getElementById("unlockBox").style.display = "none";
             } else { alert("Wrong Code!"); }
         });
