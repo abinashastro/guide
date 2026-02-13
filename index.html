@@ -62,14 +62,17 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
+    // FIX: databaseURL manually added here
     const firebaseConfig = {
       apiKey: "AIzaSyC0yF3kviJ6U-rdOMUyAOOQyTgSFoWG6co",
       authDomain: "astro-c7b1e.firebaseapp.com",
+      databaseURL: "https://astro-c7b1e-default-rtdb.firebaseio.com", 
       projectId: "astro-c7b1e",
       storageBucket: "astro-c7b1e.firebasestorage.app",
       messagingSenderId: "885607895929",
       appId: "1:885607895929:web:8f1bf85f7d8aab1b1d55a8"
     };
+    
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
@@ -78,10 +81,12 @@
     function sumStr(s) { return s.split('').reduce((a,b)=>a + (parseInt(b)||0), 0); }
 
     function applySettings() {
+        // Listening real-time for lock changes
         db.ref('astroSettings').on('value', (snap) => {
             const s = snap.val() || { mode: "Free (No Lock)", price: "49" };
             document.getElementById("unlockBtn").innerText = `Pay ₹${s.price} to Unlock`;
             const content = document.getElementById("personalContent");
+            
             if(content.style.display === "block" && s.mode === "Premium (Locked)") {
                 content.classList.add("blur-lock");
                 document.getElementById("unlockBox").style.display = "block";
@@ -104,7 +109,15 @@
         for(let char of name.toLowerCase().replace(/\s/g, '')) { nSum += chaldean[char] || 0; }
         const nNo = reduce(nSum);
 
-        db.ref('astroLeads').push({ name, mulank: m, bhagyank: b, time: new Date().toLocaleString() });
+        // Saving lead to cloud
+        db.ref('astroLeads').push({ 
+            name: name, 
+            mulank: m, 
+            bhagyank: b, 
+            time: new Date().toLocaleString() 
+        }).then(() => {
+            console.log("Lead Saved!");
+        }).catch(err => console.error("Firebase Push Error:", err));
 
         document.getElementById("resM").innerText = m;
         document.getElementById("resB").innerText = b;
@@ -115,12 +128,14 @@
 
     function unlockReport() {
         db.ref('astroSettings/vip').once('value', s => {
-            if(prompt("Enter VIP Code:") === s.val()) {
+            const code = prompt("Enter VIP Code:");
+            if(code === s.val()) {
                 document.getElementById("personalContent").classList.remove("blur-lock");
                 document.getElementById("unlockBox").style.display = "none";
             } else { alert("Wrong Code!"); }
         });
     }
+    
     window.onload = applySettings;
 </script>
 </body>
