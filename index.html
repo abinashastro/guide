@@ -12,15 +12,15 @@
         body { margin: 0; font-family: 'Outfit', sans-serif; background: radial-gradient(circle at top right, #0a1931, #050b1a); color: white; min-height: 100vh; }
         header { background: rgba(0, 0, 0, 0.8); padding: 18px; border-bottom: 1px solid var(--primary); font-weight: 800; color: var(--primary); text-align: center; }
         .container-custom { max-width: 500px; margin: auto; padding: 20px; }
-        .box { background: var(--card-glass); backdrop-filter: blur(20px); border-radius: 24px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .box { background: var(--card-glass); border-radius: 24px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
         input, select { padding: 15px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; background: rgba(0,0,0,0.3); color: white; outline: none; }
         .calc-btn { padding: 18px; border: none; border-radius: 15px; background: linear-gradient(135deg, var(--primary), #0066ff); color: white; font-weight: 700; width: 100%; text-transform: uppercase; }
         .destiny-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
         .destiny-card { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
         .num-val { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
         .num-label { font-size: 9px; color: var(--gold); text-transform: uppercase; }
-        .blur-lock { filter: blur(15px); pointer-events: none; user-select: none; transition: 0.5s; }
-        .unlock-box { position: fixed; bottom: 0; left: 0; right: 0; background: #020617; padding: 30px; border-top: 3px solid var(--gold); z-index: 1000; display: none; border-radius: 30px 30px 0 0; }
+        .blur-lock { filter: blur(15px); pointer-events: none; user-select: none; transition: 0.5s ease; }
+        .unlock-box { position: fixed; bottom: 0; left: 0; right: 0; background: #020617; padding: 30px; border-top: 3px solid var(--gold); z-index: 1000; display: none; border-radius: 30px 30px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,0.8); }
         #personalContent { display: none; }
     </style>
 </head>
@@ -49,20 +49,12 @@
                 <div class="destiny-card"><span class="num-val" id="resN">0</span><span class="num-label">Name No.</span></div>
             </div>
         </div>
-
-        <div class="box">
-            <h6 class="text-secondary small mb-3">PERSONAL TIME CYCLES</h6>
-            <div class="destiny-grid">
-                <div class="destiny-card"><span class="num-val" id="cycleD">0</span><span class="num-label">Daily No.</span></div>
-                <div class="destiny-card"><span class="num-val" id="cycleM">0</span><span class="num-label">Monthly No.</span></div>
-                <div class="destiny-card"><span class="num-val" id="cycleY">0</span><span class="num-label">Yearly No.</span></div>
-            </div>
-        </div>
     </div>
 </div>
 
 <div class="unlock-box" id="unlockBox">
     <h4 class="fw-800 text-center">🔒 Report Locked</h4>
+    <p class="text-center text-secondary small">Pay to see your full destiny cycles</p>
     <button class="calc-btn" id="unlockBtn" onclick="unlockReport()" style="background:var(--gold); color:black">Pay to Unlock</button>
 </div>
 
@@ -78,7 +70,6 @@
       messagingSenderId: "885607895929",
       appId: "1:885607895929:web:8f1bf85f7d8aab1b1d55a8"
     };
-    
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
@@ -86,9 +77,9 @@
     function reduce(n) { return (n % 9 || 9); }
     function sumStr(s) { return s.split('').reduce((a,b)=>a + (parseInt(b)||0), 0); }
 
-    function syncSettings() {
-        db.ref('astroSettings').on('value', (snapshot) => {
-            const s = snapshot.val() || { mode: "Free (No Lock)", price: "49" };
+    function applySettings() {
+        db.ref('astroSettings').on('value', (snap) => {
+            const s = snap.val() || { mode: "Free (No Lock)", price: "49" };
             document.getElementById("unlockBtn").innerText = `Pay ₹${s.price} to Unlock`;
             const content = document.getElementById("personalContent");
             if(content.style.display === "block" && s.mode === "Premium (Locked)") {
@@ -104,25 +95,22 @@
     function revealDestiny() {
         const name = document.getElementById("userName").value;
         const dobVal = document.getElementById("dob").value;
-        if(!name || !dobVal) return alert("Fill details!");
+        if(!name || !dobVal) return alert("Details bharo!");
 
         const d = new Date(dobVal);
         const m = reduce(d.getDate());
         const b = reduce(sumStr(d.getDate().toString()+(d.getMonth()+1).toString()+d.getFullYear().toString()));
-        
-        // Name Number
         let nSum = 0;
         for(let char of name.toLowerCase().replace(/\s/g, '')) { nSum += chaldean[char] || 0; }
         const nNo = reduce(nSum);
 
-        // Firebase Lead Save
         db.ref('astroLeads').push({ name, mulank: m, bhagyank: b, time: new Date().toLocaleString() });
 
         document.getElementById("resM").innerText = m;
         document.getElementById("resB").innerText = b;
         document.getElementById("resN").innerText = nNo;
         document.getElementById("personalContent").style.display = "block";
-        syncSettings();
+        applySettings();
     }
 
     function unlockReport() {
@@ -133,7 +121,7 @@
             } else { alert("Wrong Code!"); }
         });
     }
-    window.onload = syncSettings;
+    window.onload = applySettings;
 </script>
 </body>
 </html>
