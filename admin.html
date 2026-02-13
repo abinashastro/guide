@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Astro Cloud Admin</title>
+    <title>Astro Cloud Admin | Fixed</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
@@ -11,7 +11,7 @@
         input, select { background: #0f172a !important; color: white !important; border: 1px solid #334155 !important; margin-bottom: 15px; }
         .btn-apply { background: #ffd700; color: black; font-weight: 800; width: 100%; padding: 12px; border: none; border-radius: 10px; }
         .table { color: white; font-size: 13px; }
-        .btn-wa { background: #25d366; color: white; border: none; padding: 4px 8px; border-radius: 5px; }
+        .btn-wa { background: #25d366; color: white; border: none; padding: 4px 8px; border-radius: 5px; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -46,7 +46,9 @@
         <div class="table-responsive">
             <table class="table table-dark">
                 <thead><tr><th>Name</th><th>M/B</th><th>Time</th><th>Action</th></tr></thead>
-                <tbody id="leadsBody"></tbody>
+                <tbody id="leadsBody">
+                    <tr><td colspan="4" class="text-center">Connecting to Cloud...</td></tr>
+                </tbody>
             </table>
         </div>
         <button class="btn btn-outline-danger btn-sm w-100" onclick="clearLeads()">Wipe Database</button>
@@ -57,25 +59,30 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
+    // FIX: databaseURL added manually
     const firebaseConfig = {
       apiKey: "AIzaSyC0yF3kviJ6U-rdOMUyAOOQyTgSFoWG6co",
       authDomain: "astro-c7b1e.firebaseapp.com",
+      databaseURL: "https://astro-c7b1e-default-rtdb.firebaseio.com", 
       projectId: "astro-c7b1e",
       storageBucket: "astro-c7b1e.firebasestorage.app",
       messagingSenderId: "885607895929",
       appId: "1:885607895929:web:8f1bf85f7d8aab1b1d55a8"
     };
+
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
     function saveSettings() {
         db.ref('astroSettings').set({
             mode: document.getElementById("mode").value,
-            price: document.getElementById("price").value,
-            vip: document.getElementById("vip").value
-        }).then(() => alert("✅ Saved on Cloud!"));
+            price: document.getElementById("price").value || "49",
+            vip: document.getElementById("vip").value || "astro49"
+        }).then(() => alert("✅ Saved on Cloud!"))
+          .catch(err => alert("Error: " + err.message));
     }
 
+    // Live Fetching with Error Handling
     db.ref('astroLeads').on('value', (snap) => {
         const body = document.getElementById("leadsBody");
         body.innerHTML = "";
@@ -84,27 +91,33 @@
             Object.keys(data).reverse().forEach(key => {
                 const l = data[key];
                 body.innerHTML += `<tr>
-                    <td>${l.name}</td>
-                    <td>${l.mulank}/${l.bhagyank}</td>
-                    <td>${l.time}</td>
+                    <td>${l.name || 'User'}</td>
+                    <td>${l.mulank || '0'}/${l.bhagyank || '0'}</td>
+                    <td>${l.time || 'N/A'}</td>
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="deleteLead('${key}')"><i class="fa-solid fa-trash"></i></button>
+                        <button class="btn btn-sm btn-danger me-1" onclick="deleteLead('${key}')"><i class="fa-solid fa-trash"></i></button>
                         <a href="https://wa.me/?text=Hi%20${l.name},%20your%20analysis%20is%20ready!" target="_blank" class="btn-wa"><i class="fa-brands fa-whatsapp"></i></a>
                     </td>
                 </tr>`;
             });
+        } else {
+            body.innerHTML = "<tr><td colspan="4" class="text-center text-muted">No leads found yet.</td></tr>";
         }
+    }, (error) => {
+        console.error(error);
+        document.getElementById("leadsBody").innerHTML = `<tr><td colspan="4" class="text-center text-danger">Permission Denied! Update Firebase Rules.</td></tr>`;
     });
 
-    function deleteLead(key) { if(confirm("Delete?")) db.ref('astroLeads/'+key).remove(); }
-    function clearLeads() { if(confirm("Wipe all?")) db.ref('astroLeads').remove(); }
+    function deleteLead(key) { if(confirm("Delete this lead?")) db.ref('astroLeads/'+key).remove(); }
+    function clearLeads() { if(confirm("Wipe ALL leads?")) db.ref('astroLeads').remove(); }
 
     window.onload = () => {
         db.ref('astroSettings').once('value', s => {
-            const v = s.val(); if(v) {
-                document.getElementById("mode").value = v.mode;
-                document.getElementById("price").value = v.price;
-                document.getElementById("vip").value = v.vip;
+            const v = s.val(); 
+            if(v) {
+                document.getElementById("mode").value = v.mode || "Free (No Lock)";
+                document.getElementById("price").value = v.price || "49";
+                document.getElementById("vip").value = v.vip || "astro49";
             }
         });
     };
