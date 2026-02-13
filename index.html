@@ -13,102 +13,89 @@
     <style>
         :root { --primary: #00f2ff; --gold: #ffd700; --card-glass: rgba(255, 255, 255, 0.05); --success: #2ecc71; --danger: #ff4d4d; }
         body { margin: 0; font-family: 'Outfit', sans-serif; background: radial-gradient(circle at top right, #0a1931, #050b1a); color: white; min-height: 100vh; overflow-x: hidden; }
-        header { background: rgba(0, 0, 0, 0.8); padding: 18px; border-bottom: 1px solid var(--primary); font-weight: 800; color: var(--primary); text-align: center; letter-spacing: 2px; }
+        
+        header { background: rgba(0, 0, 0, 0.8); padding: 18px; border-bottom: 1px solid var(--primary); font-weight: 800; color: var(--primary); text-align: center; letter-spacing: 2px; text-transform: uppercase; }
+        
         .container-custom { max-width: 500px; margin: auto; padding: 20px; }
 
         .box { background: var(--card-glass); border-radius: 24px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
-        input, select { padding: 15px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; background: rgba(0,0,0,0.3); color: white; outline: none; }
+        
+        input, select { padding: 15px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; background: rgba(0,0,0,0.3); color: white; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
         
         .calc-btn { padding: 18px; border: none; border-radius: 15px; background: linear-gradient(135deg, var(--primary), #0066ff); color: white; font-weight: 700; width: 100%; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
         .calc-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,242,255,0.3); }
 
-        /* --- NAME NUMBER GLOW EFFECT --- */
-        .name-glow-card { 
-            border: 1px solid var(--gold) !important;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
-            animation: glow-pulse 2s infinite ease-in-out;
-        }
-        @keyframes glow-pulse {
-            0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); transform: scale(1); }
-            50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); transform: scale(1.02); }
-            100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); transform: scale(1); }
-        }
+        /* Destiny Grid */
+        .destiny-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+        .destiny-card { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
+        .num-val { font-size: 1.4rem; font-weight: 800; color: white; display: block; }
+        .num-label { font-size: 9px; color: var(--gold); text-transform: uppercase; }
+        
+        .name-glow-card { border: 1px solid var(--gold) !important; animation: glow-pulse 2s infinite; }
+        @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 5px var(--gold); } 50% { box-shadow: 0 0 20px var(--gold); } }
 
-        /* --- RELATIONSHIP SECTION --- */
-        .rel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .rel-box { padding: 12px; border-radius: 15px; text-align: center; border: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.02); }
-        .rel-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px; }
-        .rel-nums { font-weight: 800; font-size: 1.1rem; }
-        .text-friend { color: var(--success); text-shadow: 0 0 10px rgba(46, 204, 113, 0.3); }
-        .text-enemy { color: var(--danger); text-shadow: 0 0 10px rgba(255, 77, 77, 0.3); }
-
-        /* --- DYNAMIC PLANET BOX --- */
-        #planetInfoBox {
-            transition: all 0.8s ease;
-            border-radius: 0 0 24px 24px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-top: none;
-        }
-
-        .sky-container { position: relative; width: 100%; height: 140px; background: #020617; overflow: hidden; border-radius: 24px 24px 0 0; border: 1px solid rgba(255,255,255,0.1); border-bottom: none; }
-        .dynamic-planet { position: absolute; bottom: -100px; left: 50%; transform: translateX(-50%); width: 85px; height: 85px; border-radius: 50%; animation: riseUp 3.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; display: flex; align-items: center; justify-content: center; font-size: 45px; z-index: 2; }
-        @keyframes riseUp { 0% { bottom: -100px; opacity: 0; } 100% { bottom: 25px; opacity: 1; } }
+        /* Planet Display */
+        .sky-container { position: relative; width: 100%; height: 160px; background: #020617; overflow: hidden; border-radius: 24px 24px 0 0; border: 1px solid rgba(255,255,255,0.1); border-bottom: none; display: flex; align-items: center; justify-content: center; }
+        .dynamic-planet { width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 50px; z-index: 2; animation: rise 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes rise { from { transform: scale(0) rotate(-45deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
 
         /* Planet Glows */
         .p-glow-1 { background: radial-gradient(circle, #fff700, #ff8c00); box-shadow: 0 0 60px #ff8c00; }
         .p-glow-2 { background: radial-gradient(circle, #f0f0f0, #adb5bd); box-shadow: 0 0 50px #fff; }
         .p-glow-3 { background: radial-gradient(circle, #ffd700, #b8860b); box-shadow: 0 0 50px #ffd700; }
-        .p-glow-4 { background: radial-gradient(circle, #4b0082, #000); box-shadow: 0 0 40px #4b0082; }
+        .p-glow-4 { background: radial-gradient(circle, #4b0082, #220044); box-shadow: 0 0 40px #4b0082; }
         .p-glow-5 { background: radial-gradient(circle, #00ff7f, #008000); box-shadow: 0 0 50px #00ff7f; }
         .p-glow-6 { background: radial-gradient(circle, #ffb6c1, #ff69b4); box-shadow: 0 0 50px #ffb6c1; }
         .p-glow-7 { background: radial-gradient(circle, #708090, #2f4f4f); box-shadow: 0 0 40px #708090; }
         .p-glow-8 { background: radial-gradient(circle, #1e90ff, #000080); box-shadow: 0 0 50px #1e90ff; }
         .p-glow-9 { background: radial-gradient(circle, #ff4500, #8b0000); box-shadow: 0 0 50px #ff4500; }
 
-        .destiny-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-        .destiny-card { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        .num-val { font-size: 1.4rem; font-weight: 800; color: white; display: block; }
-        .num-label { font-size: 9px; color: var(--gold); text-transform: uppercase; }
+        #planetInfoBox { transition: 0.5s; border-radius: 0 0 24px 24px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.1); border-top: none; }
+        
+        /* Relations */
+        .rel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .rel-box { padding: 12px; border-radius: 15px; text-align: center; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); }
+        .rel-label { font-size: 10px; text-transform: uppercase; display: block; margin-bottom: 5px; font-weight: 600; }
+        .rel-nums { font-weight: 800; font-size: 1.1rem; }
 
-        .ritual-item { 
-            background: rgba(255,255,255,0.05); padding: 16px; border-radius: 14px; margin-bottom: 12px; 
-            border: 1px solid rgba(0, 242, 255, 0.2); border-left: 4px solid var(--primary); 
-            display: flex; align-items: center; justify-content: space-between; 
-            animation: taskPop 0.5s forwards;
-        }
-        @keyframes taskPop { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Ritual Items */
+        .ritual-item { background: rgba(255,255,255,0.05); padding: 18px; border-radius: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.1); animation: slideIn 0.4s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        
+        .tick-btn { width: 35px; height: 35px; border-radius: 50%; border: none; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .active-tick { animation: pulse-tick 1.5s infinite; }
+        @keyframes pulse-tick { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        .tick-btn { background: var(--primary); border: none; color: #000; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; }
-        .active-btn { animation: pulse-btn 1.5s infinite; }
-        @keyframes pulse-btn { 0% { transform: scale(1); } 50% { transform: scale(1.1); box-shadow: 0 0 10px var(--primary); } 100% { transform: scale(1); } }
-        .done-btn { background: #1a2a3a !important; color: #00f2ff !important; }
+        /* Lock Screen */
+        .blur-lock { filter: blur(15px); pointer-events: none; }
+        .unlock-box { position: fixed; bottom: 0; left: 0; right: 0; background: #050b1a; padding: 40px 20px; border-top: 3px solid var(--gold); z-index: 1000; border-radius: 30px 30px 0 0; text-align: center; display: none; }
 
-        .blur-lock { filter: blur(18px); pointer-events: none; }
-        .unlock-box { position: fixed; bottom: 0; left: 0; right: 0; background: #020617; padding: 30px; border-top: 3px solid var(--gold); z-index: 1000; display: none; border-radius: 30px 30px 0 0; }
         #personalContent { display: none; }
     </style>
 </head>
 <body>
 
-<header>✨ ASTRO ABHINASH</header>
+<header>✨ Astro Abhinash Center</header>
 
 <div class="container container-custom">
     <div class="box">
-        <h6 class="text-center mb-3 text-muted small">ENTER BIRTH DETAILS</h6>
-        <input type="text" id="userName" placeholder="Apna Pura Naam">
+        <h6 class="text-center mb-3 text-muted small">BIRTH CHART DETAILS</h6>
+        <input type="text" id="userName" placeholder="Full Name">
         <div class="row g-2">
             <div class="col-7"><input type="date" id="dob"></div>
             <div class="col-5">
-                <select id="gender"><option value="male">Male</option><option value="female">Female</option></select>
+                <select id="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
             </div>
         </div>
-        <button class="calc-btn" onclick="revealDestiny()">Check My Energy <i class="fa-solid fa-bolt ms-2"></i></button>
+        <button class="calc-btn" onclick="revealDestiny()">Check Energy <i class="fa-solid fa-wand-magic-sparkles ms-2"></i></button>
     </div>
 
     <div id="personalContent">
-        <div class="box">
+        <div class="box p-0 overflow-hidden" style="background:transparent; border:none;">
             <div class="destiny-grid">
                 <div class="destiny-card"><span class="num-val" id="resM">0</span><span class="num-label">Mulank</span></div>
                 <div class="destiny-card"><span class="num-val" id="resDay">0</span><span class="num-label">Daily No.</span></div>
@@ -123,26 +110,27 @@
 
             <div class="sky-container" id="skyBox"></div>
             <div id="planetInfoBox">
-                <h6 id="planetTitle" style="margin:0; text-transform:uppercase; font-weight:800;"></h6>
-                
+                <h5 id="planetTitle" style="margin:0; text-transform:uppercase; font-weight:800; letter-spacing:1px;"></h5>
                 <div class="rel-grid">
                     <div class="rel-box">
-                        <span class="rel-label text-friend">Friends</span>
-                        <span class="rel-nums text-friend" id="friendNums">--</span>
+                        <span class="rel-label" style="color:var(--success)">Friends</span>
+                        <span class="rel-nums text-success" id="friendNums">--</span>
                     </div>
                     <div class="rel-box">
-                        <span class="rel-label text-enemy">Enemies</span>
-                        <span class="rel-nums text-enemy" id="enemyNums">--</span>
+                        <span class="rel-label" style="color:var(--danger)">Enemies</span>
+                        <span class="rel-nums text-danger" id="enemyNums">--</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="ritualList"></div>
+
+        <div id="ritualList" class="mt-4"></div>
     </div>
 </div>
 
 <div class="unlock-box" id="unlockBox">
-    <h4 class="text-center text-white">🔒 Rituals Locked</h4>
+    <h3 class="mb-3">🔒 Premium Access</h3>
+    <p class="text-muted small mb-4">Aapke naseeb ke rituals lock hain. Unlock karke aaj ka din behtar banayein.</p>
     <button class="calc-btn" onclick="unlockReport()" style="background:var(--gold); color:black">Unlock Today's Guide</button>
 </div>
 
@@ -154,24 +142,21 @@
       apiKey: "AIzaSyC0yF3kviJ6U-rdOMUyAOOQyTgSFoWG6co",
       authDomain: "astro-c7b1e.firebaseapp.com",
       databaseURL: "https://astro-c7b1e-default-rtdb.firebaseio.com/", 
-      projectId: "astro-c7b1e",
-      storageBucket: "astro-c7b1e.firebasestorage.app",
-      messagingSenderId: "885607895929",
-      appId: "1:885607895929:web:8f1bf85f7d8aab1b1d55a8"
+      projectId: "astro-c7b1e"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
     const activationData = {
-        1: { name: "Sun (Surya)", color: "#FF8C00", bg: "rgba(255, 140, 0, 0.2)", icon: "☀️", mantra: "Om Suryaya Namah", f: "1, 2, 3, 5, 9", e: "4, 6, 7, 8", tasks: ["Surya ko jal chadhao", "Papa ke pair chhuo", "Gud khao", "Orange rumaal rakho"] },
-        2: { name: "Moon (Chandra)", color: "#FFFFFF", bg: "rgba(255, 255, 255, 0.15)", icon: "🌙", mantra: "Om Chandraya Namah", f: "1, 2, 3, 5", e: "4, 7, 8, 9", tasks: ["Baith kar paani piyo", "Maa ko pranam karo", "Silver coin rakho", "White rumaal rakho"] },
-        3: { name: "Jupiter (Guru)", color: "#FFD700", bg: "rgba(255, 215, 0, 0.2)", icon: "🕉️", mantra: "Om Gurave Namah", f: "1, 2, 3, 5, 7, 9", e: "4, 6, 8", tasks: ["Haldi ka tilak lagao", "Guru samman karo", "Bachon ko chocolate do", "Yellow kapda pehno"] },
-        4: { name: "Rahu", color: "#BB86FC", bg: "rgba(187, 134, 252, 0.2)", icon: "🌪️", mantra: "Main hi apna naseeb hun", f: "1, 5, 6, 8", e: "2, 4, 7, 9", tasks: ["Birds ko dana daalo", "Phone gallery saaf karo", "Blue color use karo", "Ghar ki chhat saaf rakho"] },
-        5: { name: "Mercury (Budh)", color: "#00FF7F", bg: "rgba(0, 255, 127, 0.2)", icon: "🌱", mantra: "Om Budhaya Namah", f: "1, 2, 3, 5, 6", e: "4, 7, 8, 9", tasks: ["Plants ko paani do", "Behen ko gift do", "Hari Elaichi khao", "Hara rang pehno"] },
-        6: { name: "Venus (Shukra)", color: "#FFB6C1", bg: "rgba(255, 182, 193, 0.2)", icon: "💎", mantra: "Om Shukraya Namah", f: "5, 6, 8", e: "1, 2, 3, 4, 7, 9", tasks: ["Perfume lagao", "Iron kapde pehno", "Mirror smile karo", "White phool rakho"] },
-        7: { name: "Ketu", color: "#708090", bg: "rgba(112, 128, 144, 0.2)", icon: "🚩", mantra: "Om Ketave Namah", f: "1, 3, 5, 6", e: "2, 4, 7, 8, 9", tasks: ["Dog ko food do", "5 min shant baitho", "Aasmaan ko dekho", "Namak daan karo"] },
-        8: { name: "Saturn (Shani)", color: "#1E90FF", bg: "rgba(30, 144, 255, 0.2)", icon: "⚖️", mantra: "Om Sham Shanicharaya Namah", f: "3, 5, 6, 8", e: "1, 2, 4, 7, 9", tasks: ["Joote saaf rakho", "Gareeb ki madad karo", "Kaale kutte ko roti do", "Sarson tel daan karo"] },
-        9: { name: "Mars (Mangal)", color: "#FF4500", bg: "rgba(255, 69, 0, 0.2)", icon: "🔥", mantra: "Om Mangalaya Namah", f: "1, 2, 3, 5, 7, 9", e: "4, 6, 8", tasks: ["Exercise karo", "Hanuman pranam", "Red color touch karo", "Lal Masoor daal daan"] }
+        1: { name: "Sun (Surya)", color: "#FF8C00", bg: "rgba(255, 140, 0, 0.15)", icon: "☀️", mantra: "Om Suryaya Namah", f: "1,2,3,5,9", e: "4,6,7,8", tasks: ["Surya ko jal chadhao", "Papa ke pair chhuo", "Gud khao", "Orange rumaal rakho"] },
+        2: { name: "Moon (Chandra)", color: "#FFFFFF", bg: "rgba(255, 255, 255, 0.1)", icon: "🌙", mantra: "Om Chandraya Namah", f: "1,2,3,5", e: "4,7,8,9", tasks: ["Baith kar paani piyo", "Maa ko pranam karo", "Silver coin paas rakho", "White rumaal rakho"] },
+        3: { name: "Jupiter (Guru)", color: "#FFD700", bg: "rgba(255, 215, 0, 0.15)", icon: "🕉️", mantra: "Om Gurave Namah", f: "1,2,3,5,7,9", e: "4,6,8", tasks: ["Haldi ka tilak lagao", "Guru samman karo", "Bachon ko kheer khilao", "Yellow kapda pehno"] },
+        4: { name: "Rahu", color: "#BB86FC", bg: "rgba(187, 134, 252, 0.15)", icon: "🌪️", mantra: "Om Rahave Namah", f: "1,5,6,8", e: "2,4,7,9", tasks: ["Birds ko bajra daalo", "Phone gallery saaf karo", "Blue color use karo", "Ghar ki chhat saaf rakho"] },
+        5: { name: "Mercury (Budh)", color: "#00FF7F", bg: "rgba(0, 255, 127, 0.15)", icon: "🌱", mantra: "Om Budhaya Namah", f: "1,2,3,5,6", e: "4,7,8,9", tasks: ["Plants ko paani do", "Behen ko gift do", "Hari Elaichi khao", "Hara rang pehno"] },
+        6: { name: "Venus (Shukra)", color: "#FFB6C1", bg: "rgba(255, 182, 193, 0.15)", icon: "💎", mantra: "Om Shukraya Namah", f: "5,6,8", e: "1,2,3,4,7,9", tasks: ["Achha perfume lagao", "Iron kapde pehno", "Mirror smile karo", "Safed phool paas rakho"] },
+        7: { name: "Ketu", color: "#708090", bg: "rgba(112, 128, 144, 0.15)", icon: "🚩", mantra: "Om Ketave Namah", f: "1,3,5,6", e: "2,4,7,8,9", tasks: ["Street dog ko biscuit do", "5 min dhyan lagao", "Kutta paalo ya seva karo", "Namak ka daan karein"] },
+        8: { name: "Saturn (Shani)", color: "#1E90FF", bg: "rgba(30, 144, 255, 0.15)", icon: "⚖️", mantra: "Om Sham Shanicharaya Namah", f: "3,5,6,8", e: "1,2,4,7,9", tasks: ["Joote saaf rakho", "Labor ki help karo", "Kaale kutte ko roti do", "Sarson tel ka deepak jalayein"] },
+        9: { name: "Mars (Mangal)", color: "#FF4500", bg: "rgba(255, 69, 0, 0.15)", icon: "🔥", mantra: "Om Mangalaya Namah", f: "1,2,3,5,7,9", e: "4,6,8", tasks: ["Exercise ya Yoga karo", "Hanuman Chalisa padhein", "Red color touch karein", "Lal Masoor daal daan karein"] }
     };
 
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
@@ -184,11 +169,12 @@
     function revealDestiny() {
         const name = document.getElementById("userName").value;
         const dobVal = document.getElementById("dob").value;
-        if(!name || !dobVal) return alert("Fill Details!");
+        if(!name || !dobVal) return alert("Please fill all details!");
 
         const d = new Date(dobVal);
         const m = reduce(d.getDate());
         const b = reduce(sumStr(d.getDate()) + sumStr(d.getMonth()+1) + sumStr(d.getFullYear()));
+        
         let nSum = 0;
         for(let char of name.toLowerCase().replace(/\s/g, '')) { nSum += chaldean[char] || 0; }
         const nNo = reduce(nSum);
@@ -205,64 +191,68 @@
         document.getElementById("resMonth").innerText = pMonth;
         document.getElementById("resYear").innerText = pYear;
 
+        // Sync Planet Activation
         const p = activationData[pDay];
         currentTasks = p.tasks;
         stepIndex = 0;
 
-        // Relationship Update
-        document.getElementById("friendNums").innerText = p.f;
-        document.getElementById("enemyNums").innerText = p.e;
-
-        // UI Updates for Planet Box
         document.getElementById("skyBox").innerHTML = `<div class="dynamic-planet p-glow-${pDay}">${p.icon}</div>`;
         const infoBox = document.getElementById("planetInfoBox");
         infoBox.style.background = p.bg;
         infoBox.style.borderColor = p.color;
         document.getElementById("planetTitle").innerText = p.name + " Activation";
         document.getElementById("planetTitle").style.color = p.color;
+        document.getElementById("friendNums").innerText = p.f;
+        document.getElementById("enemyNums").innerText = p.e;
 
         document.getElementById("ritualList").innerHTML = "";
         document.getElementById("personalContent").style.display = "block";
 
-        db.ref('astroLeads').push({ name, mulank: m, daily: pDay, time: new Date().toLocaleString() });
+        // Push lead to Firebase
+        db.ref('astroLeads').push({ name, mulank: m, dailyNo: pDay, time: new Date().toLocaleString() });
 
+        // Admin Lock Check
         db.ref('astroSettings').once('value', snap => {
             if(snap.val()?.mode === "Premium (Locked)") {
                 document.getElementById("ritualList").classList.add("blur-lock");
                 document.getElementById("unlockBox").style.display = "block";
             } else {
+                document.getElementById("ritualList").classList.remove("blur-lock");
+                document.getElementById("unlockBox").style.display = "none";
                 addTaskToUI(); 
             }
         });
     }
 
     function addTaskToUI() {
+        const pDay = document.getElementById("resDay").innerText;
+        const p = activationData[pDay];
+
         if (stepIndex < currentTasks.length) {
             const taskHtml = `
-                <div class="ritual-item">
-                    <span><i class="fa-solid fa-circle-dot me-2" style="color:var(--primary)"></i> ${currentTasks[stepIndex]}</span>
-                    <button class="tick-btn active-btn" id="btn-${stepIndex}" onclick="completeStep(${stepIndex})">
+                <div class="ritual-item" style="border-left: 4px solid ${p.color}">
+                    <span><i class="fa-solid fa-star me-2" style="color:${p.color}"></i> ${currentTasks[stepIndex]}</span>
+                    <button class="tick-btn active-tick" id="btn-${stepIndex}" style="background:${p.color}; color:#000" onclick="completeStep(${stepIndex})">
                         <i class="fa-solid fa-check"></i>
                     </button>
                 </div>`;
             document.getElementById("ritualList").insertAdjacentHTML('beforeend', taskHtml);
         } else {
-            const pDay = document.getElementById("resDay").innerText;
-            const p = activationData[pDay];
             document.getElementById("ritualList").insertAdjacentHTML('beforeend', `
                 <div class="box text-center mt-3" style="border: 2px dashed ${p.color}; background:${p.bg}">
-                    <span class="small text-gold d-block mb-1">MANTRA (11X)</span>
-                    <h4 style="margin:0;">${p.mantra}</h4>
+                    <span class="small text-gold d-block mb-2">FINAL ACTIVATION MANTRA (11X)</span>
+                    <h4 style="margin:0; color:${p.color}">${p.mantra}</h4>
                 </div>`);
-            confetti({ particleCount: 150, spread: 70 });
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.8 }, colors: [p.color, '#ffd700'] });
         }
     }
 
     function completeStep(idx) {
         const btn = document.getElementById(`btn-${idx}`);
         btn.innerHTML = '<i class="fa-solid fa-check-double"></i>';
-        btn.classList.remove('active-btn');
-        btn.classList.add('done-btn');
+        btn.classList.remove('active-tick');
+        btn.style.background = "#1a2a3a";
+        btn.style.color = "#00f2ff";
         btn.onclick = null;
         stepIndex++;
         setTimeout(addTaskToUI, 400);
@@ -270,11 +260,11 @@
 
     function unlockReport() {
         db.ref('astroSettings/vip').once('value', s => {
-            if(prompt("Enter VIP Code:") === s.val()) {
+            if(prompt("Enter VIP Unlock Code:") === s.val()) {
                 document.getElementById("ritualList").classList.remove("blur-lock");
                 document.getElementById("unlockBox").style.display = "none";
                 addTaskToUI();
-            } else { alert("Wrong Code!"); }
+            } else { alert("Invalid Passcode!"); }
         });
     }
 </script>
