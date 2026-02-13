@@ -10,101 +10,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        :root { 
-            --primary: #00f2ff; 
-            --gold: #ffd700; 
-            --bg-dark: #050b1a;
-            --card-glass: rgba(255, 255, 255, 0.05);
-            --border-glass: rgba(255, 255, 255, 0.1);
-        }
-
-        body { 
-            margin: 0; 
-            font-family: 'Outfit', sans-serif; 
-            background: radial-gradient(circle at top right, #0a1931, #050b1a); 
-            color: white; 
-            min-height: 100vh;
-        }
-
-        header { 
-            background: rgba(0, 0, 0, 0.8); 
-            padding: 18px; 
-            border-bottom: 1px solid var(--primary); 
-            backdrop-filter: blur(15px);
-            font-weight: 800;
-            color: var(--primary);
-            text-align: center;
-        }
-
+        :root { --primary: #00f2ff; --gold: #ffd700; --bg-dark: #050b1a; --card-glass: rgba(255, 255, 255, 0.05); }
+        body { margin: 0; font-family: 'Outfit', sans-serif; background: radial-gradient(circle at top right, #0a1931, #050b1a); color: white; min-height: 100vh; }
+        header { background: rgba(0, 0, 0, 0.8); padding: 18px; border-bottom: 1px solid var(--primary); font-weight: 800; color: var(--primary); text-align: center; }
         .container-custom { max-width: 500px; margin: auto; padding: 20px; }
-
-        .box { 
-            background: var(--card-glass); 
-            backdrop-filter: blur(20px); 
-            border-radius: 24px; 
-            padding: 25px; 
-            margin-bottom: 20px; 
-            border: 1px solid var(--border-glass);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        input, select { 
-            padding: 15px; width: 100%; border-radius: 12px; border: 1px solid var(--border-glass); 
-            margin-bottom: 15px; background: rgba(0,0,0,0.3); color: white;
-        }
-
-        .calc-btn { 
-            padding: 18px; border: none; border-radius: 15px; 
-            background: linear-gradient(135deg, var(--primary), #0066ff); 
-            color: white; font-weight: 700; width: 100%; text-transform: uppercase;
-        }
-
-        /* Destiny Component Grid */
-        .destiny-grid { 
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; 
-        }
-        .destiny-card { 
-            background: rgba(255,255,255,0.03); padding: 12px; border-radius: 15px; 
-            border: 1px solid var(--border-glass); text-align: center;
-        }
+        .box { background: var(--card-glass); backdrop-filter: blur(20px); border-radius: 24px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        input, select { padding: 15px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; background: rgba(0,0,0,0.3); color: white; }
+        .calc-btn { padding: 18px; border: none; border-radius: 15px; background: linear-gradient(135deg, var(--primary), #0066ff); color: white; font-weight: 700; width: 100%; text-transform: uppercase; }
+        .destiny-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+        .destiny-card { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
         .num-val { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
-        .num-label { font-size: 9px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
-
-        /* Alignment Section */
-        .align-box {
-            padding: 15px; border-radius: 15px; border-left: 5px solid var(--primary);
-            background: rgba(0, 242, 255, 0.05); text-align: left; margin-top: 10px;
-        }
-        .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: bold; }
-
-        /* Lock & Unlock Styling */
-        .blur-lock { 
-            filter: blur(12px); 
-            pointer-events: none; 
-            user-select: none; 
-            transition: 0.5s ease;
-        }
-
-        .unlock-box { 
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            right: 0; 
-            background: #020617; 
-            padding: 30px; 
-            border-top: 3px solid var(--gold); 
-            z-index: 1000; 
-            display: none; 
-            border-radius: 30px 30px 0 0;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
-            animation: slideUp 0.4s ease-out;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-
+        .num-label { font-size: 9px; color: var(--gold); text-transform: uppercase; }
+        .align-box { padding: 15px; border-radius: 15px; border-left: 5px solid var(--primary); background: rgba(0, 242, 255, 0.05); text-align: left; margin-top: 10px; }
+        .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: bold; color: white; }
+        
+        /* LOCK SYSTEM */
+        .blur-lock { filter: blur(15px); pointer-events: none; user-select: none; }
+        .unlock-box { position: fixed; bottom: 0; left: 0; right: 0; background: #020617; padding: 30px; border-top: 3px solid var(--gold); z-index: 1000; display: none; border-radius: 30px 30px 0 0; }
         #personalContent { display: none; }
     </style>
 </head>
@@ -113,8 +35,8 @@
 <header>✨ ASTRO ABHINASH</header>
 
 <div class="container container-custom">
-    <div class="box" id="inputBox">
-        <input type="text" id="userName" placeholder="Full Name (Aadhar/Bank)">
+    <div class="box">
+        <input type="text" id="userName" placeholder="Full Name">
         <div class="row g-2">
             <div class="col-7"><input type="date" id="dob"></div>
             <div class="col-5">
@@ -132,7 +54,6 @@
                 <div class="destiny-card"><span class="num-val" id="resB">0</span><span class="num-label">Bhagyank</span></div>
                 <div class="destiny-card"><span class="num-val" id="resN">0</span><span class="num-label">Name No.</span></div>
             </div>
-
             <div class="align-box" id="alignBox">
                 <div id="alignTag" class="mb-1"></div>
                 <div id="alignText" class="small text-secondary"></div>
@@ -151,10 +72,9 @@
 </div>
 
 <div class="unlock-box" id="unlockBox">
-    <h4 class="fw-800">🔒 Premium Report Locked</h4>
-    <p class="text-secondary small">Unlock hidden cycles, remedies & wealth timing</p>
-    <button class="calc-btn" id="unlockBtn" onclick="unlockReport()" style="background:var(--gold); color:black">Pay ₹49 to Unlock</button>
-    <p class="text-center mt-2 small text-muted">UPI / Manual payment supported</p>
+    <h4 class="fw-800 text-center">🔒 Report Locked</h4>
+    <p class="text-secondary small text-center">Unlock full analysis and hidden cycles</p>
+    <button class="calc-btn" id="unlockBtn" onclick="unlockReport()" style="background:var(--gold); color:black">Pay to Unlock</button>
 </div>
 
 <script>
@@ -164,63 +84,8 @@
     function reduce(n) { return (n % 9 || 9); }
     function sumStr(s) { return s.split('').reduce((a,b)=>a + (parseInt(b)||0), 0); }
 
-    // --- CORE LOGIC ---
-    function revealDestiny() {
-        const name = document.getElementById("userName").value.toLowerCase();
-        const dobVal = document.getElementById("dob").value;
-        if(!name || !dobVal) return alert("Pehle details bharo!");
-
-        const d = new Date(dobVal);
-        const day = d.getDate(), month = d.getMonth()+1, year = d.getFullYear();
-        const today = new Date();
-
-        // 1. Mulank & Bhagyank
-        const m = reduce(day);
-        const b = reduce(sumStr(day.toString()+month.toString()+year.toString()));
-        
-        // 2. Name Number (Chaldean)
-        let nSum = 0;
-        for(let char of name.replace(/\s/g, '')) { nSum += chaldean[char] || 0; }
-        const nNo = reduce(nSum);
-
-        // 3. Alignment Check UI
-        const alignBox = document.getElementById("alignBox");
-        const alignTag = document.getElementById("alignTag");
-        const isFriendly = friendship[m].includes(nNo);
-
-        if(isFriendly || m === nNo) {
-            alignTag.innerHTML = '<span class="status-badge bg-success">Perfect Alignment</span>';
-            document.getElementById("alignText").innerText = "Aapka naam aapki kismat ke saath sahi sync mein hai.";
-            alignBox.style.borderColor = "#4ade80";
-        } else {
-            alignTag.innerHTML = '<span class="status-badge bg-danger">Misaligned</span>';
-            document.getElementById("alignText").innerText = "Naam mein thoda badlav aapki progress fast kar sakta hai.";
-            alignBox.style.borderColor = "#ff4d4d";
-        }
-
-        // 4. Cycles
-        const pYear = reduce(day + month + sumStr(today.getFullYear().toString()));
-        const pMonth = reduce(pYear + (today.getMonth()+1));
-        const pDay = reduce(pMonth + today.getDate());
-
-        // Update UI
-        document.getElementById("resM").innerText = m;
-        document.getElementById("resB").innerText = b;
-        document.getElementById("resN").innerText = nNo;
-        document.getElementById("cycleY").innerText = pYear;
-        document.getElementById("cycleM").innerText = pMonth;
-        document.getElementById("cycleD").innerText = pDay;
-
-        // Show Result
-        document.getElementById("personalContent").style.display = "block";
-
-        // Admin Sync Check
-        applyAdminSettings();
-    }
-
-    // --- ADMIN CONTROL FUNCTIONS ---
+    // --- ADMIN SYNC ---
     function applyAdminSettings() {
-        // Fetch from localStorage (same key used in Admin Panel)
         const saved = localStorage.getItem("astroSettings");
         const settings = saved ? JSON.parse(saved) : { mode: "Free (No Lock)", price: "49", vip: "astro49" };
         
@@ -228,10 +93,8 @@
         const lockBox = document.getElementById("unlockBox");
         const unlockBtn = document.getElementById("unlockBtn");
 
-        // Update Price
-        unlockBtn.innerText = `Pay ₹${settings.price} to Unlock`;
+        if(unlockBtn) unlockBtn.innerText = `Pay ₹${settings.price} to Unlock`;
 
-        // Check Mode (Aapke Admin Panel ke Dropdown ki values match honi chahiye)
         if(content.style.display === "block") {
             if(settings.mode === "Premium (Locked)") {
                 content.classList.add("blur-lock");
@@ -243,23 +106,67 @@
         }
     }
 
-    // Storage update listener: Jab Admin Panel save karega, Index apne aap badal jayega
+    // Storage update listener (Sync between tabs)
     window.addEventListener('storage', (e) => {
         if (e.key === 'astroSettings') applyAdminSettings();
     });
 
-    function unlockReport() {
-        const saved = localStorage.getItem("astroSettings");
-        const settings = saved ? JSON.parse(saved) : { vip: "astro49" };
+    function revealDestiny() {
+        const nameInput = document.getElementById("userName").value;
+        const dobVal = document.getElementById("dob").value;
+        if(!nameInput || !dobVal) return alert("Pehle details bharo!");
+
+        const d = new Date(dobVal);
+        const day = d.getDate(), month = d.getMonth()+1, year = d.getFullYear();
+        const today = new Date();
+
+        const m = reduce(day);
+        const b = reduce(sumStr(day.toString()+month.toString()+year.toString()));
         
-        let code = prompt("Enter VIP Unlock Code:");
+        let nSum = 0;
+        for(let char of nameInput.toLowerCase().replace(/\s/g, '')) { nSum += chaldean[char] || 0; }
+        const nNo = reduce(nSum);
+
+        const pYear = reduce(day + month + sumStr(today.getFullYear().toString()));
+        const pMonth = reduce(pYear + (today.getMonth()+1));
+        const pDay = reduce(pMonth + today.getDate());
+
+        document.getElementById("resM").innerText = m;
+        document.getElementById("resB").innerText = b;
+        document.getElementById("resN").innerText = nNo;
+        document.getElementById("cycleY").innerText = pYear;
+        document.getElementById("cycleM").innerText = pMonth;
+        document.getElementById("cycleD").innerText = pDay;
+
+        // Alignment UI
+        const isFriendly = friendship[m].includes(nNo);
+        const alignTag = document.getElementById("alignTag");
+        if(isFriendly || m === nNo) {
+            alignTag.innerHTML = '<span class="status-badge bg-success">Perfect Alignment</span>';
+            document.getElementById("alignText").innerText = "Naam aur kismat ka sahi talmel hai.";
+        } else {
+            alignTag.innerHTML = '<span class="status-badge bg-danger">Misaligned</span>';
+            document.getElementById("alignText").innerText = "Naam mein sudhaar ki zarurat hai.";
+        }
+
+        document.getElementById("personalContent").style.display = "block";
+        
+        // Save Lead for Admin
+        let leads = JSON.parse(localStorage.getItem("astroLeads") || "[]");
+        leads.push({name: nameInput, m, b, time: new Date().toLocaleString()});
+        localStorage.setItem("astroLeads", JSON.stringify(leads));
+
+        applyAdminSettings();
+    }
+
+    function unlockReport() {
+        const settings = JSON.parse(localStorage.getItem("astroSettings") || '{"vip":"astro49"}');
+        let code = prompt("Enter VIP Code:");
         if(code === settings.vip) {
             document.getElementById("personalContent").classList.remove("blur-lock");
             document.getElementById("unlockBox").style.display = "none";
-            alert("Unlocked Successfully! 🔓");
-        } else {
-            alert("Wrong Code! Please contact support.");
-        }
+            alert("Unlocked! 🔓");
+        } else { alert("Wrong Code!"); }
     }
 </script>
 </body>
