@@ -3,238 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Master | Admin Suite</title>
+    <title>Astro Admin | Control Center</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        :root { 
-            --bg: #020817; 
-            --card: rgba(15, 23, 42, 0.7);
-            --primary: #00f2ff; 
-            --gold: #ffd700; 
-            --accent: #7c3aed;
-            --danger: #ff4d4d;
-            --success: #00ff9d;
-        }
-
-        body { 
-            background: radial-gradient(circle at bottom left, #1e1b4b, #020817);
-            color: #f8fafc;
-            font-family: 'Outfit', sans-serif;
-            padding: 30px 15px;
-        }
-
-        .glass-card {
-            background: var(--card);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 25px;
-            transition: 0.3s;
-        }
-
-        .neon-title {
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--gold), #fff);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-        }
-
-        label { font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px; font-weight: 600; }
-
-        input, select {
-            background: rgba(0,0,0,0.3) !important;
-            border: 1px solid rgba(255,255,255,0.1) !important;
-            color: white !important;
-            border-radius: 10px !important;
-            padding: 12px !important;
-            margin-bottom: 15px;
-        }
-
-        .btn-save {
-            background: linear-gradient(135deg, var(--gold), #b48a00);
-            color: black; font-weight: 800; border: none;
-            width: 100%; padding: 12px; border-radius: 12px;
-            text-transform: uppercase; transition: 0.3s;
-        }
-        .btn-save:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
-
-        .stat-val { font-size: 2rem; font-weight: 800; color: var(--primary); }
-        .status-badge { padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: bold; }
-        .bg-paid { background: rgba(255, 215, 0, 0.1); color: var(--gold); border: 1px solid var(--gold); }
-        .bg-free { background: rgba(0, 255, 157, 0.1); color: var(--success); border: 1px solid var(--success); }
-
-        .table { color: #e2e8f0; vertical-align: middle; }
-        .table thead { background: rgba(255,255,255,0.03); }
-        .table-hover tbody tr:hover { background: rgba(255,255,255,0.02); }
-
-        .btn-action { width: 35px; height: 35px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; border: none; transition: 0.2s; }
-        .btn-wa { background: rgba(0, 255, 157, 0.15); color: var(--success); }
-        .btn-del { background: rgba(255, 77, 77, 0.15); color: var(--danger); }
+        :root { --primary: #00f2ff; --gold: #ffd700; --bg-dark: #020617; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg-dark); color: white; padding: 20px; }
         
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        .admin-card { 
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 20px; padding: 25px; margin-bottom: 20px; backdrop-filter: blur(10px);
+        }
+        
+        h2 { color: var(--gold); font-weight: 800; font-size: 1.5rem; margin-bottom: 20px; }
+        label { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        
+        input, select { 
+            background: rgba(0,0,0,0.3) !important; border: 1px solid rgba(255,255,255,0.2) !important;
+            color: white !important; padding: 12px !important; border-radius: 10px !important; margin-bottom: 15px;
+        }
+
+        .apply-btn { 
+            background: linear-gradient(45deg, var(--gold), #ff9900); border: none; 
+            padding: 15px; border-radius: 12px; color: black; font-weight: 800; width: 100%; transition: 0.3s;
+        }
+        .apply-btn:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+
+        /* Leads Table */
+        .leads-table { font-size: 13px; width: 100%; }
+        .leads-table th { color: var(--primary); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px; }
+        .leads-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        .badge-free { background: #06b6d4; color: black; padding: 3px 8px; border-radius: 5px; font-size: 10px; }
     </style>
 </head>
 <body>
 
-<div class="container" style="max-width: 1000px;">
-    <h2 class="neon-title text-center"><i class="fa-solid fa-screwdriver-wrench"></i> Astro Master Control</h2>
+<div class="container" style="max-width: 600px;">
+    <div class="text-center mb-4">
+        <h3><i class="fa-solid fa-gauge-high"></i> Global Settings</h3>
+    </div>
 
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="glass-card">
-                <h3 class="h6 text-warning mb-4"><i class="fa fa-sliders me-2"></i> Global Settings</h3>
-                
-                <label>System Mode</label>
-                <select id="lockStatus" class="form-select">
-                    <option value="on">Paid (Lock Enabled)</option>
-                    <option value="off">Free (No Lock)</option>
-                </select>
+    <div class="admin-card">
+        <label>System Mode</label>
+        <select id="systemMode" class="form-select">
+            <option value="Free (No Lock)">Free (No Lock)</option>
+            <option value="Premium (Locked)">Premium (Locked)</option>
+        </select>
 
-                <label>Report Price (₹)</label>
-                <input type="number" id="priceSet" class="form-control" placeholder="49">
+        <label>Report Price (₹)</label>
+        <input type="number" id="reportPrice" class="form-control" placeholder="e.g. 255">
 
-                <label>VIP Unlock Code</label>
-                <input type="text" id="vipCode" class="form-control" placeholder="astro49">
+        <label>VIP Unlock Code</label>
+        <input type="text" id="vipCode" class="form-control" placeholder="e.g. astro49">
 
-                <button class="btn-save" onclick="saveSettings()">Apply Changes</button>
-            </div>
+        <button class="apply-btn" onclick="saveSettings()">
+            <i class="fa-solid fa-check-circle"></i> APPLY CHANGES
+        </button>
+    </div>
 
-            <div class="glass-card text-center">
-                <h3 class="h6 text-primary mb-3"><i class="fa fa-chart-pie me-2"></i> Real-time Stats</h3>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="small opacity-50">Total Leads</div>
-                        <div class="stat-val" id="totalLeads">0</div>
-                    </div>
-                    <div class="col-6">
-                        <div class="small opacity-50">Status</div>
-                        <div id="statusBadge" class="mt-2">--</div>
-                    </div>
-                </div>
-            </div>
+    <div class="admin-card">
+        <h2><i class="fa-solid fa-users"></i> User Leads Database</h2>
+        <div class="table-responsive">
+            <table class="leads-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Name</th>
+                        <th>Mulank</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="leadsBody">
+                    </tbody>
+            </table>
         </div>
-
-        <div class="col-lg-8">
-            <div class="glass-card">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="h6 text-info m-0"><i class="fa fa-users me-2"></i> User Leads Database</h3>
-                    <button class="btn btn-sm btn-outline-danger" style="font-size: 10px;" onclick="clearLeads()">CLEAR ALL</button>
-                </div>
-
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr style="font-size: 11px; text-transform: uppercase; color: #94a3b8;">
-                                <th>Timestamp</th>
-                                <th>Name</th>
-                                <th>Mul/Bha</th>
-                                <th class="text-end">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="leadTable" style="font-size: 13px;">
-                            </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <button class="btn btn-outline-danger btn-sm mt-3 w-100" onclick="clearLeads()">Clear All Leads</button>
     </div>
 </div>
 
 <script>
-    // SAVE SETTINGS TO LOCALSTORAGE
-    function saveSettings(){
+    // 1. Settings Save Karne Ka Logic
+    function saveSettings() {
         const settings = {
-            lock: document.getElementById("lockStatus").value,
-            price: document.getElementById("priceSet").value,
-            vip: document.getElementById("vipCode").value
+            mode: document.getElementById("systemMode").value,
+            price: document.getElementById("reportPrice").value || "49",
+            vip: document.getElementById("vipCode").value || "astro49"
         };
+
         localStorage.setItem("astroSettings", JSON.stringify(settings));
-        
-        alert("Universal Settings Updated! 🚀");
-        loadSettings();
+        alert("✅ Settings Saved! User page update ho gaya hai.");
     }
 
-    // LOAD SETTINGS
-    function loadSettings(){
-        const saved = JSON.parse(localStorage.getItem("astroSettings")) || {lock: "on", price: "49", vip: "astro49"};
-        
-        document.getElementById("lockStatus").value = saved.lock;
-        document.getElementById("priceSet").value = saved.price;
-        document.getElementById("vipCode").value = saved.vip;
+    // 2. Leads Load Karne Ka Logic
+    function loadLeads() {
+        const leads = JSON.parse(localStorage.getItem("astroLeads") || "[]");
+        const body = document.getElementById("leadsBody");
+        body.innerHTML = "";
 
-        const badge = document.getElementById("statusBadge");
-        if(saved.lock === "on"){
-            badge.innerHTML = `<span class="status-badge bg-paid">PAID @ ₹${saved.price}</span>`;
-        } else {
-            badge.innerHTML = `<span class="status-badge bg-free">FREE MODE</span>`;
-        }
-    }
-
-    // LOAD LEADS
-    function loadLeads(){
-        const leads = JSON.parse(localStorage.getItem("astroLeads")) || [];
-        document.getElementById("totalLeads").innerText = leads.length;
-
-        let html = "";
-        // Show newest first
-        leads.slice().reverse().forEach((lead, index) => {
-            const originalIndex = leads.length - 1 - index;
-            html += `
-            <tr>
-                <td><span class="opacity-50">${lead.time || 'N/A'}</span></td>
-                <td><b class="text-white">${lead.name}</b><br><small class="opacity-50">${lead.dob}</small></td>
-                <td><span class="text-info">${lead.mulank}</span> / <span class="text-warning">${lead.bhagyank}</span></td>
-                <td class="text-end">
-                    <a href="https://wa.me/917008186187?text=Hi ${lead.name}, I checked your profile (${lead.mulank}/${lead.bhagyank}). Would you like a full consultation?" target="_blank" class="btn-action btn-wa me-1">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
-                    <button class="btn-action btn-del" onclick="deleteLead(${originalIndex})">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </td>
-            </tr>`;
+        leads.reverse().forEach((item, index) => {
+            body.innerHTML += `
+                <tr>
+                    <td>${item.time || 'N/A'}</td>
+                    <td>${item.name}</td>
+                    <td>${item.m || '?'}/${item.b || '?'}</td>
+                    <td><button class="btn btn-sm btn-danger" onclick="deleteLead(${index})"><i class="fa-solid fa-trash"></i></button></td>
+                </tr>
+            `;
         });
-        
-        if(leads.length === 0){
-            html = `<tr><td colspan="4" class="text-center py-4 opacity-50 text-italic">No leads found yet...</td></tr>`;
-        }
-        document.getElementById("leadTable").innerHTML = html;
     }
 
-    function deleteLead(i){
-        if(confirm("Delete this lead?")){
-            let leads = JSON.parse(localStorage.getItem("astroLeads")) || [];
-            leads.splice(i, 1);
-            localStorage.setItem("astroLeads", JSON.stringify(leads));
-            loadLeads();
-        }
+    function deleteLead(index) {
+        let leads = JSON.parse(localStorage.getItem("astroLeads") || "[]");
+        leads.reverse(); // List reverse hai toh sync karna padega
+        leads.splice(index, 1);
+        leads.reverse();
+        localStorage.setItem("astroLeads", JSON.stringify(leads));
+        loadLeads();
     }
 
-    function clearLeads(){
-        if(confirm("ARE YOU SURE? This will wipe all user data forever.")){
+    function clearLeads() {
+        if(confirm("Saare leads delete kar dein?")) {
             localStorage.removeItem("astroLeads");
             loadLeads();
         }
     }
 
-    // INIT
-    loadSettings();
-    loadLeads();
-
-    // AUTO REFRESH (Optional - Jab lead aaye toh table update ho jaye)
-    window.addEventListener('storage', () => {
+    // Page load hote hi settings aur leads dikhao
+    window.onload = () => {
+        const saved = localStorage.getItem("astroSettings");
+        if(saved) {
+            const s = JSON.parse(saved);
+            document.getElementById("systemMode").value = s.mode;
+            document.getElementById("reportPrice").value = s.price;
+            document.getElementById("vipCode").value = s.vip;
+        }
         loadLeads();
-        loadSettings();
-    });
-
+    };
 </script>
 
 </body>
