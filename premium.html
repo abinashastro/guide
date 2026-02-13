@@ -4,111 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astro Abhinash | Pro Access</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         :root { --gold: #ffd700; --cyan: #00f2ff; }
         body { background: #050b1a; color: white; font-family: 'Outfit', sans-serif; padding: 30px 15px; }
-        .premium-card { background: linear-gradient(145deg, #0a1931, #050b1a); border: 2px solid var(--gold); border-radius: 30px; padding: 30px; text-align: center; box-shadow: 0 0 30px rgba(255,215,0,0.1); }
+        .premium-card { background: linear-gradient(145deg, #0a1931, #050b1a); border: 2px solid var(--gold); border-radius: 30px; padding: 30px; text-align: center; }
+        .pay-btn { background: linear-gradient(135deg, var(--gold), #ff8c00); color: #000; border: none; padding: 18px; border-radius: 50px; font-weight: 800; width: 100%; margin-top: 15px; }
         
-        /* Features */
-        .feature-list { text-align: left; margin: 25px 0; font-size: 15px; }
-        .feature-list li { margin-bottom: 12px; list-style: none; display: flex; align-items: center; }
-        .feature-list i { color: var(--gold); margin-right: 12px; font-size: 18px; }
-        
-        /* Buttons */
-        .pay-btn { background: linear-gradient(135deg, var(--gold), #ff8c00); color: #000; border: none; padding: 18px; border-radius: 50px; font-weight: 800; width: 100%; margin-top: 10px; transition: 0.3s; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
+        /* PDF Only Styling */
+        #pdfReport { display: none; background: #ffffff; color: #000000; padding: 40px; }
+        .pdf-page { padding: 40px; height: 1000px; border: 1px solid #eee; position: relative; page-break-after: always; }
+        .pdf-header { border-bottom: 2px solid var(--gold); margin-bottom: 20px; padding-bottom: 10px; }
         .whatsapp-btn { background: #25d366; color: white; border: none; padding: 12px; border-radius: 50px; font-weight: 600; width: 100%; margin-top: 15px; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+        input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; color: white; width: 100%; text-align: center; margin-top: 10px; }
         
-        /* Input & Unlock */
-        input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; color: white; width: 100%; text-align: center; outline: none; margin-top: 10px; font-weight: 600; letter-spacing: 2px; }
-        #proContent { display: none; background: rgba(0,242,255,0.05); border: 1px solid var(--cyan); border-radius: 25px; padding: 25px; margin-top: 20px; animation: slideUp 0.6s ease-out; }
-        
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .report-item { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--cyan); text-align: left; }
+        /* Dashboard Styling */
+        #proDashboard { display: none; animation: fadeIn 1s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="container" style="max-width: 450px;">
-        <div class="premium-card" id="mainCard">
-            <i class="fa-solid fa-crown" style="font-size: 50px; color: var(--gold); margin-bottom: 15px;"></i>
-            <h2 style="font-weight: 800; letter-spacing: 1px;">UNLOCK PRO</h2>
-            <p class="text-muted small">Deep Numerology & Yearly Insights</p>
-            
-            <ul class="feature-list">
-                <li><i class="fa-solid fa-file-pdf"></i> 10-Page Detailed PDF Report</li>
-                <li><i class="fa-solid fa-gem"></i> Lucky Gemstone & Metal Guide</li>
-                <li><i class="fa-solid fa-heart"></i> Compatibility & Love Analysis</li>
-                <li><i class="fa-solid fa-calendar-check"></i> 1-Year Future Prediction</li>
-            </ul>
-
-            <button class="pay-btn" onclick="payNow()">PAY ₹199 NOW <i class="fa-solid fa-bolt ms-1"></i></button>
-
-            <div class="mt-4 pt-3" style="border-top: 1px solid rgba(255,255,255,0.1);">
-                <p class="small text-warning mb-2">Already Paid? Enter Secret Code:</p>
-                <input type="text" id="secretCode" placeholder="SECRET CODE">
-                <button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="unlockPro()" style="border-radius: 50px;">Unlock Features</button>
-            </div>
-
-            <a href="https://wa.me/917008186187?text=Hi%20Abhinash,%20I%20have%20paid%20199%20for%20Astro%20Pro.%20Please%20send%20my%20Secret%20Code." class="whatsapp-btn">
-                <i class="fa-brands fa-whatsapp me-2" style="font-size: 20px;"></i> Chat on WhatsApp
-            </a>
-        </div>
-
-        <div id="proContent">
-            <h3 class="text-info mb-3" style="font-weight: 800;">✨ PRO DASHBOARD</h3>
-            
-            <div class="report-item">
-                <h6 class="mb-1 text-white">💎 Personalized Gemstone</h6>
-                <p class="small text-muted mb-0">Based on your chart, **Yellow Sapphire (Pukhraj)** will bring wealth and wisdom.</p>
-            </div>
-
-            <div class="report-item">
-                <h6 class="mb-1 text-white">❤️ Relationship Compatibility</h6>
-                <p class="small text-muted mb-0">Your energy matches best with People of Number **3, 5, and 7**.</p>
-            </div>
-
-            <div class="report-item">
-                <h6 class="mb-1 text-white">🚩 Lucky Direction</h6>
-                <p class="small text-muted mb-0">Facing **North-East** while working will increase your success rate.</p>
-            </div>
-
-            <button class="pay-btn mt-3" onclick="alert('Preparing your 10-page PDF...')">DOWNLOAD FULL PDF REPORT</button>
-            <p class="mt-3 small text-muted">Aapki report har mahine update hogi.</p>
-        </div>
+<div class="container" style="max-width: 500px;">
+    <div class="premium-card" id="lockScreen">
+        <i class="fa-solid fa-crown" style="font-size: 50px; color: var(--gold); margin-bottom: 15px;"></i>
+        <h2 style="font-weight: 800;">UNLOCK PRO ACCESS</h2>
+        <p class="text-muted">Pay ₹199 to get your 10-Page Detailed Report</p>
         
-        <div class="text-center mt-4">
-            <a href="index.html" style="color: #888; text-decoration: none;"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        <button class="pay-btn" onclick="payNow()">PAY ₹199 VIA UPI</button>
+        
+        <div class="mt-4">
+            <input type="text" id="secretCode" placeholder="ENTER SECRET CODE">
+            <button class="btn btn-outline-info w-100 mt-2" onclick="unlock()">Unlock Report</button>
         </div>
+
+        <a href="https://wa.me/917008186187" class="whatsapp-btn">
+            <i class="fa-brands fa-whatsapp me-2"></i> Get Code on WhatsApp
+        </a>
     </div>
 
-    <script>
-        function payNow() {
-            const upiId = "7008186187@ybl";
-            // Mobile redirect to UPI apps
-            window.location.href = `upi://pay?pa=${upiId}&pn=AstroAbhinash&am=199&cu=INR&tn=ProAccess`;
-        }
+    <div id="proDashboard" class="text-center">
+        <div class="premium-card" style="border-color: var(--cyan);">
+            <h3 class="text-info" style="font-weight: 800;">✨ PRO ACCESS ACTIVE</h3>
+            <p>Your 10-Page personalized report is ready for download.</p>
+            <button class="pay-btn" onclick="downloadReport()">DOWNLOAD PDF REPORT <i class="fa-solid fa-file-arrow-down ms-1"></i></button>
+        </div>
+    </div>
+</div>
 
-        function unlockPro() {
-            const code = document.getElementById("secretCode").value.toUpperCase();
-            
-            // --- YOUR SECRET CODES (Change these anytime) ---
-            const validCodes = ["ASTRO700", "ABHI99", "VIP77"];
+<div id="pdfReport">
+    <div class="pdf-page text-center">
+        <h1 style="color: #0a1931; font-size: 40px; margin-top: 100px;">PERSONALIZED NUMEROLOGY REPORT</h1>
+        <h3 style="color: #b8860b;">Presented by Astro Abhinash</h3>
+        <div style="margin-top: 50px; border-top: 2px solid gold; width: 50%; margin-left: 25%;"></div>
+        <p style="margin-top: 200px;">Report Generated for: <b>Pro Member</b></p>
+        <p>Date: <span id="pdfDate"></span></p>
+    </div>
 
-            if(validCodes.includes(code)) {
-                document.getElementById("mainCard").style.display = "none";
-                document.getElementById("proContent").style.display = "block";
-                confetti({
-                    particleCount: 150,
-                    spread: 70,
-                    origin: { y: 0.6 }
-                });
-            } else {
-                alert("Incorrect Code! Please pay ₹199 and send screenshot on WhatsApp to get your code.");
-            }
+    <div class="pdf-page">
+        <div class="pdf-header"><h3>1. Loshu Grid Analysis</h3></div>
+        <p>Aapke chart mein numbers ki position aapki life ke main pillars ko control karti hai.</p>
+        <ul>
+            <li><b>Mental Plane:</b> Aapki sochne ki shakti aur vision.</li>
+            <li><b>Emotional Plane:</b> Aapke rishte aur sensitivity.</li>
+            <li><b>Practical Plane:</b> Aapki mehnat aur financial success.</li>
+        </ul>
+    </div>
+
+    <div class="pdf-page">
+        <div class="pdf-header"><h3>2. Remedies & Gemstones</h3></div>
+        <p>Grahon ko mazboot karne ke liye niche di gayi remedies follow karein:</p>
+        <p><b>Gemstone:</b> Yellow Sapphire (Pukhraj) - Wealth aur Career ke liye.</p>
+        <p><b>Lucky Color:</b> Orange & Gold - Confidence increase karne ke liye.</p>
+    </div>
+
+    <div class="pdf-page">
+        <div class="pdf-header"><h3>3. Career & Wealth Prediction</h3></div>
+        <p>Year 2026 aapke liye naye opportunities lekar aayega...</p>
+    </div>
+</div>
+
+<script>
+    function payNow() {
+        window.location.href = `upi://pay?pa=7008186187@ybl&pn=AstroAbhinash&am=199&cu=INR`;
+    }
+
+    function unlock() {
+        const code = document.getElementById("secretCode").value.toUpperCase();
+        if(code === "ASTRO700" || code === "ABHI99") {
+            document.getElementById("lockScreen").style.display = "none";
+            document.getElementById("proDashboard").style.display = "block";
+            confetti({ particleCount: 100, spread: 70 });
+        } else {
+            alert("Invalid Code! Send screenshot on WhatsApp to get code.");
         }
-    </script>
+    }
+
+    function downloadReport() {
+        document.getElementById("pdfDate").innerText = new Date().toLocaleDateString();
+        const element = document.getElementById('pdfReport');
+        element.style.display = 'block'; // Temporary show for capture
+
+        const opt = {
+            margin: 0,
+            filename: 'Astro_Abhinash_Report.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            element.style.display = 'none'; // Hide again
+        });
+    }
+</script>
+
 </body>
 </html>
