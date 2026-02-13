@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Abhinash | Morning Activation AI</title>
+    <title>Astro Abhinash | Destiny & Rituals AI</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -16,13 +16,13 @@
         input, select { padding: 15px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; background: rgba(0,0,0,0.3); color: white; outline: none; }
         .calc-btn { padding: 18px; border: none; border-radius: 15px; background: linear-gradient(135deg, var(--primary), #0066ff); color: white; font-weight: 700; width: 100%; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
         .calc-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,242,255,0.3); }
+        
         .destiny-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
         .destiny-card { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
         .num-val { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
         .num-label { font-size: 9px; color: var(--gold); text-transform: uppercase; }
         
-        /* Ritual Styling */
-        .ritual-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid var(--primary); font-size: 14px; }
+        .ritual-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid var(--primary); font-size: 14px; text-align: left; }
         .ritual-item i { margin-right: 10px; color: var(--gold); }
         
         .blur-lock { filter: blur(15px); pointer-events: none; user-select: none; transition: 0.5s ease; }
@@ -41,10 +41,7 @@
         <div class="row g-2">
             <div class="col-7"><input type="date" id="dob"></div>
             <div class="col-5">
-                <select id="gender">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
+                <select id="gender"><option value="male">Male</option><option value="female">Female</option></select>
             </div>
         </div>
         <button class="calc-btn" onclick="revealDestiny()">Reveal My Destiny <i class="fa-solid fa-bolt ms-2"></i></button>
@@ -57,6 +54,13 @@
                 <div class="destiny-card"><span class="num-val" id="resM">0</span><span class="num-label">Mulank</span></div>
                 <div class="destiny-card"><span class="num-val" id="resB">0</span><span class="num-label">Bhagyank</span></div>
                 <div class="destiny-card"><span class="num-val" id="resN">0</span><span class="num-label">Name No.</span></div>
+            </div>
+
+            <h6 class="text-secondary small mt-4 mb-3">PERSONAL CYCLES (TODAY)</h6>
+            <div class="destiny-grid">
+                <div class="destiny-card" style="border-color: var(--gold);"><span class="num-val text-white" id="resDay">0</span><span class="num-label">Daily No.</span></div>
+                <div class="destiny-card" style="border-color: var(--gold);"><span class="num-val text-white" id="resMonth">0</span><span class="num-label">Monthly No.</span></div>
+                <div class="destiny-card" style="border-color: var(--gold);"><span class="num-val text-white" id="resYear">0</span><span class="num-label">Yearly No.</span></div>
             </div>
         </div>
 
@@ -87,7 +91,6 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Planet Activation Data 😈
     const activationData = {
         1: { name: "Sun (Surya)", color: "#FF8C00", mantra: "Om Suryaya Namah", tasks: ["East face karke Surya Jal chadhao", "Orange/Golden color touch karein", "Father/Elders ko respect dein", "I am a leader - Mirror affirmation"] },
         2: { name: "Moon (Chandra)", color: "#FFFFFF", mantra: "Om Chandraya Namah", tasks: ["Subah 1 glass paani piyein", "Maa ko pranam/message karein", "White object touch karein", "2 min Deep Breathing karein"] },
@@ -102,58 +105,72 @@
 
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     function reduce(n) { return (n % 9 || 9); }
-    function sumStr(s) { return s.split('').reduce((a,b)=>a + (parseInt(b)||0), 0); }
+    function sumStr(s) { return s.toString().split('').reduce((a,b)=>a + (parseInt(b)||0), 0); }
 
     function revealDestiny() {
         const name = document.getElementById("userName").value;
         const dobVal = document.getElementById("dob").value;
-        if(!name || !dobVal) return alert("Please enter details!");
+        if(!name || !dobVal) return alert("Details bharo!");
 
         const d = new Date(dobVal);
-        const m = reduce(d.getDate());
-        const b = reduce(sumStr(d.getDate().toString()+(d.getMonth()+1).toString()+d.getFullYear().toString()));
+        const birthDate = d.getDate();
+        const birthMonth = d.getMonth() + 1;
+        const birthYear = d.getFullYear();
+
+        // Core Numbers
+        const m = reduce(birthDate);
+        const b = reduce(sumStr(birthDate) + sumStr(birthMonth) + sumStr(birthYear));
         let nSum = 0;
         for(let char of name.toLowerCase().replace(/\s/g, '')) { nSum += chaldean[char] || 0; }
         const nNo = reduce(nSum);
 
-        // Save Lead
-        db.ref('astroLeads').push({ name, mulank: m, bhagyank: b, time: new Date().toLocaleString() });
+        // Personal Cycles
+        const now = new Date();
+        const curYearSum = reduce(sumStr(now.getFullYear()));
+        const pYear = reduce(m + reduce(birthMonth) + curYearSum);
+        const pMonth = reduce(pYear + (now.getMonth() + 1));
+        const pDay = reduce(pMonth + now.getDate());
 
         // Update UI
         document.getElementById("resM").innerText = m;
         document.getElementById("resB").innerText = b;
         document.getElementById("resN").innerText = nNo;
-        document.getElementById("personalContent").style.display = "block";
+        document.getElementById("resDay").innerText = pDay;
+        document.getElementById("resMonth").innerText = pMonth;
+        document.getElementById("resYear").innerText = pYear;
 
-        // Generate AI Rituals
+        // Rituals
         const planet = activationData[m];
-        let ritualHtml = `
+        document.getElementById("ritualContainer").innerHTML = `
             <div class="box shadow" style="border-top: 4px solid ${planet.color}">
                 <h5 class="text-center mb-1" style="color:${planet.color}">${planet.name} Activation</h5>
                 <p class="text-center small text-muted mb-3">Your Daily Master Rituals</p>
                 ${planet.tasks.map(t => `<div class="ritual-item"><i class="fa-solid fa-circle-check"></i> ${t}</div>`).join('')}
                 <div class="text-center mt-3 p-3" style="background:rgba(0,0,0,0.2); border-radius:15px; border:1px dashed ${planet.color}">
                     <span class="small text-gold d-block mb-1">CHANT 11 TIMES</span>
-                    <strong style="letter-spacing:1px">${planet.mantra}</strong>
+                    <strong>${planet.mantra}</strong>
                 </div>
-            </div>
-        `;
-        document.getElementById("ritualContainer").innerHTML = ritualHtml;
+            </div>`;
 
-        // Check Admin Lock
+        document.getElementById("personalContent").style.display = "block";
+        
+        // Save to Firebase
+        db.ref('astroLeads').push({ name, mulank: m, bhagyank: b, time: new Date().toLocaleString() });
+
+        // Check Lock
         db.ref('astroSettings').once('value', snap => {
             const s = snap.val();
             if(s && s.mode === "Premium (Locked)") {
                 document.getElementById("personalContent").classList.add("blur-lock");
                 document.getElementById("unlockBox").style.display = "block";
-                document.getElementById("unlockBtn").innerText = `Pay ₹${s.price} to Unlock Full Report`;
+                document.getElementById("unlockBtn").innerText = `Pay ₹${s.price} to Unlock`;
             }
         });
     }
 
     function unlockReport() {
         db.ref('astroSettings/vip').once('value', s => {
-            if(prompt("Enter VIP Access Code:") === s.val()) {
+            if(prompt("Enter VIP Code:") === s.val()) {
                 document.getElementById("personalContent").classList.remove("blur-lock");
                 document.getElementById("unlockBox").style.display = "none";
             } else { alert("Wrong Code!"); }
