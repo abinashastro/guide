@@ -19,8 +19,7 @@
         .destiny-card { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
         .num-val { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
         .num-label { font-size: 9px; color: var(--gold); text-transform: uppercase; }
-        .align-box { padding: 15px; border-radius: 15px; border-left: 5px solid var(--primary); background: rgba(0, 242, 255, 0.05); text-align: left; margin-top: 10px; }
-        .blur-lock { filter: blur(15px); pointer-events: none; user-select: none; }
+        .blur-lock { filter: blur(15px); pointer-events: none; user-select: none; transition: 0.5s; }
         .unlock-box { position: fixed; bottom: 0; left: 0; right: 0; background: #020617; padding: 30px; border-top: 3px solid var(--gold); z-index: 1000; display: none; border-radius: 30px 30px 0 0; }
         #personalContent { display: none; }
     </style>
@@ -49,10 +48,6 @@
                 <div class="destiny-card"><span class="num-val" id="resB">0</span><span class="num-label">Bhagyank</span></div>
                 <div class="destiny-card"><span class="num-val" id="resN">0</span><span class="num-label">Name No.</span></div>
             </div>
-            <div class="align-box" id="alignBox">
-                <div id="alignTag" class="mb-1"></div>
-                <div id="alignText" class="small text-secondary"></div>
-            </div>
         </div>
 
         <div class="box">
@@ -71,53 +66,74 @@
     <button class="calc-btn" id="unlockBtn" onclick="unlockReport()" style="background:var(--gold); color:black">Pay to Unlock</button>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC0yF3kviJ6U-rdOMUyAOOQyTgSFoWG6co",
+      authDomain: "astro-c7b1e.firebaseapp.com",
+      projectId: "astro-c7b1e",
+      storageBucket: "astro-c7b1e.firebasestorage.app",
+      messagingSenderId: "885607895929",
+      appId: "1:885607895929:web:8f1bf85f7d8aab1b1d55a8"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     function reduce(n) { return (n % 9 || 9); }
     function sumStr(s) { return s.split('').reduce((a,b)=>a + (parseInt(b)||0), 0); }
 
-    function applyAdminSettings() {
-        const settings = JSON.parse(localStorage.getItem("astroSettings") || '{"mode":"Free (No Lock)","price":"49"}');
-        const content = document.getElementById("personalContent");
-        const lockBox = document.getElementById("unlockBox");
-        document.getElementById("unlockBtn").innerText = `Pay ₹${settings.price} to Unlock`;
-
-        if(content.style.display === "block" && settings.mode === "Premium (Locked)") {
-            content.classList.add("blur-lock");
-            lockBox.style.display = "block";
-        } else {
-            content.classList.remove("blur-lock");
-            lockBox.style.display = "none";
-        }
+    function syncSettings() {
+        db.ref('astroSettings').on('value', (snapshot) => {
+            const s = snapshot.val() || { mode: "Free (No Lock)", price: "49" };
+            document.getElementById("unlockBtn").innerText = `Pay ₹${s.price} to Unlock`;
+            const content = document.getElementById("personalContent");
+            if(content.style.display === "block" && s.mode === "Premium (Locked)") {
+                content.classList.add("blur-lock");
+                document.getElementById("unlockBox").style.display = "block";
+            } else {
+                content.classList.remove("blur-lock");
+                document.getElementById("unlockBox").style.display = "none";
+            }
+        });
     }
 
     function revealDestiny() {
         const name = document.getElementById("userName").value;
         const dobVal = document.getElementById("dob").value;
-        if(!name || !dobVal) return alert("Pehle details bharo!");
+        if(!name || !dobVal) return alert("Fill details!");
 
         const d = new Date(dobVal);
-        const day = d.getDate(), month = d.getMonth()+1, year = d.getFullYear();
-        const m = reduce(day), b = reduce(sumStr(day.toString()+month.toString()+year.toString()));
+        const m = reduce(d.getDate());
+        const b = reduce(sumStr(d.getDate().toString()+(d.getMonth()+1).toString()+d.getFullYear().toString()));
         
-        // Save Lead to LocalStorage
-        let leads = JSON.parse(localStorage.getItem("astroLeads") || "[]");
-        leads.push({ name: name, mulank: m, bhagyank: b, time: new Date().toLocaleString() });
-        localStorage.setItem("astroLeads", JSON.stringify(leads));
+        // Name Number
+        let nSum = 0;
+        for(let char of name.toLowerCase().replace(/\s/g, '')) { nSum += chaldean[char] || 0; }
+        const nNo = reduce(nSum);
+
+        // Firebase Lead Save
+        db.ref('astroLeads').push({ name, mulank: m, bhagyank: b, time: new Date().toLocaleString() });
 
         document.getElementById("resM").innerText = m;
         document.getElementById("resB").innerText = b;
+        document.getElementById("resN").innerText = nNo;
         document.getElementById("personalContent").style.display = "block";
-        applyAdminSettings();
+        syncSettings();
     }
 
     function unlockReport() {
-        const settings = JSON.parse(localStorage.getItem("astroSettings") || '{"vip":"astro49"}');
-        if(prompt("Enter VIP Code:") === settings.vip) {
-            document.getElementById("personalContent").classList.remove("blur-lock");
-            document.getElementById("unlockBox").style.display = "none";
-        }
+        db.ref('astroSettings/vip').once('value', s => {
+            if(prompt("Enter VIP Code:") === s.val()) {
+                document.getElementById("personalContent").classList.remove("blur-lock");
+                document.getElementById("unlockBox").style.display = "none";
+            } else { alert("Wrong Code!"); }
+        });
     }
+    window.onload = syncSettings;
 </script>
 </body>
 </html>
