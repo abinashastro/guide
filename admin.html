@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Astro Cloud Admin | Fixed</title>
+    <title>Astro Cloud Admin | Live Control</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
@@ -10,48 +10,63 @@
         .admin-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 25px; margin-bottom: 20px; }
         input, select { background: #0f172a !important; color: white !important; border: 1px solid #334155 !important; margin-bottom: 15px; }
         .btn-apply { background: #ffd700; color: black; font-weight: 800; width: 100%; padding: 12px; border: none; border-radius: 10px; }
-        .table { color: white; font-size: 13px; }
-        .btn-wa { background: #25d366; color: white; border: none; padding: 4px 8px; border-radius: 5px; text-decoration: none; }
+        .table { color: white; font-size: 13px; vertical-align: middle; }
+        .btn-wa { background: #25d366; color: white; border: none; padding: 6px 10px; border-radius: 8px; text-decoration: none; display: inline-block; }
+        .btn-wa:hover { background: #1ebe57; color: white; }
     </style>
 </head>
 <body>
 
-<div class="container" style="max-width: 700px;">
-    <h3 class="mb-4 text-info"><i class="fa-solid fa-gauge-high"></i> Astro Cloud Admin</h3>
+<div class="container" style="max-width: 750px;">
+    <h3 class="mb-4 text-info text-center"><i class="fa-solid fa-gauge-high"></i> Astro Cloud Admin</h3>
 
-    <div class="admin-card">
-        <h6>Global Settings (Live Sync)</h6>
-        <div class="row">
+    <div class="admin-card shadow">
+        <h6 class="mb-3 text-secondary text-uppercase small fw-bold">System Configuration</h6>
+        <div class="row g-3">
             <div class="col-md-4">
-                <label class="small">System Mode</label>
+                <label class="small text-muted mb-1">System Mode</label>
                 <select id="mode" class="form-select">
                     <option value="Free (No Lock)">Free (No Lock)</option>
                     <option value="Premium (Locked)">Premium (Locked)</option>
                 </select>
             </div>
             <div class="col-md-4">
-                <label class="small">Price (₹)</label>
+                <label class="small text-muted mb-1">Price (₹)</label>
                 <input type="number" id="price" class="form-control" placeholder="49">
             </div>
             <div class="col-md-4">
-                <label class="small">VIP Code</label>
+                <label class="small text-muted mb-1">VIP Unlock Code</label>
                 <input type="text" id="vip" class="form-control" placeholder="astro49">
             </div>
         </div>
-        <button class="btn-apply" onclick="saveSettings()">Apply Global Changes</button>
+        <button class="btn-apply mt-2" onclick="saveSettings()">
+            <i class="fa-solid fa-cloud-arrow-up me-2"></i>Apply Global Changes
+        </button>
     </div>
 
-    <div class="admin-card">
-        <h6>User Leads Data</h6>
+    <div class="admin-card shadow">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="text-secondary text-uppercase small fw-bold m-0">Live Leads Tracker</h6>
+            <span class="badge bg-primary" id="leadCount">0 Leads</span>
+        </div>
         <div class="table-responsive">
-            <table class="table table-dark">
-                <thead><tr><th>Name</th><th>M/B</th><th>Time</th><th>Action</th></tr></thead>
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>M/B</th>
+                        <th>Time</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
                 <tbody id="leadsBody">
-                    <tr><td colspan="4" class="text-center">Connecting to Cloud...</td></tr>
+                    <tr><td colspan="4" class="text-center py-4 text-muted">Connecting to Firebase...</td></tr>
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-outline-danger btn-sm w-100" onclick="clearLeads()">Wipe Database</button>
+        <button class="btn btn-outline-danger btn-sm w-100 mt-2" onclick="clearLeads()">
+            <i class="fa-solid fa-trash-can me-2"></i>Clear All Data
+        </button>
     </div>
 </div>
 
@@ -59,7 +74,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
-    // FIX: databaseURL added manually
     const firebaseConfig = {
       apiKey: "AIzaSyC0yF3kviJ6U-rdOMUyAOOQyTgSFoWG6co",
       authDomain: "astro-c7b1e.firebaseapp.com",
@@ -73,44 +87,69 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
+    // 1. Save Settings to Cloud
     function saveSettings() {
-        db.ref('astroSettings').set({
+        const settings = {
             mode: document.getElementById("mode").value,
             price: document.getElementById("price").value || "49",
             vip: document.getElementById("vip").value || "astro49"
-        }).then(() => alert("✅ Saved on Cloud!"))
+        };
+        
+        db.ref('astroSettings').set(settings)
+          .then(() => alert("✅ Settings Synced to Cloud!"))
           .catch(err => alert("Error: " + err.message));
     }
 
-    // Live Fetching with Error Handling
+    // 2. Real-time Leads Listener
     db.ref('astroLeads').on('value', (snap) => {
         const body = document.getElementById("leadsBody");
+        const countBadge = document.getElementById("leadCount");
         body.innerHTML = "";
         const data = snap.val();
+        
         if(data) {
-            Object.keys(data).reverse().forEach(key => {
+            const keys = Object.keys(data).reverse();
+            countBadge.innerText = `${keys.length} Leads`;
+            
+            keys.forEach(key => {
                 const l = data[key];
-                body.innerHTML += `<tr>
-                    <td>${l.name || 'User'}</td>
-                    <td>${l.mulank || '0'}/${l.bhagyank || '0'}</td>
-                    <td>${l.time || 'N/A'}</td>
-                    <td>
-                        <button class="btn btn-sm btn-danger me-1" onclick="deleteLead('${key}')"><i class="fa-solid fa-trash"></i></button>
-                        <a href="https://wa.me/?text=Hi%20${l.name},%20your%20analysis%20is%20ready!" target="_blank" class="btn-wa"><i class="fa-brands fa-whatsapp"></i></a>
-                    </td>
-                </tr>`;
+                body.innerHTML += `
+                    <tr>
+                        <td class="fw-bold text-info">${l.name || 'User'}</td>
+                        <td>${l.mulank || '0'}/${l.bhagyank || '0'}</td>
+                        <td class="small text-muted">${l.time || 'N/A'}</td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-danger me-1" onclick="deleteLead('${key}')">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                            <a href="https://wa.me/?text=Hello%20${l.name},%20your%20Astro%20report%20is%20ready!" target="_blank" class="btn-wa">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </a>
+                        </td>
+                    </tr>`;
             });
         } else {
-            body.innerHTML = "<tr><td colspan="4" class="text-center text-muted">No leads found yet.</td></tr>";
+            countBadge.innerText = `0 Leads`;
+            body.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-muted">No leads found in cloud.</td></tr>';
         }
     }, (error) => {
-        console.error(error);
-        document.getElementById("leadsBody").innerHTML = `<tr><td colspan="4" class="text-center text-danger">Permission Denied! Update Firebase Rules.</td></tr>`;
+        body.innerHTML = `<tr><td colspan="4" class="text-center text-danger">Error: ${error.message}</td></tr>`;
     });
 
-    function deleteLead(key) { if(confirm("Delete this lead?")) db.ref('astroLeads/'+key).remove(); }
-    function clearLeads() { if(confirm("Wipe ALL leads?")) db.ref('astroLeads').remove(); }
+    // 3. Actions
+    function deleteLead(key) { 
+        if(confirm("Are you sure you want to delete this lead?")) {
+            db.ref('astroLeads/' + key).remove(); 
+        }
+    }
+    
+    function clearLeads() { 
+        if(confirm("CRITICAL: Wipe entire cloud database?")) {
+            db.ref('astroLeads').remove(); 
+        }
+    }
 
+    // 4. Initial Config Load
     window.onload = () => {
         db.ref('astroSettings').once('value', s => {
             const v = s.val(); 
