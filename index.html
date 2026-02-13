@@ -30,6 +30,11 @@
         .daily-highlight { border: 1px solid var(--primary) !important; animation: blink 2s infinite; }
         @keyframes blink { 0%, 100% { box-shadow: 0 0 5px var(--primary); } 50% { box-shadow: 0 0 15px var(--primary); } }
 
+        /* Name Correction Styling */
+        .correction-status { border-radius: 15px; padding: 12px; margin-bottom: 15px; font-weight: 600; text-align: center; display: none; }
+        .status-success { background: rgba(0, 255, 127, 0.1); border: 1px solid #00ff7f; color: #00ff7f; }
+        .status-danger { background: rgba(255, 69, 0, 0.1); border: 1px solid #ff4500; color: #ff4500; }
+
         .sky-container { width: 100%; height: 160px; background: #020617; border-radius: 24px 24px 0 0; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; margin-top: 10px; }
         .dynamic-planet { width: 80px; height: 80px; border-radius: 50%; font-size: 45px; display: flex; align-items: center; justify-content: center; }
 
@@ -62,6 +67,8 @@
             <div class="destiny-card"><span class="num-val" id="resB">0</span><span class="num-label">Bhagyank</span></div>
             <div class="destiny-card name-glow-card"><span class="num-val" id="resN" style="color:var(--gold)">0</span><span class="num-label">Name No.</span></div>
         </div>
+
+        <div id="correctionResult" class="correction-status"></div>
         
         <div class="destiny-grid">
             <div class="destiny-card daily-highlight"><span class="num-val" id="resDay">0</span><span class="num-label">Daily No.</span></div>
@@ -102,7 +109,6 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // UPDATED RELATIONSHIP DATA (As per your request for 5 and others)
     const activationData = {
         1: { name: "Sun (Surya)", color: "#FF8C00", icon: "☀️", mantra: "Om Suryaya Namah", f: "1,2,3,5,9", e: "4,6,7,8", tasks: ["Surya jal chadhao", "Papa pranam", "Gud khao"] },
         2: { name: "Moon (Chandra)", color: "#FFFFFF", icon: "🌙", mantra: "Om Chandraya Namah", f: "1,2,3,5", e: "4,7,8,9", tasks: ["Baith kar paani piyo", "Maa pranam", "White rumaal rakho"] },
@@ -116,7 +122,16 @@
     };
 
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
-    function reduce(n) { return (n % 9 || 9); }
+    
+    // Core Logic for Single Digit reduction
+    function reduce(n) {
+        let res = n;
+        while (res > 9) {
+            res = res.toString().split('').reduce((a, b) => a + parseInt(b), 0);
+        }
+        return res;
+    }
+
     function sumStr(s) { return s.toString().split('').reduce((a,b)=>a + (parseInt(b)||0), 0); }
 
     let currentTasks = [];
@@ -128,13 +143,21 @@
         if(!name || !dobVal) return;
 
         const d = new Date(dobVal);
-        const m = reduce(d.getDate());
-        const b = reduce(sumStr(d.getDate()) + sumStr(d.getMonth()+1) + sumStr(d.getFullYear()));
-        let nSum = 0; for(let char of name.toLowerCase().replace(/\s/g, '')) { nSum += chaldean[char] || 0; }
+        const day = d.getDate();
+        const month = d.getMonth() + 1;
+        const year = d.getFullYear();
+
+        const m = reduce(day);
+        const b = reduce(sumStr(day) + sumStr(month) + sumStr(year));
+
+        let nSum = 0; 
+        for(let char of name.toLowerCase().replace(/\s/g, '')) { 
+            nSum += chaldean[char] || 0; 
+        }
         const nNo = reduce(nSum);
 
         const now = new Date();
-        const pYear = reduce(m + reduce(d.getMonth()+1) + reduce(sumStr(now.getFullYear())));
+        const pYear = reduce(m + month + reduce(sumStr(now.getFullYear())));
         const pMonth = reduce(pYear + (now.getMonth() + 1));
         const pDay = reduce(pMonth + now.getDate());
 
@@ -145,17 +168,35 @@
         document.getElementById("resMonth").innerText = pMonth;
         document.getElementById("resYear").innerText = pYear;
 
-        // 1. Planet & Rituals -> Based on DAILY NUMBER (pDay)
+        // --- NAME CORRECTION LOGIC ---
+        const bData = activationData[b];
+        const correctionBox = document.getElementById("correctionResult");
+        correctionBox.style.display = "block";
+
+        const friends = bData.f.split(',').map(Number);
+        const enemies = bData.e.split(',').map(Number);
+
+        if (friends.includes(nNo)) {
+            correctionBox.className = "correction-status status-success";
+            correctionBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> Name is Lucky & Aligned!`;
+        } else if (enemies.includes(nNo)) {
+            correctionBox.className = "correction-status status-danger";
+            correctionBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Correction Needed! Enemy of Bhagyank.`;
+        } else {
+            correctionBox.className = "correction-status";
+            correctionBox.style.background = "rgba(255,255,255,0.05)";
+            correctionBox.innerHTML = `Name is Neutral. Move to ${friends[0]} for better luck.`;
+        }
+
+        // Planet & Rituals UI
         const dailyPlanet = activationData[pDay];
         document.getElementById("skyBox").innerHTML = `<div class="dynamic-planet" style="background:radial-gradient(circle, #fff, ${dailyPlanet.color}); box-shadow:0 0 40px ${dailyPlanet.color}">${dailyPlanet.icon}</div>`;
         document.getElementById("planetTitle").innerText = dailyPlanet.name + " Activation";
         document.getElementById("planetTitle").style.color = dailyPlanet.color;
         currentTasks = dailyPlanet.tasks;
 
-        // 2. Friends & Enemies -> Based on BHAGYANK (b) - FIXED as per your rules
-        const bhagyankData = activationData[b];
-        document.getElementById("friendNums").innerText = bhagyankData.f;
-        document.getElementById("enemyNums").innerText = bhagyankData.e;
+        document.getElementById("friendNums").innerText = bData.f;
+        document.getElementById("enemyNums").innerText = bData.e;
 
         document.getElementById("ritualList").innerHTML = `<h6 class="text-center mb-3 small text-muted">TASKS BASED ON DAY NUMBER ${pDay}</h6>`;
         document.getElementById("personalContent").style.display = "block";
