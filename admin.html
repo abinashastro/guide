@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Admin | Control Center</title>
+    <title>Astro Admin | Cloud Control</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -12,39 +12,22 @@
     <style>
         :root { --primary: #00f2ff; --gold: #ffd700; --bg-dark: #020617; }
         body { font-family: 'Outfit', sans-serif; background: var(--bg-dark); color: white; padding: 20px; }
-        
-        .admin-card { 
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 20px; padding: 25px; margin-bottom: 20px; backdrop-filter: blur(10px);
-        }
-        
+        .admin-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 25px; margin-bottom: 20px; backdrop-filter: blur(10px); }
         h2 { color: var(--gold); font-weight: 800; font-size: 1.5rem; margin-bottom: 20px; }
-        label { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-        
-        input, select { 
-            background: rgba(0,0,0,0.3) !important; border: 1px solid rgba(255,255,255,0.2) !important;
-            color: white !important; padding: 12px !important; border-radius: 10px !important; margin-bottom: 15px;
-        }
-
-        .apply-btn { 
-            background: linear-gradient(45deg, var(--gold), #ff9900); border: none; 
-            padding: 15px; border-radius: 12px; color: black; font-weight: 800; width: 100%; transition: 0.3s;
-        }
-        .apply-btn:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
-
-        /* Leads Table */
+        label { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        input, select { background: rgba(0,0,0,0.3) !important; border: 1px solid rgba(255,255,255,0.2) !important; color: white !important; padding: 12px !important; border-radius: 10px !important; margin-bottom: 15px; }
+        .apply-btn { background: linear-gradient(45deg, var(--gold), #ff9900); border: none; padding: 15px; border-radius: 12px; color: black; font-weight: 800; width: 100%; transition: 0.3s; }
         .leads-table { font-size: 13px; width: 100%; }
         .leads-table th { color: var(--primary); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px; }
         .leads-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        
-        .badge-free { background: #06b6d4; color: black; padding: 3px 8px; border-radius: 5px; font-size: 10px; }
+        .btn-wa { background: #25d366; color: white; border: none; padding: 5px 10px; border-radius: 5px; font-size: 12px; }
     </style>
 </head>
 <body>
 
-<div class="container" style="max-width: 600px;">
+<div class="container" style="max-width: 700px;">
     <div class="text-center mb-4">
-        <h3><i class="fa-solid fa-gauge-high"></i> Global Settings</h3>
+        <h3><i class="fa-solid fa-cloud"></i> Firebase Controller</h3>
     </div>
 
     <div class="admin-card">
@@ -54,39 +37,58 @@
             <option value="Premium (Locked)">Premium (Locked)</option>
         </select>
 
-        <label>Report Price (₹)</label>
-        <input type="number" id="reportPrice" class="form-control" placeholder="e.g. 255">
-
-        <label>VIP Unlock Code</label>
-        <input type="text" id="vipCode" class="form-control" placeholder="e.g. astro49">
+        <div class="row">
+            <div class="col-6">
+                <label>Report Price (₹)</label>
+                <input type="number" id="reportPrice" class="form-control" placeholder="49">
+            </div>
+            <div class="col-6">
+                <label>VIP Unlock Code</label>
+                <input type="text" id="vipCode" class="form-control" placeholder="astro49">
+            </div>
+        </div>
 
         <button class="apply-btn" onclick="saveSettings()">
-            <i class="fa-solid fa-check-circle"></i> APPLY CHANGES
+            <i class="fa-solid fa-sync"></i> PUSH TO CLOUD
         </button>
     </div>
 
     <div class="admin-card">
-        <h2><i class="fa-solid fa-users"></i> User Leads Database</h2>
+        <h2><i class="fa-solid fa-database"></i> Live Leads</h2>
         <div class="table-responsive">
             <table class="leads-table">
                 <thead>
                     <tr>
                         <th>Time</th>
                         <th>Name</th>
-                        <th>Mulank</th>
+                        <th>M/B</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="leadsBody">
-                    </tbody>
+                <tbody id="leadsBody"></tbody>
             </table>
         </div>
-        <button class="btn btn-outline-danger btn-sm mt-3 w-100" onclick="clearLeads()">Clear All Leads</button>
+        <button class="btn btn-outline-danger btn-sm mt-3 w-100" onclick="clearLeads()">Clear Cloud Database</button>
     </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
-    // 1. Settings Save Karne Ka Logic
+    const firebaseConfig = {
+        apiKey: "AIzaSyC0yF3kviJ6U-rdOMUyAOOQyTgSFoWG6co",
+        authDomain: "astro-c7b1e.firebaseapp.com",
+        projectId: "astro-c7b1e",
+        storageBucket: "astro-c7b1e.firebasestorage.app",
+        messagingSenderId: "885607895929",
+        appId: "1:885607895929:web:8f1bf85f7d8aab1b1d55a8"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // 1. Firebase mein settings save karna
     function saveSettings() {
         const settings = {
             mode: document.getElementById("systemMode").value,
@@ -94,53 +96,67 @@
             vip: document.getElementById("vipCode").value || "astro49"
         };
 
-        localStorage.setItem("astroSettings", JSON.stringify(settings));
-        alert("✅ Settings Saved! User page update ho gaya hai.");
+        db.ref('astroSettings').set(settings)
+          .then(() => alert("✅ Cloud Settings Updated!"))
+          .catch(err => alert("Error: " + err.message));
     }
 
-    // 2. Leads Load Karne Ka Logic
+    // 2. Real-time Leads Fetching from Firebase
     function loadLeads() {
-        const leads = JSON.parse(localStorage.getItem("astroLeads") || "[]");
-        const body = document.getElementById("leadsBody");
-        body.innerHTML = "";
-
-        leads.reverse().forEach((item, index) => {
-            body.innerHTML += `
-                <tr>
-                    <td>${item.time || 'N/A'}</td>
-                    <td>${item.name}</td>
-                    <td>${item.m || '?'}/${item.b || '?'}</td>
-                    <td><button class="btn btn-sm btn-danger" onclick="deleteLead(${index})"><i class="fa-solid fa-trash"></i></button></td>
-                </tr>
-            `;
+        db.ref('astroLeads').on('value', (snapshot) => {
+            const body = document.getElementById("leadsBody");
+            body.innerHTML = "";
+            const data = snapshot.val();
+            
+            if(data) {
+                // Latest data upar dikhane ke liye reverse logic
+                const keys = Object.keys(data).reverse();
+                keys.forEach(key => {
+                    const item = data[key];
+                    body.innerHTML += `
+                        <tr>
+                            <td>${item.time || 'N/A'}</td>
+                            <td class="fw-bold text-info">${item.name}</td>
+                            <td>${item.mulank}/${item.bhagyank}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger me-1" onclick="deleteLead('${key}')">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                <a href="https://wa.me/?text=Hello%20${item.name},%20your%20Astro%20Analysis%20is%20ready!" target="_blank" class="btn-wa">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } else {
+                body.innerHTML = "<tr><td colspan='4' class='text-center text-muted'>No leads found.</td></tr>";
+            }
         });
     }
 
-    function deleteLead(index) {
-        let leads = JSON.parse(localStorage.getItem("astroLeads") || "[]");
-        leads.reverse(); // List reverse hai toh sync karna padega
-        leads.splice(index, 1);
-        leads.reverse();
-        localStorage.setItem("astroLeads", JSON.stringify(leads));
-        loadLeads();
+    function deleteLead(key) {
+        if(confirm("Delete this lead?")) {
+            db.ref('astroLeads/' + key).remove();
+        }
     }
 
     function clearLeads() {
-        if(confirm("Saare leads delete kar dein?")) {
-            localStorage.removeItem("astroLeads");
-            loadLeads();
+        if(confirm("Are you sure you want to WIPE ALL leads from Cloud?")) {
+            db.ref('astroLeads').remove();
         }
     }
 
-    // Page load hote hi settings aur leads dikhao
+    // Page load hote hi current cloud settings dikhao
     window.onload = () => {
-        const saved = localStorage.getItem("astroSettings");
-        if(saved) {
-            const s = JSON.parse(saved);
-            document.getElementById("systemMode").value = s.mode;
-            document.getElementById("reportPrice").value = s.price;
-            document.getElementById("vipCode").value = s.vip;
-        }
+        db.ref('astroSettings').once('value', (snapshot) => {
+            const s = snapshot.val();
+            if(s) {
+                document.getElementById("systemMode").value = s.mode;
+                document.getElementById("reportPrice").value = s.price;
+                document.getElementById("vipCode").value = s.vip;
+            }
+        });
         loadLeads();
     };
 </script>
