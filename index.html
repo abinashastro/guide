@@ -13,34 +13,40 @@
         .container { max-width: 600px; padding-bottom: 50px; }
         .main-card { background: var(--glass); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 25px; margin-top: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); }
         .user-name-display { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; text-align: center; background: linear-gradient(to bottom, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 2px; }
+        
+        /* Input & Login Box */
         .form-control { background: rgba(255,255,255,0.07) !important; border: 1px solid rgba(255,255,255,0.2) !important; color: #fff !important; border-radius: 12px; margin-bottom: 12px; padding: 12px; }
         .form-control::placeholder { color: rgba(255,255,255,0.5) !important; }
-        .btn-reveal { background: linear-gradient(45deg, var(--gold), #ff8c00); color: #000; font-weight: 700; border: none; border-radius: 12px; padding: 12px; text-transform: uppercase; width: 100%; }
+        .btn-reveal { background: linear-gradient(45deg, var(--gold), #ff8c00); color: #000; font-weight: 700; border: none; border-radius: 12px; padding: 12px; text-transform: uppercase; width: 100%; cursor: pointer; }
+        
         .destiny-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
         .badge-core { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 10px 5px; text-align: center; border-bottom: 3px solid var(--neon-blue); }
         .badge-label { font-size: 0.6rem; color: #aaa; text-transform: uppercase; display: block; }
         .badge-value { font-size: 1.2rem; font-weight: 700; font-family: 'Orbitron'; color: var(--gold); }
+        
         .loshu-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px auto; max-width: 280px; }
         .loshu-box { aspect-ratio: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,204,0,0.2); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .grid-num { font-size: 1.3rem; color: var(--gold); font-weight: 700; }
         .grid-planet { font-size: 0.5rem; color: rgba(255,255,255,0.3); text-transform: uppercase; }
         .box-filled { border-color: var(--neon-blue); background: rgba(0,242,255,0.05); }
+
         .section-header { font-family: 'Orbitron', sans-serif; color: var(--neon-blue); font-size: 0.75rem; margin-top: 25px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
         .section-header::after { content: ""; flex: 1; height: 1px; background: rgba(0, 242, 255, 0.15); }
+
         .plane-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
         .plane-card { background: rgba(255,255,255,0.04); padding: 10px 15px; border-radius: 12px; border-left: 4px solid var(--neon-blue); display: flex; justify-content: space-between; align-items: center; }
-        .plane-info { display: flex; flex-direction: column; }
         .plane-name { font-size: 0.85rem; font-weight: 600; color: #fff; }
-        .plane-numbers { font-size: 0.7rem; color: #aaa; letter-spacing: 1px; }
         .plane-pct { font-size: 1rem; font-weight: 700; color: var(--gold); font-family: 'Orbitron'; }
-        .remedy-item { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; border-left: 4px solid #ff4d4d; }
-        .remedy-head { color: #ff4d4d; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .remedy-body { font-size: 0.8rem; color: #ddd; line-height: 1.4; }
-        .ritual-box { background: linear-gradient(135deg, rgba(255,204,0,0.15), rgba(0,0,0,0.4)); border: 1px solid var(--gold); border-radius: 15px; padding: 15px; margin-top: 10px; }
         
-        /* Repeated Numbers Result Styling */
-        .repeat-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 10px; margin-bottom: 8px; border-left: 3px solid var(--gold); font-size: 0.75rem; }
-        .repeat-num-title { color: var(--gold); font-weight: 700; margin-right: 5px; }
+        .remedy-item { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; border-left: 4px solid #ff4d4d; font-size: 0.8rem; }
+        .remedy-head { color: #ff4d4d; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        
+        .ritual-box { background: linear-gradient(135deg, rgba(255,204,0,0.15), rgba(0,0,0,0.4)); border: 1px solid var(--gold); border-radius: 15px; padding: 15px; margin-top: 10px; }
+        .challenge-box { background: rgba(255, 77, 77, 0.15); border: 1px dashed #ff4d4d; border-radius: 15px; padding: 15px; margin-top: 10px; color: #ffcccc; font-size: 0.85rem; }
+        
+        /* Repeated Analysis Box */
+        .repeat-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; margin-bottom: 8px; border-left: 3px solid var(--gold); font-size: 0.8rem; }
+        .repeat-count-tag { background: var(--gold); color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; margin-left: 5px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -57,29 +63,28 @@
 <script>
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     const friend = { 1:[1,2,3,5,9], 2:[1,2,3,5], 3:[1,2,3,5,7,9], 4:[1,5,6,7,8], 5:[1,2,3,5,6,7,8], 6:[4,5,6,7,8], 7:[1,3,4,5,6], 8:[4,5,6,7], 9:[1,3,5,7,9] };
+    
     const rituals = {
-        1:"Surya Namaskar karein aur naye kaam ki planning aaj hi start karein.", 2:"Maan ki shanti ke liye meditation karein aur chandi ke bartan mein pani piyein.", 3:"Yellow hanky sath rakhein ya Kesar ka tilak lagayein. Knowledge share karein.", 4:"Purani cheezein phenk dein. Chidiya ya kutton ko roti/dana dein.", 5:"Hari sabziyan khayein aur green pen ka istemal karein. Cow ko hara chara dein.", 6:"Perfume lagayein aur ghar ki aurton ka samman karein. Shukra mantra sunein.", 7:"Akant mein samay bitayein. Diary likhein aur electronics se dur rahein.", 8:"Gareeb mazdooron ki madad karein aur Shani mandir mein tel daan karein.", 9:"Gulab ka phool Hanuman ji ko chadhayein aur purane ruka kaam khatam karein."
+        1:"Surya Namaskar karein aur naye kaam ki planning start karein.", 2:"Meditation karein aur chandi ke bartan mein pani piyein.", 3:"Yellow hanky sath rakhein ya Kesar ka tilak lagayein.", 4:"Chidiya ya kutton ko roti/dana dein.", 5:"Hari sabziyan khayein aur green pen ka istemal karein.", 6:"Perfume lagayein aur ghar ki aurton ka samman karein.", 7:"Akant mein samay bitayein aur diary likhein.", 8:"Gareeb mazdooron ki madad karein.", 9:"Hanuman ji ko gulab ka phool chadhayein."
     };
+
+    const challenges = {
+        1:"Over-confidence se bachein. Sir dard ho sakta hai.", 2:"Mood swings pareshan karenge. Faisle lene mein deri hogi.", 3:"Faltu kharch badh sakta hai. Focus ki kami rahegi.", 4:"Kaam mein rukawat aur gadgets kharab hone ka darr hai.", 5:"Galat-fahmika shikar ho sakte hain. Travel mein deri hogi.", 6:"Ghar mein anban ho sakti hai. Meetha kam khayein.", 7:"Akela-pan aur purani baatein dukh dengi.", 8:"Sharir mein thakawat aur paison ka nuksan ho sakta hai.", 9:"Gussa zyada aayega. Jaldbaazi mein faisle na lein."
+    };
+
     const deepRemedies = {
-        "Mental": "Decision making aur clarity ke liye meditation karein. Ghar ki North direction ko saaf rakhein aur chandi ka sikka paas rakhein.",
-        "Emotional": "Mood swings control karne ke liye Shiv-Aradhana karein. Maa ke pair chhuein aur Crystal Bracelet dharan karein.",
-        "Practical": "Mehnat ka phal pane ke liye punctual banein. Shani Dev ki upasna karein aur mazdooron ko thandi cheez daan karein.",
-        "Thought": "Confusion dur karne ke liye hamesha apne paas peela rumal rakhein aur Vishnu Sahasranamam sunein.",
-        "Will": "Atmavishwas badhane ke liye Surya ko jal dein. Lal dhaga (Kalawa) dahine hath mein bandhein aur 'Ram' naam ka jap karein.",
-        "Action": "Alasya tyagein. Ghar mein Ganesha ki murti rakhein aur Friday ko safed mithai daan karein.",
-        "Success": "Lakshmi ji ki puja karein aur North-East mein pani ka pot rakhein. Green pen se roz apni 'Wish' likhein.",
-        "Property": "Zameen ya ghar ke sukh ke liye Hanuman Chalisa padhein aur har Tuesday ko pakshi ko bajra dalein."
+        "Mental": "Meditation karein. North direction saaf rakhein.", "Emotional": "Shiv-Aradhana karein. Maa ke pair chhuein.", "Practical": "Punctual banein. Shani Dev ki upasna karein.", "Thought": "Peela rumal rakhein aur Vishnu Sahasranamam sunein.", "Will": "Surya ko jal dein aur Lal dhaga bandhein.", "Action": "Ganesha ki murti rakhein aur safed mithai daan karein.", "Success": "Lakshmi ji ki puja karein. Green pen use karein.", "Property": "Hanuman Chalisa padhein aur pakshiyon ko bajra dalein."
     };
 
     const repeatedResult = {
-        1: ["Normal Success", "Great Leadership", "Strong Ego/Struggle", "Excessive Dominance"],
+        1: ["Normal Success", "Great Leadership", "Strong Ego", "Excessive Dominance"],
         2: ["Sensitive", "Very Emotional", "Indecisive", "Extreme Anxiety"],
         3: ["Creative", "Over-imaginative", "Boastful", "Arrogant"],
         4: ["Practical", "Stubborn", "Rebellious", "High Frustration"],
         5: ["Communicator", "Restless", "Risk-taker", "Unstable"],
         6: ["Family Oriented", "Over-responsible", "Idealistic", "Interfering"],
         7: ["Spiritual", "Highly Intuitive", "Isolated", "Deep Melancholy"],
-        8: ["Materialistic Success", "Stubborn/Hardworking", "Legal Troubles", "Extreme Struggle"],
+        8: ["Materialistic Success", "Stubborn", "Legal Troubles", "Extreme Struggle"],
         9: ["Humanitarian", "Aggressive", "Impulsive", "High Temper"]
     };
 
@@ -95,8 +100,11 @@
         let nSum=0; name.toLowerCase().replace(/[^a-z]/g,'').split('').forEach(c=>nSum+=chaldean[c]||0);
         const nameNo=red(nSum);
         const isAligned = friend[mulank].includes(nameNo);
+        
         const today = new Date();
-        const py=red(d+m+today.getFullYear()), pm=red(py+(today.getMonth()+1)), pd=red(pm+today.getDate());
+        const py=red(d+m+today.getFullYear());
+        const pm=red(py+(today.getMonth()+1));
+        const pd=red(pm+today.getDate());
         
         let grid = {4:0,9:0,2:0,3:0,5:0,7:0,8:0,1:0,6:0};
         (d.toString()+m.toString()+y.toString()+mulank.toString()+bhagyank.toString()).split('').forEach(digit=>{if(grid[digit]!==undefined) grid[digit]++;});
@@ -111,19 +119,23 @@
         planes.forEach(p=>{
             let c=0; p.s.forEach(num=>{if(grid[num]>0)c++});
             let pct=Math.round((c/3)*100);
-            p_html += `<div class="plane-card"><div class="plane-info"><span class="plane-name">${p.n}</span><span class="plane-numbers">Numbers: ${p.s.join('-')}</span></div><div class="plane-pct">${pct}%</div></div>`;
+            p_html += `<div class="plane-card"><div><span class="plane-name">${p.n}</span></div><div class="plane-pct">${pct}%</div></div>`;
             if(pct < 50) {
                 let pKey = p.n.replace(' Plane','');
-                r_html += `<div class="remedy-item"><span class="remedy-head">${p.n} Weak Solution</span><div class="remedy-body">${deepRemedies[pKey]}</div></div>`;
+                r_html += `<div class="remedy-item"><span class="remedy-head">${p.n} Remedy</span>${deepRemedies[pKey]}</div>`;
             }
         });
 
-        // Logic for Repeated Numbers Result
+        // REPEATED NUMBER ANALYSIS WITH "TIME" LABEL
         Object.keys(grid).forEach(num => {
-            let count = grid[num];
-            if (count > 0) {
+            if (grid[num] > 0) {
+                let count = grid[num];
                 let resIndex = count > 4 ? 3 : count - 1;
-                rep_html += `<div class="repeat-card"><span class="repeat-num-title">Number ${num} (${count}x):</span> ${repeatedResult[num][resIndex]}</div>`;
+                rep_html += `
+                <div class="repeat-card">
+                    <strong>Number ${num}</strong> <span class="repeat-count-tag">${count} Times</span>
+                    <p class="mb-0 mt-1" style="color:#ddd;">${repeatedResult[num][resIndex]}</p>
+                </div>`;
             }
         });
 
@@ -146,7 +158,7 @@
                     <div class="badge-core" style="border-color:var(--neon-purple)"><span class="badge-label">Day</span><span class="badge-value">${pd}</span></div>
                 </div>
 
-                <div class="section-header">LOSHU GRID (PLANETS)</div>
+                <div class="section-header">LOSHU GRID</div>
                 <div class="loshu-container">
                     ${[4,9,2,3,5,7,8,1,6].map(n=>`
                         <div class="loshu-box ${grid[n]?'box-filled':''}">
@@ -158,14 +170,17 @@
                 <div class="section-header">PLANE SUMMARY</div>
                 <div class="plane-grid">${p_html}</div>
 
-                <div class="section-header">REMEDIES FOR WEAK PLANES</div>
-                ${r_html || '<p class="text-center small text-success">All Planes are perfect!</p>'}
+                <div class="section-header">WEAK PLANE REMEDIES</div>
+                ${r_html}
 
                 <div class="section-header">REPEATED NUMBERS ANALYSIS</div>
                 ${rep_html}
 
-                <div class="section-header">DAILY RITUAL</div>
-                <div class="ritual-box"><small class="text-warning d-block mb-1">Aaj ka Ritual:</small>${rituals[pd]}</div>
+                <div class="section-header">TODAY'S RITUAL</div>
+                <div class="ritual-box">${rituals[pd]}</div>
+                
+                <div class="section-header">AAJ KI PARESHANI</div>
+                <div class="challenge-box"><strong>Warning:</strong> ${challenges[pd]}</div>
             </div>`;
     }
 </script>
