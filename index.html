@@ -44,6 +44,7 @@
         
         .ritual-box { background: linear-gradient(135deg, rgba(255,204,0,0.15), rgba(0,0,0,0.4)); border: 1px solid var(--gold); border-radius: 15px; padding: 15px; margin-top: 10px; }
         .challenge-box { background: rgba(255, 77, 77, 0.15); border: 1px dashed #ff4d4d; border-radius: 15px; padding: 15px; margin-top: 10px; color: #ffcccc; font-size: 0.85rem; }
+        .sol-text { color: #00ff88; font-weight: 600; display: block; margin-top: 8px; border-top: 1px solid rgba(0, 255, 136, 0.2); padding-top: 8px; }
         
         .rel-box { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 15px; padding: 15px; margin-top: 10px; font-size: 0.85rem; }
         .rel-good { color: #00ff88; font-weight: 600; }
@@ -72,8 +73,17 @@
         1:"Surya Namaskar karein aur naye kaam ki planning start karein.", 2:"Meditation karein aur chandi ke bartan mein pani piyein.", 3:"Yellow hanky sath rakhein ya Kesar ka tilak lagayein.", 4:"Chidiya ya kutton ko roti/dana dein.", 5:"Hari sabziyan khayein aur green pen ka istemal karein.", 6:"Perfume lagayein aur ghar ki aurton ka samman karein.", 7:"Akant mein samay bitayein aur diary likhein.", 8:"Gareeb mazdooron ki madad karein.", 9:"Hanuman ji ko gulab ka phool chadhayein."
     };
 
+    // Paresani aur unka Solution
     const challenges = {
-        1:"Over-confidence se bachein. Sir dard ho sakta hai.", 2:"Mood swings pareshan karenge. Faisle lene mein deri hogi.", 3:"Faltu kharch badh sakta hai. Focus ki kami rahegi.", 4:"Kaam mein rukawat aur gadgets kharab hone ka darr hai.", 5:"Galat-fahmika shikar ho sakte hain. Travel mein deri hogi.", 6:"Ghar mein anban ho sakti hai. Meetha kam khayein.", 7:"Akela-pan aur purani baatein dukh dengi.", 8:"Sharir mein thakawat aur paison ka nuksan ho sakta hai.", 9:"Gussa zyada aayega. Jaldbaazi mein faisle na lein."
+        1: {p: "Over-confidence se bachein. Sir dard ho sakta hai.", s: "Solution: Surya Dev ko jal dein aur thanda pani piyein."},
+        2: {p: "Mood swings pareshan karenge. Faisle lene mein deri hogi.", s: "Solution: Maa ka aashirwad lein aur safed rumal paas rakhein."},
+        3: {p: "Faltu kharch badh sakta hai. Focus ki kami rahegi.", s: "Solution: Kesar ka tilak lagayein aur apne Guru ko yaad karein."},
+        4: {p: "Kaam mein rukawat aur gadgets kharab hone ka darr hai.", s: "Solution: Kutton ko roti dein aur electronic saman sambhal kar use karein."},
+        5: {p: "Galat-fahmika shikar ho sakte hain. Travel mein deri hogi.", s: "Solution: Gaumata ko hara chara khilayein aur hari sabzi khayein."},
+        6: {p: "Ghar mein anban ho sakti hai. Meetha kam khayein.", s: "Solution: Safed mithai ka bhog lagayein aur dahi khakar bahar nikalon."},
+        7: {p: "Akela-pan aur purani baatein dukh dengi.", s: "Solution: Ganesh ji ki aarti karein aur kuttay ko biscuit khilayein."},
+        8: {p: "Sharir mein thakawat aur paison ka nuksan ho sakta hai.", s: "Solution: Shani Chalisa padhein aur kisi gareeb ko chhay (shadow) daan karein."},
+        9: {p: "Gussa zyada aayega. Jaldbaazi mein faisle na lein.", s: "Solution: Hanuman Chalisa padhein aur laal phal (apple) daan karein."}
     };
 
     const relationships = {
@@ -176,6 +186,7 @@
         });
 
         const relData = relationships[pd];
+        const dayChallenge = challenges[pd];
 
         document.getElementById("output").innerHTML = `
             <div class="main-card mt-3 animate__animated animate__fadeInUp">
@@ -223,8 +234,11 @@
                 <div class="section-header">TODAY'S RITUAL</div>
                 <div class="ritual-box">${rituals[pd]}</div>
                 
-                <div class="section-header">AAJ KI PARESHANI</div>
-                <div class="challenge-box"><strong>Warning:</strong> ${challenges[pd]}</div>
+                <div class="section-header">AAJ KI PARESHANI & SOLUTION</div>
+                <div class="challenge-box">
+                    <strong>Warning:</strong> ${dayChallenge.p}
+                    <span class="sol-text">✨ ${dayChallenge.s}</span>
+                </div>
             </div>`;
     }
 </script>
