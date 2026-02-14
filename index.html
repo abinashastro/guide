@@ -31,6 +31,13 @@
         .section-header { font-family: 'Orbitron', sans-serif; color: var(--neon-blue); font-size: 0.75rem; margin-top: 25px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
         .section-header::after { content: ""; flex: 1; height: 1px; background: rgba(0, 242, 255, 0.15); }
 
+        /* Career Section Styles */
+        .career-box { background: linear-gradient(135deg, rgba(0, 242, 255, 0.1), rgba(188, 19, 254, 0.1)); border: 1px solid var(--neon-blue); border-radius: 15px; padding: 15px; margin-top: 10px; border-left: 5px solid var(--neon-blue); }
+        .career-item { margin-bottom: 12px; }
+        .career-type { font-weight: 700; color: var(--gold); font-size: 0.85rem; text-transform: uppercase; display: block; margin-bottom: 3px; }
+        .career-text { font-size: 0.8rem; color: #fff; line-height: 1.4; }
+        .career-logic { font-size: 0.7rem; color: #00f2ff; font-style: italic; display: block; margin-top: 2px; }
+
         .plane-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
         .plane-card { background: rgba(255,255,255,0.04); padding: 12px 15px; border-radius: 12px; border-left: 4px solid var(--neon-blue); display: flex; justify-content: space-between; align-items: center; }
         .plane-name { font-size: 0.85rem; font-weight: 600; color: #fff; }
@@ -71,6 +78,19 @@
     const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
     const friend = { 1:[1,2,3,5,9], 2:[1,2,3,5], 3:[1,2,3,5,7,9], 4:[1,5,6,7,8], 5:[1,2,3,5,6,7,8], 6:[4,5,6,7,8], 7:[1,3,4,5,6], 8:[4,5,6,7], 9:[1,3,5,7,9] };
     
+    // Detailed Career Mapping
+    const careerMap = {
+        1: "Government Jobs, Administration, Business Owner, Leadership Roles.",
+        2: "Artistic fields, Psychology, Liquid related business, Counseling.",
+        3: "Teaching, Finance, Legal, Advisory, Religious activities.",
+        4: "IT, Software, Research, Technical Strategy, Real Estate.",
+        5: "Marketing, Banking, Communication, Media, Journalism.",
+        6: "Luxury Goods, Fashion, Entertainment, Hospitality, Beauty.",
+        7: "Occult Sciences, Deep Research, Spirituality, Analysis.",
+        8: "Justice, Construction, Printing, Heavy Metals, Hard-work based success.",
+        9: "Army, Sports, Surgery, Engineering, Social Work."
+    };
+
     const rituals = {
         1:"Surya Namaskar karein aur naye kaam ki planning start karein.", 2:"Meditation karein aur chandi ke bartan mein pani piyein.", 3:"Yellow hanky sath rakhein ya Kesar ka tilak lagayein.", 4:"Chidiya ya kutton ko roti/dana dein.", 5:"Hari sabziyan khayein aur green pen ka istemal karein.", 6:"Perfume lagayein aur ghar ki aurton ka samman karein.", 7:"Akant mein samay bitayein aur diary likhein.", 8:"Gareeb mazdooron ki madad karein.", 9:"Hanuman ji ko gulab ka phool chadhayein."
     };
@@ -185,6 +205,45 @@
             }
         });
 
+        // Advanced Career Logic
+        let car_html = "";
+        const combo = `${mulank}-${bhagyank}`;
+        
+        // Check for strong planes in Loshu for accuracy
+        const hasWillPlane = (grid[9]>0 && grid[5]>0 && grid[1]>0);
+        const hasMentalPlane = (grid[4]>0 && grid[9]>0 && grid[2]>0);
+        const hasSuccessPlane = (grid[4]>0 && grid[5]>0 && grid[6]>0);
+
+        car_html += `<div class="career-item">
+            <span class="career-type">Primary Path (Mulank ${mulank})</span>
+            <p class="career-text">${careerMap[mulank]}</p>
+        </div>`;
+        
+        car_html += `<div class="career-item">
+            <span class="career-type">Destiny Support (Bhagyank ${bhagyank})</span>
+            <p class="career-text">${careerMap[bhagyank]}</p>
+        </div>`;
+
+        if(hasWillPlane) {
+            car_html += `<div class="career-item">
+                <span class="career-type">🔥 High Power Potential</span>
+                <p class="career-text">Leadership, Politics, or Big Business ventures.</p>
+                <span class="career-logic">Logic: 9-5-1 Will Power Plane is ACTIVE in your grid.</span>
+            </div>`;
+        } else if(hasMentalPlane) {
+            car_html += `<div class="career-item">
+                <span class="career-type">🧠 Intellectual Path</span>
+                <p class="career-text">Consultancy, Deep Analysis, Research, or Strategy.</p>
+                <span class="career-logic">Logic: 4-9-2 Mental Plane is ACTIVE in your grid.</span>
+            </div>`;
+        } else if(hasSuccessPlane) {
+             car_html += `<div class="career-item">
+                <span class="career-type">💰 Material Success Path</span>
+                <p class="career-text">Finance, Real Estate, or Creative Business.</p>
+                <span class="career-logic">Logic: 4-5-6 Rajyog Plane is ACTIVE in your grid.</span>
+            </div>`;
+        }
+
         Object.keys(grid).forEach(num => {
             if (grid[num] > 0) {
                 let count = grid[num];
@@ -211,6 +270,11 @@
                     <div class="badge-core"><span class="badge-label">Mulank</span><span class="badge-value">${mulank}</span></div>
                     <div class="badge-core"><span class="badge-label">Bhagyank</span><span class="badge-value">${bhagyank}</span></div>
                     <div class="badge-core"><span class="badge-label">Name No.</span><span class="badge-value">${nameNo}</span></div>
+                </div>
+
+                <div class="section-header">ACCURATE CAREER ANALYSIS</div>
+                <div class="career-box">
+                    ${car_html}
                 </div>
 
                 <div class="section-header">PERSONAL CYCLES</div>
