@@ -15,7 +15,6 @@
         .user-name-display { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; text-align: center; background: linear-gradient(to bottom, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 2px; }
         
         .form-control { background: rgba(255,255,255,0.07) !important; border: 1px solid rgba(255,255,255,0.2) !important; color: #fff !important; border-radius: 12px; margin-bottom: 12px; padding: 12px; }
-        .form-control::placeholder { color: rgba(255,255,255,0.5) !important; }
         .btn-reveal { background: linear-gradient(45deg, var(--gold), #ff8c00); color: #000; font-weight: 700; border: none; border-radius: 12px; padding: 12px; text-transform: uppercase; width: 100%; cursor: pointer; }
         
         .destiny-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
@@ -36,19 +35,22 @@
         .plane-card { background: rgba(255,255,255,0.04); padding: 12px 15px; border-radius: 12px; border-left: 4px solid var(--neon-blue); display: flex; justify-content: space-between; align-items: center; }
         .plane-name { font-size: 0.85rem; font-weight: 600; color: #fff; }
         .plane-desc { font-size: 0.7rem; color: var(--gold); font-style: italic; display: block; }
-        .plane-nums-sub { font-size: 0.6rem; color: #888; display: block; }
         .plane-pct { font-size: 1rem; font-weight: 700; color: var(--gold); font-family: 'Orbitron'; }
         
         .remedy-item { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; border-left: 4px solid #ff4d4d; font-size: 0.8rem; }
         .remedy-head { color: #ff4d4d; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 5px; }
         
-        .ritual-box { background: linear-gradient(135deg, rgba(255,204,0,0.15), rgba(0,0,0,0.4)); border: 1px solid var(--gold); border-radius: 15px; padding: 15px; margin-top: 10px; }
-        .challenge-box { background: rgba(255, 77, 77, 0.15); border: 1px dashed #ff4d4d; border-radius: 15px; padding: 15px; margin-top: 10px; color: #ffcccc; font-size: 0.85rem; }
-        .sol-text { color: #00ff88; font-weight: 600; display: block; margin-top: 8px; border-top: 1px solid rgba(0, 255, 136, 0.2); padding-top: 8px; }
-        
+        .food-box { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 15px; padding: 15px; margin-top: 10px; border-left: 4px solid var(--gold); }
+        .food-good { color: #00ff88; font-weight: 600; font-size: 0.85rem; }
+        .food-avoid { color: #ff4d4d; font-weight: 600; font-size: 0.85rem; }
+
         .rel-box { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 15px; padding: 15px; margin-top: 10px; font-size: 0.85rem; }
         .rel-good { color: #00ff88; font-weight: 600; }
         .rel-bad { color: #ff4d4d; font-weight: 600; }
+
+        .ritual-box { background: linear-gradient(135deg, rgba(255,204,0,0.15), rgba(0,0,0,0.4)); border: 1px solid var(--gold); border-radius: 15px; padding: 15px; margin-top: 10px; }
+        .challenge-box { background: rgba(255, 77, 77, 0.15); border: 1px dashed #ff4d4d; border-radius: 15px; padding: 15px; margin-top: 10px; color: #ffcccc; font-size: 0.85rem; }
+        .sol-text { color: #00ff88; font-weight: 600; display: block; margin-top: 8px; border-top: 1px solid rgba(0, 255, 136, 0.2); padding-top: 8px; }
 
         .repeat-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; margin-bottom: 8px; border-left: 3px solid var(--gold); font-size: 0.8rem; }
         .repeat-count-tag { background: var(--gold); color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; margin-left: 5px; text-transform: uppercase; }
@@ -73,7 +75,6 @@
         1:"Surya Namaskar karein aur naye kaam ki planning start karein.", 2:"Meditation karein aur chandi ke bartan mein pani piyein.", 3:"Yellow hanky sath rakhein ya Kesar ka tilak lagayein.", 4:"Chidiya ya kutton ko roti/dana dein.", 5:"Hari sabziyan khayein aur green pen ka istemal karein.", 6:"Perfume lagayein aur ghar ki aurton ka samman karein.", 7:"Akant mein samay bitayein aur diary likhein.", 8:"Gareeb mazdooron ki madad karein.", 9:"Hanuman ji ko gulab ka phool chadhayein."
     };
 
-    // Paresani aur unka Solution
     const challenges = {
         1: {p: "Over-confidence se bachein. Sir dard ho sakta hai.", s: "Solution: Surya Dev ko jal dein aur thanda pani piyein."},
         2: {p: "Mood swings pareshan karenge. Faisle lene mein deri hogi.", s: "Solution: Maa ka aashirwad lein aur safed rumal paas rakhein."},
@@ -86,11 +87,23 @@
         9: {p: "Gussa zyada aayega. Jaldbaazi mein faisle na lein.", s: "Solution: Hanuman Chalisa padhein aur laal phal (apple) daan karein."}
     };
 
+    const foodAdvice = {
+        1: {good: "Wheat, Orange, Apple, Honey, Ginger.", avoid: "Too much Salt and Chilies."},
+        2: {good: "Rice, Milk, Coconut water, Cucumber, White fruits.", avoid: "Cold curd at night."},
+        3: {good: "Gram dal, Turmeric, Papaya, Besan items.", avoid: "Non-veg and stale food."},
+        4: {good: "Green leafy vegetables, Sprouted grains, Dry fruits.", avoid: "Street food and junk."},
+        5: {good: "Moong dal, Green vegetables, Citrus juices.", avoid: "Excessive Masala."},
+        6: {good: "Curd, Paneer, Rice, Sweet fruits.", avoid: "Sour items (Khatta)."},
+        7: {good: "Liquid diet, Khichdi, Herbal tea.", avoid: "Root vegetables like Arbi."},
+        8: {good: "Bajra, Til, Black gram, Roasted items.", avoid: "Maida and junk."},
+        9: {good: "Jaggery (Gud), Masoor dal, Pomegranate.", avoid: "High spices."}
+    };
+
     const relationships = {
         1: { shubh: "Pita (Father) ya Seniors", khatra: "Chote Bhai ya Employees" },
         2: { shubh: "Maa (Mother) ya Female Friends", khatra: "Father-in-law ya Boss" },
         3: { shubh: "Guru, Teacher ya Bade Bhai", khatra: "Anjaan log ya Outsiders" },
-        4: { shubh: "Technical log ya Labour", khatra: "Sasural ke log ya Life Partner" },
+        4: { shubh: "Technical log ya Labour", khatra: "Sasural ke log" },
         5: { shubh: "Behen (Sister) ya Bua", khatra: "Business Partners" },
         6: { shubh: "Life Partner ya GF/BF", khatra: "Ghar ki badi aurtein" },
         7: { shubh: "Bacche ya Bhanja/Bhanji", khatra: "Dost (Friends)" },
@@ -139,9 +152,9 @@
         const isAligned = friend[mulank].includes(nameNo);
         
         const today = new Date();
-        const py=red(d+m+today.getFullYear());
-        const pm=red(py+(today.getMonth()+1));
-        const pd=red(pm+today.getDate());
+        const py = red(d + m + today.getFullYear());
+        const pm = red(py + (today.getMonth() + 1));
+        const pd = red(pm + today.getDate());
         
         let grid = {4:0,9:0,2:0,3:0,5:0,7:0,8:0,1:0,6:0};
         (d.toString()+m.toString()+y.toString()+mulank.toString()+bhagyank.toString()).split('').forEach(digit=>{if(grid[digit]!==undefined) grid[digit]++;});
@@ -161,9 +174,8 @@
             p_html += `
             <div class="plane-card">
                 <div>
-                    <span class="plane-name">${p.n}</span>
+                    <span class="plane-name">${p.n} (${p.s.join('-')})</span>
                     <span class="plane-desc">${meaning}</span>
-                    <span class="plane-nums-sub">Numbers: (${p.s.join('-')})</span>
                 </div>
                 <div class="plane-pct">${pct}%</div>
             </div>`;
@@ -180,13 +192,14 @@
                 rep_html += `
                 <div class="repeat-card">
                     <strong>Number ${num}</strong> <span class="repeat-count-tag">${count} Times</span>
-                    <p class="mb-0 mt-1" style="color:#ddd;">${repeatedResult[num][resIndex]}</p>
+                    <p class="mb-0 mt-1">${repeatedResult[num][resIndex]}</p>
                 </div>`;
             }
         });
 
         const relData = relationships[pd];
         const dayChallenge = challenges[pd];
+        const food = foodAdvice[pd];
 
         document.getElementById("output").innerHTML = `
             <div class="main-card mt-3 animate__animated animate__fadeInUp">
@@ -205,6 +218,12 @@
                     <div class="badge-core" style="border-color:var(--neon-purple)"><span class="badge-label">Year</span><span class="badge-value">${py}</span></div>
                     <div class="badge-core" style="border-color:var(--neon-purple)"><span class="badge-label">Month</span><span class="badge-value">${pm}</span></div>
                     <div class="badge-core" style="border-color:var(--neon-purple)"><span class="badge-label">Day</span><span class="badge-value">${pd}</span></div>
+                </div>
+
+                <div class="section-header">FOOD & DIET GUIDANCE</div>
+                <div class="food-box">
+                    <div>🍏 <span class="food-good">Shubh Aahar:</span> ${food.good}</div>
+                    <div class="mt-2">🚫 <span class="food-avoid">Parhej (Avoid):</span> ${food.avoid}</div>
                 </div>
 
                 <div class="section-header">RELATIONSHIP DYNAMICS (Today)</div>
