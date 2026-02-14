@@ -3,127 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abinash Astro Secrets | Numerology & Loshu Grid</title>
+    <title>Abinash Astro Secrets</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Essential Inline styles for layout stability */
-        .hidden { display: none; }
-        .loshu-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            width: 240px;
-            margin: 20px auto;
-            border: 2px solid #d4af37;
-        }
-        .grid-cell {
-            height: 80px;
-            width: 80px;
-            border: 1px solid #d4af37;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #d4af37;
-        }
-        .btn-link {
-            display: inline-block;
-            padding: 10px 15px;
-            margin: 5px;
-            background: #d4af37;
-            color: #1a1a2e;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
     <header>
         <h1>✨ Abinash Astro Secrets ✨</h1>
-        <p>Decoding Your Destiny with Vedic & Chinese Numerology</p>
     </header>
 
     <div class="container">
         <section class="input-card">
-            <div class="input-group">
-                <input type="text" id="userName" placeholder="Enter Full Name" required>
-                <input type="date" id="dob" required>
-                <button onclick="calculateAstro()">Reveal My Secrets</button>
-            </div>
+            <input type="text" id="userName" placeholder="Full Name">
+            <input type="date" id="dob">
+            <button onclick="calculateAstro()">Reveal Secrets</button>
         </section>
 
         <div id="resultArea" class="hidden">
-            
             <section class="result-grid">
-                <div class="card">
-                    <h3>Mulank (Driver)</h3>
-                    <p id="mNum" class="highlight">-</p>
-                </div>
-                <div class="card">
-                    <h3>Bhagyank (Conductor)</h3>
-                    <p id="bNum" class="highlight">-</p>
-                </div>
-                <div class="card">
-                    <h3>Name Number</h3>
-                    <p id="nNum" class="highlight">-</p>
-                </div>
-                <div class="card">
-                    <h3>Alignment</h3>
-                    <p id="nAlign">-</p>
-                </div>
+                <div class="card"><h3>Mulank</h3><p id="mNum">-</p></div>
+                <div class="card"><h3>Bhagyank</h3><p id="bNum">-</p></div>
+                <div class="card"><h3>Name Number</h3><p id="nNum">-</p></div>
+                <div class="card"><h3>Alignment</h3><p id="nAlign">-</p></div>
             </section>
 
             <section class="card info-box">
-                <h3>Today's Planetary Vibration</h3>
+                <h3>Today's Vibration</h3>
                 <p id="todayNumbers"></p>
-                <p id="friendsEnemy" style="color: #ffd700;"></p>
+                <p id="friendsEnemy"></p>
             </section>
 
             <section class="loshu-section card">
-                <h3>Your Loshu Grid Chart</h3>
+                <h3>Your Loshu Grid</h3>
                 
-                <div class="loshu-grid" id="loshuGrid">
-                    </div>
+                <div class="loshu-grid" id="loshuGrid"></div>
                 <div id="gridPlanes" class="planes-info"></div>
             </section>
 
             <section class="daily-insights">
-                <div class="insight-card">
-                    <h4>🌅 Morning Ritual</h4>
-                    <p id="ritual"></p>
-                </div>
-                <div class="insight-card">
-                    <h4>⚠️ Daily Challenge</h4>
-                    <p id="challenge"></p>
-                </div>
-                <div class="insight-card">
-                    <h4>🍎 Health Advice</h4>
-                    <p id="health"></p>
-                </div>
-                <div class="insight-card">
-                    <h4>💡 Guidance</h4>
-                    <p id="advice"></p>
-                </div>
+                <div class="insight-card"><h4>🌅 Ritual</h4><p id="ritual"></p></div>
+                <div class="insight-card"><h4>⚠️ Challenge</h4><p id="challenge"></p></div>
+                <div class="insight-card"><h4>🍎 Health</h4><p id="health"></p></div>
+                <div class="insight-card"><h4>💡 Advice</h4><p id="advice"></p></div>
             </section>
 
-            <h3 style="margin-top: 30px;">Deep Analysis Reports</h3>
             <nav class="prediction-links">
-                <a href="day.html" class="btn-link">Day Prediction</a>
-                <a href="month.html" class="btn-link">Month Prediction</a>
-                <a href="year.html" class="btn-link">Year Prediction</a>
-                <a href="career.html" class="btn-link">Career Report</a>
-                <a href="health.html" class="btn-link">Health Report</a>
-                <a href="pplanet.html" class="btn-link">Positive Planets</a>
-                <a href="nplanet.html" class="btn-link">Negative Planets</a>
+                <a href="day.html" class="btn">Day.html</a>
+                <a href="month.html" class="btn">Month.html</a>
+                <a href="year.html" class="btn">Year.html</a>
+                <a href="career.html" class="btn">Career.html</a>
+                <a href="health.html" class="btn">Health.html</a>
+                <a href="pplanet.html" class="btn">P-Planet</a>
+                <a href="nplanet.html" class="btn">N-Planet</a>
             </nav>
         </div>
     </div>
-
-    <footer>
-        <p>&copy; 2026 Abinash Astro Secrets | Empowering Your Future</p>
-    </footer>
-
     <script src="script.js"></script>
 </body>
 </html>
