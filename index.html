@@ -9,49 +9,65 @@
 <body>
     <header>
         <h1>✨ Abinash Astro Secrets ✨</h1>
+        <p>Decoding Your Destiny Numbers</p>
     </header>
 
     <div class="container">
         <section class="input-card">
-            <input type="text" id="userName" placeholder="Full Name">
+            <input type="text" id="userName" placeholder="Full Name (e.g. Abinaash Barik)">
             <input type="date" id="dob">
             <button onclick="calculateAstro()">Reveal Secrets</button>
         </section>
 
         <div id="resultArea" class="hidden">
+            <section class="horoscope-card">
+                <h2>Your Numerology Horoscope</h2>
+                <div class="horoscope-grid">
+                    <div class="h-item">
+                        <h1 id="dailyNum">0</h1>
+                        <p>Daily</p>
+                    </div>
+                    <div class="h-item">
+                        <h1 id="monthlyNum">0</h1>
+                        <p>Monthly</p>
+                    </div>
+                    <div class="h-item">
+                        <h1 id="yearlyNum">0</h1>
+                        <p>Yearly</p>
+                    </div>
+                </div>
+                <div class="opportunity-box">
+                    <h4>🚀 Daily Opportunity</h4>
+                    <p id="dailyOpportunity"></p>
+                </div>
+            </section>
+
             <section class="result-grid">
-                <div class="card"><h3>Mulank</h3><p id="mNum">-</p></div>
-                <div class="card"><h3>Bhagyank</h3><p id="bNum">-</p></div>
+                <div class="card"><h3>Birth Number (Mulank)</h3><p id="mNum">-</p></div>
+                <div class="card"><h3>Life Path (Bhagyank)</h3><p id="bNum">-</p></div>
                 <div class="card"><h3>Name Number</h3><p id="nNum">-</p></div>
                 <div class="card"><h3>Alignment</h3><p id="nAlign">-</p></div>
             </section>
 
-            <section class="card info-box">
-                <h3>Today's Vibration</h3>
-                <p id="todayNumbers"></p>
-                <p id="friendsEnemy"></p>
-            </section>
-
             <section class="loshu-section card">
                 <h3>Your Loshu Grid</h3>
-                
                 <div class="loshu-grid" id="loshuGrid"></div>
                 <div id="gridPlanes" class="planes-info"></div>
             </section>
 
             <section class="daily-insights">
-                <div class="insight-card"><h4>🌅 Ritual</h4><p id="ritual"></p></div>
-                <div class="insight-card"><h4>⚠️ Challenge</h4><p id="challenge"></p></div>
-                <div class="insight-card"><h4>🍎 Health</h4><p id="health"></p></div>
-                <div class="insight-card"><h4>💡 Advice</h4><p id="advice"></p></div>
+                <div class="insight-card"><h4>🌅 Morning Ritual</h4><p id="ritual"></p></div>
+                <div class="insight-card"><h4>⚠️ Daily Challenge</h4><p id="challenge"></p></div>
+                <div class="insight-card"><h4>🍎 Health Advice</h4><p id="health"></p></div>
+                <div class="insight-card"><h4>💡 General Advice</h4><p id="advice"></p></div>
             </section>
 
             <nav class="prediction-links">
-                <a href="day.html" class="btn">Day.html</a>
-                <a href="month.html" class="btn">Month.html</a>
-                <a href="year.html" class="btn">Year.html</a>
-                <a href="career.html" class="btn">Career.html</a>
-                <a href="health.html" class="btn">Health.html</a>
+                <a href="day.html" class="btn">Day Report</a>
+                <a href="month.html" class="btn">Month Report</a>
+                <a href="year.html" class="btn">Year Report</a>
+                <a href="career.html" class="btn">Career</a>
+                <a href="health.html" class="btn">Health</a>
                 <a href="pplanet.html" class="btn">P-Planet</a>
                 <a href="nplanet.html" class="btn">N-Planet</a>
             </nav>
