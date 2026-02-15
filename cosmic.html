@@ -1,1 +1,146 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abinash Astro | Premium Numerology</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #d4af37; --royal: #2c003e; --bg: #0a0a0a; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: white; margin: 0; text-align: center; }
+        
+        .container { padding: 50px 20px; }
+        .gold-text { color: var(--gold); font-family: 'Cinzel', serif; }
+
+        /* Progress Bar Styling */
+        .analysis-container {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            margin: 20px auto;
+            display: none; /* Pehle hidden rahega */
+        }
+
+        .progress-wrapper {
+            background: #222;
+            border-radius: 20px;
+            height: 25px;
+            width: 100%;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid var(--gold);
+        }
+
+        #progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--royal), var(--gold));
+            transition: width 0.1s linear;
+        }
+
+        .percentage { font-size: 24px; font-weight: bold; color: var(--gold); }
+
+        .lock-icon { font-size: 40px; margin-bottom: 10px; }
+
+        /* Payment Card - initially hidden */
+        #payment-area { display: none; animation: fadeIn 1s; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn-pay {
+            background: linear-gradient(45deg, #d4af37, #f1c40f);
+            color: black; padding: 15px 30px; border-radius: 50px;
+            text-decoration: none; font-weight: bold; display: inline-block;
+            font-size: 18px; margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="gold-text">Abinash Astro Analysis</h1>
+    <p>Apna naam daalein aur apni kismat ka score check karein.</p>
+
+    <div id="input-area">
+        <input type="text" id="userName" placeholder="Apna Poora Naam..." style="padding: 15px; width: 250px; border-radius: 5px; border: none;">
+        <br><br>
+        <button onclick="startCalculation()" style="background: var(--gold); border: none; padding: 15px 40px; cursor: pointer; font-weight: bold; border-radius: 5px;">GENERATE REPORT</button>
+    </div>
+
+    <div id="analysis-box" class="analysis-container">
+        <div id="status-text">Scanning Stars & Numbers...</div>
+        <div class="progress-wrapper">
+            <div id="progress-fill"></div>
+        </div>
+        <div class="percentage"><span id="percent-text">0</span>%</div>
+    </div>
+
+    <div id="payment-area">
+        <div class="lock-icon">🔒</div>
+        <h2 style="color: #ff4757;">Report Heavily Encrypted!</h2>
+        <p>Aapki 100% accurate prediction taiyar hai, lekin ise unlock karne ke liye <b>Premium Activation</b> zaruri hai.</p>
+        
+        <div style="background: #1a1a1a; padding: 20px; border-radius: 10px; border: 1px solid var(--gold);">
+            <p style="margin: 0;">Unlock Full Numerology Report for</p>
+            <h2 style="color: var(--gold); margin: 5px 0;">₹50</h2>
+            <p style="font-size: 12px; color: #888;">(100% Accuracy & Money Back Guarantee)</p>
+            <a href="upi://pay?pa=7008186187@ybl&pn=AbinashAstro&am=50&cu=INR" class="btn-pay" onclick="verifyRedirect()">PAY ₹50 TO VIEW REPORT</a>
+            <div style="margin-top: 10px; font-size: 13px;">UPI ID: 7008186187@ybl</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function startCalculation() {
+        const name = document.getElementById('userName').value;
+        if(!name) { alert("Please enter your name"); return; }
+
+        document.getElementById('input-area').style.display = 'none';
+        document.getElementById('analysis-box').style.display = 'block';
+
+        let count = 0;
+        const progressFill = document.getElementById('progress-fill');
+        const percentText = document.getElementById('percent-text');
+        const statusText = document.getElementById('status-text');
+
+        const statusMessages = [
+            "Calculating Moolank...",
+            "Analyzing Planetary Positions...",
+            "Syncing Destiny Numbers...",
+            "Finalizing Luck Score...",
+            "Almost there..."
+        ];
+
+        const interval = setInterval(() => {
+            count++;
+            progressFill.style.width = count + "%";
+            percentText.innerText = count;
+
+            // Change status text randomly
+            if(count % 20 === 0) {
+                statusText.innerText = statusMessages[Math.floor(count/20)];
+            }
+
+            if(count >= 99) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    document.getElementById('analysis-box').style.display = 'none';
+                    document.getElementById('payment-area').style.display = 'block';
+                }, 1000);
+            }
+        }, 50); // Speed control
+    }
+
+    function verifyRedirect() {
+        // Payment ke baad user ko navigate karne ke liye logic
+        setTimeout(() => {
+            window.location.href = "https://abinashastro.github.io/guide/index.html";
+        }, 5000); // 5 seconds delay for payment completion
+    }
+</script>
+
+</body>
+</html>
 
