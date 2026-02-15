@@ -3,144 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abinash Astro | Premium Numerology</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <title>Abinash Astro | Premium Destiny Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #d4af37; --royal: #2c003e; --bg: #0a0a0a; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: white; margin: 0; text-align: center; }
-        
-        .container { padding: 50px 20px; }
-        .gold-text { color: var(--gold); font-family: 'Cinzel', serif; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: white; margin: 0; overflow-x: hidden; }
 
-        /* Progress Bar Styling */
-        .analysis-container {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 500px;
-            margin: 20px auto;
-            display: none; /* Pehle hidden rahega */
+        /* Blurred Content Background */
+        #report-preview {
+            filter: blur(12px); /* High Blur initially */
+            opacity: 0.3;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+            user-select: none;
+            transition: filter 2s ease; /* Smooth clearing effect */
         }
 
-        .progress-wrapper {
-            background: #222;
-            border-radius: 20px;
-            height: 25px;
-            width: 100%;
-            margin: 20px 0;
-            overflow: hidden;
-            border: 1px solid var(--gold);
+        .report-line { background: #333; height: 15px; margin-bottom: 15px; border-radius: 5px; }
+        .report-line.short { width: 60%; }
+        .report-line.long { width: 100%; }
+
+        /* Overlay UI */
+        .overlay-content {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90%; max-width: 450px; z-index: 100; text-align: center;
         }
 
-        #progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--royal), var(--gold));
-            transition: width 0.1s linear;
+        .calc-card {
+            background: rgba(20, 20, 20, 0.95);
+            padding: 40px; border-radius: 20px; border: 1px solid var(--gold);
+            box-shadow: 0 0 30px rgba(0,0,0,1);
         }
 
-        .percentage { font-size: 24px; font-weight: bold; color: var(--gold); }
+        /* Progress Bar */
+        .progress-container { margin: 25px 0; }
+        .bar-bg { background: #222; height: 12px; border-radius: 10px; overflow: hidden; }
+        .bar-fill { height: 100%; width: 0%; background: var(--gold); }
 
-        .lock-icon { font-size: 40px; margin-bottom: 10px; }
+        /* Payment Box */
+        #payment-box {
+            display: none; background: white; color: black;
+            padding: 30px; border-radius: 20px; text-align: center;
+            animation: slideUp 0.5s ease;
+        }
 
-        /* Payment Card - initially hidden */
-        #payment-area { display: none; animation: fadeIn 1s; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .btn-pay {
-            background: linear-gradient(45deg, #d4af37, #f1c40f);
-            color: black; padding: 15px 30px; border-radius: 50px;
-            text-decoration: none; font-weight: bold; display: inline-block;
-            font-size: 18px; margin-top: 20px;
+            background: #27ae60; color: white; padding: 15px 25px;
+            border-radius: 8px; text-decoration: none; display: block;
+            font-weight: bold; font-size: 20px; margin-top: 15px;
+        }
+
+        .gold-btn {
+            background: var(--gold); color: black; border: none;
+            padding: 12px 30px; font-weight: bold; cursor: pointer; border-radius: 5px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1 class="gold-text">Abinash Astro Analysis</h1>
-    <p>Apna naam daalein aur apni kismat ka score check karein.</p>
+<div id="report-preview">
+    <h1 class="gold-text" style="color:var(--gold)">Personalized Destiny Report</h1>
+    <h3>1. Health & Longevity</h3>
+    <p>Aapki kundli ke hisaab se Mars ki dasha batati hai ki... [BLURRED CONTENT] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <div class="report-line long"></div><div class="report-line short"></div>
+    
+    <h3>2. Wealth & Career Growth</h3>
+    <p>Year 2026 mein aapka bhagyank 7 aapko nayi unchaiyon par... [BLURRED CONTENT] Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+    <div class="report-line long"></div><div class="report-line long"></div>
+    
+    <h3>3. Hidden Enemies & Protection</h3>
+    <p>Rahu ki sthiti ke kaaran aapke apne hi log... [BLURRED CONTENT] Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    <div class="report-line short"></div><div class="report-line long"></div>
+    
+    <h3>4. Lucky Numbers & Remedies</h3>
+    <div class="report-line short"></div><div class="report-line short"></div>
+    <div class="report-line long"></div>
+</div>
 
-    <div id="input-area">
-        <input type="text" id="userName" placeholder="Apna Poora Naam..." style="padding: 15px; width: 250px; border-radius: 5px; border: none;">
-        <br><br>
-        <button onclick="startCalculation()" style="background: var(--gold); border: none; padding: 15px 40px; cursor: pointer; font-weight: bold; border-radius: 5px;">GENERATE REPORT</button>
+<div class="overlay-content">
+    
+    <div id="setup-box" class="calc-card">
+        <h2 style="font-family: 'Cinzel'; color: var(--gold);">Vedic Calculator</h2>
+        <p>Enter your name to decode your future</p>
+        <input type="text" id="uName" placeholder="Full Name..." style="width: 80%; padding: 12px; margin-bottom: 20px;">
+        <br>
+        <button class="gold-btn" onclick="startDeepAnalysis()">GENERATE REPORT</button>
     </div>
 
-    <div id="analysis-box" class="analysis-container">
-        <div id="status-text">Scanning Stars & Numbers...</div>
-        <div class="progress-wrapper">
-            <div id="progress-fill"></div>
+    <div id="analysis-box" class="calc-card" style="display:none;">
+        <h3 id="status-text">Scanning Birth Charts...</h3>
+        <div class="progress-container">
+            <div class="bar-bg"><div id="fill" class="bar-fill"></div></div>
         </div>
-        <div class="percentage"><span id="percent-text">0</span>%</div>
+        <div style="font-size: 30px; color: var(--gold);"><span id="ptxt">0</span>%</div>
     </div>
 
-    <div id="payment-area">
-        <div class="lock-icon">🔒</div>
-        <h2 style="color: #ff4757;">Report Heavily Encrypted!</h2>
-        <p>Aapki 100% accurate prediction taiyar hai, lekin ise unlock karne ke liye <b>Premium Activation</b> zaruri hai.</p>
-        
-        <div style="background: #1a1a1a; padding: 20px; border-radius: 10px; border: 1px solid var(--gold);">
-            <p style="margin: 0;">Unlock Full Numerology Report for</p>
-            <h2 style="color: var(--gold); margin: 5px 0;">₹50</h2>
-            <p style="font-size: 12px; color: #888;">(100% Accuracy & Money Back Guarantee)</p>
-            <a href="upi://pay?pa=7008186187@ybl&pn=AbinashAstro&am=50&cu=INR" class="btn-pay" onclick="verifyRedirect()">PAY ₹50 TO VIEW REPORT</a>
-            <div style="margin-top: 10px; font-size: 13px;">UPI ID: 7008186187@ybl</div>
-        </div>
+    <div id="payment-box">
+        <div style="font-size: 40px;">⚠️</div>
+        <h2 style="margin: 5px 0; color: #d32f2f;">REPORT LOCKED</h2>
+        <p style="color: #555; font-size: 14px;">Aapka detailed analysis (15 pages) taiyar hai. Isse unlock karne ke liye activation fee pay karein.</p>
+        <div style="font-size: 32px; font-weight: bold; margin: 10px 0;">₹50</div>
+        <a href="upi://pay?pa=7008186187@ybl&pn=AbinashAstro&am=50&cu=INR" class="btn-pay" onclick="checkRedirect()">UNLOCK REPORT NOW</a>
+        <p style="font-size: 11px; color: #999; margin-top: 10px;">Official UPI: 7008186187@ybl</p>
     </div>
+
 </div>
 
 <script>
-    function startCalculation() {
-        const name = document.getElementById('userName').value;
-        if(!name) { alert("Please enter your name"); return; }
-
-        document.getElementById('input-area').style.display = 'none';
+    function startDeepAnalysis() {
+        if(!document.getElementById('uName').value) return alert("Please enter name");
+        
+        document.getElementById('setup-box').style.display = 'none';
         document.getElementById('analysis-box').style.display = 'block';
 
-        let count = 0;
-        const progressFill = document.getElementById('progress-fill');
-        const percentText = document.getElementById('percent-text');
-        const statusText = document.getElementById('status-text');
+        let p = 0;
+        let fill = document.getElementById('fill');
+        let ptxt = document.getElementById('ptxt');
+        let preview = document.getElementById('report-preview');
+        let status = document.getElementById('status-text');
 
-        const statusMessages = [
-            "Calculating Moolank...",
-            "Analyzing Planetary Positions...",
-            "Syncing Destiny Numbers...",
-            "Finalizing Luck Score...",
-            "Almost there..."
-        ];
+        let interval = setInterval(() => {
+            p++;
+            fill.style.width = p + "%";
+            ptxt.innerText = p;
 
-        const interval = setInterval(() => {
-            count++;
-            progressFill.style.width = count + "%";
-            percentText.innerText = count;
+            if(p == 50) status.innerText = "Decoding Numerology Patterns...";
+            if(p == 85) status.innerText = "Finalizing 2026 Predictions...";
 
-            // Change status text randomly
-            if(count % 20 === 0) {
-                statusText.innerText = statusMessages[Math.floor(count/20)];
+            // Effect: At 95%, clear the blur slightly to show "something is there"
+            if(p == 95) {
+                preview.style.filter = "blur(5px)";
+                preview.style.opacity = "0.7";
             }
 
-            if(count >= 99) {
+            if(p >= 99) {
                 clearInterval(interval);
                 setTimeout(() => {
                     document.getElementById('analysis-box').style.display = 'none';
-                    document.getElementById('payment-area').style.display = 'block';
-                }, 1000);
+                    document.getElementById('payment-box').style.display = 'block';
+                    // Final touch: Keep it slightly blurred so they MUST pay to read
+                    preview.style.filter = "blur(8px)";
+                }, 800);
             }
-        }, 50); // Speed control
+        }, 60);
     }
 
-    function verifyRedirect() {
-        // Payment ke baad user ko navigate karne ke liye logic
+    function checkRedirect() {
         setTimeout(() => {
             window.location.href = "https://abinashastro.github.io/guide/index.html";
-        }, 5000); // 5 seconds delay for payment completion
+        }, 4000);
     }
 </script>
 
 </body>
 </html>
-
