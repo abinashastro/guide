@@ -108,6 +108,20 @@ margin-top:15px;
 font-size:18px;
 font-weight:bold;
 }
+
+
+.card-box{
+background:rgba(255,255,255,0.08);
+padding:20px;
+border-radius:15px;
+margin-top:20px;
+}
+
+.result-box{
+margin-top:15px;
+font-size:16px;
+line-height:1.6;
+}
     </style>
 </head>
 <body>
@@ -313,6 +327,91 @@ n=n.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b));
 return n;
 }
 
+function dailyRemedy(){
+
+let now=new Date();
+let dayNum=reduce(now.getDate());
+
+let remedies={
+1:{
+wear:"Orange or Golden",
+avoid:"Ego & anger",
+call:"Father or boss",
+color:"🟠 Lucky color: Orange",
+action:"Start something new today"
+},
+2:{
+wear:"White or Cream",
+avoid:"Emotional decisions",
+call:"Mother",
+color:"⚪ Lucky color: White",
+action:"Stay calm & peaceful"
+},
+3:{
+wear:"Yellow",
+avoid:"Over talking",
+call:"Guru/teacher",
+color:"🟡 Lucky color: Yellow",
+action:"Focus on learning"
+},
+4:{
+wear:"Blue",
+avoid:"Arguments",
+call:"Old friend",
+color:"🔵 Lucky color: Blue",
+action:"Complete pending work"
+},
+5:{
+wear:"Green",
+avoid:"Wrong decisions",
+call:"Business contact",
+color:"🟢 Lucky color: Green",
+action:"Good day for business"
+},
+6:{
+wear:"Pink or White",
+avoid:"Relationship fight",
+call:"Partner",
+color:"💗 Lucky color: Pink",
+action:"Enjoy luxury & comfort"
+},
+7:{
+wear:"Sky blue",
+avoid:"Negative thinking",
+call:"Spiritual person",
+color:"🔷 Lucky color: Sky blue",
+action:"Meditation & planning"
+},
+8:{
+wear:"Black or Navy",
+avoid:"Big investment",
+call:"Elder person",
+color:"⚫ Lucky color: Black",
+action:"Donate something"
+},
+9:{
+wear:"Red",
+avoid:"Anger",
+call:"Brother/friend",
+color:"🔴 Lucky color: Red",
+action:"Take bold action"
+}
+};
+
+let r=remedies[dayNum];
+
+document.getElementById("remedyOutput").innerHTML=
+`
+🪬 <b>Today Remedy (Day ${dayNum})</b><br><br>
+
+👕 <b>Wear:</b> ${r.wear}<br>
+🚫 <b>Avoid:</b> ${r.avoid}<br>
+📞 <b>Call:</b> ${r.call}<br>
+🎨 ${r.color}<br>
+⚡ <b>Action:</b> ${r.action}
+`;
+}
+
 function checkDecision(){
 
 let q=document.getElementById("question").value.toLowerCase();
@@ -387,6 +486,14 @@ ${result} <br>
 <button onclick="checkDecision()">Get Decision</button>
 
 <div id="decisionResult" class="result-box"></div>
+</div>
+
+<div class="card-box">
+<h3>🧿 Daily Remedy Generator</h3>
+
+<button onclick="dailyRemedy()">Check Today Remedy</button>
+
+<div id="remedyOutput" class="result-box"></div>
 </div>
 
 </body>
