@@ -95,6 +95,19 @@
         }
         .box-filled { background: rgba(212, 175, 55, 0.1); border-color: var(--accent-gold); }
         .grid-num { font-size: 1.4rem; color: var(--soft-gold); font-weight: 700; }
+        
+        .card-box{
+background:rgba(255,255,255,0.08);
+padding:20px;
+border-radius:15px;
+margin-top:20px;
+}
+
+.result-box{
+margin-top:15px;
+font-size:18px;
+font-weight:bold;
+}
     </style>
 </head>
 <body>
@@ -291,6 +304,90 @@
 
         document.getElementById("output").innerHTML = outputHTML;
     }
+    
+    
+    function reduce(n){
+while(n>9){
+n=n.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b));
+}
+return n;
+}
+
+function checkDecision(){
+
+let q=document.getElementById("question").value.toLowerCase();
+let dob=document.getElementById("dobDecision").value;
+
+if(!q||!dob){alert("Enter question & DOB");return;}
+
+let d=new Date(dob);
+let mulank=reduce(d.getDate());
+
+// today number
+let now=new Date();
+let dayNum=reduce(now.getDate());
+
+// logic
+let result="";
+let reason="";
+
+if(dayNum==mulank){
+result="✅ YES — Today is powerful for you";
+reason="Your personal number matches today number.";
+}
+else if(dayNum==8){
+result="❌ AVOID — Heavy karmic day";
+reason="Day number 8 risky for major decisions.";
+}
+else if(Math.abs(dayNum-mulank)<=2){
+result="⚠️ WAIT — Not perfect timing";
+reason="Energy mismatch. Wait few days.";
+}
+else{
+result="✅ YES — Safe to proceed";
+reason="No major risk seen.";
+}
+
+// question type special logic
+if(q.includes("loan")||q.includes("borrow")){
+if(dayNum==8||dayNum==4){
+result="❌ AVOID LOAN TODAY";
+reason="Financial pressure day.";
+}
+}
+
+if(q.includes("job")){
+if(dayNum==5||dayNum==1){
+result="✅ JOB CHANGE LUCKY";
+reason="Career movement day.";
+}
+}
+
+if(q.includes("car")){
+if(dayNum==6||dayNum==5){
+result="🚗 BUY CAR — GOOD DAY";
+reason="Luxury & vehicle energy strong.";
+}
+}
+
+document.getElementById("decisionResult").innerHTML=
+`
+${result} <br>
+<small>${reason}</small>
+`;
+}
 </script>
+
+<div class="card-box">
+<h3>🔮 Decision Maker Tool</h3>
+
+<input type="text" id="question" placeholder="Apna question likho (job change, loan, car etc)">
+<input type="date" id="dobDecision">
+
+<button onclick="checkDecision()">Get Decision</button>
+
+<div id="decisionResult" class="result-box"></div>
+</div>
+
 </body>
 </html>
