@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abinash Astro Elite | AI Prediction Pro</title>
+    <title>Abinash Astro Elite | Master AI Prediction</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -113,6 +113,20 @@
 
 <script>
     // --- Data Engines ---
+    const chaldean = {a:1,i:1,j:1,q:1,y:1,b:2,k:2,r:2,c:3,g:3,l:3,s:3,d:4,m:4,t:4,e:5,h:5,n:5,x:5,u:6,v:6,w:6,o:7,z:7,f:8,p:8};
+
+    const lifeTiming = {
+        1:{car:28,house:32,marriage:27,wealth:35,foreign:30},
+        2:{car:30,house:34,marriage:26,wealth:33,foreign:29},
+        3:{car:27,house:31,marriage:25,wealth:34,foreign:28},
+        4:{car:32,house:36,marriage:29,wealth:38,foreign:33},
+        5:{car:26,house:30,marriage:24,wealth:32,foreign:27},
+        6:{car:29,house:33,marriage:23,wealth:31,foreign:28},
+        7:{car:34,house:38,marriage:30,wealth:40,foreign:35},
+        8:{car:35,house:40,marriage:31,wealth:42,foreign:36},
+        9:{car:28,house:32,marriage:26,wealth:34,foreign:29}
+    };
+
     const lifePredictions = {
         car: { 1:"Car yog strong. 30 ke baad pakka vehicle milega.", 2:"Late but stable vehicle yog.", 3:"Luxury vehicle yog strong.", 4:"Hard work se car milegi.", 5:"Business se car yog.", 6:"Luxury car yog strong.", 7:"Simple vehicle yog.", 8:"Delay ke baad heavy vehicle.", 9:"Fast vehicle yog strong." },
         house:{ 1:"Own house yog strong.", 2:"Flat ya apartment yog.", 3:"Big house luck.", 4:"Plot investment yog.", 5:"Multiple property yog.", 6:"Luxury home yog.", 7:"Spiritual place house yog.", 8:"Late but permanent house.", 9:"Independent house yog." },
@@ -145,7 +159,7 @@
     function generate() {
         const name = document.getElementById("nameIn").value;
         const dobStr = document.getElementById("dobIn").value;
-        if(!name || !dobStr) return;
+        if(!name || !dobStr) { alert("Please enter Name and Date of Birth"); return; }
 
         const dob = new Date(dobStr);
         const d=dob.getDate(), m=dob.getMonth()+1, y=dob.getFullYear();
@@ -159,6 +173,33 @@
         const tp = predictionEngine[pd];
         const w = weeklyPred[pd];
         
+        // --- Chaldean Calculation Fix ---
+        let nameSum = 0;
+        name.toLowerCase().replace(/[^a-z]/g,'').split('').forEach(c => nameSum += chaldean[c] || 0);
+        let nameNo = red(nameSum);
+
+        // --- Life Timing Calculations Fix ---
+        let timing = lifeTiming[bhagyank];
+        let carYear = y + timing.car;
+        let houseYear = y + timing.house;
+        let marriageYear = y + timing.marriage;
+        let wealthYear = y + timing.wealth;
+        let foreignYear = y + timing.foreign;
+
+        // --- Scanners Logic Fix ---
+        let moneyMeter = (bhagyank==5||bhagyank==8) ? "💰 High Wealth Potential" : "💵 Normal Income Flow";
+        let loveScan = (bhagyank==6||mulank==2) ? "❤️ Strong Love Marriage Yog" : "💍 Arranged Marriage Chances";
+        let businessScan = (bhagyank==5||bhagyank==8) ? "📈 Business Success Strong" : "🏢 Job Better than Business";
+        let foreignTravel = (bhagyank==7||bhagyank==9) ? "🌍 Foreign Travel Yog Strong" : "✈️ Travel Yog Weak";
+        let evilEye = (mulank==8) ? "⚠️ Nazar Lag Sakti Hai" : "🧿 Protection Strong";
+
+        // --- Lucky Name Logic ---
+        let luckyName = (nameNo != bhagyank) ? name + "a" : name;
+
+        // --- 9 Year Cycle HTML Fix ---
+        let cycleHTML = "";
+        for(let i=0; i<9; i++){ cycleHTML += `<b>Year ${today.getFullYear()+i}:</b> Number ${red(py+i)} <br>`; }
+
         // Power Logic
         let power="Normal Day";
         if(pd==mulank || pd==bhagyank) power="🔥 POWER DAY (Very Lucky)";
@@ -167,8 +208,8 @@
         // Life Yoga Logic
         let carYog = lifePredictions.car[bhagyank];
         let houseYog = lifePredictions.house[bhagyank];
-        let wealthYog = lifePredictions.wealth[bhagyank];
-        let marriageYog = lifePredictions.marriage[bhagyank];
+        let wealthYogText = lifePredictions.wealth[bhagyank];
+        let marriageYogText = lifePredictions.marriage[bhagyank];
 
         // Grid Data
         let grid = {4:0,9:0,2:0,3:0,5:0,7:0,8:0,1:0,6:0};
@@ -180,8 +221,9 @@
                 
                 <div class="section-header">DESTINY CORE</div>
                 <div class="row text-center">
-                    <div class="col-6"><p class="small mb-0">MULANK</p><h3>${mulank}</h3></div>
-                    <div class="col-6"><p class="small mb-0">BHAGYANK</p><h3>${bhagyank}</h3></div>
+                    <div class="col-4"><p class="small mb-0">MULANK</p><h3>${mulank}</h3></div>
+                    <div class="col-4"><p class="small mb-0">BHAGYANK</p><h3>${bhagyank}</h3></div>
+                    <div class="col-4"><p class="small mb-0">NAME NO.</p><h3>${nameNo}</h3></div>
                 </div>
 
                 <div class="section-header">TODAY POWER STATUS</div>
@@ -195,12 +237,36 @@
                     <div class="career-item"><span class="career-type">🎯 Advice</span><p>${tp.advice}</p></div>
                 </div>
 
+                <div class="section-title">EXACT LIFE TIMING PREDICTION</div>
+                <div class="prediction-box">
+                    🚗 <b>Car Purchase Year:</b> ${carYear} <br><br>
+                    🏠 <b>House Purchase Year:</b> ${houseYear} <br><br>
+                    💍 <b>Marriage Year:</b> ${marriageYear} <br><br>
+                    💰 <b>Wealth Peak Year:</b> ${wealthYear} <br><br>
+                    🌍 <b>Foreign Travel Year:</b> ${foreignYear}
+                </div>
+
                 <div class="section-title">LIFE EVENT PREDICTION</div>
                 <div class="prediction-box">
                     🚗 <b>Car Yog:</b> ${carYog} <br><br>
                     🏠 <b>House Yog:</b> ${houseYog} <br><br>
-                    💰 <b>Wealth Status:</b> ${wealthYog} <br><br>
-                    💍 <b>Marriage Type:</b> ${marriageYog}
+                    💰 <b>Wealth Status:</b> ${wealthYogText} <br><br>
+                    💍 <b>Marriage Type:</b> ${marriageYogText}
+                </div>
+
+                <div class="section-title">MASTER SCANNERS</div>
+                <div class="prediction-box">
+                    <b>Money Meter:</b> ${moneyMeter} <br>
+                    <b>Love Scanner:</b> ${loveScan} <br>
+                    <b>Business Success:</b> ${businessScan} <br>
+                    <b>Foreign Travel:</b> ${foreignTravel} <br>
+                    <b>Evil Eye:</b> ${evilEye}
+                </div>
+
+                <div class="section-title">LUCKY NAME & CYCLE</div>
+                <div class="prediction-box">
+                    <b>Lucky Name Suggestion:</b> <span style="color:var(--accent-gold)">${luckyName}</span> <br><br>
+                    <b>9 Year Life Cycle:</b><br>${cycleHTML}
                 </div>
 
                 <div class="section-title">WEEKLY & LOVE ENERGY</div>
@@ -224,9 +290,6 @@
         `;
 
         document.getElementById("output").innerHTML = outputHTML;
-
-        // [2026-02-17] Saved instruction: Store details in Firebase
-        console.log("Firebase Syncing User Data...", {name, dob: dobStr, mulank, bhagyank});
     }
 </script>
 </body>
