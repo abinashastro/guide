@@ -3,159 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abinash Astro Elite</title>
+    <title>Abinash Astro Elite | AI Prediction</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
-        :root { --gold: #ffcc00; --neon-blue: #00f2ff; --neon-purple: #bc13fe; --glass: rgba(255, 255, 255, 0.08); }
-        body { background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%); color: #fff; font-family: 'Poppins', sans-serif; min-height: 100vh; }
-        .container { max-width: 600px; padding-bottom: 50px; }
-        .main-card { background: var(--glass); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 25px; margin-top: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); }
-        .user-name-display { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; text-align: center; background: linear-gradient(to bottom, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 2px; }
-        
-        .form-control { background: rgba(255,255,255,0.07) !important; border: 1px solid rgba(255,255,255,0.2) !important; color: #fff !important; border-radius: 12px; margin-bottom: 12px; padding: 12px; }
-        .btn-reveal { background: linear-gradient(45deg, var(--gold), #ff8c00); color: #000; font-weight: 700; border: none; border-radius: 12px; padding: 12px; text-transform: uppercase; width: 100%; cursor: pointer; }
-        
-        .destiny-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-        .badge-core { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 10px 5px; text-align: center; border-bottom: 3px solid var(--neon-blue); }
-        .badge-label { font-size: 0.6rem; color: #aaa; text-transform: uppercase; display: block; }
-        .badge-value { font-size: 1.2rem; font-weight: 700; font-family: 'Orbitron'; color: var(--gold); }
-        
-        .loshu-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px auto; max-width: 280px; }
-        .loshu-box { aspect-ratio: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,204,0,0.2); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .grid-num { font-size: 1.3rem; color: var(--gold); font-weight: 700; }
-        .grid-planet { font-size: 0.5rem; color: rgba(255,255,255,0.3); text-transform: uppercase; }
-        .box-filled { border-color: var(--neon-blue); background: rgba(0,242,255,0.05); }
+        :root {
+            --royal-bg: #05070a;
+            --accent-gold: #d4af37;
+            --soft-gold: #f9e29d;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(212, 175, 55, 0.3);
+            --neon-blue: #00f2ff;
+        }
 
-        .section-header { font-family: 'Orbitron', sans-serif; color: var(--neon-blue); font-size: 0.75rem; margin-top: 25px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-        .section-header::after { content: ""; flex: 1; height: 1px; background: rgba(0, 242, 255, 0.15); }
+        body {
+            background: radial-gradient(circle at top, #0d121d 0%, #05070a 100%);
+            color: #e0e0e0;
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+        }
 
-        /* Career Section Styles */
-        .career-box { background: linear-gradient(135deg, rgba(0, 242, 255, 0.1), rgba(188, 19, 254, 0.1)); border: 1px solid var(--neon-blue); border-radius: 15px; padding: 15px; margin-top: 10px; border-left: 5px solid var(--neon-blue); }
-        .career-item { margin-bottom: 12px; }
-        .career-type { font-weight: 700; color: var(--gold); font-size: 0.85rem; text-transform: uppercase; display: block; margin-bottom: 3px; }
-        .career-text { font-size: 0.8rem; color: #fff; line-height: 1.4; }
-        .career-logic { font-size: 0.7rem; color: #00f2ff; font-style: italic; display: block; margin-top: 2px; }
+        .main-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            margin-bottom: 30px;
+        }
 
-        .plane-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
-        .plane-card { background: rgba(255,255,255,0.04); padding: 12px 15px; border-radius: 12px; border-left: 4px solid var(--neon-blue); display: flex; justify-content: space-between; align-items: center; }
-        .plane-name { font-size: 0.85rem; font-weight: 600; color: #fff; }
-        .plane-desc { font-size: 0.7rem; color: var(--gold); font-style: italic; display: block; }
-        .plane-pct { font-size: 1rem; font-weight: 700; color: var(--gold); font-family: 'Orbitron'; }
-        
-        .remedy-item { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 15px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; border-left: 4px solid #ff4d4d; font-size: 0.8rem; }
-        .remedy-head { color: #ff4d4d; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        
-        .food-box { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 15px; padding: 15px; margin-top: 10px; border-left: 4px solid var(--gold); }
-        .food-good { color: #00ff88; font-weight: 600; font-size: 0.85rem; }
-        .food-avoid { color: #ff4d4d; font-weight: 600; font-size: 0.85rem; }
+        .brand-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--accent-gold);
+            text-align: center;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+        }
 
-        .rel-box { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 15px; padding: 15px; margin-top: 10px; font-size: 0.85rem; }
-        .rel-good { color: #00ff88; font-weight: 600; }
-        .rel-bad { color: #ff4d4d; font-weight: 600; }
+        .form-control {
+            background: rgba(255,255,255,0.05) !important;
+            border: 1px solid var(--glass-border) !important;
+            color: #fff !important;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
 
-        .ritual-box { background: linear-gradient(135deg, rgba(255,204,0,0.15), rgba(0,0,0,0.4)); border: 1px solid var(--gold); border-radius: 15px; padding: 15px; margin-top: 10px; }
-        .challenge-box { background: rgba(255, 77, 77, 0.15); border: 1px dashed #ff4d4d; border-radius: 15px; padding: 15px; margin-top: 10px; color: #ffcccc; font-size: 0.85rem; }
-        .sol-text { color: #00ff88; font-weight: 600; display: block; margin-top: 8px; border-top: 1px solid rgba(0, 255, 136, 0.2); padding-top: 8px; }
+        .btn-reveal {
+            background: linear-gradient(45deg, #8e6e17, var(--accent-gold));
+            color: #000;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            width: 100%;
+            text-transform: uppercase;
+        }
 
-        .repeat-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; margin-bottom: 8px; border-left: 3px solid var(--gold); font-size: 0.8rem; }
-        .repeat-count-tag { background: var(--gold); color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; margin-left: 5px; text-transform: uppercase; }
+        /* Prediction Styles */
+        .section-header {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            margin: 30px 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 2px;
+        }
+        .section-header::after { content: ""; flex: 1; height: 1px; background: var(--glass-border); }
+
+        .career-box {
+            background: rgba(212, 175, 55, 0.05);
+            border-left: 4px solid var(--accent-gold);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .career-item { margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
+        .career-type { font-weight: 700; color: var(--accent-gold); font-size: 0.85rem; text-transform: uppercase; display: block; }
+        .career-text { font-size: 0.95rem; color: #fff; margin-top: 5px; }
+
+        /* Loshu Grid */
+        .loshu-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+        .loshu-box {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .box-filled { background: rgba(212, 175, 55, 0.1); border-color: var(--accent-gold); }
+        .grid-num { font-size: 1.4rem; color: var(--soft-gold); font-weight: 700; }
     </style>
 </head>
 <body>
-<div class="container py-4">
-    <div class="text-center mb-4"><h2 style="font-family:'Orbitron'; color:var(--gold);">ABINASH ASTRO</h2></div>
+
+<div class="container py-5">
+    <div class="brand-title">Abinash Astro Elite</div>
+
     <div class="main-card">
         <input type="text" id="nameIn" class="form-control" placeholder="Full Name">
         <input type="date" id="dobIn" class="form-control">
         <button class="btn btn-reveal" onclick="generate()">Reveal Secrets</button>
     </div>
+
     <div id="output"></div>
 </div>
 
 <script>
-    const chaldean = { a:1,i:1,j:1,q:1,y:1, b:2,k:2,r:2, c:3,g:3,l:3,s:3, d:4,m:4,t:4, e:5,h:5,n:5,x:5, u:6,v:6,w:6, o:7,z:7, f:8,p:8 };
-    const friend = { 1:[1,2,3,5,9], 2:[1,2,3,5], 3:[1,2,3,5,7,9], 4:[1,5,6,7,8], 5:[1,2,3,5,6,7,8], 6:[4,5,6,7,8], 7:[1,3,4,5,6], 8:[4,5,6,7], 9:[1,3,5,7,9] };
-    
-    // Detailed Career Mapping
-    const careerMap = {
-        1: "Government Jobs, Administration, Business Owner, Leadership Roles.",
-        2: "Artistic fields, Psychology, Liquid related business, Counseling.",
-        3: "Teaching, Finance, Legal, Advisory, Religious activities.",
-        4: "IT, Software, Research, Technical Strategy, Real Estate.",
-        5: "Marketing, Banking, Communication, Media, Journalism.",
-        6: "Luxury Goods, Fashion, Entertainment, Hospitality, Beauty.",
-        7: "Occult Sciences, Deep Research, Spirituality, Analysis.",
-        8: "Justice, Construction, Printing, Heavy Metals, Hard-work based success.",
-        9: "Army, Sports, Surgery, Engineering, Social Work."
-    };
-
-    const rituals = {
-        1:"Surya Namaskar karein aur naye kaam ki planning start karein.", 2:"Meditation karein aur chandi ke bartan mein pani piyein.", 3:"Yellow hanky sath rakhein ya Kesar ka tilak lagayein.", 4:"Chidiya ya kutton ko roti/dana dein.", 5:"Hari sabziyan khayein aur green pen ka istemal karein.", 6:"Perfume lagayein aur ghar ki aurton ka samman karein.", 7:"Akant mein samay bitayein aur diary likhein.", 8:"Gareeb mazdooron ki madad karein.", 9:"Hanuman ji ko gulab ka phool chadhayein."
-    };
-
-    const challenges = {
-        1: {p: "Over-confidence se bachein. Sir dard ho sakta hai.", s: "Solution: Surya Dev ko jal dein aur thanda pani piyein."},
-        2: {p: "Mood swings pareshan karenge. Faisle lene mein deri hogi.", s: "Solution: Maa ka aashirwad lein aur safed rumal paas rakhein."},
-        3: {p: "Faltu kharch badh sakta hai. Focus ki kami rahegi.", s: "Solution: Kesar ka tilak lagayein aur apne Guru ko yaad karein."},
-        4: {p: "Kaam mein rukawat aur gadgets kharab hone ka darr hai.", s: "Solution: Kutton ko roti dein aur electronic saman sambhal kar use karein."},
-        5: {p: "Galat-fahmika shikar ho sakte hain. Travel mein deri hogi.", s: "Solution: Gaumata ko hara chara khilayein aur hari sabzi khayein."},
-        6: {p: "Ghar mein anban ho sakti hai. Meetha kam khayein.", s: "Solution: Safed mithai ka bhog lagayein aur dahi khakar bahar nikalon."},
-        7: {p: "Akela-pan aur purani baatein dukh dengi.", s: "Solution: Ganesh ji ki aarti karein aur kuttay ko biscuit khilayein."},
-        8: {p: "Sharir mein thakawat aur paison ka nuksan ho sakta hai.", s: "Solution: Shani Chalisa padhein aur kisi gareeb ko chhay (shadow) daan karein."},
-        9: {p: "Gussa zyada aayega. Jaldbaazi mein faisle na lein.", s: "Solution: Hanuman Chalisa padhein aur laal phal (apple) daan karein."}
-    };
-
-    const foodAdvice = {
-        1: {good: "Wheat, Orange, Apple, Honey, Ginger.", avoid: "Too much Salt and Chilies."},
-        2: {good: "Rice, Milk, Coconut water, Cucumber, White fruits.", avoid: "Cold curd at night."},
-        3: {good: "Gram dal, Turmeric, Papaya, Besan items.", avoid: "Non-veg and stale food."},
-        4: {good: "Green leafy vegetables, Sprouted grains, Dry fruits.", avoid: "Street food and junk."},
-        5: {good: "Moong dal, Green vegetables, Citrus juices.", avoid: "Excessive Masala."},
-        6: {good: "Curd, Paneer, Rice, Sweet fruits.", avoid: "Sour items (Khatta)."},
-        7: {good: "Liquid diet, Khichdi, Herbal tea.", avoid: "Root vegetables like Arbi."},
-        8: {good: "Bajra, Til, Black gram, Roasted items.", avoid: "Maida and junk."},
-        9: {good: "Jaggery (Gud), Masoor dal, Pomegranate.", avoid: "High spices."}
-    };
-
-    const relationships = {
-        1: { shubh: "Pita (Father) ya Seniors", khatra: "Chote Bhai ya Employees" },
-        2: { shubh: "Maa (Mother) ya Female Friends", khatra: "Father-in-law ya Boss" },
-        3: { shubh: "Guru, Teacher ya Bade Bhai", khatra: "Anjaan log ya Outsiders" },
-        4: { shubh: "Technical log ya Labour", khatra: "Sasural ke log" },
-        5: { shubh: "Behen (Sister) ya Bua", khatra: "Business Partners" },
-        6: { shubh: "Life Partner ya GF/BF", khatra: "Ghar ki badi aurtein" },
-        7: { shubh: "Bacche ya Bhanja/Bhanji", khatra: "Dost (Friends)" },
-        8: { shubh: "Old people ya Mazdoor", khatra: "Relatives" },
-        9: { shubh: "Chote bhai ya Police/Army", khatra: "Dushman (Enemies)" }
-    };
-
-    const planeMeanings = {
-        "Mental Plane": { high: "Excellent Memory & Logic", low: "Need focus in Planning" },
-        "Emotional Plane": { high: "Balanced Emotions & Compassion", low: "Emotional sensitivity" },
-        "Practical Plane": { high: "Strong Grounding & Hard work", low: "Needs practical approach" },
-        "Thought Plane": { high: "Great Visionary & Thinker", low: "Confused thoughts" },
-        "Will Plane": { high: "High Determination & Power", low: "Lack of Willpower" },
-        "Action Plane": { high: "Quick Executor & Active", low: "Procrastination issues" },
-        "Success Plane": { high: "Natural Luck & Prosperity", low: "Struggle for results" },
-        "Property Plane": { high: "Strong Wealth & Assets", low: "Slow financial growth" }
-    };
-
-    const deepRemedies = {
-        "Mental": "Meditation karein. North direction saaf rakhein.", "Emotional": "Shiv-Aradhana karein. Maa ke pair chhuein.", "Practical": "Punctual banein. Shani Dev ki upasna karein.", "Thought": "Peela rumal rakhein aur Vishnu Sahasranamam sunein.", "Will": "Surya ko jal dein aur Lal dhaga bandhein.", "Action": "Ganesha ki murti rakhein aur safed mithai daan karein.", "Success": "Lakshmi ji ki puja karein. Green pen use karein.", "Property": "Hanuman Chalisa padhein aur pakshiyon ko bajra dalein."
-    };
-
-    const repeatedResult = {
-        1: ["Normal Success", "Great Leadership", "Strong Ego", "Excessive Dominance"],
-        2: ["Sensitive", "Very Emotional", "Indecisive", "Extreme Anxiety"],
-        3: ["Creative", "Over-imaginative", "Boastful", "Arrogant"],
-        4: ["Practical", "Stubborn", "Rebellious", "High Frustration"],
-        5: ["Communicator", "Restless", "Risk-taker", "Unstable"],
-        6: ["Family Oriented", "Over-responsible", "Idealistic", "Interfering"],
-        7: ["Spiritual", "Highly Intuitive", "Isolated", "Deep Melancholy"],
-        8: ["Materialistic Success", "Stubborn", "Legal Troubles", "Extreme Struggle"],
-        9: ["Humanitarian", "Aggressive", "Impulsive", "High Temper"]
+    const predictionEngine = {
+        1:{ career:"New opportunity & leadership day.", money:"Money inflow possible.", health:"Headache or BP issue.", risk:"Ego se loss ho sakta hai.", advice:"Take leadership but stay calm.", color:"Golden, Orange", time:"7AM - 10AM" },
+        2:{ career:"Slow but stable progress.", money:"Avoid lending money.", health:"Mood swing & stress.", risk:"Emotional decision mistake.", advice:"Trust intuition only.", color:"White, Silver", time:"8PM - 10PM" },
+        3:{ career:"Meeting & networking success.", money:"Financial planning day.", health:"Digestion issue.", risk:"Over confidence.", advice:"Speak less act more.", color:"Yellow", time:"10AM - 12PM" },
+        4:{ career:"Hard work day no shortcut.", money:"Unexpected expense.", health:"Back pain possible.", risk:"Technical problem.", advice:"Stay practical.", color:"Blue", time:"4PM - 6PM" },
+        5:{ career:"Business & communication luck.", money:"Trading profit possible.", health:"Nervous stress.", risk:"Wrong message.", advice:"Use brain not emotion.", color:"Green", time:"11AM - 2PM" },
+        6:{ career:"Client & public dealing success.", money:"Luxury spending.", health:"Sugar or throat issue.", risk:"Relationship fight.", advice:"Be polite.", color:"Pink, White", time:"6PM - 9PM" },
+        7:{ career:"Research & planning day.", money:"Slow money flow.", health:"Mental fatigue.", risk:"Overthinking.", advice:"Stay silent & observe.", color:"Sky blue", time:"5AM - 7AM" },
+        8:{ career:"Hard work karmic day.", money:"Delayed payment.", health:"Joint pain.", risk:"Legal/authority issue.", advice:"Patience only.", color:"Black, Navy", time:"5PM - 7PM" },
+        9:{ career:"Action & success day.", money:"Sudden gain.", health:"Heat & anger.", risk:"Fight or injury.", advice:"Control temper.", color:"Red", time:"9AM - 12PM" }
     };
 
     function red(n) { while(n>9){n=n.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b),0)} return n; }
@@ -164,136 +145,42 @@
         const name = document.getElementById("nameIn").value;
         const dobStr = document.getElementById("dobIn").value;
         if(!name || !dobStr) return;
+
         const dob = new Date(dobStr);
         const d=dob.getDate(), m=dob.getMonth()+1, y=dob.getFullYear();
         const mulank=red(d), bhagyank=red(d+m+y);
-        let nSum=0; name.toLowerCase().replace(/[^a-z]/g,'').split('').forEach(c=>nSum+=chaldean[c]||0);
-        const nameNo=red(nSum);
-        const isAligned = friend[mulank].includes(nameNo);
         
+        // Personal Day Calculation
         const today = new Date();
         const py = red(d + m + today.getFullYear());
         const pm = red(py + (today.getMonth() + 1));
         const pd = red(pm + today.getDate());
-        
+
+        const todayPred = predictionEngine[pd];
+
+        // Grid Data
         let grid = {4:0,9:0,2:0,3:0,5:0,7:0,8:0,1:0,6:0};
         (d.toString()+m.toString()+y.toString()+mulank.toString()+bhagyank.toString()).split('').forEach(digit=>{if(grid[digit]!==undefined) grid[digit]++;});
 
-        const planes = [
-            {n:"Mental Plane", s:[4,9,2]}, {n:"Emotional Plane", s:[3,5,7]}, {n:"Practical Plane", s:[8,1,6]},
-            {n:"Thought Plane", s:[4,3,8]}, {n:"Will Plane", s:[9,5,1]}, {n:"Action Plane", s:[2,7,6]},
-            {n:"Success Plane", s:[4,5,6]}, {n:"Property Plane", s:[2,5,8]}
-        ];
-
-        let p_html = "", r_html = "", rep_html = "";
-        planes.forEach(p=>{
-            let c=0; p.s.forEach(num=>{if(grid[num]>0)c++});
-            let pct=Math.round((c/3)*100);
-            let meaning = pct >= 66 ? planeMeanings[p.n].high : planeMeanings[p.n].low;
-            
-            p_html += `
-            <div class="plane-card">
-                <div>
-                    <span class="plane-name">${p.n} (${p.s.join('-')})</span>
-                    <span class="plane-desc">${meaning}</span>
-                </div>
-                <div class="plane-pct">${pct}%</div>
-            </div>`;
-            if(pct < 50) {
-                let pKey = p.n.replace(' Plane','');
-                r_html += `<div class="remedy-item"><span class="remedy-head">${p.n} Remedy</span>${deepRemedies[pKey]}</div>`;
-            }
-        });
-
-        // Advanced Career Logic
-        let car_html = "";
-        const combo = `${mulank}-${bhagyank}`;
-        
-        // Check for strong planes in Loshu for accuracy
-        const hasWillPlane = (grid[9]>0 && grid[5]>0 && grid[1]>0);
-        const hasMentalPlane = (grid[4]>0 && grid[9]>0 && grid[2]>0);
-        const hasSuccessPlane = (grid[4]>0 && grid[5]>0 && grid[6]>0);
-
-        car_html += `<div class="career-item">
-            <span class="career-type">Primary Path (Mulank ${mulank})</span>
-            <p class="career-text">${careerMap[mulank]}</p>
-        </div>`;
-        
-        car_html += `<div class="career-item">
-            <span class="career-type">Destiny Support (Bhagyank ${bhagyank})</span>
-            <p class="career-text">${careerMap[bhagyank]}</p>
-        </div>`;
-
-        if(hasWillPlane) {
-            car_html += `<div class="career-item">
-                <span class="career-type">🔥 High Power Potential</span>
-                <p class="career-text">Leadership, Politics, or Big Business ventures.</p>
-                <span class="career-logic">Logic: 9-5-1 Will Power Plane is ACTIVE in your grid.</span>
-            </div>`;
-        } else if(hasMentalPlane) {
-            car_html += `<div class="career-item">
-                <span class="career-type">🧠 Intellectual Path</span>
-                <p class="career-text">Consultancy, Deep Analysis, Research, or Strategy.</p>
-                <span class="career-logic">Logic: 4-9-2 Mental Plane is ACTIVE in your grid.</span>
-            </div>`;
-        } else if(hasSuccessPlane) {
-             car_html += `<div class="career-item">
-                <span class="career-type">💰 Material Success Path</span>
-                <p class="career-text">Finance, Real Estate, or Creative Business.</p>
-                <span class="career-logic">Logic: 4-5-6 Rajyog Plane is ACTIVE in your grid.</span>
-            </div>`;
-        }
-
-        Object.keys(grid).forEach(num => {
-            if (grid[num] > 0) {
-                let count = grid[num];
-                let resIndex = count > 4 ? 3 : count - 1;
-                rep_html += `
-                <div class="repeat-card">
-                    <strong>Number ${num}</strong> <span class="repeat-count-tag">${count} Times</span>
-                    <p class="mb-0 mt-1">${repeatedResult[num][resIndex]}</p>
-                </div>`;
-            }
-        });
-
-        const relData = relationships[pd];
-        const dayChallenge = challenges[pd];
-        const food = foodAdvice[pd];
-
-        document.getElementById("output").innerHTML = `
-            <div class="main-card mt-3 animate__animated animate__fadeInUp">
-                <div class="user-name-display">${name}</div>
-                <div class="text-center small mb-3 ${isAligned?'text-success':'text-danger'}">${isAligned?'✅ Name Aligned':'⚠️ Name Correction Needed'}</div>
+        let outputHTML = `
+            <div class="main-card animate__animated animate__fadeInUp">
+                <h2 class="text-center" style="font-family:'Cinzel'; color:var(--accent-gold);">${name}</h2>
                 
                 <div class="section-header">DESTINY CORE</div>
-                <div class="destiny-row">
-                    <div class="badge-core"><span class="badge-label">Mulank</span><span class="badge-value">${mulank}</span></div>
-                    <div class="badge-core"><span class="badge-label">Bhagyank</span><span class="badge-value">${bhagyank}</span></div>
-                    <div class="badge-core"><span class="badge-label">Name No.</span><span class="badge-value">${nameNo}</span></div>
+                <div class="row text-center">
+                    <div class="col-6"><p class="small mb-0">MULANK</p><h3 class="text-white">${mulank}</h3></div>
+                    <div class="col-6"><p class="small mb-0">BHAGYANK</p><h3 class="text-white">${bhagyank}</h3></div>
                 </div>
 
-                <div class="section-header">ACCURATE CAREER ANALYSIS</div>
+                <div class="section-header">⚡ AI ACCURATE DAILY PREDICTION</div>
                 <div class="career-box">
-                    ${car_html}
-                </div>
-
-                <div class="section-header">PERSONAL CYCLES</div>
-                <div class="destiny-row">
-                    <div class="badge-core" style="border-color:var(--neon-purple)"><span class="badge-label">Year</span><span class="badge-value">${py}</span></div>
-                    <div class="badge-core" style="border-color:var(--neon-purple)"><span class="badge-label">Month</span><span class="badge-value">${pm}</span></div>
-                    <div class="badge-core" style="border-color:var(--neon-purple)"><span class="badge-label">Day</span><span class="badge-value">${pd}</span></div>
-                </div>
-
-                <div class="section-header">FOOD & DIET GUIDANCE</div>
-                <div class="food-box">
-                    <div>🍏 <span class="food-good">Shubh Aahar:</span> ${food.good}</div>
-                    <div class="mt-2">🚫 <span class="food-avoid">Parhej (Avoid):</span> ${food.avoid}</div>
-                </div>
-
-                <div class="section-header">RELATIONSHIP DYNAMICS (Today)</div>
-                <div class="rel-box">
-                    <div>✨ <span class="rel-good">Shubh:</span> Aaj aapko <b>${relData.shubh}</b> se madad mil sakti hai.</div>
-                    <div class="mt-2">⚠️ <span class="rel-bad">Savdhan:</span> Aaj <b>${relData.khatra}</b> se behas na karein.</div>
+                    <div class="career-item"><span class="career-type">💼 Career</span><p class="career-text">${todayPred.career}</p></div>
+                    <div class="career-item"><span class="career-type">💰 Money</span><p class="career-text">${todayPred.money}</p></div>
+                    <div class="career-item"><span class="career-type">🩺 Health Risk</span><p class="career-text">${todayPred.health}</p></div>
+                    <div class="career-item"><span class="career-type">⚠️ Risk Alert</span><p class="career-text">${todayPred.risk}</p></div>
+                    <div class="career-item"><span class="career-type">🎯 Advice</span><p class="career-text">${todayPred.advice}</p></div>
+                    <div class="career-item"><span class="career-type">🎨 Lucky Color</span><p class="career-text">${todayPred.color}</p></div>
+                    <div class="career-item"><span class="career-type">⏰ Lucky Time</span><p class="career-text">${todayPred.time}</p></div>
                 </div>
 
                 <div class="section-header">LOSHU GRID</div>
@@ -301,28 +188,15 @@
                     ${[4,9,2,3,5,7,8,1,6].map(n=>`
                         <div class="loshu-box ${grid[n]?'box-filled':''}">
                             <div class="grid-num">${grid[n]?n.toString().repeat(grid[n]):n}</div>
-                            <div class="grid-planet">${{4:"Rahu",9:"Mars",2:"Moon",3:"Jupiter",5:"Mercury",7:"Ketu",8:"Saturn",1:"Sun",6:"Venus"}[n]}</div>
                         </div>`).join('')}
                 </div>
+            </div>
+        `;
 
-                <div class="section-header">PLANE SUMMARY</div>
-                <div class="plane-grid">${p_html}</div>
+        document.getElementById("output").innerHTML = outputHTML;
 
-                <div class="section-header">WEAK PLANE REMEDIES</div>
-                ${r_html}
-
-                <div class="section-header">REPEATED NUMBERS ANALYSIS</div>
-                ${rep_html}
-
-                <div class="section-header">TODAY'S RITUAL</div>
-                <div class="ritual-box">${rituals[pd]}</div>
-                
-                <div class="section-header">AAJ KI PARESHANI & SOLUTION</div>
-                <div class="challenge-box">
-                    <strong>Warning:</strong> ${dayChallenge.p}
-                    <span class="sol-text">✨ ${dayChallenge.s}</span>
-                </div>
-            </div>`;
+        // Firebase saving instruction placeholder
+        console.log("Saving user details to Firebase: ", {name, dob: dobStr, mulank});
     }
 </script>
 </body>
