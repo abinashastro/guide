@@ -17,13 +17,31 @@
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(212, 175, 55, 0.3);
             --neon-blue: #00f2ff;
+            --text-main: #e0e0e0;
+        }
+
+        /* Light Theme Toggle Classes */
+        .light-mode {
+            --royal-bg: #f8f9fa;
+            --text-main: #212529;
+            --glass: rgba(0, 0, 0, 0.05);
+            --glass-border: rgba(142, 110, 23, 0.3);
         }
 
         body {
-            background: radial-gradient(circle at top, #0d121d 0%, #05070a 100%);
-            color: #e0e0e0;
+            background: radial-gradient(circle at top, #0d121d 0%, var(--royal-bg) 100%);
+            color: var(--text-main);
             font-family: 'Quicksand', sans-serif;
             min-height: 100vh;
+            transition: 0.5s ease;
+        }
+
+        /* Theme Ball Floating Button */
+        #themeBall {
+            position: fixed; top: 20px; right: 20px; width: 45px; height: 45px; 
+            background: var(--accent-gold); border-radius: 50%; cursor: pointer;
+            box-shadow: 0 0 15px var(--accent-gold); display: flex; align-items: center; justify-content: center;
+            z-index: 1000; font-size: 20px; border: none; color: #000;
         }
 
         .main-card {
@@ -48,7 +66,7 @@
         .form-control {
             background: rgba(255,255,255,0.05) !important;
             border: 1px solid var(--glass-border) !important;
-            color: #fff !important;
+            color: var(--text-main) !important;
             border-radius: 12px;
             padding: 12px;
             margin-bottom: 15px;
@@ -66,8 +84,7 @@
             text-transform: uppercase;
         }
 
-        /* Prediction Styles */
-        .section-header {
+        .section-header, .section-title {
             font-family: 'Cinzel', serif;
             color: var(--accent-gold);
             font-size: 0.9rem;
@@ -76,43 +93,38 @@
             align-items: center;
             gap: 10px;
             letter-spacing: 2px;
+            font-weight: bold;
         }
         .section-header::after { content: ""; flex: 1; height: 1px; background: var(--glass-border); }
 
-        .career-box {
+        .career-box, .prediction-box {
             background: rgba(212, 175, 55, 0.05);
             border-left: 4px solid var(--accent-gold);
             border-radius: 15px;
             padding: 20px;
+            margin-bottom: 15px;
         }
 
         .career-item { margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
         .career-type { font-weight: 700; color: var(--accent-gold); font-size: 0.85rem; text-transform: uppercase; display: block; }
-        .career-text { font-size: 0.95rem; color: #fff; margin-top: 5px; }
+        .career-text { font-size: 0.95rem; margin-top: 5px; }
 
-        /* Loshu Grid */
         .loshu-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            max-width: 300px;
-            margin: 20px auto;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+            max-width: 300px; margin: 20px auto;
         }
         .loshu-box {
-            aspect-ratio: 1;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            aspect-ratio: 1; background: rgba(255,255,255,0.02);
+            border: 1px solid var(--glass-border); border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         .box-filled { background: rgba(212, 175, 55, 0.1); border-color: var(--accent-gold); }
         .grid-num { font-size: 1.4rem; color: var(--soft-gold); font-weight: 700; }
     </style>
 </head>
 <body>
+
+<button id="themeBall" onclick="toggleTheme()">🌓</button>
 
 <div class="container py-5">
     <div class="brand-title">Abinash Astro Elite</div>
@@ -127,6 +139,37 @@
 </div>
 
 <script>
+    // New Data Engines
+    const weeklyPred = {
+        1:{week:"Leadership week",lucky:"Sunday",danger:"Saturday"},
+        2:{week:"Emotional sensitive week",lucky:"Monday",danger:"Friday"},
+        3:{week:"Growth & learning week",lucky:"Thursday",danger:"Wednesday"},
+        4:{week:"Hard work week",lucky:"Saturday",danger:"Tuesday"},
+        5:{week:"Business & travel week",lucky:"Wednesday",danger:"Monday"},
+        6:{week:"Love & luxury week",lucky:"Friday",danger:"Sunday"},
+        7:{week:"Spiritual week",lucky:"Monday",danger:"Thursday"},
+        8:{week:"Karma clearing week",lucky:"Saturday",danger:"Tuesday"},
+        9:{week:"Action success week",lucky:"Tuesday",danger:"Friday"}
+    };
+
+    const moneyFlow = {
+        1:"Income increase chance", 2:"Money stable", 3:"Investment luck",
+        4:"Expense high", 5:"Business profit", 6:"Luxury spend",
+        7:"Slow income", 8:"Delayed money", 9:"Sudden gain"
+    };
+
+    const lovePred = {
+        1:"Romance strong", 2:"Emotional bonding", 3:"Flirt & fun",
+        4:"Argument risk", 5:"New connection", 6:"Love proposal luck",
+        7:"Silent distance", 8:"Karmic partner issue", 9:"Passion high"
+    };
+
+    const dangerAlert = {
+        1:"Avoid ego clash", 2:"Avoid emotional decision", 3:"Avoid overspending",
+        4:"Avoid travel risk", 5:"Avoid wrong message", 6:"Avoid love fight",
+        7:"Avoid overthinking", 8:"Avoid authority issue", 9:"Avoid anger"
+    };
+
     const predictionEngine = {
         1:{ career:"New opportunity & leadership day.", money:"Money inflow possible.", health:"Headache or BP issue.", risk:"Ego se loss ho sakta hai.", advice:"Take leadership but stay calm.", color:"Golden, Orange", time:"7AM - 10AM" },
         2:{ career:"Slow but stable progress.", money:"Avoid lending money.", health:"Mood swing & stress.", risk:"Emotional decision mistake.", advice:"Trust intuition only.", color:"White, Silver", time:"8PM - 10PM" },
@@ -141,6 +184,12 @@
 
     function red(n) { while(n>9){n=n.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b),0)} return n; }
 
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const ball = document.getElementById('themeBall');
+        ball.innerHTML = document.body.classList.contains('light-mode') ? '🌞' : '🌓';
+    }
+
     function generate() {
         const name = document.getElementById("nameIn").value;
         const dobStr = document.getElementById("dobIn").value;
@@ -150,15 +199,18 @@
         const d=dob.getDate(), m=dob.getMonth()+1, y=dob.getFullYear();
         const mulank=red(d), bhagyank=red(d+m+y);
         
-        // Personal Day Calculation
         const today = new Date();
         const py = red(d + m + today.getFullYear());
         const pm = red(py + (today.getMonth() + 1));
         const pd = red(pm + today.getDate());
 
         const todayPred = predictionEngine[pd];
+        const w = weeklyPred[pd];
 
-        // Grid Data
+        let power="Normal Day";
+        if(pd==mulank || pd==bhagyank) power="🔥 POWER DAY (Very Lucky)";
+        if(pd==8) power="⚠️ Karmic Heavy Day";
+
         let grid = {4:0,9:0,2:0,3:0,5:0,7:0,8:0,1:0,6:0};
         (d.toString()+m.toString()+y.toString()+mulank.toString()+bhagyank.toString()).split('').forEach(digit=>{if(grid[digit]!==undefined) grid[digit]++;});
 
@@ -168,9 +220,12 @@
                 
                 <div class="section-header">DESTINY CORE</div>
                 <div class="row text-center">
-                    <div class="col-6"><p class="small mb-0">MULANK</p><h3 class="text-white">${mulank}</h3></div>
-                    <div class="col-6"><p class="small mb-0">BHAGYANK</p><h3 class="text-white">${bhagyank}</h3></div>
+                    <div class="col-6"><p class="small mb-0">MULANK</p><h3>${mulank}</h3></div>
+                    <div class="col-6"><p class="small mb-0">BHAGYANK</p><h3>${bhagyank}</h3></div>
                 </div>
+
+                <div class="section-header">TODAY POWER STATUS</div>
+                <div class="prediction-box text-center"><b>${power}</b></div>
 
                 <div class="section-header">⚡ AI ACCURATE DAILY PREDICTION</div>
                 <div class="career-box">
@@ -179,9 +234,21 @@
                     <div class="career-item"><span class="career-type">🩺 Health Risk</span><p class="career-text">${todayPred.health}</p></div>
                     <div class="career-item"><span class="career-type">⚠️ Risk Alert</span><p class="career-text">${todayPred.risk}</p></div>
                     <div class="career-item"><span class="career-type">🎯 Advice</span><p class="career-text">${todayPred.advice}</p></div>
-                    <div class="career-item"><span class="career-type">🎨 Lucky Color</span><p class="career-text">${todayPred.color}</p></div>
-                    <div class="career-item"><span class="career-type">⏰ Lucky Time</span><p class="career-text">${todayPred.time}</p></div>
                 </div>
+
+                <div class="section-title">WEEKLY PREDICTION</div>
+                <div class="prediction-box">
+                    Week Energy: ${w.week}<br>Lucky Day: ${w.lucky}<br>Danger Day: ${w.danger}
+                </div>
+
+                <div class="section-title">MONEY FLOW TODAY</div>
+                <div class="prediction-box">${moneyFlow[pd]}</div>
+
+                <div class="section-title">LOVE ENERGY</div>
+                <div class="prediction-box">${lovePred[pd]}</div>
+
+                <div class="section-title">⚠️ DANGER ALERT</div>
+                <div class="prediction-box" style="border-left-color: #ff4d4d;">${dangerAlert[pd]}</div>
 
                 <div class="section-header">LOSHU GRID</div>
                 <div class="loshu-container">
@@ -195,8 +262,8 @@
 
         document.getElementById("output").innerHTML = outputHTML;
 
-        // Firebase saving instruction placeholder
-        console.log("Saving user details to Firebase: ", {name, dob: dobStr, mulank});
+        // [2026-02-17] Saved instruction: Store details in Firebase
+        console.log("Firebase sync triggered for:", {name, dob: dobStr, pd, mulank});
     }
 </script>
 </body>
