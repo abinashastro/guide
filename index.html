@@ -124,6 +124,8 @@ line-height:1.6;
 }
 
 
+
+
 .card-box{
 background:rgba(255,255,255,0.08);
 padding:20px;
@@ -133,11 +135,13 @@ text-align:center;
 }
 
 .day-box{
-background:rgba(0,0,0,0.3);
-padding:12px;
-margin:8px 0;
-border-radius:10px;
+background:rgba(0,0,0,0.4);
+padding:14px;
+margin:10px 0;
+border-radius:12px;
+font-size:16px;
 }
+
     </style>
 </head>
 <body>
@@ -502,50 +506,80 @@ n=n.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b));
 return n;
 }
 
-function futureScan(){
+function reduce(n){
+while(n>9){
+n=n.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b));
+}
+return n;
+}
+
+function ultraFuture(){
+
+let dob=document.getElementById("dobFuture").value;
+if(!dob){alert("Enter DOB");return;}
+
+let d=new Date(dob);
+let dobDay=d.getDate();
+let dobMonth=d.getMonth()+1;
+let dobYear=d.getFullYear();
+
+let mulank=reduce(dobDay);
+let bhagyank=reduce(dobDay+dobMonth+dobYear);
 
 let today=new Date();
+let currentYear=today.getFullYear();
+
 let html="";
 
 for(let i=1;i<=7;i++){
 
-let d=new Date();
-d.setDate(today.getDate()+i);
+let future=new Date();
+future.setDate(today.getDate()+i);
 
-let dayNumber=reduce(d.getDate());
+let fdate=future.getDate();
 
-let status="";
+// personal day
+let personal=reduce(dobDay+dobMonth+currentYear+fdate);
+
+// ultra final number
+let ultra=reduce(personal+mulank+bhagyank);
+
+let msg="";
 let icon="";
 
-// logic
-if(dayNumber==1||dayNumber==5){
-status="Career & success day";
+// prediction logic
+if(ultra==1||ultra==5){
+msg="Career & success day";
 icon="🚀";
 }
-else if(dayNumber==6){
-status="Love & luxury day";
+else if(ultra==6){
+msg="Love & luxury day";
 icon="❤️";
 }
-else if(dayNumber==8){
-status="Risk & heavy day";
+else if(ultra==8){
+msg="Risky & heavy karmic day";
 icon="⚠️";
 }
-else if(dayNumber==9){
-status="Power & action day";
+else if(ultra==9){
+msg="Power & action day";
 icon="🔥";
 }
-else if(dayNumber==2){
-status="Emotional day";
+else if(ultra==2){
+msg="Emotional & sensitive day";
 icon="🌙";
 }
+else if(ultra==3){
+msg="Money & growth day";
+icon="💰";
+}
 else{
-status="Normal stable day";
+msg="Normal stable day";
 icon="✨";
 }
 
 html+=`
 <div class="day-box">
-<b>Day ${i} :</b> ${icon} ${status}
+<b>Day ${i}</b> → ${icon} ${msg}
 </div>
 `;
 }
@@ -575,9 +609,10 @@ document.getElementById("futureOutput").innerHTML=html;
 
 
 <div class="card-box">
-<h3>🔮 7 Day Future Scanner</h3>
+<h3>🔮 Ultra 7 Day Future Scanner</h3>
 
-<button onclick="futureScan()">Check Next 7 Days</button>
+<input type="date" id="dobFuture">
+<button onclick="ultraFuture()">Check Future</button>
 
 <div id="futureOutput"></div>
 </div>
