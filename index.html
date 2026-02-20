@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abinash Astro Elite | Master AI Prediction</title>
+    <title>Abinash Astro Elite | Master AI Prediction Pro</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -11,79 +11,57 @@
 
     <style>
         :root {
-            --royal-bg: #05070a;
-            --accent-gold: #d4af37;
-            --soft-gold: #f9e29d;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(212, 175, 55, 0.3);
+            --royal-bg: #05070a; --accent-gold: #d4af37; --soft-gold: #f9e29d;
+            --glass: rgba(255, 255, 255, 0.03); --glass-border: rgba(212, 175, 55, 0.3);
             --text-main: #e0e0e0;
         }
-
         .light-mode {
-            --royal-bg: #f8f9fa;
-            --text-main: #212529;
-            --glass: rgba(0, 0, 0, 0.05);
-            --glass-border: rgba(142, 110, 23, 0.3);
+            --royal-bg: #f8f9fa; --text-main: #212529;
+            --glass: rgba(0, 0, 0, 0.05); --glass-border: rgba(142, 110, 23, 0.3);
         }
-
         body {
             background: radial-gradient(circle at top, #0d121d 0%, var(--royal-bg) 100%);
-            color: var(--text-main);
-            font-family: 'Quicksand', sans-serif;
-            min-height: 100vh;
-            transition: 0.5s ease;
+            color: var(--text-main); font-family: 'Quicksand', sans-serif;
+            min-height: 100vh; transition: 0.5s ease;
         }
-
         #themeBall {
             position: fixed; top: 20px; right: 20px; width: 45px; height: 45px; 
             background: var(--accent-gold); border-radius: 50%; cursor: pointer;
             box-shadow: 0 0 15px var(--accent-gold); display: flex; align-items: center; justify-content: center;
             z-index: 1000; font-size: 20px; border: none; color: #000;
         }
-
         .main-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 30px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-            margin-bottom: 30px;
+            background: var(--glass); backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 30px;
+            padding: 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.6); margin-bottom: 30px;
         }
-
         .brand-title {
             font-family: 'Cinzel', serif; font-size: 2.2rem; color: var(--accent-gold);
             text-align: center; letter-spacing: 4px; margin-bottom: 30px;
         }
-
         .form-control {
             background: rgba(255,255,255,0.05) !important;
             border: 1px solid var(--glass-border) !important;
             color: var(--text-main) !important;
             border-radius: 12px; padding: 12px; margin-bottom: 15px;
         }
-
         .btn-reveal {
             background: linear-gradient(45deg, #8e6e17, var(--accent-gold));
             color: #000; font-family: 'Cinzel', serif; font-weight: 700;
             border: none; border-radius: 12px; padding: 15px; width: 100%; text-transform: uppercase;
         }
-
         .section-header, .section-title {
             font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 0.9rem;
             margin: 30px 0 15px; display: flex; align-items: center; gap: 10px;
             letter-spacing: 2px; font-weight: bold;
         }
         .section-header::after { content: ""; flex: 1; height: 1px; background: var(--glass-border); }
-
         .prediction-box {
             background: rgba(212, 175, 55, 0.05); border-left: 4px solid var(--accent-gold);
             border-radius: 15px; padding: 20px; margin-bottom: 15px;
         }
-
         .career-item { margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
         .career-type { font-weight: 700; color: var(--accent-gold); font-size: 0.8rem; text-transform: uppercase; display: block; }
-
         .loshu-container {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
             max-width: 300px; margin: 20px auto;
@@ -95,53 +73,9 @@
         }
         .box-filled { background: rgba(212, 175, 55, 0.1); border-color: var(--accent-gold); }
         .grid-num { font-size: 1.4rem; color: var(--soft-gold); font-weight: 700; }
-        
-        .card-box{
-background:rgba(255,255,255,0.08);
-padding:20px;
-border-radius:15px;
-margin-top:20px;
-}
-
-.result-box{
-margin-top:15px;
-font-size:18px;
-font-weight:bold;
-}
-
-
-.card-box{
-background:rgba(255,255,255,0.08);
-padding:20px;
-border-radius:15px;
-margin-top:20px;
-}
-
-.result-box{
-margin-top:15px;
-font-size:16px;
-line-height:1.6;
-}
-
-
-
-
-.card-box{
-background:rgba(255,255,255,0.08);
-padding:20px;
-border-radius:15px;
-margin-top:20px;
-text-align:center;
-}
-
-.day-box{
-background:rgba(0,0,0,0.4);
-padding:14px;
-margin:10px 0;
-border-radius:12px;
-font-size:16px;
-}
-
+        .card-box{ background:rgba(255,255,255,0.08); padding:20px; border-radius:15px; margin-top:20px; text-align:center; }
+        .day-box{ background:rgba(0,0,0,0.4); padding:14px; margin:10px 0; border-radius:12px; font-size:16px; text-align: left; }
+        .result-box { margin-top:15px; font-size:16px; line-height:1.6; }
     </style>
 </head>
 <body>
@@ -159,113 +93,61 @@ font-size:16px;
 </div>
 
 <script>
-    // --- Data Engines ---
     const chaldean = {a:1,i:1,j:1,q:1,y:1,b:2,k:2,r:2,c:3,g:3,l:3,s:3,d:4,m:4,t:4,e:5,h:5,n:5,x:5,u:6,v:6,w:6,o:7,z:7,f:8,p:8};
-
-    const lifeTiming = {
-        1:{car:28,house:32,marriage:27,wealth:35,foreign:30},
-        2:{car:30,house:34,marriage:26,wealth:33,foreign:29},
-        3:{car:27,house:31,marriage:25,wealth:34,foreign:28},
-        4:{car:32,house:36,marriage:29,wealth:38,foreign:33},
-        5:{car:26,house:30,marriage:24,wealth:32,foreign:27},
-        6:{car:29,house:33,marriage:23,wealth:31,foreign:28},
-        7:{car:34,house:38,marriage:30,wealth:40,foreign:35},
-        8:{car:35,house:40,marriage:31,wealth:42,foreign:36},
-        9:{car:28,house:32,marriage:26,wealth:34,foreign:29}
-    };
-
+    const lifeTiming = { 1:{car:28,house:32,marriage:27,wealth:35,foreign:30}, 2:{car:30,house:34,marriage:26,wealth:33,foreign:29}, 3:{car:27,house:31,marriage:25,wealth:34,foreign:28}, 4:{car:32,house:36,marriage:29,wealth:38,foreign:33}, 5:{car:26,house:30,marriage:24,wealth:32,foreign:27}, 6:{car:29,house:33,marriage:23,wealth:31,foreign:28}, 7:{car:34,house:38,marriage:30,wealth:40,foreign:35}, 8:{car:35,house:40,marriage:31,wealth:42,foreign:36}, 9:{car:28,house:32,marriage:26,wealth:34,foreign:29} };
     const lifePredictions = {
         car: { 1:"Car yog strong. 30 ke baad pakka vehicle milega.", 2:"Late but stable vehicle yog.", 3:"Luxury vehicle yog strong.", 4:"Hard work se car milegi.", 5:"Business se car yog.", 6:"Luxury car yog strong.", 7:"Simple vehicle yog.", 8:"Delay ke baad heavy vehicle.", 9:"Fast vehicle yog strong." },
         house:{ 1:"Own house yog strong.", 2:"Flat ya apartment yog.", 3:"Big house luck.", 4:"Plot investment yog.", 5:"Multiple property yog.", 6:"Luxury home yog.", 7:"Spiritual place house yog.", 8:"Late but permanent house.", 9:"Independent house yog." },
         wealth:{ 1:"Self made rich.", 2:"Stable income life.", 3:"Financial growth strong.", 4:"Hard earned wealth.", 5:"Business wealth.", 6:"Luxury & comfort wealth.", 7:"Simple life.", 8:"Slow but massive wealth.", 9:"Sudden money gains." },
         marriage:{ 1:"Strong personality partner.", 2:"Emotional partner.", 3:"Educated partner.", 4:"Practical partner.", 5:"Smart & talkative partner.", 6:"Attractive partner.", 7:"Spiritual partner.", 8:"Serious partner.", 9:"Energetic partner." }
     };
-
     const weeklyPred = { 1:{week:"Leadership week",lucky:"Sunday",danger:"Saturday"}, 2:{week:"Emotional sensitive week",lucky:"Monday",danger:"Friday"}, 3:{week:"Growth & learning week",lucky:"Thursday",danger:"Wednesday"}, 4:{week:"Hard work week",lucky:"Saturday",danger:"Tuesday"}, 5:{week:"Business & travel week",lucky:"Wednesday",danger:"Monday"}, 6:{week:"Love & luxury week",lucky:"Friday",danger:"Sunday"}, 7:{week:"Spiritual week",lucky:"Monday",danger:"Thursday"}, 8:{week:"Karma clearing week",lucky:"Saturday",danger:"Tuesday"}, 9:{week:"Action success week",lucky:"Tuesday",danger:"Friday"} };
     const moneyFlow = { 1:"Income increase chance", 2:"Money stable", 3:"Investment luck", 4:"Expense high", 5:"Business profit", 6:"Luxury spend", 7:"Slow income", 8:"Delayed money", 9:"Sudden gain" };
     const lovePred = { 1:"Romance strong", 2:"Emotional bonding", 3:"Flirt & fun", 4:"Argument risk", 5:"New connection", 6:"Love proposal luck", 7:"Silent distance", 8:"Karmic partner issue", 9:"Passion high" };
     const dangerAlert = { 1:"Avoid ego clash", 2:"Avoid emotional decision", 3:"Avoid overspending", 4:"Avoid travel risk", 5:"Avoid wrong message", 6:"Avoid love fight", 7:"Avoid overthinking", 8:"Avoid authority issue", 9:"Avoid anger" };
-    
     const predictionEngine = {
-        1:{ career:"New opportunity & leadership day.", money:"Money inflow possible.", health:"Headache or BP issue.", risk:"Ego se loss ho sakta hai.", advice:"Take leadership but stay calm.", color:"Golden, Orange", time:"7AM - 10AM" },
-        2:{ career:"Slow but stable progress.", money:"Avoid lending money.", health:"Mood swing & stress.", risk:"Emotional decision mistake.", advice:"Trust intuition only.", color:"White, Silver", time:"8PM - 10PM" },
-        3:{ career:"Meeting & networking success.", money:"Financial planning day.", health:"Digestion issue.", risk:"Over confidence.", advice:"Speak less act more.", color:"Yellow", time:"10AM - 12PM" },
-        4:{ career:"Hard work day no shortcut.", money:"Unexpected expense.", health:"Back pain possible.", risk:"Technical problem.", advice:"Stay practical.", color:"Blue", time:"4PM - 6PM" },
-        5:{ career:"Business & communication luck.", money:"Trading profit possible.", health:"Nervous stress.", risk:"Wrong message.", advice:"Use brain not emotion.", color:"Green", time:"11AM - 2PM" },
-        6:{ career:"Client & public dealing success.", money:"Luxury spending.", health:"Sugar or throat issue.", risk:"Relationship fight.", advice:"Be polite.", color:"Pink, White", time:"6PM - 9PM" },
-        7:{ career:"Research & planning day.", money:"Slow money flow.", health:"Mental fatigue.", risk:"Overthinking.", advice:"Stay silent & observe.", color:"Sky blue", time:"5AM - 7AM" },
-        8:{ career:"Hard work karmic day.", money:"Delayed payment.", health:"Joint pain.", risk:"Legal/authority issue.", advice:"Patience only.", color:"Black, Navy", time:"5PM - 7PM" },
-        9:{ career:"Action & success day.", money:"Sudden gain.", health:"Heat & anger.", risk:"Fight or injury.", advice:"Control temper.", color:"Red", time:"9AM - 12PM" }
+        1:{ career:"New opportunity & leadership day.", money:"Money inflow possible.", health:"Headache or BP issue.", advice:"Take leadership but stay calm." },
+        2:{ career:"Slow but stable progress.", money:"Avoid lending money.", health:"Mood swing & stress.", advice:"Trust intuition only." },
+        3:{ career:"Meeting & networking success.", money:"Financial planning day.", health:"Digestion issue.", advice:"Speak less act more." },
+        4:{ career:"Hard work day no shortcut.", money:"Unexpected expense.", health:"Back pain possible.", advice:"Stay practical." },
+        5:{ career:"Business & communication luck.", money:"Trading profit possible.", health:"Nervous stress.", advice:"Use brain not emotion." },
+        6:{ career:"Client & public dealing success.", money:"Luxury spending.", health:"Sugar or throat issue.", advice:"Be polite." },
+        7:{ career:"Research & planning day.", money:"Slow money flow.", health:"Mental fatigue.", advice:"Stay silent & observe." },
+        8:{ career:"Hard work karmic day.", money:"Delayed payment.", health:"Joint pain.", advice:"Patience only." },
+        9:{ career:"Action & success day.", money:"Sudden gain.", health:"Heat & anger.", advice:"Control temper." }
     };
 
-    // --- Helper Functions ---
     function red(n) { while(n>9){n=n.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b),0)} return n; }
-    function toggleTheme() { document.body.classList.toggle('light-mode'); document.getElementById('themeBall').innerHTML = document.body.classList.contains('light-mode') ? '🌞' : '🌓'; }
+    function toggleTheme() { document.body.classList.toggle('light-mode'); }
 
-    // --- Core Logic ---
     function generate() {
         const name = document.getElementById("nameIn").value;
         const dobStr = document.getElementById("dobIn").value;
-        if(!name || !dobStr) { alert("Please enter Name and Date of Birth"); return; }
+        if(!name || !dobStr) { alert("Enter Name & DOB"); return; }
 
         const dob = new Date(dobStr);
         const d=dob.getDate(), m=dob.getMonth()+1, y=dob.getFullYear();
         const mulank=red(d), bhagyank=red(d+m+y);
-        
         const today = new Date();
         const py = red(d + m + today.getFullYear());
         const pm = red(py + (today.getMonth() + 1));
         const pd = red(pm + today.getDate());
 
-        const tp = predictionEngine[pd];
-        const w = weeklyPred[pd];
-        
-        // --- Chaldean Calculation Fix ---
         let nameSum = 0;
         name.toLowerCase().replace(/[^a-z]/g,'').split('').forEach(c => nameSum += chaldean[c] || 0);
         let nameNo = red(nameSum);
 
-        // --- Life Timing Calculations Fix ---
         let timing = lifeTiming[bhagyank];
-        let carYear = y + timing.car;
-        let houseYear = y + timing.house;
-        let marriageYear = y + timing.marriage;
-        let wealthYear = y + timing.wealth;
-        let foreignYear = y + timing.foreign;
-
-        // --- Scanners Logic Fix ---
-        let moneyMeter = (bhagyank==5||bhagyank==8) ? "💰 High Wealth Potential" : "💵 Normal Income Flow";
-        let loveScan = (bhagyank==6||mulank==2) ? "❤️ Strong Love Marriage Yog" : "💍 Arranged Marriage Chances";
-        let businessScan = (bhagyank==5||bhagyank==8) ? "📈 Business Success Strong" : "🏢 Job Better than Business";
-        let foreignTravel = (bhagyank==7||bhagyank==9) ? "🌍 Foreign Travel Yog Strong" : "✈️ Travel Yog Weak";
-        let evilEye = (mulank==8) ? "⚠️ Nazar Lag Sakti Hai" : "🧿 Protection Strong";
-
-        // --- Lucky Name Logic ---
         let luckyName = (nameNo != bhagyank) ? name + "a" : name;
-
-        // --- 9 Year Cycle HTML Fix ---
         let cycleHTML = "";
-        for(let i=0; i<9; i++){ cycleHTML += `<b>Year ${today.getFullYear()+i}:</b> Number ${red(py+i)} <br>`; }
+        for(let i=0; i<9; i++){ cycleHTML += `<b>Year ${today.getFullYear()+i}:</b> Num ${red(py+i)} <br>`; }
 
-        // Power Logic
-        let power="Normal Day";
-        if(pd==mulank || pd==bhagyank) power="🔥 POWER DAY (Very Lucky)";
-        if(pd==8) power="⚠️ Karmic Heavy Day";
-
-        // Life Yoga Logic
-        let carYog = lifePredictions.car[bhagyank];
-        let houseYog = lifePredictions.house[bhagyank];
-        let wealthYogText = lifePredictions.wealth[bhagyank];
-        let marriageYogText = lifePredictions.marriage[bhagyank];
-
-        // Grid Data
         let grid = {4:0,9:0,2:0,3:0,5:0,7:0,8:0,1:0,6:0};
         (d.toString()+m.toString()+y.toString()+mulank+bhagyank).split('').forEach(digit=>{if(grid[digit]!==undefined) grid[digit]++;});
 
         let outputHTML = `
             <div class="main-card animate__animated animate__fadeInUp">
                 <h2 class="text-center" style="font-family:'Cinzel'; color:var(--accent-gold);">${name}</h2>
-                
                 <div class="section-header">DESTINY CORE</div>
                 <div class="row text-center">
                     <div class="col-4"><p class="small mb-0">MULANK</p><h3>${mulank}</h3></div>
@@ -273,348 +155,81 @@ font-size:16px;
                     <div class="col-4"><p class="small mb-0">NAME NO.</p><h3>${nameNo}</h3></div>
                 </div>
 
-                <div class="section-header">TODAY POWER STATUS</div>
-                <div class="prediction-box text-center"><b>${power}</b></div>
-
                 <div class="section-header">⚡ AI DAILY PREDICTION</div>
                 <div class="prediction-box">
-                    <div class="career-item"><span class="career-type">💼 Career</span><p>${tp.career}</p></div>
-                    <div class="career-item"><span class="career-type">💰 Money Flow</span><p>${moneyFlow[pd]}</p></div>
-                    <div class="career-item"><span class="career-type">🩺 Health</span><p>${tp.health}</p></div>
-                    <div class="career-item"><span class="career-type">🎯 Advice</span><p>${tp.advice}</p></div>
+                    <div class="career-item"><span class="career-type">💼 Career</span><p>${predictionEngine[pd].career}</p></div>
+                    <div class="career-item"><span class="career-type">💰 Money</span><p>${moneyFlow[pd]}</p></div>
+                    <div class="career-item"><span class="career-type">🎯 Advice</span><p>${predictionEngine[pd].advice}</p></div>
                 </div>
 
-                <div class="section-title">EXACT LIFE TIMING PREDICTION</div>
+                <div class="section-title">EXACT LIFE TIMING</div>
                 <div class="prediction-box">
-                    🚗 <b>Car Purchase Year:</b> ${carYear} <br><br>
-                    🏠 <b>House Purchase Year:</b> ${houseYear} <br><br>
-                    💍 <b>Marriage Year:</b> ${marriageYear} <br><br>
-                    💰 <b>Wealth Peak Year:</b> ${wealthYear} <br><br>
-                    🌍 <b>Foreign Travel Year:</b> ${foreignYear}
-                </div>
-
-                <div class="section-title">LIFE EVENT PREDICTION</div>
-                <div class="prediction-box">
-                    🚗 <b>Car Yog:</b> ${carYog} <br><br>
-                    🏠 <b>House Yog:</b> ${houseYog} <br><br>
-                    💰 <b>Wealth Status:</b> ${wealthYogText} <br><br>
-                    💍 <b>Marriage Type:</b> ${marriageYogText}
+                    🚗 <b>Car:</b> ${y + timing.car} | 🏠 <b>House:</b> ${y + timing.house} <br>
+                    💍 <b>Marriage:</b> ${y + timing.marriage} | 💰 <b>Wealth:</b> ${y + timing.wealth}
                 </div>
 
                 <div class="section-title">MASTER SCANNERS</div>
                 <div class="prediction-box">
-                    <b>Money Meter:</b> ${moneyMeter} <br>
-                    <b>Love Scanner:</b> ${loveScan} <br>
-                    <b>Business Success:</b> ${businessScan} <br>
-                    <b>Foreign Travel:</b> ${foreignTravel} <br>
-                    <b>Evil Eye:</b> ${evilEye}
+                    <b>Money:</b> ${(bhagyank==5||bhagyank==8)?"💰 High":"💵 Normal"}<br>
+                    <b>Love:</b> ${(bhagyank==6||mulank==2)?"❤️ Love Marriage":"💍 Arranged"}<br>
+                    <b>Nazar:</b> ${(mulank==8)?"⚠️ Alert":"🧿 Protected"}
                 </div>
 
-                <div class="section-title">LUCKY NAME & CYCLE</div>
-                <div class="prediction-box">
-                    <b>Lucky Name Suggestion:</b> <span style="color:var(--accent-gold)">${luckyName}</span> <br><br>
-                    <b>9 Year Life Cycle:</b><br>${cycleHTML}
-                </div>
-
-                <div class="section-title">WEEKLY & LOVE ENERGY</div>
-                <div class="prediction-box">
-                    <b>Week:</b> ${w.week}<br>
-                    <b>Love:</b> ${lovePred[pd]}<br>
-                    <b>Lucky Day:</b> ${w.lucky} | <b>Danger:</b> ${w.danger}
-                </div>
-
-                <div class="section-title">⚠️ DANGER ALERT</div>
-                <div class="prediction-box" style="border-left-color: #ff4d4d;">${dangerAlert[pd]}</div>
-
-                <div class="section-header">LOSHU GRID</div>
+                <div class="section-title">LOSHU GRID</div>
                 <div class="loshu-container">
-                    ${[4,9,2,3,5,7,8,1,6].map(n=>`
-                        <div class="loshu-box ${grid[n]?'box-filled':''}">
-                            <div class="grid-num">${grid[n]?n.toString().repeat(grid[n]):n}</div>
-                        </div>`).join('')}
+                    ${[4,9,2,3,5,7,8,1,6].map(n=>`<div class="loshu-box ${grid[n]?'box-filled':''}"><div class="grid-num">${grid[n]?n.toString().repeat(grid[n]):n}</div></div>`).join('')}
+                </div>
+
+                <div class="section-header">🔮 ADVANCED TOOLS</div>
+                
+                <div class="card-box">
+                    <h5>Decision Maker</h5>
+                    <input type="text" id="question" class="form-control" placeholder="Ask anything (e.g. Job Change?)">
+                    <button class="btn btn-sm btn-reveal" onclick="checkDecision(${mulank})">Get Answer</button>
+                    <div id="decisionResult" class="result-box"></div>
+                </div>
+
+                <div class="card-box">
+                    <h5>Daily Remedy</h5>
+                    <button class="btn btn-sm btn-reveal" onclick="dailyRemedy()">Get Today's Remedy</button>
+                    <div id="remedyOutput" class="result-box"></div>
+                </div>
+
+                <div class="card-box">
+                    <h5>7-Day Future Scanner</h5>
+                    <button class="btn btn-sm btn-reveal" onclick="ultraFuture(${mulank}, ${bhagyank}, '${dobStr}')">Scan Future</button>
+                    <div id="futureOutput" class="mt-3"></div>
                 </div>
             </div>
         `;
-
         document.getElementById("output").innerHTML = outputHTML;
     }
-    
-    
-    function reduce(n){
-while(n>9){
-n=n.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b));
-}
-return n;
-}
 
-function dailyRemedy(){
+    function checkDecision(mulank) {
+        let q = document.getElementById("question").value.toLowerCase();
+        let dayNum = red(new Date().getDate());
+        let result = (dayNum == mulank || dayNum == 1 || dayNum == 5) ? "✅ YES — Perfect Timing" : "⚠️ WAIT — Not ideal today";
+        document.getElementById("decisionResult").innerHTML = result;
+    }
 
-let now=new Date();
-let dayNum=reduce(now.getDate());
+    function dailyRemedy() {
+        let dayNum = red(new Date().getDate());
+        let remedies = { 1:"Wear Orange, Start new tasks", 2:"Wear White, Avoid stress", 3:"Wear Yellow, Talk to Guru", 4:"Wear Blue, Finish pending work", 5:"Wear Green, Good for business", 6:"Wear Pink, Enjoy luxury", 7:"Wear Sky Blue, Meditate", 8:"Wear Black, Donate food", 9:"Wear Red, Control anger" };
+        document.getElementById("remedyOutput").innerHTML = "🪬 " + remedies[dayNum];
+    }
 
-let remedies={
-1:{
-wear:"Orange or Golden",
-avoid:"Ego & anger",
-call:"Father or boss",
-color:"🟠 Lucky color: Orange",
-action:"Start something new today"
-},
-2:{
-wear:"White or Cream",
-avoid:"Emotional decisions",
-call:"Mother",
-color:"⚪ Lucky color: White",
-action:"Stay calm & peaceful"
-},
-3:{
-wear:"Yellow",
-avoid:"Over talking",
-call:"Guru/teacher",
-color:"🟡 Lucky color: Yellow",
-action:"Focus on learning"
-},
-4:{
-wear:"Blue",
-avoid:"Arguments",
-call:"Old friend",
-color:"🔵 Lucky color: Blue",
-action:"Complete pending work"
-},
-5:{
-wear:"Green",
-avoid:"Wrong decisions",
-call:"Business contact",
-color:"🟢 Lucky color: Green",
-action:"Good day for business"
-},
-6:{
-wear:"Pink or White",
-avoid:"Relationship fight",
-call:"Partner",
-color:"💗 Lucky color: Pink",
-action:"Enjoy luxury & comfort"
-},
-7:{
-wear:"Sky blue",
-avoid:"Negative thinking",
-call:"Spiritual person",
-color:"🔷 Lucky color: Sky blue",
-action:"Meditation & planning"
-},
-8:{
-wear:"Black or Navy",
-avoid:"Big investment",
-call:"Elder person",
-color:"⚫ Lucky color: Black",
-action:"Donate something"
-},
-9:{
-wear:"Red",
-avoid:"Anger",
-call:"Brother/friend",
-color:"🔴 Lucky color: Red",
-action:"Take bold action"
-}
-};
-
-let r=remedies[dayNum];
-
-document.getElementById("remedyOutput").innerHTML=
-`
-🪬 <b>Today Remedy (Day ${dayNum})</b><br><br>
-
-👕 <b>Wear:</b> ${r.wear}<br>
-🚫 <b>Avoid:</b> ${r.avoid}<br>
-📞 <b>Call:</b> ${r.call}<br>
-🎨 ${r.color}<br>
-⚡ <b>Action:</b> ${r.action}
-`;
-}
-
-function checkDecision(){
-
-let q=document.getElementById("question").value.toLowerCase();
-let dob=document.getElementById("dobDecision").value;
-
-if(!q||!dob){alert("Enter question & DOB");return;}
-
-let d=new Date(dob);
-let mulank=reduce(d.getDate());
-
-// today number
-let now=new Date();
-let dayNum=reduce(now.getDate());
-
-// logic
-let result="";
-let reason="";
-
-if(dayNum==mulank){
-result="✅ YES — Today is powerful for you";
-reason="Your personal number matches today number.";
-}
-else if(dayNum==8){
-result="❌ AVOID — Heavy karmic day";
-reason="Day number 8 risky for major decisions.";
-}
-else if(Math.abs(dayNum-mulank)<=2){
-result="⚠️ WAIT — Not perfect timing";
-reason="Energy mismatch. Wait few days.";
-}
-else{
-result="✅ YES — Safe to proceed";
-reason="No major risk seen.";
-}
-
-// question type special logic
-if(q.includes("loan")||q.includes("borrow")){
-if(dayNum==8||dayNum==4){
-result="❌ AVOID LOAN TODAY";
-reason="Financial pressure day.";
-}
-}
-
-if(q.includes("job")){
-if(dayNum==5||dayNum==1){
-result="✅ JOB CHANGE LUCKY";
-reason="Career movement day.";
-}
-}
-
-if(q.includes("car")){
-if(dayNum==6||dayNum==5){
-result="🚗 BUY CAR — GOOD DAY";
-reason="Luxury & vehicle energy strong.";
-}
-}
-
-document.getElementById("decisionResult").innerHTML=
-`
-${result} <br>
-<small>${reason}</small>
-`;
-}
-
-
-
-
-function reduce(n){
-while(n>9){
-n=n.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b));
-}
-return n;
-}
-
-function reduce(n){
-while(n>9){
-n=n.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b));
-}
-return n;
-}
-
-function ultraFuture(){
-
-let dob=document.getElementById("dobFuture").value;
-if(!dob){alert("Enter DOB");return;}
-
-let d=new Date(dob);
-let dobDay=d.getDate();
-let dobMonth=d.getMonth()+1;
-let dobYear=d.getFullYear();
-
-let mulank=reduce(dobDay);
-let bhagyank=reduce(dobDay+dobMonth+dobYear);
-
-let today=new Date();
-let currentYear=today.getFullYear();
-
-let html="";
-
-for(let i=1;i<=7;i++){
-
-let future=new Date();
-future.setDate(today.getDate()+i);
-
-let fdate=future.getDate();
-
-// personal day
-let personal=reduce(dobDay+dobMonth+currentYear+fdate);
-
-// ultra final number
-let ultra=reduce(personal+mulank+bhagyank);
-
-let msg="";
-let icon="";
-
-// prediction logic
-if(ultra==1||ultra==5){
-msg="Career & success day";
-icon="🚀";
-}
-else if(ultra==6){
-msg="Love & luxury day";
-icon="❤️";
-}
-else if(ultra==8){
-msg="Risky & heavy karmic day";
-icon="⚠️";
-}
-else if(ultra==9){
-msg="Power & action day";
-icon="🔥";
-}
-else if(ultra==2){
-msg="Emotional & sensitive day";
-icon="🌙";
-}
-else if(ultra==3){
-msg="Money & growth day";
-icon="💰";
-}
-else{
-msg="Normal stable day";
-icon="✨";
-}
-
-html+=`
-<div class="day-box">
-<b>Day ${i}</b> → ${icon} ${msg}
-</div>
-`;
-}
-
-document.getElementById("futureOutput").innerHTML=html;
-}
+    function ultraFuture(mulank, bhagyank, dobStr) {
+        let d = new Date(dobStr);
+        let dm = d.getMonth()+1, dd = d.getDate();
+        let html = "";
+        for(let i=1; i<=7; i++) {
+            let f = new Date(); f.setDate(f.getDate()+i);
+            let ultra = red(red(dd+dm+f.getFullYear()+f.getDate()) + mulank + bhagyank);
+            let msgs = {1:"🚀 Career Luck", 6:"❤️ Romance", 8:"⚠️ Heavy Day", 3:"💰 Money Gain", 9:"🔥 Power"};
+            html += `<div class="day-box">Day ${i}: ${msgs[ultra] || "✨ Stable Day"}</div>`;
+        }
+        document.getElementById("futureOutput").innerHTML = html;
+    }
 </script>
-
-<div class="card-box">
-<h3>🔮 Decision Maker Tool</h3>
-
-<input type="text" id="question" placeholder="Apna question likho (job change, loan, car etc)">
-<input type="date" id="dobDecision">
-
-<button onclick="checkDecision()">Get Decision</button>
-
-<div id="decisionResult" class="result-box"></div>
-</div>
-
-<div class="card-box">
-<h3>🧿 Daily Remedy Generator</h3>
-
-<button onclick="dailyRemedy()">Check Today Remedy</button>
-
-<div id="remedyOutput" class="result-box"></div>
-</div>
-
-
-<div class="card-box">
-<h3>🔮 Ultra 7 Day Future Scanner</h3>
-
-<input type="date" id="dobFuture">
-<button onclick="ultraFuture()">Check Future</button>
-
-<div id="futureOutput"></div>
-</div>
 </body>
 </html>
