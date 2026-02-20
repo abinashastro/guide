@@ -122,6 +122,22 @@ margin-top:15px;
 font-size:16px;
 line-height:1.6;
 }
+
+
+.card-box{
+background:rgba(255,255,255,0.08);
+padding:20px;
+border-radius:15px;
+margin-top:20px;
+text-align:center;
+}
+
+.day-box{
+background:rgba(0,0,0,0.3);
+padding:12px;
+margin:8px 0;
+border-radius:10px;
+}
     </style>
 </head>
 <body>
@@ -475,6 +491,67 @@ ${result} <br>
 <small>${reason}</small>
 `;
 }
+
+
+
+
+function reduce(n){
+while(n>9){
+n=n.toString().split('').reduce((a,b)=>parseInt(a)+parseInt(b));
+}
+return n;
+}
+
+function futureScan(){
+
+let today=new Date();
+let html="";
+
+for(let i=1;i<=7;i++){
+
+let d=new Date();
+d.setDate(today.getDate()+i);
+
+let dayNumber=reduce(d.getDate());
+
+let status="";
+let icon="";
+
+// logic
+if(dayNumber==1||dayNumber==5){
+status="Career & success day";
+icon="🚀";
+}
+else if(dayNumber==6){
+status="Love & luxury day";
+icon="❤️";
+}
+else if(dayNumber==8){
+status="Risk & heavy day";
+icon="⚠️";
+}
+else if(dayNumber==9){
+status="Power & action day";
+icon="🔥";
+}
+else if(dayNumber==2){
+status="Emotional day";
+icon="🌙";
+}
+else{
+status="Normal stable day";
+icon="✨";
+}
+
+html+=`
+<div class="day-box">
+<b>Day ${i} :</b> ${icon} ${status}
+</div>
+`;
+}
+
+document.getElementById("futureOutput").innerHTML=html;
+}
 </script>
 
 <div class="card-box">
@@ -496,5 +573,13 @@ ${result} <br>
 <div id="remedyOutput" class="result-box"></div>
 </div>
 
+
+<div class="card-box">
+<h3>🔮 7 Day Future Scanner</h3>
+
+<button onclick="futureScan()">Check Next 7 Days</button>
+
+<div id="futureOutput"></div>
+</div>
 </body>
 </html>
