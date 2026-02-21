@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy | Real-Time Learning</title>
+    <title>Astro Academy | Lesson 1: Planets</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --success: #00ffcc; }
@@ -12,38 +12,35 @@
         
         /* Progress Bar */
         .progress-wrap { background: #1f2937; height: 10px; border-radius: 20px; margin-bottom: 25px; overflow: hidden; border: 1px solid #374151; }
-        #progress-fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 5%; height: 100%; transition: 0.8s ease; box-shadow: 0 0 15px var(--gold); }
+        #progress-fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 10%; height: 100%; transition: 0.8s ease; box-shadow: 0 0 15px var(--gold); }
 
-        .lesson-card { background: var(--card); border-radius: 20px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255,215,0,0.1); position: relative; transition: 0.4s; }
-        
-        /* Locked Styling */
-        .locked { opacity: 0.4; pointer-events: none; filter: grayscale(1); transform: scale(0.95); }
-        .lock-badge { position: absolute; right: 20px; top: 20px; font-size: 18px; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 10px; }
+        .lesson-card { background: var(--card); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,215,0,0.1); position: relative; }
         
         h3 { color: var(--gold); margin: 0 0 15px 0; font-size: 18px; display: flex; align-items: center; gap: 10px; }
-        select, button { width: 100%; padding: 14px; border-radius: 12px; margin: 8px 0; border: none; font-size: 14px; outline: none; }
+        select, button { width: 100%; padding: 14px; border-radius: 12px; margin: 8px 0; border: none; font-size: 14px; outline: none; font-family: inherit; }
         select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; }
         button { background: var(--gold); color: #000; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
-        button:hover { filter: brightness(1.1); }
+        button:hover { filter: brightness(1.1); transform: scale(1.01); }
 
         .result-box { display: none; margin-top: 20px; padding: 15px; background: rgba(255,215,0,0.03); border-left: 4px solid var(--gold); border-radius: 12px; }
         .point-item { margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
         .point-title { color: var(--gold); font-weight: 600; display: block; font-size: 15px; }
         .point-logic { color: var(--success); font-size: 12px; display: block; margin-top: 3px; font-style: italic; }
 
-        .unlock-alert { color: var(--success); font-size: 13px; font-weight: bold; margin-top: 15px; text-align: center; display: none; }
+        /* Navigation Button */
+        .next-btn { background: var(--success); color: #000; margin-top: 20px; display: none; text-align: center; text-decoration: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2 style="text-align: center; color: var(--gold); margin-bottom: 5px;">🎓 Astro Academy</h2>
-    <p style="text-align: center; font-size: 12px; color: #9ca3af; margin-bottom: 20px;">Complete lessons to become a Master</p>
+    <p style="text-align: center; font-size: 12px; color: #9ca3af; margin-bottom: 20px;">Lesson 1: Planet Personality Logic</p>
     
     <div class="progress-wrap"><div id="progress-fill"></div></div>
 
-    <div class="lesson-card" id="lesson1">
-        <h3><span>🌟</span> Lesson 1: Planet Traits</h3>
+    <div class="lesson-card">
+        <h3><span>🌟</span> Choose a Planet</h3>
         <select id="l1-p">
             <option value="Sun">Sun (Surya) ☀️</option>
             <option value="Moon">Moon (Chandra) 🌙</option>
@@ -55,26 +52,14 @@
             <option value="Rahu">Rahu 🎭</option>
             <option value="Ketu">Ketu 🧘</option>
         </select>
-        <button onclick="runLesson1()">Analyze Personality ✨</button>
+        <button onclick="runLesson1()">Analyze Logic ✨</button>
+        
         <div id="res1" class="result-box"></div>
-        <div id="alert1" class="unlock-alert">🎯 Awesome! Lesson 2 is now Unlocked!</div>
-    </div>
 
-    <div class="lesson-card locked" id="lesson2">
-        <div class="lock-badge" id="lock2">🔒 Locked</div>
-        <h3><span>🏠</span> Lesson 2: Planet in House</h3>
-        <div style="display: flex; gap: 10px;">
-            <select id="l2-p">
-                <option value="Sun">Sun</option><option value="Moon">Moon</option><option value="Mars">Mars</option>
-            </select>
-            <select id="l2-h">
-                <option value="1">1st House</option><option value="2">2nd House</option><option value="10">10th House</option>
-            </select>
-        </div>
-        <button id="btn2" onclick="runLesson2()">Analyze House ✨</button>
-        <div id="res2" class="result-box"></div>
+        <button id="go2" class="next-btn" onclick="window.location.href='section2.html'">
+            Go to Lesson 2: House System ➔
+        </button>
     </div>
-
 </div>
 
 <script>
@@ -194,7 +179,7 @@ function runLesson1() {
     const res = document.getElementById("res1");
     res.style.display = "block";
     
-    // Shuffle and pick
+    // Logic points shuffle
     let points = [...traitData[val]].sort(() => 0.5 - Math.random());
     
     res.innerHTML = points.map(item => `
@@ -204,32 +189,9 @@ function runLesson1() {
         </div>
     `).join('');
 
-    // Update UI
-    document.getElementById("progress-fill").style.width = "20%";
-    document.getElementById("alert1").style.display = "block";
-    
-    // Unlock Lesson 2
-    const L2 = document.getElementById("lesson2");
-    L2.classList.remove("locked");
-    document.getElementById("lock2").innerHTML = "🔓 Unlocked";
-}
-
-function runLesson2() {
-    const p = document.getElementById("l2-p").value;
-    const h = document.getElementById("l2-h").value;
-    const res = document.getElementById("res2");
-    res.style.display = "block";
-    
-    res.innerHTML = `<b>${p} in ${h}th House Analysis:</b><br><br>
-    1. Ye aapko is ghar mein Super Hero bana dega.<br>
-    2. Aapka dimaag hamesha is ghar ki cheezon mein rahega.<br>
-    3. Aapko yahan se bahut saare gifts mil sakte hain.<br>
-    <i>(Full logic coming in next update...)</i>`;
-    
     document.getElementById("progress-fill").style.width = "40%";
+    document.getElementById("go2").style.display = "block";
 }
 </script>
 </body>
 </html>
-
-
