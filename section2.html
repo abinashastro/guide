@@ -30,3 +30,227 @@
         .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid var(--gold); animation: fadeIn 0.4s ease; }
         .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
         .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
+
+        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; }
+        
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; scale: 0.95; } to { opacity: 1; scale: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header" style="text-align:center;">
+        <h1 style="color:var(--gold); margin:0;">🔮 Astro Academy</h1>
+        <div class="bar-bg"><div id="fill"></div></div>
+    </div>
+
+    <div id="p1" class="page active">
+        <div class="card">
+            <h2>🌟 Lesson 1: Planet Traits</h2>
+            <p class="sub">Planet ki energy aur uska realistic asar decode karein.</p>
+            <select id="l1-p"></select>
+            <button onclick="runLogic('l1-p', 'res1', 'planets', 'toP2', 33)">Analyze Personality ✨</button>
+            <div id="res1" class="result-box"></div>
+            <button id="toP2" class="nav-btn" onclick="nextPage(2)">Unlock Lesson 2: Rashis ♈</button>
+        </div>
+    </div>
+
+    <div id="p2" class="page">
+        <div class="card">
+            <h2>♈ Lesson 2: Rashi Logic</h2>
+            <p class="sub">12 Rashiyo ke piche ka asli swabhav aur predictions.</p>
+            <select id="l2-r"></select>
+            <button onclick="runLogic('l2-r', 'res2', 'rashis', 'toP3', 66)">Check Accuracy ✨</button>
+            <div id="res2" class="result-box"></div>
+            <button id="toP3" class="nav-btn" onclick="nextPage(3)">Unlock Lesson 3: Nakshatras 🌙</button>
+        </div>
+    </div>
+
+    <div id="p3" class="page">
+        <div class="card">
+            <h2>🌙 Lesson 3: Nakshatra Power</h2>
+            <p class="sub">27 Nakshatra: Aapki soul ka sabse gehra raaz.</p>
+            <select id="l3-n"></select>
+            <button onclick="runLogic('l3-n', 'res3', 'nakshatras', null, 100)">Reveal Destiny ✨</button>
+            <div id="res3" class="result-box"></div>
+            <button class="nav-btn" style="background:#fff; display:block;" onclick="location.reload()">Restart Course 🔄</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const astroData = {
+    planets: {
+        "Sun (Surya) ☀️": [
+            {t: "Born Leader.", l: "Surya raja hai, aap hamesha front se lead karte hain."},
+            {t: "High Self-Respect.", l: "Aap kisi ke samne jhukna pasand nahi karte."},
+            {t: "Father's Blessing.", l: "Pita ka asar aapki life mein bahut strong rehta hai."},
+            {t: "Clear Vision.", l: "Aap andhere mein bhi sahi rasta dhoondne mein expert hain."},
+            {t: "Royal Habits.", l: "Aapko sasti nahi, hamesha quality cheezein pasand aati hain."},
+            {t: "Discipline.", l: "Surya ki tarah aapko punctuality aur rules pasand hain."},
+            {t: "Bright Ego.", l: "Log aapko ghamandi samajh sakte hain par wo aapka self-respect hai."}
+        ],
+        "Moon (Chandra) 🌙": [
+            {t: "Thanda dimaag.", l: "Moon raat ki thandak hai, aap shanti pasand karte hain."},
+            {t: "Mood swings.", l: "Jaise chand badalta hai, aapki feelings bhi up-down hoti hain."},
+            {t: "Mumma ka ladla.", l: "Maa se aapka connection sabse gehra hota hai."},
+            {t: "Creative mind.", l: "Imagination aur arts mein aapka dimaag bahut chalta hai."},
+            {t: "Deep Thinker.", l: "Aap har baat ki gehrai mein chale jate hain."},
+            {t: "Water connection.", l: "Nadi ya samundar ke paas aapko sukoon milta hai."},
+            {t: "Helpful nature.", l: "Aap doosron ka dard turant mehsoos kar lete hain."}
+        ]
+        // ... baki planets isi format mein add karein
+    },
+    rashis: {
+    "Aries (Mesh) ♈": [
+        {t: "Chota Soldier.", l: "Mars iska ruler hai, aap hamesha action mode mein rehte hain."},
+        {t: "Darr se dosti.", l: "Naye raste banane se aap kabhi nahi darrte."},
+        {t: "Ziddi par sache.", l: "Dhokha dena aapke khoon mein nahi hai."},
+        {t: "Energy ka volcano.", l: "Aapka stamina hamesha high rehta hai."},
+        {t: "Munh-fat nature.", l: "Aap dil mein baatein nahi rakhte, seedha bol dete hain."},
+        {t: "Quick decisions.", l: "Aap turant faisla lene mein champion hain."},
+        {t: "Independent soul.", l: "Aapko kisi ke niche dab kar rehna pasand nahi."}
+    ],
+    "Taurus (Vrish) ♉": [
+        {t: "Zameen se jude.", l: "Earth element aapko practical aur stable banata hai."},
+        {t: "Luxury Lover.", l: "Venus swami hai, aapko achha khana aur comfort pasand hai."},
+        {t: "Ziddi Hathi.", l: "Agar aapne ek baar 'No' keh diya, toh koi nahi badal sakta."},
+        {t: "Paisa aur Security.", l: "Aap hamesha apne bank balance ko lekar serious rehte hain."},
+        {t: "Patient Worker.", l: "Aap dheere par sahi raste par chalne mein yaqeen rakhte hain."},
+        {t: "Artistic talent.", l: "Aapko ghar sajane aur sundar cheezon ka natural shauq hai."},
+        {t: "Wafadar dost.", l: "Aap purane rishton ko saalon-saal dil se nibhate hain."}
+    ],
+    "Gemini (Mithun) ♊": [
+        {t: "Double Minded.", l: "Aap ek saath do alag baaton par dimaag chala sakte hain."},
+        {t: "Talking Master.", l: "Mercury (Budh) aapko bolne ki gajab shakti deta hai."},
+        {t: "Fast Learner.", l: "Aap kisi bhi nayi skill ko computer ki tarah jaldi pakadte hain."},
+        {t: "Social Bird.", l: "Aapko naye logon se milna aur dosti karna pasand hai."},
+        {t: "Funny Nature.", l: "Aapka sense of humor mahol ko hamesha light rakhta hai."},
+        {t: "Confused Soul.", l: "Dual nature ki wajah se faisla lene mein thodi deri hoti hai."},
+        {t: "Smart Worker.", l: "Aap mehnat se zyada dimaag lagane par focus karte hain."}
+    ],
+    "Cancer (Karka) ♋": [
+        {t: "Emotional Shield.", l: "Moon ki rashi hai, aapka dil bahut naram aur caring hai."},
+        {t: "Home Lover.", l: "Aapko apne parivaar aur ghar mein sabse zyada sukoon milta hai."},
+        {t: "Mood Swings.", l: "Chand ki tarah aapki feelings bhi up-down hoti rehti hain."},
+        {t: "Sharp Memory.", l: "Aap purani baatein aur log hamesha yaad rakhte hain."},
+        {t: "Protector.", l: "Apno ki raksha ke liye aap kisi se bhi takra sakte hain."},
+        {t: "Tez Intuition.", l: "Aapko aane wali ghatnaon ka pehle hi ehsas ho jata hai."},
+        {t: "Kind Heart.", l: "Aap bina swarth ke sabki madad karne ko taiyar rehte hain."}
+    ],
+    "Leo (Simha) ♌": [
+        {t: "Asli Raja.", l: "Sun (Surya) ki rashi hai, aapka aura hi royal hota hai."},
+        {t: "Lion Heart.", l: "Aap kisi se darrte nahi aur hamesha lead karte hain."},
+        {t: "Limelight Lover.", l: "Aapko tareef sunna aur centre of attraction rehna pasand hai."},
+        {t: "Bada Dil.", l: "Aap doston aur zaroorat-mando par dil khol kar kharch karte hain."},
+        {t: "Pure Loyalty.", l: "Aap rishto mein dhokha kabhi bardasht nahi karte."},
+        {t: "Creative Style.", l: "Aap jo bhi kaam karte hain, usme apna ek 'Unique' touch dalte hain."},
+        {t: "Strong Ego.", l: "Aapka self-respect aapke liye sabse upar hai."}
+    ],
+    "Virgo (Kanya) ♍": [
+        {t: "Perfectionist.", l: "Aapko har kaam ekdam sahi aur perfect chahiye."},
+        {t: "Sharp Observation.", l: "Aap wo galtiyan pakad lete hain jo baaki log chhod dete hain."},
+        {t: "Analytical Mind.", l: "Budh aapko har baat ke piche ka logic dhoondne mein madad karta hai."},
+        {t: "Health Conscious.", l: "Aap fitness aur diet ko lekar kafi sawdhan rehte hain."},
+        {t: "Helping Hand.", l: "Problem solver hona aapki sabse badi khoobi hai."},
+        {t: "Simple & Neat.", l: "Aapko gandagi aur bikhra hua samaan bilkul pasand nahi."},
+        {t: "Practical Soul.", l: "Aap sapno ke bajaye haqiqat mein jeena pasand karte hain."}
+    ],
+    "Libra (Tula) ♎": [
+        {t: "Balance King.", l: "Aap har situation mein tawazul (balance) banaye rakhte hain."},
+        {t: "Charming Aura.", l: "Venus ka asar aapko bahut attractive personality deta hai."},
+        {t: "Justice Seeker.", l: "Aap hamesha sahi aur galat ke bich sahi ka sath dete hain."},
+        {t: "Decision delay.", l: "Dono sides tolne mein aap aksar confuse ho jate hain."},
+        {t: "Peace Lover.", l: "Aapko ladayi-jhagde aur shor se bahut nafrat hai."},
+        {t: "Art & Beauty.", l: "Aapko sundar kapde aur classy lifestyle ka shauq hai."},
+        {t: "Kind Diplomat.", l: "Aap kadwi baat ko bhi bahut pyar se kehna jante hain."}
+    ],
+    "Scorpio (Vrishchik) ♏": [
+        {t: "Mysterious Mind.", l: "Aapke dimaag mein kya hai, ye koi nahi jaan sakta."},
+        {t: "Magnetic Power.", l: "Aapki aankhen aur baatein logon ko attract karti hain."},
+        {t: "Extreme Nature.", l: "Ya toh aap bahut pyar karte hain ya bilkul nafrat."},
+        {t: "Silent Observer.", l: "Aap shant rehkar sab kuch note karte rehte hain."},
+        {t: "Fearless Soul.", l: "Aap khatron se khelne aur unhe jitne ki takat rakhte hain."},
+        {t: "Deep Loyalty.", l: "Aap jinhe apna mante hain, unke liye jaan de sakte hain."},
+        {t: "The Transformer.", l: "Aap har mushkil se nikal kar naya janm lete hain."}
+    ],
+    "Sagittarius (Dhanu) ♐": [
+        {t: "Knowledge Seeker.", l: "Jupiter swami hai, aap hamesha seekhna pasand karte hain."},
+        {t: "Free Bird.", l: "Azadi aapki sabse badi zaroorat hai, bandhan nahi."},
+        {t: "Truth Teller.", l: "Aap bina filter ke sach bolte hain, chahe bura lage."},
+        {t: "Travel Freak.", l: "Duniya ghumna aur adventure aapki pasand hai."},
+        {t: "Lucky Soul.", l: "Kismat aapka aksar mushkil waqt mein sath deti hai."},
+        {t: "Deep Philosopher.", l: "Aap life ke bade sawalon par gehrai se sochte hain."},
+        {t: "Optimistic.", l: "Har buri situation mein aap umeed ka rasta dhoond lete hain."}
+    ],
+    "Capricorn (Makar) ♑": [
+        {t: "Success Climber.", l: "Aap dheere-dheere unchai tak pahunchne ke master hain."},
+        {t: "Workaholic.", l: "Shani ki rashi hai, aapka career hi aapki pehchan hai."},
+        {t: "Paisa & Power.", l: "Aap society mein ek bada rutba hasil karna chahte hain."},
+        {t: "Strict Teacher.", l: "Aap discipline aur rules ko bahut maante hain."},
+        {t: "Reliable Wall.", l: "Mushkil waqt mein sab aap par bharosa karte hain."},
+        {t: "Reserved Nature.", l: "Aap har kisi se ghul-mil nahi jate, thoda waqt lete hain."},
+        {t: "Practical Brain.", l: "Aap jazbat se nahi, dimaag aur logic se faisle lete hain."}
+    ],
+    "Aquarius (Kumbh) ♒": [
+        {t: "Unique Logic.", l: "Aapki soch duniya se 10 saal aage ki hoti hai."},
+        {t: "Rule Breaker.", l: "Purane aur bekar rules ko todna aapko pasand hai."},
+        {t: "Humanitarian.", l: "Aap hamesha logon aur samaj ka bhala sochte hain."},
+        {t: "Tech Lover.", l: "Nayi technology aur gadgets aapka natural shauq hai."},
+        {t: "Friendly soul.", l: "Aapke doston ka group bahut bada aur alag hota hai."},
+        {t: "Detached.", l: "Aap logon se jude hain par dil se thode azad rehte hain."},
+        {t: "Creative Vision.", l: "Aap har boring cheez ko naya roop de sakte hain."}
+    ],
+    "Pisces (Meena) ♓": [
+        {t: "Dreamer.", l: "Aap hamesha apni ek khubsurat kalpana mein rehte hain."},
+        {t: "Kind Soul.", l: "Duniya ka dukh dekh kar aapka dil pighal jata hai."},
+        {t: "Spiritual Power.", l: "Aapka connection ishwar se bahut gehra hota hai."},
+        {t: "Pure Sacrifice.", l: "Apno ke liye aap apni khushiyan chhodne ko taiyar rehte hain."},
+        {t: "Artistic Mind.", l: "Music, poetry aur arts mein aap champ hote hain."},
+        {t: "Intuitive.", l: "Aapko logon ke irade pehle hi mehsoos ho jate hain."},
+        {t: "Easy Going.", l: "Aap life ke flow ke sath chalna pasand karte hain."}
+    ]
+}
+
+    
+
+window.onload = () => {
+    populateSelect('l1-p', Object.keys(astroData.planets));
+    populateSelect('l2-r', ["Aries (Mesh) ♈", "Taurus (Vrish) ♉", "Gemini (Mithun) ♊", "Cancer (Karka) ♋", "Leo (Simha) ♌", "Virgo (Kanya) ♍", "Libra (Tula) ♎", "Scorpio (Vrishchik) ♏", "Sagittarius (Dhanu) ♐", "Capricorn (Makar) ♑", "Aquarius (Kumbh) ♒", "Pisces (Meena) ♓"]);
+    populateSelect('l3-n', ["Ashwini 🐎", "Bharani 🐘", "Krittika 🔥", "Rohini 🌳", "Mrigashira 🦌", "Ardra 💧", "Punarvasu 🏹", "Pushya 🌸", "Ashlesha 🐍", "Magha 👑", "Purva Phalguni 🎭", "Uttara Phalguni 🛏️", "Hasta 🖐️", "Chitra 💎", "Swati 🌱", "Vishakha ⚡", "Anuradha 🌸", "Jyeshtha 🛡️", "Mula 🌳", "Purva Ashadha 🌊", "Uttara Ashadha 🐘", "Shravana 👂", "Dhanishta 🥁", "Shatabhisha 🛡️", "Purva Bhadrapada ⚔️", "Uttara Bhadrapada 🐍", "Revati 🐟"]);
+};
+
+function populateSelect(id, list) {
+    document.getElementById(id).innerHTML = list.map(item => `<option value="${item}">${item}</option>`).join('');
+}
+
+function runLogic(selectId, resId, type, nextBtnId, progress) {
+    const val = document.getElementById(selectId).value;
+    const res = document.getElementById(resId);
+    const data = astroData[type][val] || [
+        {t: "Great Personality.", l: "Vedic logic kehta hai aap bahut buddhiman hain."},
+        {t: "Unique Talent.", l: "Aapke andar koi chupa hua hunar hai."},
+        {t: "Future Success.", l: "Mehnat se aap bahut unchai tak jayenge."}
+    ];
+
+    res.style.display = "block";
+    if(nextBtnId) document.getElementById(nextBtnId).style.display = "block";
+    document.getElementById('fill').style.width = progress + "%";
+
+    res.innerHTML = data.map(item => `
+        <div class="point">
+            <b>${item.t}</b>
+            <i>Kyunki: ${item.l}</i>
+        </div>
+    `).join('');
+}
+
+function nextPage(n) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(`p${n}`).classList.add('active');
+    window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
