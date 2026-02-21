@@ -3,213 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro AI Pro | All-in-One Engine</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Astro Academy | Real-Time Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --accent: #1f2937; --text: #e5e7eb; }
-        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; }
-        .container { max-width: 800px; margin: auto; padding-bottom: 50px; }
-        h1 { color: var(--gold); text-align: center; font-size: 28px; text-transform: uppercase; margin-bottom: 30px; border-bottom: 2px solid var(--gold); padding-bottom: 10px; }
-        .section-card { background: var(--card); border-radius: 15px; padding: 20px; margin-bottom: 25px; border: 1px solid rgba(255,215,0,0.1); }
-        h3 { color: var(--gold); margin: 0 0 15px 0; font-size: 16px; display: flex; align-items: center; gap: 10px; }
-        .num { background: var(--gold); color: #000; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; }
-        select, input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #374151; background: var(--accent); color: white; }
-        button { width: 100%; padding: 15px; background: linear-gradient(45deg, #b8860b, var(--gold)); border: none; border-radius: 12px; font-weight: 600; cursor: pointer; color: #000; text-transform: uppercase; margin-top: 10px; }
-        .result-box { display: none; margin-top: 20px; padding: 20px; background: rgba(255,215,0,0.05); border-left: 5px solid var(--gold); border-radius: 10px; text-align: left; animation: fadeIn 0.5s; }
-        ol { padding-left: 20px; }
-        li { margin-bottom: 12px; font-size: 13px; line-height: 1.6; color: #d1d5db; }
-        b { color: var(--gold); }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --success: #00ffcc; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; }
+        .container { max-width: 500px; margin: auto; }
+        
+        /* Progress Bar */
+        .progress-wrap { background: #1f2937; height: 10px; border-radius: 20px; margin-bottom: 25px; overflow: hidden; border: 1px solid #374151; }
+        #progress-fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 5%; height: 100%; transition: 0.8s ease; box-shadow: 0 0 15px var(--gold); }
+
+        .lesson-card { background: var(--card); border-radius: 20px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255,215,0,0.1); position: relative; transition: 0.4s; }
+        
+        /* Locked Styling */
+        .locked { opacity: 0.4; pointer-events: none; filter: grayscale(1); transform: scale(0.95); }
+        .lock-badge { position: absolute; right: 20px; top: 20px; font-size: 18px; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 10px; }
+        
+        h3 { color: var(--gold); margin: 0 0 15px 0; font-size: 18px; display: flex; align-items: center; gap: 10px; }
+        select, button { width: 100%; padding: 14px; border-radius: 12px; margin: 8px 0; border: none; font-size: 14px; outline: none; }
+        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; }
+        button { background: var(--gold); color: #000; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
+        button:hover { filter: brightness(1.1); }
+
+        .result-box { display: none; margin-top: 20px; padding: 15px; background: rgba(255,215,0,0.03); border-left: 4px solid var(--gold); border-radius: 12px; }
+        .point-item { margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
+        .point-title { color: var(--gold); font-weight: 600; display: block; font-size: 15px; }
+        .point-logic { color: var(--success); font-size: 12px; display: block; margin-top: 3px; font-style: italic; }
+
+        .unlock-alert { color: var(--success); font-size: 13px; font-weight: bold; margin-top: 15px; text-align: center; display: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🔮 Astro AI Mastery</h1>
+    <h2 style="text-align: center; color: var(--gold); margin-bottom: 5px;">🎓 Astro Academy</h2>
+    <p style="text-align: center; font-size: 12px; color: #9ca3af; margin-bottom: 20px;">Complete lessons to become a Master</p>
+    
+    <div class="progress-wrap"><div id="progress-fill"></div></div>
 
-    <div class="section-card">
-        <h3><span class="num">1</span> Planet Traits & Examples</h3>
-        <select id="s1-p"></select>
-        <button onclick="runSection(1)">Analyze Traits</button>
-        <div id="res-1" class="result-box"></div>
+    <div class="lesson-card" id="lesson1">
+        <h3><span>🌟</span> Lesson 1: Planet Traits</h3>
+        <select id="l1-p">
+            <option value="Sun">Sun (Surya) ☀️</option>
+            <option value="Moon">Moon (Chandra) 🌙</option>
+            <option value="Mars">Mars (Mangal) 🔥</option>
+            <option value="Mercury">Mercury (Budh) ✍️</option>
+            <option value="Jupiter">Jupiter (Guru) 🎓</option>
+            <option value="Venus">Venus (Shukra) ✨</option>
+            <option value="Saturn">Saturn (Shani) ⚖️</option>
+            <option value="Rahu">Rahu 🎭</option>
+            <option value="Ketu">Ketu 🧘</option>
+        </select>
+        <button onclick="runLesson1()">Analyze Personality ✨</button>
+        <div id="res1" class="result-box"></div>
+        <div id="alert1" class="unlock-alert">🎯 Awesome! Lesson 2 is now Unlocked!</div>
     </div>
 
-    <div class="section-card">
-        <h3><span class="num">2</span> Planet House Activation</h3>
-        <div class="grid-2">
-            <select id="s2-p"></select>
-            <select id="s2-h"></select>
-        </div>
-        <button onclick="runSection(2)">Get 10 Activation Tips</button>
-        <div id="res-2" class="result-box"></div>
-    </div>
-
-    <div class="section-card">
-        <h3><span class="num">3</span> Conjunction (Yuti) Logic</h3>
-        <div class="grid-2">
-            <select id="s3-p1"></select>
-            <select id="s3-p2"></select>
-        </div>
-        <button onclick="runSection(3)">Analyze Conjunction</button>
-        <div id="res-3" class="result-box"></div>
-    </div>
-
-    <div class="section-card">
-        <h3><span class="num">4</span> Planet Degree Analysis</h3>
-        <div class="grid-2">
-            <select id="s4-p"></select>
-            <select id="s4-d">
-                <option value="Bal">0° - 6° (Bal Avastha)</option>
-                <option value="Kumar">6° - 12° (Kumar Avastha)</option>
-                <option value="Yuva">12° - 18° (Yuva Avastha)</option>
-                <option value="Vriddh">18° - 24° (Vriddh Avastha)</option>
-                <option value="Mrit">24° - 30° (Mrit Avastha)</option>
+    <div class="lesson-card locked" id="lesson2">
+        <div class="lock-badge" id="lock2">🔒 Locked</div>
+        <h3><span>🏠</span> Lesson 2: Planet in House</h3>
+        <div style="display: flex; gap: 10px;">
+            <select id="l2-p">
+                <option value="Sun">Sun</option><option value="Moon">Moon</option><option value="Mars">Mars</option>
+            </select>
+            <select id="l2-h">
+                <option value="1">1st House</option><option value="2">2nd House</option><option value="10">10th House</option>
             </select>
         </div>
-        <button onclick="runSection(4)">Show Strength Logic</button>
-        <div id="res-4" class="result-box"></div>
-    </div>
-
-    <div class="section-card">
-        <h3><span class="num">5</span> Planet Aspects (Drishti)</h3>
-        <select id="s5-p">
-            <option value="Mars">Mars (Mangal - 4,7,8)</option>
-            <option value="Jupiter">Jupiter (Guru - 5,7,9)</option>
-            <option value="Saturn">Saturn (Shani - 3,7,10)</option>
-            <option value="Common">Other Planets (7th Drishti)</option>
-        </select>
-        <button onclick="runSection(5)">Analyze Aspects</button>
-        <div id="res-5" class="result-box"></div>
-    </div>
-
-    <div class="section-card">
-        <h3><span class="num">6</span> Rashi (Zodiac) Analysis</h3>
-        <select id="s6-r"></select>
-        <button onclick="runSection(6)">Get 10 Rashi Points</button>
-        <div id="res-6" class="result-box"></div>
-    </div>
-
-    <div class="section-card">
-        <h3><span class="num">7</span> Axis Logic (House Axis)</h3>
-        <select id="s7-a">
-            <option value="1-7">1-7 Axis (Identity vs Relationship)</option>
-            <option value="2-8">2-8 Axis (Wealth vs Transformation)</option>
-            <option value="3-9">3-9 Axis (Efforts vs Fortune)</option>
-            <option value="4-10">4-10 Axis (Peace vs Profession)</option>
-            <option value="5-11">5-11 Axis (Children vs Gains)</option>
-            <option value="6-12">6-12 Axis (Service vs Liberation)</option>
-        </select>
-        <button onclick="runSection(7)">Analyze Axis</button>
-        <div id="res-7" class="result-box"></div>
-    </div>
-
-    <div class="section-card">
-        <h3><span class="num">8</span> Nakshatra Wisdom</h3>
-        <select id="s8-n"></select>
-        <button onclick="runSection(8)">Nakshatra Analysis</button>
-        <div id="res-8" class="result-box"></div>
-    </div>
-
-    <div class="section-card">
-        <h3><span class="num">9</span> Dasha & Antardasha</h3>
-        <div class="grid-2">
-            <select id="s9-d"></select>
-            <select id="s9-a"></select>
-        </div>
-        <button onclick="runSection(9)">Predict Period</button>
-        <div id="res-9" class="result-box"></div>
-    </div>
-
-    <div class="section-card">
-        <h3><span class="num">10</span> House & Health</h3>
-        <select id="s10-h"></select>
-        <button onclick="runSection(10)">Analyze Health</button>
-        <div id="res-10" class="result-box"></div>
+        <button id="btn2" onclick="runLesson2()">Analyze House ✨</button>
+        <div id="res2" class="result-box"></div>
     </div>
 
 </div>
 
 <script>
-const planets = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"];
-const rashis = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
-const naks = ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"];
-
-// Populate dropdowns
-window.onload = () => {
-    const pLists = ["s1-p", "s2-p", "s3-p1", "s3-p2", "s4-p", "s9-d", "s9-a"];
-    pLists.forEach(id => {
-        let el = document.getElementById(id);
-        if(el) planets.forEach(p => el.innerHTML += `<option value="${p}">${p}</option>`);
-    });
-    
-    const hLists = ["s2-h", "s10-h"];
-    hLists.forEach(id => {
-        let el = document.getElementById(id);
-        for(let i=1; i<=12; i++) el.innerHTML += `<option value="${i}">${i}th House</option>`;
-    });
-
-    rashis.forEach(r => document.getElementById("s6-r").innerHTML += `<option value="${r}">${r}</option>`);
-    naks.forEach(n => document.getElementById("s8-n").innerHTML += `<option value="${n}">${n}</option>`);
+const traitData = {
+    "Sun": [
+        {p: "Aap ek King ho.", l: "Kyunki Sun asman ka Raja hai."},
+        {p: "Aapko sach pasand hai.", l: "Kyunki light mein sab saaf dikhta hai."},
+        {p: "Aapka gussa tez hai.", l: "Kyunki Sun ek garam aag ka gola hai."},
+        {p: "Papa se bonding.", l: "Kyunki Sun astrology mein Father hai."},
+        {p: "Leadership quality.", l: "Kyunki Sher (Sun) kisi ke niche kaam nahi karta."},
+        {p: "Helpful nature.", l: "Jaise Sun sabko free mein dhup deta hai."},
+        {p: "Famous hone ki chah.", l: "Kyunki ye sabse chamakdar planet hai."},
+        {p: "Strong bones.", l: "Kyunki Sun skeleton ka boss hai."},
+        {p: "Discipline.", l: "Kyunki Sun kabhi late nahi hota."},
+        {p: "Self-Respect.", l: "Kyunki King kabhi jhukta nahi."}
+    ],
+    "Moon": [
+        {p: "Mumma ka ladla.", l: "Kyunki Moon ka matlab Mother hai."},
+        {p: "Mood swings.", l: "Kyunki Moon roz shape badalta hai."},
+        {p: "Thanda dimaag.", l: "Kyunki Moon raat ki thandak hai."},
+        {p: "Creative mind.", l: "Kyunki ye imagination ka swami hai."},
+        {p: "Ice-cream lover.", l: "Kyunki thandi cheezein Moon rule karta hai."},
+        {p: "Emotional nature.", l: "Kyunki ye mann ka malik hai."},
+        {p: "Travel pasand hai.", l: "Kyunki Moon sabse fast chalta hai."},
+        {p: "Sundar aankhen.", l: "Kyunki Moon facial beauty deta hai."},
+        {p: "Peace lover.", l: "Kyunki chandni sukoon deti hai."},
+        {p: "Raat ko jaagna.", l: "Kyunki Moon ki power raat mein hoti hai."}
+    ],
+    "Mars": [
+        {p: "Chota Soldier.", l: "Mars energy aur courage ka planet hai."},
+        {p: "Sports mein fast.", l: "Ye muscle aur speed control karta hai."},
+        {p: "Bhaiyon se dosti.", l: "Mars siblings ka boss hai."},
+        {p: "Kitchen pasand hai.", l: "Mars aag aur heat se juda hai."},
+        {p: "Ziddi nature.", l: "Mars hamesha jeetna chahta hai."},
+        {p: "Red color lover.", l: "Mars khud ek Red planet hai."},
+        {p: "Protector.", l: "Ye apno ki raksha karna sikhata hai."},
+        {p: "Body building.", l: "Mars muscles ko takat deta hai."},
+        {p: "Quick action.", l: "Mars wait nahi karta, jaldi kaam karta hai."},
+        {p: "Engineer dimaag.", l: "Ye machines aur tools ka master hai."}
+    ],
+    "Mercury": [
+        {p: "Smart talker.", l: "Mercury speech (boli) ka planet hai."},
+        {p: "Maths mein tez.", l: "Ye calculations aur logic handle karta hai."},
+        {p: "Funny nature.", l: "Mercury sabko hasana pasand karta hai."},
+        {p: "Greenery pasand.", l: "Mercury ka color Green hai."},
+        {p: "Chote behen-bhai.", l: "Ye chote siblings ko rule karta hai."},
+        {p: "Writing skill.", l: "Mercury pen aur paper ka master hai."},
+        {p: "Business mind.", l: "Ye trading sikhata hai."},
+        {p: "Quick learner.", l: "Bacchon jaisa sharp dimaag deta hai."},
+        {p: "Friends group.", l: "Ye networking ka boss hai."},
+        {p: "Skin care.", l: "Mercury skin ko control karta hai."}
+    ],
+    "Jupiter": [
+        {p: "Sabka Teacher.", l: "Jupiter wisdom aur gyan ka planet hai."},
+        {p: "Luck hamesha sath.", l: "Ye sabse bada 'Shubh' planet hai."},
+        {p: "Books padhna.", l: "Jupiter education ka boss hai."},
+        {p: "Sweet tooth.", l: "Ise mithi cheezein pasand hain."},
+        {p: "Grandpa se pyar.", l: "Jupiter elders ka planet hai."},
+        {p: "Respect milna.", l: "Ye society mein maan-samman deta hai."},
+        {p: "God par trust.", l: "Jupiter puja-path deta hai."},
+        {p: "Badi soch.", l: "Ye expansion ka planet hai."},
+        {p: "Yellow color.", l: "Yellow color se iski power badhti hai."},
+        {p: "Gold lover.", l: "Jupiter wealth ka swami hai."}
+    ],
+    "Venus": [
+        {p: "Fashion Star.", l: "Venus luxury aur style ka planet hai."},
+        {p: "Cars aur Toys.", l: "Ye vehicles rule karta hai."},
+        {p: "Music/Dance lover.", l: "Venus arts ka boss hai."},
+        {p: "Perfume pasand.", l: "Ye achhi khushboo ka master hai."},
+        {p: "Sabka favorite.", l: "Venus attraction aur beauty deta hai."},
+        {p: "White color lover.", l: "Venus ka favorite color White hai."},
+        {p: "Sundar ghar.", l: "Ye ghar ki decoration ka shaukeen hai."},
+        {p: "Kind heart.", l: "Venus pyar aur dosti ka planet hai."},
+        {p: "Painting karna.", l: "Ye colors aur creativity deta hai."},
+        {p: "Fancy lifestyle.", l: "Ye king-size life jeena sikhata hai."}
+    ],
+    "Saturn": [
+        {p: "Old Soul.", l: "Saturn sabse mature planet hai."},
+        {p: "Hard worker.", l: "Ye mehnat aur discipline sikhata hai."},
+        {p: "Justice lover.", l: "Ye judge hai jo sahi batata hai."},
+        {p: "Animals se pyar.", l: "Saturn nature se jura hai."},
+        {p: "Patience.", l: "Ye wait karna sikhata hai."},
+        {p: "Dark colors.", l: "Black/Blue Saturn ko pasand hain."},
+        {p: "Long life.", l: "Saturn ayu (age) ka boss hai."},
+        {p: "Technical skill.", l: "Ye factories rule karta hai."},
+        {p: "Serious nature.", l: "Saturn faltu baatein pasand nahi karta."},
+        {p: "Rooted lifestyle.", l: "Ye zameen se jure rehna sikhata hai."}
+    ],
+    "Rahu": [
+        {p: "Tech Genius.", l: "Rahu internet ka master hai."},
+        {p: "Big dreams.", l: "Ye badi cheezein dikhata hai."},
+        {p: "Foreign travel.", l: "Rahu dur ki jagaho ka planet hai."},
+        {p: "Out of the box.", l: "Ye hatkar sochne ki shakti deta hai."},
+        {p: "Video games.", l: "Animation ka boss hai."},
+        {p: "Sudden surprise.", l: "Rahu achanak badlav lata hai."},
+        {p: "Badi gaadiyan.", l: "Ye extra-ordinary cheez chahta hai."},
+        {p: "Photography.", l: "Ye lenses rule karta hai."},
+        {p: "Smart short-cut.", l: "Ye kaam jaldi karne ka dimaag deta hai."},
+        {p: "Illusion power.", l: "Ye magic ka master hai."}
+    ],
+    "Ketu": [
+        {p: "Yoga Boy/Girl.", l: "Ketu meditation ka planet hai."},
+        {p: "Quiet nature.", l: "Ise akelepan mein maza aata hai."},
+        {p: "6th Sense.", l: "Iska intuition sharp hota hai."},
+        {p: "Dog lover.", l: "Ketu dogs se jura hai."},
+        {p: "Simple living.", l: "Ise dikhava pasand nahi."},
+        {p: "Hidden talent.", l: "Ketu ke paas secret gun hote hain."},
+        {p: "Spiritual focus.", l: "Iska dhyan bhagwan mein hota hai."},
+        {p: "Researcher.", l: "Ye deep coding mein help karta hai."},
+        {p: "Sacrifice power.", l: "Ye aage badhna sikhata hai."},
+        {p: "Moksha path.", l: "Ye soul ki azaadi ka planet hai."}
+    ]
 };
 
-function runSection(num) {
-    const res = document.getElementById(`res-${num}`);
+function runLesson1() {
+    const val = document.getElementById("l1-p").value;
+    const res = document.getElementById("res1");
     res.style.display = "block";
-    let p1 = "", p2 = "", val = "";
-    let points = [];
+    
+    // Shuffle and pick
+    let points = [...traitData[val]].sort(() => 0.5 - Math.random());
+    
+    res.innerHTML = points.map(item => `
+        <div class="point-item">
+            <span class="point-title">${item.p}</span>
+            <span class="point-logic">Kyunki: ${item.l}</span>
+        </div>
+    `).join('');
 
-    switch(num) {
-        case 1:
-            p1 = document.getElementById("s1-p").value;
-            points = [
-                `<b>Nature:</b> ${p1} represents your core energy and soul's direction.`,
-                `<b>Strength:</b> It gives maximum results when placed in its own sign or exaltation.`,
-                `<b>Psychology:</b> ${p1} governs your internal reactions and mental stamina.`,
-                `<b>Example:</b> A person with a strong ${p1} naturally commands respect in their field.`,
-                `<b>Career:</b> Directly impacts your decision-making and professional growth.`,
-                `<b>Relationship:</b> Defines how you express authority or care in bonds.`,
-                `<b>Karmic Link:</b> Shows lessons carried over from past experiences.`,
-                `<b>Health:</b> Influences specific organs (e.g., Sun for Heart, Moon for Mind).`,
-                `<b>Subtle Trait:</b> Its position determines your daily vibration.`,
-                `<b>Final Advice:</b> Align your activities with ${p1}'s planetary day.`
-            ];
-            break;
-        case 3:
-            p1 = document.getElementById("s3-p1").value; p2 = document.getElementById("s3-p2").value;
-            points = [
-                `<b>Yuti Logic:</b> ${p1} and ${p2} combine to create a 'Third Energy' in your chart.`,
-                `<b>Internal Conflict:</b> You may feel a pull between ${p1}'s logic and ${p2}'s desire.`,
-                `<b>Strength:</b> If within 5 degrees, this conjunction is 100% active.`,
-                `<b>Example:</b> If ${p1} is Guru and ${p2} is Shani, it creates a 'Dharma-Karma' yoga.`,
-                `<b>Life Theme:</b> Your major life events will revolve around these two planets.`,
-                `<b>Behavior:</b> Native exhibits a blend of both planets' traits simultaneously.`,
-                `<b>Wealth:</b> This union can either block or explode financial gains.`,
-                `<b>Solution:</b> To balance, work on the planet with the lower degree first.`,
-                `<b>Activation:</b> This energy triggers during the Dasha of either planet.`,
-                `<b>Pro Tip:</b> Meditate on the combined mantra of ${p1} and ${p2}.`
-            ];
-            break;
-        case 6:
-            val = document.getElementById("s6-r").value;
-            points = [
-                `<b>Sign Quality:</b> ${val} defines the filter through which planets operate.`,
-                `<b>Element:</b> Its element (Fire/Earth/Air/Water) dictates your temperament.`,
-                `<b>Modality:</b> Whether it is Moveable, Fixed, or Dual determines your flexibility.`,
-                `<b>Body Appearance:</b> ${val} often influences the physical structure of the native.`,
-                `<b>Shadow Side:</b> Every Rashi has a hidden weakness to overcome.`,
-                `<b>Compatibility:</b> It naturally aligns with signs of the same element.`,
-                `<b>Power Source:</b> Its ruling planet must be strong for the sign to shine.`,
-                `<b>Example:</b> A ${val} moon native reacts to emotions with the sign's logic.`,
-                `<b>Career Path:</b> Suggests industries where you will feel most comfortable.`,
-                `<b>Vibration:</b> High-level resonance of ${val} leads to spiritual growth.`
-            ];
-            break;
-        default:
-            for(let i=1; i<=10; i++) points.push(`<b>Advanced Logic ${i}:</b> Specific Vedic interpretation based on the selected combination for maximum accuracy.`);
-    }
+    // Update UI
+    document.getElementById("progress-fill").style.width = "20%";
+    document.getElementById("alert1").style.display = "block";
+    
+    // Unlock Lesson 2
+    const L2 = document.getElementById("lesson2");
+    L2.classList.remove("locked");
+    document.getElementById("lock2").innerHTML = "🔓 Unlocked";
+}
 
-    res.innerHTML = `<ol>${points.map(p => `<li>${p}</li>`).join('')}</ol>`;
+function runLesson2() {
+    const p = document.getElementById("l2-p").value;
+    const h = document.getElementById("l2-h").value;
+    const res = document.getElementById("res2");
+    res.style.display = "block";
+    
+    res.innerHTML = `<b>${p} in ${h}th House Analysis:</b><br><br>
+    1. Ye aapko is ghar mein Super Hero bana dega.<br>
+    2. Aapka dimaag hamesha is ghar ki cheezon mein rahega.<br>
+    3. Aapko yahan se bahut saare gifts mil sakte hain.<br>
+    <i>(Full logic coming in next update...)</i>`;
+    
+    document.getElementById("progress-fill").style.width = "40%";
 }
 </script>
 </body>
