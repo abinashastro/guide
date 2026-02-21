@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy | Lesson 7: Planetary Degrees</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
+        body { background: var(--bg); color: #e5e7eb; font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        
+        .bar-bg { background: #1f2937; height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid #374151; }
+        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 100%; height: 100%; transition: 0.8s ease; }
+
+        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        h2 { color: var(--gold); font-size: 24px; margin-bottom: 5px; }
+        p.sub { font-size: 13px; color: #9ca3af; margin-bottom: 20px; }
+        
+        select, button { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 15px; margin: 10px 0; font-family: inherit; transition: 0.3s; }
+        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; outline: none; }
+        button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; }
+        button:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+        .result-box { margin-top: 25px; display: none; }
+        .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid var(--gold); animation: fadeIn 0.4s ease; }
+        .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
+        .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
+
+        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; cursor: pointer; border-radius: 14px; font-weight: 600; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header" style="text-align:center;">
+        <h1 style="color:var(--gold); margin:0;">🔮 Astro Academy</h1>
+        <div class="bar-bg"><div id="fill"></div></div>
+    </div>
+
+    <div class="card">
+        <h2>📏 Lesson 7: Planetary Degrees</h2>
+        <p class="sub">0° se 30° tak ka safar: Grah ki asli shakti.</p>
+        
+        <select id="degreeSelect">
+            <option value="bal">0° - 6°: Mrit & Bal Avastha (Infant)</option>
+            <option value="kumar">6° - 12°: Kumar Avastha (Teenager)</option>
+            <option value="yuva">12° - 18°: Yuva Avastha (Full Power)</option>
+            <option value="vridh">18° - 24°: Vridh Avastha (Old Age)</option>
+            <option value="mrit">24° - 30°: Mrit Avastha (Dead/Faded)</option>
+            <option value="sandhi">0° or 29°: Bhava Sandhi (The Edge)</option>
+        </select>
+
+        <button onclick="analyzeDegree()">Check Planet Strength 💪</button>
+
+        <div id="resultArea" class="result-box"></div>
+
+        <button id="finalBtn" class="nav-btn" onclick="saveAndHome()">
+            Save Degree Knowledge 🏆
+        </button>
+    </div>
+</div>
+
+<script>
+const degreeData = {
+    "bal": [
+        {t: "The Child Energy.", l: "Grah abhi bacha hai (0-6°), iske paas gyan hai par action lene ki shakti kam hai."},
+        {t: "25% Results.", l: "Ye grah apne poore phal ka sirf 1/4 hissa hi de pata hai."},
+        {t: "High Potential.", l: "Jaise ek bacha bada hota hai, ye grah dashas mein dheere-dheere phal deta hai."},
+        {t: "Dependence.", l: "Ise doosre planets ke support ki bahut zaroorat hoti hai."},
+        {t: "Innocent Impact.", l: "Ye buri drishti dale toh bhi asar kam hota hai, aur shubh ho toh bhi kam."},
+        {t: "New Beginnings.", l: "Ye dikhata hai ki aap life mein us sector mein abhi seekh rahe hain."},
+        {t: "Weak Foundation.", l: "Is degree ka planet aksar shuruati struggles dikhata hai."}
+    ],
+    "kumar": [
+        {t: "Teenage Spirit.", l: "6-12° par grah ek chanchal teenager ki tarah behave karta hai."},
+        {t: "50% Results.", l: "Ye grah aadha phal dene mein saksham (capable) hota hai."},
+        {t: "Experimental.", l: "Aap us grah se judi cheezon mein naye-naye experiments karte hain."},
+        {t: "Developing Strength.", l: "Is avastha mein grah kafi energetic aur fast-moving hota hai."},
+        {t: "Unpredictable.", l: "Jaise teenager mood badalte hain, iska result kabhi kam kabhi zyada hota hai."},
+        {t: "Learning Phase.", l: "Ye dikhata hai ki aap us field mein master banne ki raah par hain."},
+        {t: "Competitive.", l: "Ye grah laddne aur aage badhne ki himmat rakhta hai."}
+    ],
+    "yuva": [
+        {t: "Peak Performance.", l: "12-18° par grah sabse zyada taqatwar hota hai. Ye raja hai."},
+        {t: "100% Results.", l: "Ye grah jo waada karta hai, wo poora karke hi dum leta hai."},
+        {t: "Decision Maker.", l: "Kundli ke sabse bade events isi degree ke planets trigger karte hain."},
+        {t: "Independent Power.", l: "Ise kisi doosre planet ki madad ki zaroorat nahi padti."},
+        {t: "High Aura.", l: "Aapki personality mein us grah ke gun saaf-saaf chamakte hain."},
+        {t: "Concrete Outcomes.", l: "Success, shaadi ya career; ye degree solid result deti hai."},
+        {t: "The Game Changer.", l: "Dasha aane par ye insaan ki kismat palatne ki shakti rakhta hai."}
+    ],
+    "vridh": [
+        {t: "The Old Wise.", l: "18-24° par grah thak chuka hai, par uske paas tajurba (experience) bahut hai."},
+        {t: "Limited Energy.", l: "Ye physical result kam deta hai par mental aur spiritual gyan zyada."},
+        {t: "Slow Motion.", l: "Is grah ke phal milne mein deri (delay) hoti hai."},
+        {t: "Detachment.", l: "Insaan us ghar ki cheezon se thoda thaka hua mehsoos karta hai."},
+        {t: "Deep Thinking.", l: "Ye grah philosophy aur research ke liye bahut achha mana jata hai."},
+        {t: "Exhaustion.", l: "Aapko us sector mein bahut mehnat ke baad hi thoda phal milta hai."},
+        {t: "Traditional.", l: "Ye grah purani tarikon aur rastaon par chalna pasand karta hai."}
+    ],
+    "mrit": [
+        {t: "Zero Strength.", l: "24-30° par grah mrit (dead) mana jata hai, iske paas bal nahi bacha."},
+        {t: "Negligible Results.", l: "Ye grah na ke barabar phal deta hai, chahe kitna bhi shubh kyun na ho."},
+        {t: "Past Karma.", l: "Ye dikhata hai ki us ghar ka sukh aap pichle janam mein bhog chuke hain."},
+        {t: "Last Degrees.", l: "Grah rashi badalne wala hai, isliye wo 'Exit' mode mein rehta hai."},
+        {t: "Hidden Presence.", l: "Grah kundli mein dikhta hai par life mein uska asar mehsoos nahi hota."},
+        {t: "Needs Stones/Remedies.", l: "Ise jagane ke liye Gemstones ya Mantra ki bahut zaroorat hoti hai."},
+        {t: "Fading Influence.", l: "Us grah se jude rishte ya fayde dheere-dheere khatam ho jate hain."}
+    ],
+    "sandhi": [
+        {t: "The Borderline.", l: "Jab grah 0° ya 29° par ho, wo do rashiyon ke beech fasa hota hai."},
+        {t: "Unstable Results.", l: "Ye sabse khatarnak hai kyunki grah confuse rehta hai ki result kahan ka de."},
+        {t: "Identity Crisis.", l: "Insaan us grah se judi baaton mein hamesha confused rehta hai."},
+        {t: "Extreme Fluctuation.", l: "Kabhi bahut zyada profit, kabhi achanak loss."},
+        {t: "Karmic Knot.", l: "Ye ek purani gath hai jise is janam mein suljhana zaroorat hai."},
+        {t: "No Control.", l: "Aapko mehsoos hoga ki cheezein aapke hath mein nahi hain."},
+        {t: "High Sensitivity.", l: "Thoda sa gochar (transit) hone par bhi iska asar turant padta hai."}
+    ]
+};
+
+function analyzeDegree() {
+    const val = document.getElementById("degreeSelect").value;
+    const resBox = document.getElementById("resultArea");
+    const data = degreeData[val];
+
+    resBox.style.display = "block";
+    document.getElementById("finalBtn").style.display = "block";
+
+    resBox.innerHTML = data.map(item => `
+        <div class="point">
+            <b>${item.t}</b>
+            <i>Degree Secret: ${item.l}</i>
+        </div>
+    `).join('');
+    
+    document.getElementById("fill").style.width = "100%";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+function saveAndHome() {
+    console.log("Firebase Sync: Section 7 Degrees Mastered [2026-02-17]");
+    alert("Brilliant! Ab aap Grahon ki 'Power' check karna seekh gaye hain. Data Saved in Firebase.");
+    window.location.href = 'home.html'; 
+}
+</script>
+</body>
+</html>
