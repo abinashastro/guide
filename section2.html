@@ -12,7 +12,7 @@
         
         /* Progress Bar */
         .bar-bg { background: #1f2937; height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid #374151; }
-        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 10%; height: 100%; transition: 0.8s ease; }
+        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 33%; height: 100%; transition: 0.8s ease; }
 
         .page { display: none; animation: slideUp 0.5s ease; }
         .active { display: block; }
@@ -45,7 +45,7 @@
         <div class="bar-bg"><div id="fill"></div></div>
     </div>
 
-    <div id="p1" class="page active">
+    <div id="p1" class="page">
         <div class="card">
             <h2>🌟 Lesson 1: Planet Traits</h2>
             <p class="sub">Planet ki energy aur uska realistic asar decode karein.</p>
@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <div id="p2" class="page">
+    <div id="p2" class="page active">
         <div class="card">
             <h2>♈ Lesson 2: Rashi Logic</h2>
             <p class="sub">12 Rashiyo ke piche ka asli swabhav aur predictions.</p>
@@ -100,7 +100,6 @@ const astroData = {
             {t: "Water connection.", l: "Nadi ya samundar ke paas aapko sukoon milta hai."},
             {t: "Helpful nature.", l: "Aap doosron ka dard turant mehsoos kar lete hain."}
         ]
-        // ... baki planets isi format mein add karein
     },
     rashis: {
     "Aries (Mesh) ♈": [
@@ -212,8 +211,6 @@ const astroData = {
         {t: "Easy Going.", l: "Aap life ke flow ke sath chalna pasand karte hain."}
     ]
 }
-
-    
 
 window.onload = () => {
     populateSelect('l1-p', Object.keys(astroData.planets));
