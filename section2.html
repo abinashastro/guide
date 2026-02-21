@@ -1,35 +1,32 @@
-};
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy | Final Masterclass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        
+        /* Progress Bar */
+        .bar-bg { background: #1f2937; height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid #374151; }
+        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 10%; height: 100%; transition: 0.8s ease; }
 
-function populateSelect(id, list) {
-    document.getElementById(id).innerHTML = list.map(item => `<option value="${item}">${item}</option>`).join('');
-}
+        .page { display: none; animation: slideUp 0.5s ease; }
+        .active { display: block; }
 
-function runLogic(selectId, resId, type, nextBtnId, progress) {
-    const val = document.getElementById(selectId).value;
-    const res = document.getElementById(resId);
-    const data = astroData[type][val] || [
-        {t: "Great Personality.", l: "Vedic logic kehta hai aap bahut buddhiman hain."},
-        {t: "Unique Talent.", l: "Aapke andar koi chupa hua hunar hai."},
-        {t: "Future Success.", l: "Mehnat se aap bahut unchai tak jayenge."}
-    ];
+        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        h2 { color: var(--gold); font-size: 24px; margin-bottom: 5px; }
+        p.sub { font-size: 13px; color: #9ca3af; margin-bottom: 20px; }
+        
+        select, button { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 15px; margin: 10px 0; font-family: inherit; transition: 0.3s; }
+        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; appearance: none; }
+        button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; }
+        button:hover { transform: scale(1.02); opacity: 0.9; }
 
-    res.style.display = "block";
-    if(nextBtnId) document.getElementById(nextBtnId).style.display = "block";
-    document.getElementById('fill').style.width = progress + "%";
-
-    res.innerHTML = data.map(item => `
-        <div class="point">
-            <b>${item.t}</b>
-            <i>Kyunki: ${item.l}</i>
-        </div>
-    `).join('');
-}
-
-function nextPage(n) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(`p${n}`).classList.add('active');
-    window.scrollTo(0,0);
-}
-</script>
-</body>
-</html>
+        .result-box { margin-top: 25px; display: none; }
+        .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid var(--gold); animation: fadeIn 0.4s ease; }
+        .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
+        .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
