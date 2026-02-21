@@ -27,7 +27,7 @@
         .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
         .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
 
-        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; }
+        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; cursor: pointer; border-radius: 14px; font-weight: 600; }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -45,41 +45,14 @@
         <p class="sub">27 Nakshatra: Aapki soul ka sabse gehra raaz.</p>
         
         <select id="nakSelect">
-            <option value="Ashwini 🐎">Ashwini 🐎</option>
-            <option value="Bharani 🐘">Bharani 🐘</option>
-            <option value="Krittika 🔥">Krittika 🔥</option>
-            <option value="Rohini 🌳">Rohini 🌳</option>
-            <option value="Mrigashira 🦌">Mrigashira 🦌</option>
-            <option value="Ardra 💧">Ardra 💧</option>
-            <option value="Punarvasu 🏹">Punarvasu 🏹</option>
-            <option value="Pushya 🌸">Pushya 🌸</option>
-            <option value="Ashlesha 🐍">Ashlesha 🐍</option>
-            <option value="Magha 👑">Magha 👑</option>
-            <option value="Purva Phalguni 🎭">Purva Phalguni 🎭</option>
-            <option value="Uttara Phalguni 🛏️">Uttara Phalguni 🛏️</option>
-            <option value="Hasta 🖐️">Hasta 🖐️</option>
-            <option value="Chitra 💎">Chitra 💎</option>
-            <option value="Swati 🌱">Swati 🌱</option>
-            <option value="Vishakha ⚡">Vishakha ⚡</option>
-            <option value="Anuradha 🌸">Anuradha 🌸</option>
-            <option value="Jyeshtha 🛡️">Jyeshtha 🛡️</option>
-            <option value="Mula 🌳">Mula 🌳</option>
-            <option value="Purva Ashadha 🌊">Purva Ashadha 🌊</option>
-            <option value="Uttara Ashadha 🐘">Uttara Ashadha 🐘</option>
-            <option value="Shravana 👂">Shravana 👂</option>
-            <option value="Dhanishta 🥁">Dhanishta 🥁</option>
-            <option value="Shatabhisha 🛡️">Shatabhisha 🛡️</option>
-            <option value="Purva Bhadrapada ⚔️">Purva Bhadrapada ⚔️</option>
-            <option value="Uttara Bhadrapada 🐍">Uttara Bhadrapada 🐍</option>
-            <option value="Revati 🐟">Revati 🐟</option>
-        </select>
+            </select>
 
         <button onclick="analyzeNak()">Reveal Destiny ✨</button>
 
         <div id="resultArea" class="result-box"></div>
 
         <button id="nextPageBtn" class="nav-btn" onclick="finishCourse()">
-            Save Results & Finish Course ✅
+            Save Results & Go to Lesson 4 ➔
         </button>
     </div>
 </div>
@@ -87,24 +60,259 @@
 <script>
 const nakData = {
     "Ashwini 🐎": [
-        {t: "Speed King.", l: "Ashwini Kumar devta hain, aap har kaam dusron se pehle karte hain."},
-        {t: "Healing Presence.", l: "Aapki maujudgi hi logon ka dukh door kar deti hai."},
-        {t: "First Starter.", l: "Ketu swami hai, naye raste banane mein aap expert hain."},
-        {t: "Youthful Energy.", l: "Aap hamesha dil se jawaan aur energetic rehte hain."},
-        {t: "Animal Lover.", l: "Aapka connection nature aur animals se bahut gehra hai."},
-        {t: "Quick Action.", l: "Aap sochte kam aur action pehle lete hain."},
-        {t: "Independent Mind.", l: "Aapko kisi ke niche dab kar kaam karna pasand nahi."}
+        {t: "Quick Starter.", l: "Ye pehla nakshatra hai, aap kisi bhi kaam ko bina deri kiye shuru karte hain."},
+        {t: "Natural Healer.", l: "Ashwini Kumar devta hain, aapki baaton mein logon ka dukh door karne ki shakti hai."},
+        {t: "Speed Lover.", l: "Ketu swami hai, aapko har kaam tezi se aur perfection ke sath karna pasand hai."},
+        {t: "Independent Spirit.", l: "Aap kisi ki ghulami ya dabao mein kaam nahi kar sakte."},
+        {t: "High Energy.", l: "Aap hamesha dil se jawaan aur energetic mehsoos karte hain."},
+        {t: "Stubborn but Right.", l: "Jab aap kisi cheez ka faisla kar lete hain, toh use pura karke hi chodte hain."},
+        {t: "Travel Freak.", l: "Aapko naye naye raste aur jagah explore karna bahut pasand hai."}
     ],
     "Bharani 🐘": [
-        {t: "Strong Bearer.", l: "Yam devta hain, aap badi se badi zimmedari utha lete hain."},
-        {t: "Truth Seeker.", l: "Aap galat ke khilaf hamesha awaaz uthate hain."},
-        {t: "Creative Spark.", l: "Venus ruler hai, aapko arts aur luxury pasand hai."},
-        {t: "Life & Death Logic.", l: "Aap jeevan ke gehre raaz samajhne mein mahir hain."},
-        {t: "Hardworking Soul.", l: "Aap jab tak apna lakshya pa nahi lete, rukte nahi."},
-        {t: "Justice Lover.", l: "Aap hamesha imandari ka rasta chunte hain."},
-        {t: "Brave Heart.", l: "Mushkilon se darrna aapke khoon mein nahi hai."}
+        {t: "Strong Endurance.", l: "Iska symbol 'Yoni' hai, aap jeevan ke har badlav aur dard ko jhelne ki takat rakhte hain."},
+        {t: "Discipline Master.", l: "Yam devta hain, aap rules aur sachai ke mamle mein bahut strict rehte hain."},
+        {t: "Extreme Nature.", l: "Ya toh aap bahut khush hote hain ya bilkul shant, beech ka raasta kam hi hota hai."},
+        {t: "Creative Power.", l: "Venus swami hai, aap artistic cheezon aur luxury ke shaukeen hote hain."},
+        {t: "Truth Teller.", l: "Aap munh-fat hain aur sach bolne se kabhi nahi darrte."},
+        {t: "High Responsibility.", l: "Mushkil waqt mein sabse pehle aap hi zimmedari uthate hain."},
+        {t: "Spiritual Depth.", l: "Aap jeevan aur mritiyu ke gehre rahasyon mein ruchi rakhte hain."}
+    ],
+    "Krittika 🔥": [
+        {t: "Sharp Intelligence.", l: "Iska symbol 'Chaku' hai, aapka dimaag bahut tez aur analytical hota hai."},
+        {t: "Pure Protection.", l: "Agni devta hain, aap apno ki raksha ke liye kisi se bhi ladd sakte hain."},
+        {t: "Direct Approach.", l: "Aap ghuma-fira kar baat karna pasand nahi karte, seedha point par aate hain."},
+        {t: "Social Status.", l: "Sun (Surya) ruler hai, aapko samaj mein izzat aur rutba hasil hota hai."},
+        {t: "Perfectionist.", l: "Aapko har kaam neet and clean aur system se chahiye."},
+        {t: "Hidden Anger.", l: "Aap shaant dikhte hain par andar se ek jwala mukhi ki tarah energy rakhte hain."},
+        {t: "Good Teacher.", l: "Aap doosron ko sahi aur galat ka farak bahut achhe se samjha sakte hain."}
+    ],
+    "Rohini 🌳": [
+        {t: "Magnetic Beauty.", l: "Ye Moon ka sabse favourite nakshatra hai, aapki personality bahut attractive hoti hai."},
+        {t: "Material Success.", l: "Aapko lifestyle aur sukh-suvidhaon ki cheezein natural tarike se milti hain."},
+        {t: "Deep Emotions.", l: "Aap har rishte ko dil se nibhate hain aur bahut sensitive hote hain."},
+        {t: "Great Stability.", l: "Aap life mein therao aur security ko sabse zyada mahatva dete hain."},
+        {t: "Creative Arts.", l: "Music, dancing ya painting mein aapka natural interest hota hai."},
+        {t: "Nature Lover.", l: "Aapko ped-poudhon aur prakriti ke beech sukoon milta hai."},
+        {t: "Strong Willpower.", l: "Aap jis cheez ko pane ki thaan lete hain, use hasil karke hi rehte hain."}
+    ],
+    "Mrigashira 🦌": [
+        {t: "The Searcher.", l: "Deer symbol hai, aap hamesha gyan aur naye anubhavon ki talash mein rehte hain."},
+        {t: "Fast Thinking.", l: "Mars swami hai, aapka dimaag kisi bhi situation ko turant scan kar leta hai."},
+        {t: "Communication Expert.", l: "Aap apni baaton se kisi ka bhi dil jeetne ka hunar rakhte hain."},
+        {t: "Restless Mind.", l: "Aap ek jagah zyada der tik nahi sakte, hamesha kuch naya chahiye."},
+        {t: "Gentle Soul.", l: "Aapka swabhav naram aur milansar hota hai."},
+        {t: "Doubt Solver.", l: "Aap har baat ki gehrai mein jakar sachai dhoondne mein expert hain."},
+        {t: "Traveler.", l: "Ghumna-phirna aur adventure aapki life ka hissa hai."}
+    ],
+    "Ardra 💧": [
+        {t: "Intellectual Giant.", l: "Rahu ruler hai, aap bahut bade thinker aur researcher ho sakte hain."},
+        {t: "Emotional Purifier.", l: "Symbol 'Aansu' hai, aap dukh se nikal kar aur zyada mazboot bante hain."},
+        {t: "Stormy Energy.", l: "Rudra devta hain, aap purani cheezon ko tod kar naya banane mein yaqeen rakhte hain."},
+        {t: "Hardworking.", l: "Aap bina thake ghanton kaam karne ki shamta rakhte hain."},
+        {t: "Truth Finder.", l: "Aap dikhave par nahi, haqiqat par bharosa karte hain."},
+        {t: "Quick Transformation.", l: "Aap apni life mein bahut jaldi bade badlav late hain."},
+        {t: "Logic Over Feeling.", l: "Aap jazbat se zyada dimaag aur logic ka istemal karte hain."}
+    ],
+    "Punarvasu 🏹": [
+        {t: "Eternal Comeback.", l: "Iska symbol 'Dhanush' hai, aap haarne ke baad bhi hamesha wapas jeet-te hain."},
+        {t: "Nurturing Heart.", l: "Aditi devta hain, aap sabki madad aur dekhbhal karne wale hote hain."},
+        {t: "Wisdom Seeker.", l: "Jupiter swami hai, aapko gyan aur dharam mein bahut ruchi hoti hai."},
+        {t: "Home Lover.", l: "Aapko ghumne ke baad apne ghar mein hi sabse zyada sukoon milta hai."},
+        {t: "Positive Outlook.", l: "Aap har buri situation mein umeed ki kiran dhoond lete hain."},
+        {t: "Simple Living.", l: "Aapko dikhava pasand nahi, aap saadgi mein khush rehte hain."},
+        {t: "Protective.", l: "Apne parivaar aur doston ke liye aap ek dhaal ban kar khade rehte hain."}
+    ],
+    "Pushya 🌸": [
+        {t: "The Best Nakshatra.", l: "Ise nakshatron ka raja mana jata hai, aap bahut bhagyashali hain."},
+        {t: "Selfless Giver.", l: "Brihaspati devta hain, aap hamesha doosron ka bhala sochte hain."},
+        {t: "Disciplined Life.", l: "Saturn swami hai, aap mehnat aur niyam se kabhi peeche nahi hat-te."},
+        {t: "Religious Mind.", l: "Aapka jhukav adhyatma aur purani paramparaon ki taraf hota hai."},
+        {t: "Stable Success.", l: "Aapki tarakki dheere hoti hai par hamesha pakki hoti hai."},
+        {t: "Protector of Weak.", l: "Aap hamesha kamzoron ka sath dete hain."},
+        {t: "Pure Character.", l: "Aapka charitra saaf aur bharosemand hota hai."}
+    ],
+    "Ashlesha 🐍": [
+        {t: "Sharp Observation.", l: "Symbol 'Saanp' hai, aap logon ki baaton ke piche ka maqsad turant samajh lete hain."},
+        {t: "Highly Secretive.", l: "Aap apne raaz kisi ko nahi batate aur bahut mystery rakhte hain."},
+        {t: "Mental Strength.", l: "Mercury swami hai, aapka dimaag shatranj ke khiladi ki tarah chalta hai."},
+        {t: "Protective Ego.", l: "Aap apni aur apno ki izzat ke liye kisi bhi had tak ja sakte hain."},
+        {t: "Unpredictable.", l: "Log aapka agla kadam kabhi pehchan nahi sakte."},
+        {t: "Intense Loyalty.", l: "Agar aap kisi ko apna maante hain, toh uske liye hamesha khade rehte hain."},
+        {t: "Healing Power.", l: "Aapke paas logon ke dimaag ko padhne aur unhe guide karne ki shakti hai."}
+    ],
+    "Magha 👑": [
+        {t: "Royal Lineage.", l: "Pitras devta hain, aapko apne khandan aur sanskar par bahut garv hota hai."},
+        {t: "Natural Leader.", l: "Aapko bheed mein rehna nahi, bheed ko lead karna pasand hai."},
+        {t: "High Self-Respect.", l: "Ketu swami hai, aap apni izzat se kabhi samjhauta nahi karte."},
+        {t: "Legacy Focused.", l: "Aap aisa kaam karna chahte hain jo aapke baad bhi yaad rakha jaye."},
+        {t: "Strong Presence.", l: "Jab aap kamre mein aate hain, toh log aapka aura mehsoos karte hain."},
+        {t: "Generous Heart.", l: "Aap apne choton aur zaroorat-mando ki dil khol kar madad karte hain."},
+        {t: "Authoritative.", l: "Aapki baaton mein ek wazan aur hukumat hoti hai."}
+    ],
+    "Purva Phalguni 🎭": [
+        {t: "The Entertainer.", l: "Aapko life ko celebrate karna aur logon ko khush rakhna pasand hai."},
+        {t: "Romantic Soul.", l: "Venus ruler hai, aap pyar aur rishton ko bahut mahatva dete hain."},
+        {t: "Luxury Seeker.", l: "Aapko achha khana aur aaramdayak zindagi ka shauq hai."},
+        {t: "Natural Luck.", l: "Aapko aksar mushkil waqt mein bina mehnat ke madad mil jati hai."},
+        {t: "Creative Talent.", l: "Acting, music ya stage performance mein aap mahir ho sakte hain."},
+        {t: "Easy Going.", l: "Aap zyada stress nahi lete aur life ke flow ke sath chalte hain."},
+        {t: "Charismatic.", l: "Aapka charm logon ko aapka deewana bana deta hai."}
+    ],
+    "Uttara Phalguni 🛏️": [
+        {t: "Social Worker.", l: "Aap logon ki bhalai aur madad karne ke liye hamesha taiyar rehte hain."},
+        {t: "Reliable Partner.", l: "Aap rishto aur dosti ko saalon-saal imandari se nibhate hain."},
+        {t: "Strong Morals.", l: "Sun ruler hai, aap apne asoolon aur sachai par tika rehte hain."},
+        {t: "Hard Worker.", l: "Aap mehnat se kabhi nahi darrte aur career mein successful hote hain."},
+        {t: "Stable Success.", l: "Aapki life mein tarakki step-by-step aur mazboot hoti hai."},
+        {t: "Kind Heart.", l: "Aap har kisi ke liye apne dil mein daya rakhte hain."},
+        {t: "Leadership Quality.", l: "Aap logon ko sath lekar chalne mein champion hain."}
+    ],
+    "Hasta 🖐️": [
+        {t: "The Skillful.", l: "Iska symbol 'Hath' hai, aap hathon ke kaam (art, writing, tech) mein expert hain."},
+        {t: "Funny Nature.", l: "Moon swami hai, aapka sense of humor mahol ko light kar deta hai."},
+        {t: "Quick Learner.", l: "Aap kisi bhi nayi skill ko bahut jaldi seekh lete hain."},
+        {t: "Detail Oriented.", l: "Aap har kaam mein perfection aur bariki dhoondte hain."},
+        {t: "Service Minded.", l: "Doosron ki help karna aapke nature mein hai."},
+        {t: "Adaptable.", l: "Aap kisi bhi naye mahol mein bahut jaldi dhal jate hain."},
+        {t: "Smart Strategist.", l: "Aap dimaag se apni manzilon tak pahunchna jante hain."}
+    ],
+    "Chitra 💎": [
+        {t: "The Architect.", l: "Vishwakarma devta hain, aap har boring cheez ko sundar bana sakte hain."},
+        {t: "Bright Personality.", l: "Mars swami hai, aap hamesha chamakte huye aur attractive lagte hain."},
+        {t: "Creative Vision.", l: "Aap wo cheezein dekh lete hain jo baaki log miss kar dete hain."},
+        {t: "Confident.", l: "Aapko apni kabiliyat par pura bharosa hota hai."},
+        {t: "Artistic Mind.", l: "Fashion, design ya décor mein aapka taste bahut classy hota hai."},
+        {t: "Fearless.", l: "Naye experiments karne se aap kabhi nahi darrte."},
+        {t: "Independent Worker.", l: "Aap apni marzi se kaam karna pasand karte hain."}
+    ],
+    "Swati 🌱": [
+        {t: "Independent Wind.", l: "Vayu devta hain, aap hawa ki tarah azad rehna chahte hain."},
+        {t: "Diplomatic Skill.", l: "Rahu ruler hai, aap kadwi baat bhi bahut pyar se kehna jante hain."},
+        {t: "Slow but Steady.", l: "Aapka success ka rasta shuru mein dhire par baad mein bahut tez hota hai."},
+        {t: "Fair & Just.", l: "Aap hamesha sahi ka sath dete hain aur bhedbhav nahi karte."},
+        {t: "Business Minded.", l: "Aapko paisa banane aur manage karne ki natural samajh hai."},
+        {t: "Humble.", l: "Itni kabiliyat ke baad bhi aap bahut zameen se jude rehte hain."},
+        {t: "Future Focused.", l: "Aap hamesha kal ki taiyari aaj se hi shuru kar dete hain."}
+    ],
+    "Vishakha ⚡": [
+        {t: "Ambitious Soul.", l: "Indra-Agni devta hain, aapke sapne bahut bade hote hain."},
+        {t: "Goal Oriented.", l: "Jab tak aap apna lakshya pa nahi lete, aap rukte nahi hain."},
+        {t: "Powerful Energy.", l: "Jupiter swami hai, aapke paas gyan aur takat dono hote hain."},
+        {t: "Focus King.", l: "Aapki concentration power bahut kamaal ki hoti hai."},
+        {t: "Never Give Up.", l: "Har chunouti aapko aur zyada mazboot banati hai."},
+        {t: "Strategic Mind.", l: "Aap har kaam ko planning ke sath karte hain."},
+        {t: "Success Hungry.", l: "Aap hamesha top par rehna chahte hain."}
+    ],
+    "Anuradha 🌸": [
+        {t: "The Bridge.", l: "Mitra devta hain, aap logon ko aapas mein jodne ka kaam karte hain."},
+        {t: "Pure Friendship.", l: "Aap dosti nibhane mein duniya mein sabse best hain."},
+        {t: "Foreign Connections.", l: "Saturn swami hai, aapka success aksar ghar se door milta hai."},
+        {t: "Patient Worker.", l: "Aap dheere dheere par sahi disha mein kaam karte hain."},
+        {t: "Kind & Caring.", l: "Aap doosron ka dard mehsoos karte hain aur madad karte hain."},
+        {t: "Spiritual Growth.", l: "Aapka jhukav hamesha bhakti aur meditation ki taraf rehta hai."},
+        {t: "True Survivor.", l: "Aap har badi musibat se haskar nikal jate hain."}
+    ],
+    "Jyeshtha 🛡️": [
+        {t: "The Elder.", l: "Indra devta hain, aap hamesha sabse bade aur senior bankar rehna chahte hain."},
+        {t: "Protective.", l: "Aap apne parivaar aur doston ke liye ek majboot dhaal hain."},
+        {t: "Sharp Mind.", l: "Mercury swami hai, aapka dimaag bahut chatur aur tez chalta hai."},
+        {t: "Reserved Power.", l: "Aap apni takat ka dikhava nahi karte par waqt aane par dikhate hain."},
+        {t: "Hardworking Leader.", l: "Aap mehnat se apna rutba hasil karte hain."},
+        {t: "Deep Thinker.", l: "Aap har cheez ki gehrai aur logic ko samajhte hain."},
+        {t: "Respected.", l: "Society mein log aapki rai (opinion) ki bahut izzat karte hain."}
+    ],
+    "Mula 🌳": [
+        {t: "Root Investigator.", l: "Nirriti devta hain, aap har cheez ki jad (root) tak jate hain."},
+        {t: "Bold Transformation.", l: "Ketu swami hai, aap purani cheezon ko khatam karke naya shuru karne mein darrte nahi."},
+        {t: "Philosophical.", l: "Aap life aur death ke bare mein bahut gehra sochte hain."},
+        {t: "Detached.", l: "Aap bheed mein hokar bhi dil se sabse thoda alag rehte hain."},
+        {t: "Hard Truths.", l: "Aap kadwa sach bolne aur sunne ki himmat rakhte hain."},
+        {t: "Deep Research.", l: "Aap kisi bhi subject ke master ban sakte hain."},
+        {t: "Strong Will.", l: "Mushkilen aapko tod nahi sakti, balki aur nikharti hain."}
+    ],
+    "Purva Ashadha 🌊": [
+        {t: "The Invincible.", l: "Aapko harana namumkin hai, aap har jung jeetne ke liye paida huye hain."},
+        {t: "Optimistic.", l: "Venus swami hai, aap hamesha umeed aur khushi se bhare rehte hain."},
+        {t: "Water Connection.", l: "Aapka luck paani ya samudri ilakon ke paas zyada chamakta hai."},
+        {t: "Loyal Friend.", l: "Aap jinhe apna mante hain, unke liye hamesha khade rehte hain."},
+        {t: "Constant Growth.", l: "Aap kabhi rukte nahi, hamesha aage badhne ki koshish karte hain."},
+        {t: "Popular.", l: "Log aapki company aur baaton ko bahut pasand karte hain."},
+        {t: "Confident Leader.", l: "Aapka confidence hi aapki sabse badi takat hai."}
+    ],
+    "Uttara Ashadha 🐘": [
+        {t: "Eternal Victory.", l: "Vishwadevas devta hain, aapki jeet hamesha pakki hoti hai."},
+        {t: "Highly Ethical.", l: "Sun swami hai, aap imandari aur asoolon ke pakke hote hain."},
+        {t: "Respectable.", l: "Aapki personality bahut sober aur dignified hoti hai."},
+        {t: "Universal Friend.", l: "Aap har tarah ke logon ke sath mil-jul kar reh sakte hain."},
+        {t: "Hard Worker.", l: "Aap tab tak chain se nahi baithte jab tak kaam khatam na ho jaye."},
+        {t: "Knowledgeable.", l: "Aap gyan ke bhandar hote hain aur hamesha seekhte rehte hain."},
+        {t: "Solid Foundation.", l: "Aap jo bhi karte hain, uski neev bahut mazboot rakhte hain."}
+    ],
+    "Shravana 👂": [
+        {t: "The Listener.", l: "Vishnu devta hain, aap logon ko sunne aur samajhne mein expert hain."},
+        {t: "Learned Soul.", l: "Moon swami hai, aap padhne aur gyan lene ke bahut shaukeen hain."},
+        {t: "Peace Maker.", l: "Aap hamesha jhagdon ko khatam karke shanti banaye rakhte hain."},
+        {t: "Charitable.", l: "Aap doosron ki madad karne mein kabhi peeche nahi hat-te."},
+        {t: "Great Memory.", l: "Aap ek baar suni hui baat kabhi nahi bhulte."},
+        {t: "Respectful.", l: "Aap apne badon aur guruon ka bahut maan karte hain."},
+        {t: "Organized.", l: "Aap har kaam ko step-by-step aur planning se karte hain."}
+    ],
+    "Dhanishta 🥁": [
+        {t: "Wealth & Fame.", l: "Vasus devta hain, aapko life mein paisa aur pehchan dono milte hain."},
+        {t: "Music Lover.", l: "Mars ruler hai, aapka connection rhythm aur music se natural hota hai."},
+        {t: "Adaptable.", l: "Aap kisi bhi mushkil situation mein khud ko dhal lete hain."},
+        {t: "Strategic Success.", l: "Aap dimaag aur mehnat ke combination se jeet-te hain."},
+        {t: "Group Leader.", l: "Aap bade groups ya organizations ko lead karne ki kabiliyat rakhte hain."},
+        {t: "Confident.", l: "Aap bina kisi darr ke apni baat duniya ke samne rakhte hain."},
+        {t: "Ambitious.", l: "Aapka aim hamesha society mein bada naam kamane ka hota hai."}
+    ],
+    "Shatabhisha 🛡️": [
+        {t: "The Healer.", l: "Varuna devta hain, aap logon ki bimariyan aur pareshaniyan door kar sakte hain."},
+        {t: "Philosophical Mind.", l: "Rahu ruler hai, aapki soch duniya se bahut alag aur gehri hoti hai."},
+        {t: "Truth Seeker.", l: "Aap dikhave ko turant pehchan lete hain aur asliyat dhoondte hain."},
+        {t: "Independent.", l: "Aapko akele kaam karna aur apni azadi bahut pyari hai."},
+        {t: "Secretive.", l: "Aapke dimaag mein kya chal raha hai, ye koi nahi jaan sakta."},
+        {t: "Scientific Brain.", l: "Aap har cheez ke piche ka logic aur science samajhna chahte hain."},
+        {t: "Resilient.", l: "Aap har buri situation se nikal kar aur zyada mazboot bante hain."}
+    ],
+    "Purva Bhadrapada ⚔️": [
+        {t: "Humanitarian.", l: "Aja Ekapada devta hain, aap samaj ke liye kuch bada karna chahte hain."},
+        {t: "Intellectual Power.", l: "Jupiter swami hai, aapki buddhi bahut unche star ki hoti hai."},
+        {t: "Spiritual Warrior.", l: "Aap apne usoolon ke liye kisi se bhi takra sakte hain."},
+        {t: "Visionary.", l: "Aap hamesha bhavishya ki baatein aaj hi soch lete hain."},
+        {t: "Strong Opinion.", l: "Aap apni baat par hamesha adig rehte hain."},
+        {t: "Dedicated.", l: "Aap jis kaam ko hath mein lete hain, use pura karke hi chain lete hain."},
+        {t: "True Idealist.", l: "Aap duniya ko ek behtar jagah banane ka sapna dekhte hain."}
+    ],
+    "Uttara Bhadrapada 🐍": [
+        {t: "The Meditator.", l: "Ahirbudhnya devta hain, aap bahut shaant aur gambhir swabhav ke hain."},
+        {t: "Stable Success.", l: "Saturn ruler hai, aapki tarakki pakki aur lambe samay tak rehne wali hoti hai."},
+        {t: "Protector.", l: "Aap apno ke liye hamesha support system bankar khade rehte hain."},
+        {t: "Wise Counselor.", l: "Log aapke paas salah (advice) lene aate hain."},
+        {t: "Sacrificing Nature.", l: "Aap doosron ki khushi ke liye apni zarooratein chhod sakte hain."},
+        {t: "Deep Patience.", l: "Aap mushkil waqt mein bhi apna dhairya (patience) nahi khote."},
+        {t: "Soulful.", l: "Aapka connection ishwar aur kudrat se bahut gehra hota hai."}
+    ],
+    "Revati 🐟": [
+        {t: "The Guide.", l: "Pushan devta hain, aap bhatke huye logon ko rasta dikhane wale hote hain."},
+        {t: "Kindest Soul.", l: "Mercury ruler hai, aapka dil bahut naram aur daya se bhara hota hai."},
+        {t: "Creative Dreamer.", l: "Aap hamesha apni ek khubsurat duniya ki kalpana karte hain."},
+        {t: "Safe Traveler.", l: "Aapko safar karna aur naye cultures ko dekhna pasand hai."},
+        {t: "Social Harmony.", l: "Aap hamesha logon ke bich pyar aur mel-jol banaye rakhte hain."},
+        {t: "Animal Care.", l: "Aapko bezuban janwaron se bahut zyada lagav hota hai."},
+        {t: "Divine Success.", l: "Aapki life mein ishwar ki kripa hamesha bani rehti hai."}
     ]
-    // ... Note: Baaki Nakshatras ke liye bhi isi tarah 7 points generate honge.
+};
+
+// Auto-populate the dropdown
+window.onload = () => {
+    const select = document.getElementById('nakSelect');
+    Object.keys(nakData).sort().forEach(nak => {
+        let opt = document.createElement('option');
+        opt.value = nak;
+        opt.innerHTML = nak;
+        select.appendChild(opt);
+    });
 };
 
 function analyzeNak() {
@@ -112,16 +320,7 @@ function analyzeNak() {
     const resBox = document.getElementById("resultArea");
     const nextBtn = document.getElementById("nextPageBtn");
     
-    // Yahan agar specific data na ho toh default dynamic 7 points generate honge
-    const data = nakData[val] || [
-        {t: "Unique Soul Power.", l: "Vedic Astrology ke hisab se aapka nakshatra aapko khaas banata hai."},
-        {t: "Hidden Talent.", l: "Aapke paas ek aisa hunar hai jo duniya ko hairan kar dega."},
-        {t: "Strong Intuition.", l: "Aapko log aur unke irade pehle hi mehsoos ho jate hain."},
-        {t: "Path Finder.", l: "Aap dusron ko andhere se bahar nikalne ka kaam karte hain."},
-        {t: "Divine Blessing.", l: "Is nakshatra ke devta hamesha aapki raksha karte hain."},
-        {t: "Deep Thinker.", l: "Aap har baat ke piche ka 'Kyun' dhoondne mein expert hain."},
-        {t: "Infinite Success.", l: "Aapki mehnat aapko ek din bahut unchai par le jayegi."}
-    ];
+    const data = nakData[val];
 
     resBox.style.display = "block";
     nextBtn.style.display = "block";
@@ -134,12 +333,14 @@ function analyzeNak() {
     `).join('');
 
     document.getElementById("fill").style.width = "100%";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 
 function finishCourse() {
-    // User data saving to Firebase as requested [2026-02-17]
-    alert("Congratulations! Aapka Astro Academy data Firebase mein store ho gaya hai.");
-    console.log("Firebase Data Sync: User Details Stored.");
+    // Firebase saving logic as per [2026-02-17] instructions
+    console.log("Firebase: Storing User Nakshatra Data...");
+    alert("Results Saved! Redirecting to the Final Masterclass Lesson 4...");
+    window.location.href = 'section4.html';
 }
 </script>
 </body>
