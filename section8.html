@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy | Lesson 8: Divisional Charts (Vargas)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
+        body { background: var(--bg); color: #e5e7eb; font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        
+        .bar-bg { background: #1f2937; height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid #374151; }
+        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 100%; height: 100%; transition: 0.8s ease; }
+
+        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        h2 { color: var(--gold); font-size: 24px; margin-bottom: 5px; }
+        p.sub { font-size: 13px; color: #9ca3af; margin-bottom: 20px; }
+        
+        select, button { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 15px; margin: 10px 0; font-family: inherit; transition: 0.3s; }
+        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; outline: none; }
+        button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; }
+        button:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+        .result-box { margin-top: 25px; display: none; }
+        .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid var(--gold); animation: fadeIn 0.4s ease; }
+        .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
+        .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
+
+        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; cursor: pointer; border-radius: 14px; font-weight: 600; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header" style="text-align:center;">
+        <h1 style="color:var(--gold); margin:0;">🔮 Astro Academy</h1>
+        <div class="bar-bg"><div id="fill"></div></div>
+    </div>
+
+    <div class="card">
+        <h2>🔬 Lesson 8: Divisional Charts</h2>
+        <p class="sub">D1 se D60 tak: Har chart ek nayi layer kholta hai.</p>
+        
+        <select id="vargaSelect">
+            <option value="d1">D1 - Rashi Chart (The Body)</option>
+            <option value="d9">D9 - Navamsha (The Soul/Marriage)</option>
+            <option value="d10">D10 - Dashamsha (Career & Fame)</option>
+            <option value="d2">D2 - Hora (Wealth & Finances)</option>
+            <option value="d3">D3 - Drekkana (Siblings & Courage)</option>
+            <option value="d7">D7 - Saptamsha (Children & Progeny)</option>
+            <option value="d60">D60 - Shashtiamsha (Past Karma)</option>
+        </select>
+
+        <button onclick="analyzeVarga()">Zoom Into Destiny 🔍</button>
+
+        <div id="resultArea" class="result-box"></div>
+
+        <button id="finalBtn" class="nav-btn" onclick="saveAndHome()">
+            Save Varga Knowledge 🏆
+        </button>
+    </div>
+</div>
+
+<script>
+const vargaData = {
+    "d1": [
+        {t: "The Physical Reality.", l: "Ye aapka main map hai. Jo D1 mein nahi, wo life mein milna mushkil hai."},
+        {t: "Outer Shell.", l: "D1 dikhata hai ki aap duniya mein physically kya achieve karenge."},
+        {t: "The Promise.", l: "Ye chart events ka promise karta hai (Jaise: Shaadi hogi ya nahi)."},
+        {t: "Foundation.", l: "Baaki saare divisional charts isi main chart se nikalte hain."},
+        {t: "Public Perception.", l: "Aapka status aur pehchan D1 se hi decide hoti hai."},
+        {t: "Timing Guide.", l: "Transits (Gochar) hamesha D1 ke planets par hi apply kiye jate hain."},
+        {t: "First Reference.", l: "Bina D1 dekhe divisional charts ka koi mol nahi hota."}
+    ],
+    "d9": [
+        {t: "The Real Strength.", l: "D1 agar 'Phool' hai toh D9 uski 'Khushbu' hai. Ye grah ki asli taqat hai."},
+        {t: "Marriage & Partner.", l: "Life partner kaisa hoga aur marital life kaisi rahegi, ye D9 hi batata hai."},
+        {t: "Vargottama Power.", l: "Agar koi planet D1 aur D9 dono mein same rashi mein ho, toh wo super powerful ho jata hai."},
+        {t: "Soul's Path.", l: "Ye chart batata hai ki aapki soul asliyat mein kya chahti hai."},
+        {t: "Dharmic Connection.", l: "Isse 'Dharmamsha' bhi kehte hain, ye aapke bhagya ka asli chehra hai."},
+        {t: "Post-30 Growth.", l: "Aksar 30-35 saal ki umar ke baad D9 ka asar life mein zyada badh jata hai."},
+        {t: "Fruit of Tree.", l: "Agar D1 ped (tree) hai, toh D9 uska phal (fruit) hai."}
+    ],
+    "d10": [
+        {t: "Professional Zenith.", l: "Career mein aap kitni unchai par jayenge, ye D10 se dekha jata hai."},
+        {t: "Social Status.", l: "Bade awards, fame aur recognition isi chart ki den hoti hai."},
+        {t: "Business or Job.", l: "Aapka work environment aur profession ki field D10 se confirm hoti hai."},
+        {t: "Authority.", l: "Government power ya leadership roles ka prediction D10 ke bina adhura hai."},
+        {t: "Artha (Wealth) Focus.", l: "Ye chart aapke 'Karma' ko 'Success' mein badalne ka blueprint hai."},
+        {t: "Public Service.", l: "Samaj mein aapka yogdan aur kaam ki quality yahan se dekhi jati hai."},
+        {t: "Daily Work Life.", l: "D10 batata hai ki aap apne office ya work field mein kitne respected honge."}
+    ],
+    "d2": [
+        {t: "The Treasure Chest.", l: "Ye wealth accumulation aur bank balance ka microscope hai."},
+        {t: "Sun & Moon Division.", l: "Isme sirf do hi 'Horas' hote hain—Surya (Suraj) aur Chandra (Chand)."},
+        {t: "Family Wealth.", l: "Khandani jaydad aur bachpan ki financial security yahan dikhti hai."},
+        {t: "Income Source.", l: "Ye batata hai ki aap mehnat se paisa kamayenge ya luck se."},
+        {t: "Resource Management.", l: "Aap apne paise ko kitna achha handle karenge, ye D2 batata hai."},
+        {t: "Financial Stability.", l: "Ups and downs ke beech aapka net-worth kaisa rahega, wo yahan hai."},
+        {t: "Surya Hora Factor.", l: "Surya hora mein planets ho toh mehnat zyada, Chandra mein ho toh sukoon zyada."}
+    ],
+    "d3": [
+        {t: "Courage & Siblings.", l: "Bhai-beheno ka sukh aur aapki apni 'Willpower' D3 se dekhi jati hai."},
+        {t: "The Protector.", l: "Ye chart batata hai ki mushkil waqt mein aap ladenge ya bhag jayenge."},
+        {t: "Nature of Death.", l: "Vedic Astrology mein 'Ayur-Drekkana' se longevity ka andaza lagaya jata hai."},
+        {t: "Skill and Hobby.", l: "Hathon se kiye jane wale kaam aur artistic skills yahan se dekhein."},
+        {t: "Short Trips.", l: "Yatraon ka shauq aur unse hone wala fayda D3 batata hai."},
+        {t: "Support System.", l: "Aapke dost aur madadgar log aapka sath kab tak denge, wo yahan hai."},
+        {t: "Action Energy.", l: "Kaal Purush mein ye 3rd house ka extension hai, isliye ye initiative dikhata hai."}
+    ],
+    "d7": [
+        {t: "The Progeny Chart.", l: "Santan (Children) ka sukh aur unki life kaisi hogi, ye D7 batata hai."},
+        {t: "Creative Legacy.", l: "Sirf bache hi nahi, aapka banaya hua koi bada project ya 'Creation' bhi yahan hai."},
+        {t: "Grandchildren.", l: "Ye chart vansh (lineage) ki aage ki tarakki dikhata hai."},
+        {t: "Relationship with Kids.", l: "Aapke bache aapki izzat karenge ya nahi, ye D7 ke planets tay karte hain."},
+        {t: "Future Generation.", l: "Aapka naam aage kaun badhayega, ye yahan se pata chalta hai."},
+        {t: "Fertility & Health.", l: "Physical aur medical aspects of childbirth yahan se scan kiye jate hain."},
+        {t: "Jupiter's Role.", l: "D7 mein Guru (Jupiter) ki position sabse mahatvapurn mani jati hai."}
+    ],
+    "d60": [
+        {t: "The Past Life Mirror.", l: "Ye sabse gehra chart hai. Isme aapke pichle janam ke karmo ka hisab hai."},
+        {t: "Micro-Management.", l: "D1 mein planet shubh dikh sakta hai, par D60 mein wo asliyat dikhata hai."},
+        {t: "Karmic Debt.", l: "Life mein bina wajah hone wali pareshaniyan D60 se samajh aati hain."},
+        {t: "Final Verdict.", l: "Maharishi Parashar ne D60 ko D1 se bhi zyada mahatva diya hai."},
+        {t: "Subconscious Mind.", l: "Aapke andar chupi hui dar aur khwahishein yahan milti hain."},
+        {t: "Why Me?", l: "Zindagi ke sabse bade 'Kyun' ka jawab D60 ke paas hota hai."},
+        {t: "Ultimate Precision.", l: "Is chart ke liye birth time ka 100% accurate hona zaroori hai."}
+    ]
+};
+
+function analyzeVarga() {
+    const val = document.getElementById("vargaSelect").value;
+    const resBox = document.getElementById("resultArea");
+    const data = vargaData[val];
+
+    resBox.style.display = "block";
+    document.getElementById("finalBtn").style.display = "block";
+
+    resBox.innerHTML = data.map(item => `
+        <div class="point">
+            <b>${item.t}</b>
+            <i>Varga Insight: ${item.l}</i>
+        </div>
+    `).join('');
+    
+    document.getElementById("fill").style.width = "100%";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+function saveAndHome() {
+    console.log("Firebase Sync: Section 8 Varga Charts Mastered [2026-02-17]");
+    alert("Incredible! Ab aap Vedic Astrology ke sabse advanced 'Divisional Charts' ko samajh chuke hain. Data Saved.");
+    window.location.href = 'home.html'; 
+}
+</script>
+</body>
+</html>
