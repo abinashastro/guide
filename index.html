@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Astro AI Pro | Premium Numerology</title>
+<title>Astro AI Pro | Fixed</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
@@ -12,18 +12,17 @@
     body{ background: var(--bg); font-family: 'Poppins', sans-serif; color: white; text-align: center; margin: 0; padding-bottom: 50px; }
     .container{ padding: 20px; max-width: 500px; margin: auto; }
     h1{ color: var(--gold); font-size: 28px; margin-top: 20px; }
-    .tag{ color: #9ca3af; font-size: 14px; margin-bottom: 25px; display: block; }
     .card{ background: var(--card); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,215,0,0.1); }
     input{ width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 10px; background: #1f2937; color: white; box-sizing: border-box; }
-    button{ width: 100%; padding: 15px; background: linear-gradient(45deg, #b8860b, var(--gold)); border: none; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; color: #000; margin-top: 10px; transition: 0.3s; }
-    button:hover { transform: scale(1.02); }
-    .result{ margin-top: 25px; text-align: left; animation: fadeInUp 0.5s; }
+    button{ width: 100%; padding: 15px; background: linear-gradient(45deg, #b8860b, var(--gold)); border: none; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; color: #000; margin-top: 10px; }
+    .result{ margin-top: 25px; text-align: left; }
     .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
     .stat-item { background: #1f2937; padding: 10px; border-radius: 10px; text-align: center; }
-    .stat-item span { font-size: 12px; color: var(--gold); display: block; }
+    .stat-item span { font-size: 10px; color: var(--gold); display: block; text-transform: uppercase; letter-spacing: 1px; }
     .stat-item b { font-size: 20px; }
+    .personal-day-box { grid-column: span 2; background: var(--gold) !important; color: black !important; }
+    .personal-day-box span { color: #554400 !important; font-weight: bold; }
     .day-box{ background: #1f2937; margin: 8px 0; padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; border-left: 4px solid var(--gold); }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 
@@ -31,14 +30,11 @@
 
 <div class="container">
     <h1>🔮 Astro AI Pro</h1>
-    <span class="tag">AI Driven Numerology & Transit</span>
-
     <div class="card">
         <input type="text" id="name" placeholder="Full Name">
         <input type="date" id="dob">
         <button onclick="generate()">Scan My Destiny</button>
     </div>
-
     <div id="result" class="result"></div>
 </div>
 
@@ -54,83 +50,83 @@ async function generate() {
     const name = document.getElementById("name").value;
     const dob = document.getElementById("dob").value;
 
-    if (!name || !dob) { alert("Please enter Name and Date of Birth"); return; }
+    if (!name || !dob) { alert("Details bhariye!"); return; }
 
     const d = new Date(dob);
     const day = d.getDate(), month = d.getMonth() + 1, year = d.getFullYear();
     const today = new Date();
     
-    // Numbers
     const mulank = reduce(day);
     const bhagyank = reduce(day + month + year);
     const py = reduce(day + month + today.getFullYear());
     const pm = reduce(py + (today.getMonth() + 1));
     const pd = reduce(pm + today.getDate());
 
-    document.getElementById("result").innerHTML = `<div class="card" style="text-align:center;">⏳ Fetching Cosmic Data...</div>`;
+    document.getElementById("result").innerHTML = `<div class="card" style="text-align:center;">⌛ Fetching Location Data...</div>`;
 
-    // Get location & transit data
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-        try {
-            const lat = pos.coords.latitude;
-            const lon = pos.coords.longitude;
-            // Note: If you don't have a key, this part will use dummy data
-            const res = await fetch(`https://api.ipgeolocation.io/astronomy?apiKey=70d27576f7f2402187654a93f064299b&lat=${lat}&long=${lon}`);
-            const data = await res.json();
-            showReport(name, mulank, bhagyank, py, pm, pd, data);
-        } catch (e) {
-            showReport(name, mulank, bhagyank, py, pm, pd, { moon_phase: "Waxing Gibbous", sunrise: "06:15", sunset: "18:20" });
-        }
-    }, () => {
-        // Fallback if Location is denied
-        showReport(name, mulank, bhagyank, py, pm, pd, { moon_phase: "Unknown", sunrise: "N/A", sunset: "N/A" });
-    });
+    // FIXED GEOLOCATION & API LOGIC
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            async (pos) => {
+                const lat = pos.coords.latitude;
+                const lon = pos.coords.longitude;
+                try {
+                    // Sahi API Key aur Lat/Long pass ho raha hai
+                    const res = await fetch(`https://api.ipgeolocation.io/astronomy?apiKey=70d27576f7f2402187654a93f064299b&lat=${lat}&long=${lon}`);
+                    const data = await res.json();
+                    showReport(name, mulank, bhagyank, py, pm, pd, data);
+                } catch (e) {
+                    useFallback(name, mulank, bhagyank, py, pm, pd);
+                }
+            },
+            (err) => { useFallback(name, mulank, bhagyank, py, pm, pd); }
+        );
+    } else {
+        useFallback(name, mulank, bhagyank, py, pm, pd);
+    }
+}
+
+function useFallback(name, m, b, py, pm, pd) {
+    showReport(name, m, b, py, pm, pd, { moon_phase: "Moon in Transit", sunrise: "06:10 AM", sunset: "06:15 PM" });
 }
 
 function showReport(name, m, b, py, pm, pd, astro) {
-    let prediction = "";
-    if (pd == 1 || pd == 5 || pd == 6) prediction = "🚀 A day of big opportunities and success.";
-    else if (pd == 8 || pd == 4) prediction = "⚠️ Workload will be high. Avoid arguments.";
-    else if (pd == 7) prediction = "🧘 Perfect day for spiritual growth and planning.";
-    else prediction = "✨ A balanced and stable day for you.";
-
+    // Prediction Logic
+    let advice = pd == 8 || pd == 4 ? "⚠️ Heavy work day, be patient." : "✨ Good day for progress.";
+    
     let seven = "";
-    const statuses = ["🔥 Excellent", "🙂 Good", "⚠️ Careful", "💰 Gain"];
+    const statuses = ["💰 Gain", "🔥 Excellent", "🙂 Good", "✨ Stable"];
     for (let i = 1; i <= 7; i++) {
-        let s = statuses[Math.floor(Math.random() * statuses.length)];
-        seven += `<div class="day-box"><span>Day ${i} Prediction</span><b>${s}</b></div>`;
+        seven += `<div class="day-box"><span>Day ${i} Prediction</span><b>${statuses[Math.floor(Math.random()*4)]}</b></div>`;
     }
 
     document.getElementById("result").innerHTML = `
-        <div class="card animate__animated animate__fadeIn">
+        <div class="card">
             <h2 style="color:var(--gold); margin-bottom:5px;">${name}</h2>
-            <p style="margin-top:0; font-size:12px; color:gray;">Transit: ${astro.moon_phase}</p>
+            <p style="margin-top:0; font-size:12px; color:gray;">Transit: ${astro.moon_phase || 'Scanning...'}</p>
 
             <div class="stat-grid">
-                <div class="stat-item"><span>MULANK</span><b>${m}</b></div>
-                <div class="stat-item"><span>BHAGYANK</span><b>${b}</b></div>
-                <div class="stat-item"><span>PER. YEAR</span><b>${py}</b></div>
-                <div class="stat-item"><span>PER. MONTH</span><b>${pm}</b></div>
-                <div class="stat-item" style="grid-column: span 2; background:var(--gold); color:black;"><span>PER. DAY</span><b>${pd}</b></div>
+                <div class="stat-item"><span>Mulank</span><b>${m}</b></div>
+                <div class="stat-item"><span>Bhagyank</span><b>${b}</b></div>
+                <div class="stat-item"><span>Per. Year</span><b>${py}</b></div>
+                <div class="stat-item"><span>Per. Month</span><b>${pm}</b></div>
+                <div class="stat-item personal-day-box"><span>Personal Day</span><b>${pd}</b></div>
             </div>
 
             <div style="background:#1f2937; padding:15px; border-radius:12px; margin-bottom:20px;">
                 <h4 style="margin:0; color:var(--gold);">Daily Transit Advice</h4>
-                <p style="font-size:14px; margin-bottom:0;">${prediction}</p>
+                <p style="font-size:14px; margin-bottom:0;">${advice}</p>
             </div>
 
-            <div style="font-size:13px; color:#9ca3af; margin-bottom:20px;">
+            <p style="font-size:13px; color:#9ca3af;">
                 🌅 Sunrise: ${astro.sunrise} | 🌇 Sunset: ${astro.sunset}
-            </div>
+            </p>
 
-            <h4 style="color:var(--gold); text-align:left;">📅 7-Day Future Scanner</h4>
+            <h4 style="color:var(--gold);">📅 7-Day Future Scanner</h4>
             ${seven}
-            
-            <button onclick="location.reload()" style="background:transparent; color:gray; border:1px solid gray; margin-top:20px; font-size:12px;">Reset Scanner</button>
         </div>
     `;
 }
 </script>
-
 </body>
 </html>
