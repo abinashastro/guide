@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy | Lesson 9: Planetary Axis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
+        body { background: var(--bg); color: #e5e7eb; font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        
+        .bar-bg { background: #1f2937; height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid #374151; }
+        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 100%; height: 100%; transition: 0.8s ease; }
+
+        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        h2 { color: var(--gold); font-size: 24px; margin-bottom: 5px; }
+        p.sub { font-size: 13px; color: #9ca3af; margin-bottom: 20px; }
+        
+        select, button { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 15px; margin: 10px 0; font-family: inherit; transition: 0.3s; }
+        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; outline: none; }
+        button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; }
+        button:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+        .result-box { margin-top: 25px; display: none; }
+        .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid var(--gold); animation: fadeIn 0.4s ease; }
+        .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
+        .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
+
+        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; cursor: pointer; border-radius: 14px; font-weight: 600; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header" style="text-align:center;">
+        <h1 style="color:var(--gold); margin:0;">🔮 Astro Academy</h1>
+        <div class="bar-bg"><div id="fill"></div></div>
+    </div>
+
+    <div class="card">
+        <h2>⚖️ Lesson 9: The Power of Axis</h2>
+        <p class="sub">Opposite houses ka khel: Balance hi life hai.</p>
+        
+        <select id="axisSelect">
+            <option value="1-7">1-7 Axis: Self vs Others</option>
+            <option value="2-8">2-8 Axis: Security vs Transformation</option>
+            <option value="3-9">3-9 Axis: Effort vs Luck</option>
+            <option value="4-10">4-10 Axis: Home vs Career</option>
+            <option value="5-11">5-11 Axis: Creativity vs Gains</option>
+            <option value="6-12">6-12 Axis: Service vs Liberation</option>
+        </select>
+
+        <button onclick="analyzeAxis()">Decode The Axis ⚡</button>
+
+        <div id="resultArea" class="result-box"></div>
+
+        <button id="finalBtn" class="nav-btn" onclick="saveAndHome()">
+            Save Axis Knowledge 🏆
+        </button>
+    </div>
+</div>
+
+<script>
+const axisData = {
+    "1-7": [
+        {t: "The Identity Mirror.", l: "1st house aap ho, aur 7th house wo mirror hai jisme aap duniya ko dekhte ho."},
+        {t: "Independence vs Dependence.", l: "1st house khud par bharosa sikhata hai, 7th doosron ke sath milkar kaam karna."},
+        {t: "Aura Balance.", l: "Agar 1st strong hai par 7th weak, toh insaan talented hoga par akela reh jayega."},
+        {t: "Social Contract.", l: "Aapka 'Self' (1) kaisa compromise karega 'Partner' (7) ke liye, ye yehi axis hai."},
+        {t: "Health and Energy.", l: "Physically ye aapke head (1) aur lower back/reproductive organs (7) ka balance hai."},
+        {t: "Natural Magnetism.", l: "Is axis par planets hone se aap logon ko apni taraf attract karte hain."},
+        {t: "Public Image.", l: "Aap andar se kya ho (1) aur bahar kya dikhte ho (7), uska balance yahan hai."}
+    ],
+    "2-8": [
+        {t: "The Value Axis.", l: "2nd house aapka paisa hai, 8th house doosron ka paisa (inheritance/tax)."},
+        {t: "Speech and Secrets.", l: "2nd house boli hai, 8th house wo baatein hain jo aap chupati/chupate hain."},
+        {t: "Security vs Risk.", l: "2nd house safe savings dikhata hai, 8th house stock market aur sudden risks."},
+        {t: "The Food & Occult.", l: "2nd khana hai, 8th gehra gyan (Astrology). Bina 2nd ke 8th ka gyan digest nahi hota."},
+        {t: "Life and Death.", l: "Ye axis longevity aur family legacy ko control karti hai."},
+        {t: "Internal Transformation.", l: "8th ka jhatka hamesha 2nd house (family/wealth) ko prabhavit karta hai."},
+        {t: "Physical Control.", l: "Face (2) aur private parts (8) ki energy isi axis se chalti hai."}
+    ],
+    "3-9": [
+        {t: "The Knowledge Path.", l: "3rd house basic skills hai, 9th house higher wisdom aur Guru ka gyan hai."},
+        {t: "Hard Work vs Grace.", l: "3rd house aapki mehnat (Self-effort) hai, 9th bhagwan ki kripa (Luck) hai."},
+        {t: "Travel Dynamics.", l: "3rd choti yatraein hain, 9th lambi videsh yatraein aur tirth."},
+        {t: "Communication & Truth.", l: "3rd media/writing hai, 9th dharam aur sach bolne ki shakti hai."},
+        {t: "Siblings & Father.", l: "Chote bhai-behen (3) aur Pita/Guru (9) ka balance isi axis par hai."},
+        {t: "Mental vs Spiritual.", l: "Logical dimaag (3) aur vishwas (9) ka santulan ye axis banati hai."},
+        {t: "Hands and Hips.", l: "Physical body mein ye hathon (3) aur thigs/hips (9) ka axis hai."}
+    ],
+    "4-10": [
+        {t: "The Pillar Axis.", l: "4th house aapki jaden (roots) hain, 10th house tree ki unchai (Career) hai."},
+        {t: "Private vs Public.", l: "4th ghar ka sukoon hai, 10th duniya mein aapka rutba aur power hai."},
+        {t: "Mother & Father.", l: "Maa ka pyar (4) aur Pita ka discipline/status (10) isi axis se dekha jata hai."},
+        {t: "Mental Peace vs Work Stress.", l: "Agar 10th mein bahut kaam hai toh 4th (peace) disturb ho sakta hai."},
+        {t: "Property and Throne.", l: "4th house zameen hai, 10th house us par baithne wali kursi (Throne) hai."},
+        {t: "Emotional Foundation.", l: "Bina 4th ke sukoon ke 10th ki success be-mani (useless) hoti hai."},
+        {t: "Chest and Knees.", l: "Physically ye chest/lungs (4) aur knees/bones (10) ka axis hai."}
+    ],
+    "5-11": [
+        {t: "The Desire Axis.", l: "5th house aapka passion/talent hai, 11th house usse hone wali kamai (Income)."},
+        {t: "Children & Social Circle.", l: "Apni santan (5) aur bade doston ka group (11) isi axis par milte hain."},
+        {t: "Investment vs Gains.", l: "Stock market mein dimag lagana (5) aur wahan se profit nikalna (11)."},
+        {t: "Individual vs Group.", l: "Aapka apna creative kaam (5) aur bade mass level par asar (11)."},
+        {t: "Purva Punya.", l: "Pichle janam ke karm (5) hi is janam ke bade rewards (11) bante hain."},
+        {t: "Romance & Dreams.", l: "Love life (5) aur bade sapno ki poorti (11) ka ye axis hai."},
+        {t: "Heart and Legs.", l: "Physically ye heart (5) aur calves/ankles (11) ko represent karta hai."}
+    ],
+    "6-12": [
+        {t: "The Service Axis.", l: "6th house mehnat/bimari hai, 12th house hospital/rest/moksha hai."},
+        {t: "Debt vs Loss.", l: "6th house udhaar lena hai, 12th house kharch karna aur nuksan hai."},
+        {t: "Reality vs Imagination.", l: "6th house daily struggle hai, 12th house sapne aur meditation hai."},
+        {t: "Enemies & Isolation.", l: "Dushmano se ladna (6) aur akelapan (12) ka ye axis balance karta hai."},
+        {t: "Daily Routine vs Sleep.", l: "Aapka din ka kaam (6) aur raat ki neend (12)."},
+        {t: "Physical vs Spiritual Health.", l: "Pet ki bimari (6) aur dimaagi sukoon/pairo ka dard (12)."},
+        {t: "The Healer's Axis.", l: "Doctors aur healers ki kundli mein ye axis sabse zyada active hoti hai."}
+    ]
+};
+
+function analyzeAxis() {
+    const val = document.getElementById("axisSelect").value;
+    const resBox = document.getElementById("resultArea");
+    const data = axisData[val];
+
+    resBox.style.display = "block";
+    document.getElementById("finalBtn").style.display = "block";
+
+    resBox.innerHTML = data.map(item => `
+        <div class="point">
+            <b>${item.t}</b>
+            <i>Deep Logic: ${item.l}</i>
+        </div>
+    `).join('');
+    
+    document.getElementById("fill").style.width = "100%";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+function saveAndHome() {
+    console.log("Firebase Sync: Section 9 Axis Mastered [2026-02-17]");
+    alert("Incredible! Ab aap 180-degree energy balance (Axis) ko samajh chuke hain. Data Saved.");
+    window.location.href = 'home.html'; 
+}
+</script>
+</body>
+</html>
