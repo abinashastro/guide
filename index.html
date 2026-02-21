@@ -3,120 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Astro AI Pro | Nakshatra Edition</title>
+<title>Astro AI Pro | House Activation</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 <style>
-    :root { --gold: #ffd700; --bg: #0b0f1a; --card: #111827; }
+    :root { --gold: #ffd700; --bg: #0b0f1a; --card: #111827; --accent: #1f2937; }
     body{ background: var(--bg); font-family: 'Poppins', sans-serif; color: white; text-align: center; margin: 0; padding-bottom: 50px; }
     .container{ padding: 20px; max-width: 500px; margin: auto; }
     .card{ background: var(--card); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,215,0,0.1); margin-top: 20px; }
-    input{ width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 10px; background: #1f2937; color: white; box-sizing: border-box; }
-    button{ width: 100%; padding: 15px; background: linear-gradient(45deg, #b8860b, var(--gold)); border: none; border-radius: 12px; font-weight: 600; cursor: pointer; color: #000; }
-    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
-    .stat-item { background: #1f2937; padding: 10px; border-radius: 10px; text-align: center; }
-    .stat-item span { font-size: 10px; color: var(--gold); display: block; text-transform: uppercase; }
-    .personal-day-box { grid-column: span 2; background: var(--gold) !important; color: black !important; }
-    .nak-card { background: rgba(255,215,0,0.05); border: 1px dashed var(--gold); padding: 15px; border-radius: 15px; margin-top: 15px; text-align: left; }
-    .day-box{ background: #1f2937; margin: 8px 0; padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; border-left: 4px solid var(--gold); }
+    select { width: 100%; padding: 14px; margin: 10px 0; border: none; border-radius: 12px; background: var(--accent); color: white; cursor: pointer; border: 1px solid #374151; }
+    button{ width: 100%; padding: 15px; background: linear-gradient(45deg, #b8860b, var(--gold)); border: none; border-radius: 12px; font-weight: 600; cursor: pointer; color: #000; text-transform: uppercase; margin-top: 10px; transition: 0.3s; }
+    button:hover { letter-spacing: 1px; opacity: 0.9; }
+    #activationResult { margin-top: 25px; padding: 20px; border-radius: 15px; background: rgba(255, 215, 0, 0.03); border: 1px solid var(--gold); display: none; text-align: left; animation: slideDown 0.4s ease; }
+    .sutra-header { font-size: 10px; background: var(--gold); color: #000; padding: 3px 10px; border-radius: 5px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
 
 <div class="container">
-    <h1 style="color:var(--gold);">🔮 Astro AI Pro</h1>
+    <h1 style="color:var(--gold);">🔮 Planet Activation Lab</h1>
+    
     <div class="card">
-        <input type="text" id="name" placeholder="Enter Full Name">
-        <input type="date" id="dob">
-        <button onclick="generate()">Scan My Destiny</button>
+        <p style="font-size: 13px; color: #9ca3af; margin-bottom: 20px;">Planet ko House mein active karne ka 100% working sutra.</p>
+        
+        <select id="planetChoice">
+            <option value="">-- Select Planet --</option>
+            <option value="Sun">Sun (Surya)</option>
+            <option value="Moon">Moon (Chandra)</option>
+            <option value="Mars">Mars (Mangal)</option>
+            <option value="Mercury">Mercury (Budh)</option>
+            <option value="Jupiter">Jupiter (Guru)</option>
+            <option value="Venus">Venus (Shukra)</option>
+            <option value="Saturn">Saturn (Shani)</option>
+            <option value="Rahu">Rahu</option>
+            <option value="Ketu">Ketu</option>
+        </select>
+
+        <select id="houseChoice">
+            <option value="">-- Select House (1-12) --</option>
+            <option value="1">1st House (Lagna)</option>
+            <option value="2">2nd House (Dhan)</option>
+            <option value="3">3rd House (Sahaj)</option>
+            <option value="4">4th House (Sukh)</option>
+            <option value="5">5th House (Putra)</option>
+            <option value="6">6th House (Ari)</option>
+            <option value="7">7th House (Yuvati)</option>
+            <option value="8">8th House (Ayur)</option>
+            <option value="9">9th House (Bhagya)</option>
+            <option value="10">10th House (Karma)</option>
+            <option value="11">11th House (Labha)</option>
+            <option value="12">12th House (Vyaya)</option>
+        </select>
+
+        <button onclick="activateEnergy()">Activate Sutra</button>
+
+        <div id="activationResult">
+            <div class="sutra-header">VAIDIC ACTIVATION SUTRA</div>
+            <h3 id="resTitle" style="color: var(--gold); margin: 5px 0;"></h3>
+            <p id="resSutra" style="font-size: 14px; line-height: 1.6; color: #e5e7eb;"></p>
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #374151;">
+                <span style="color: var(--gold); font-size: 12px; font-weight: bold;">🎯 100% WORKING UPAY:</span>
+                <p id="resUpay" style="font-size: 14px; color: #50fa7b; margin: 5px 0;"></p>
+            </div>
+        </div>
     </div>
-    <div id="result"></div>
 </div>
 
 <script>
-const nakshatras = [
-    {n:"Ashwini", m:"Tej aur Nayi Shuruat"}, {n:"Bharani", m:"Sahasi aur Discipline"}, {n:"Krittika", m:"Tez Dimaag aur Shuddhata"},
-    {n:"Rohini", m:"Luxury aur Sundarta"}, {n:"Mrigashira", m:"Nayi Khoj aur Curiosity"}, {n:"Ardra", m:"Bhavuk aur Badlav"},
-    {n:"Punarvasu", m:"Doob kar Ubarna"}, {n:"Pushya", m:"Shubh aur Care karne wala"}, {n:"Ashlesha", m:"Chatur aur Hoshiyar"},
-    {n:"Magha", m:"Shahi Power aur Izzat"}, {n:"Purva Phalguni", m:"Pyar aur Aram pasand"}, {n:"Uttara Phalguni", m:"Seva aur Zimmedari"},
-    {n:"Hasta", m:"Hunar aur Mehnat"}, {n:"Chitra", m:"Chamak aur Design"}, {n:"Swati", m:"Azadi aur Swatantrata"},
-    {n:"Vishakha", m:"Lakshya aur Jeet"}, {n:"Anuradha", m:"Dosti aur Pehchan"}, {n:"Jyeshtha", m:"Power aur Seniority"},
-    {n:"Mula", m:"Sachai aur Gehra Gyan"}, {n:"Purva Ashadha", m:"Kabhi na Haarne wala"}, {n:"Uttara Ashadha", m:"Hamesha Safal"},
-    {n:"Shravana", m:"Seekhna aur Sunna"}, {n:"Dhanishta", m:"Paisa aur Sangeet"}, {n:"Shatabhisha", m:"Healing aur Upchar"},
-    {n:"Purva Bhadrapada", m:"Gehra Chintan"}, {n:"Uttara Bhadrapada", m:"Shanti aur Sabar"}, {n:"Revati", m:"Safar aur Safety"}
-];
-
-function reduce(num) {
-    let n = num.toString().replace(/[^0-9]/g, '');
-    let sum = 0;
-    for (let i = 0; i < n.length; i++) sum += parseInt(n[i]);
-    return sum > 9 ? reduce(sum) : sum;
-}
-
-async function generate() {
-    const name = document.getElementById("name").value;
-    const dob = document.getElementById("dob").value;
-    if (!name || !dob) return alert("Fill details!");
-
-    const d = new Date(dob);
-    const today = new Date();
-    const mulank = reduce(d.getDate());
-    const bhagyank = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear());
-    const py = reduce(d.getDate() + (d.getMonth() + 1) + today.getFullYear());
-    const pm = reduce(py + (today.getMonth() + 1));
-    const pd = reduce(pm + today.getDate());
-
-    document.getElementById("result").innerHTML = `<div class="card">⌛ Aligning Stars...</div>`;
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async (pos) => {
-            const res = await fetch(`https://api.ipgeolocation.io/astronomy?apiKey=70d27576f7f2402187654a93f064299b&lat=${pos.coords.latitude}&long=${pos.coords.longitude}`);
-            const data = await res.json();
-            show(name, mulank, bhagyank, py, pm, pd, data);
-        }, () => fallback(name, mulank, bhagyank, py, pm, pd));
-    } else { fallback(name, mulank, bhagyank, py, pm, pd); }
-}
-
-function fallback(name, m, b, py, pm, pd) {
-    show(name, m, b, py, pm, pd, { moon_phase: "Full Moon Phase", sunrise: "06:15 AM", sunset: "06:20 PM" });
-}
-
-function show(name, m, b, py, pm, pd, astro) {
-    // Pick a Nakshatra based on personal day for daily energy
-    const dailyNak = nakshatras[(pd * 3) % 27]; 
-
-    document.getElementById("result").innerHTML = `
-        <div class="card animate__animated animate__fadeIn">
-            <h2 style="color:var(--gold); margin:0;">${name}</h2>
-            <p style="font-size:12px; color:gray;">Transit: ${astro.moon_phase || 'Active'}</p>
-
-            <div class="stat-grid">
-                <div class="stat-item"><span>Mulank</span><b>${m}</b></div>
-                <div class="stat-item"><span>Bhagyank</span><b>${b}</b></div>
-                <div class="stat-item"><span>Per. Year</span><b>${py}</b></div>
-                <div class="stat-item"><span>Per. Month</span><b>${pm}</b></div>
-                <div class="stat-item personal-day-box"><span>Personal Day</span><b>${pd}</b></div>
-            </div>
-
-            <div class="nak-card">
-                <h4 style="margin:0; color:var(--gold);">✨ Today's Nakshatra Energy</h4>
-                <p style="font-size:14px; margin:5px 0;"><b>${dailyNak.n}:</b> ${dailyNak.m}</p>
-            </div>
-
-            <p style="font-size:13px; color:#9ca3af; margin-top:15px;">
-                🌅 Sunrise: ${astro.sunrise} | 🌇 Sunset: ${astro.sunset}
-            </p>
-
-            <h4 style="color:var(--gold); text-align:left;">📅 7-Day Future Scanner</h4>
-            <div id="seven"></div>
-        </div>
-    `;
-
-    let sevenHtml = "";
-    const status = ["🔥 Excellent", "💰 Money Yog", "✨ Success", "🙂 Stable"];
-    for(let i=1; i<=7; i++) {
-        sevenHtml += `<div class="day-box"><span>Day ${i}</span><b>${status[Math.floor(Math.random()*4)]}</b></div>`;
+const sutraData = {
+    "Moon": {
+        "1": "Self-reflection aur hydration se Moon active karein.", "2": "Family ke sath khana khayein aur mitha bolein.", "3": "Writing ya journaling shuru karein.", "4": "Maa ki seva aur ghar mein shanti banaye rakhein.", "5": "Creativity aur mantra jaap (Om Namah Shivaya) karein.", "6": "Daily routine mein hygiene aur service add karein.", "7": "Partner ke sath emotional transparency rakhein.", "8": "Occult, Tantra ya Meditation mein gehra utrein.", "9": "Dharmic yatra aur guruon ka samman karein.", "10": "Public image mein soft-skills ka use karein.", "11": "Social circle mein emotional support dein.", "12": "Ekant mein dhyan aur daan karein."
+    },
+    "Sun": {
+        "1": "Surya Namaskar aur leadership quality.", "10": "Pita aur Government se jude kaam.", "9": "Higher education aur kulpita ki seva."
     }
-    document.getElementById("seven").innerHTML = sevenHtml;
+};
+
+const upayData = {
+    "Moon": "Chandi ke glass mein pani piyein aur White colors ka use karein.",
+    "Sun": "Daily Surya ko Jal chadhayein aur Gayatri Mantra padhein.",
+    "Mars": "Hanuman Chalisa aur Red color ka dhyan.",
+    "Saturn": "Zaroorat-mando ko khana khilayein aur Saturday ko tel daan karein.",
+    "Jupiter": "Yellow sandalwood aur Guru-seva.",
+    "Venus": "Perfumes aur saaf-safai rakhein.",
+    "Mercury": "Chhoti kanyaon ki seva aur Green plants lagayein.",
+    "Rahu": "Blue clothes aur naye gadgets ka sahi upyog.",
+    "Ketu": "Dogs ko feed karein aur spiritual books padhein."
+};
+
+function activateEnergy() {
+    const p = document.getElementById("planetChoice").value;
+    const h = document.getElementById("houseChoice").value;
+    const box = document.getElementById("activationResult");
+
+    if(!p || !h) { alert("Please select both Planet and House!"); return; }
+
+    box.style.display = "block";
+    document.getElementById("resTitle").innerText = `${p} Activation in ${h}th House`;
+    
+    // Custom Sutra logic
+    let sutra = (sutraData[p] && sutraData[p][h]) 
+                ? sutraData[p][h] 
+                : `${p} ki shakti ko ${h}th house mein jagane ke liye us ghar se jude karmo (Karma) ko sudharein aur Planet ka Beej Mantra jaap karein.`;
+    
+    document.getElementById("resSutra").innerText = sutra;
+    document.getElementById("resUpay").innerText = upayData[p] || "Sattvik bhojan karein aur dhyan lagayein.";
 }
 </script>
 </body>
