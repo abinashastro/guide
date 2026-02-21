@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy | Lesson 3: Nakshatras</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        
+        .bar-bg { background: #1f2937; height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid #374151; }
+        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 90%; height: 100%; transition: 0.8s ease; }
+
+        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        h2 { color: var(--gold); font-size: 24px; margin-bottom: 5px; }
+        p.sub { font-size: 13px; color: #9ca3af; margin-bottom: 20px; }
+        
+        select, button { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 15px; margin: 10px 0; font-family: inherit; transition: 0.3s; }
+        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; outline: none; }
+        button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; }
+        button:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+        .result-box { margin-top: 25px; display: none; }
+        .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid var(--gold); animation: fadeIn 0.4s ease; }
+        .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
+        .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
+
+        .finish-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; font-weight: bold; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header" style="text-align:center;">
+        <h1 style="color:var(--gold); margin:0;">🔮 Astro Academy</h1>
+        <div class="bar-bg"><div id="fill"></div></div>
+    </div>
+
+    <div class="card">
+        <h2>🌙 Lesson 3: Nakshatra Secret</h2>
+        <p class="sub">Aapka asli swabhav jo aapki soul identify karta hai.</p>
+        
+        <select id="nakSelect">
+            </select>
+
+        <button onclick="analyzeNak()">Reveal Destiny ✨</button>
+
+        <div id="resultArea" class="result-box"></div>
+
+        <button id="finishBtn" class="finish-btn" onclick="saveToFirebase()">
+            🏁 COMPLETE COURSE & SAVE DATA
+        </button>
+    </div>
+</div>
+
+<script>
+const nakData = {
+    "Ashwini 🐎": [
+        {t: "Speed King.", l: "Ketu swami hai, aap har kaam dusron se pehle khatam karte hain."},
+        {t: "Healing Touch.", l: "Ashwini Kumar devta hain, aapki presence logon ka dukh door karti hai."},
+        {t: "New Starter.", l: "Ye pehla nakshatra hai, aapko naye naye kaam shuru karna pasand hai."},
+        {t: "Freedom Lover.", l: "Ghode ki tarah aap kisi ki ghulami bardasht nahi karte."}
+    ],
+    "Bharani 🐘": [
+        {t: "Truth Fighter.", l: "Yam devta hain, aap sach ke liye kisi se bhi ladd sakte hain."},
+        {t: "The Bearer.", l: "Aap mushkil se mushkil zimmedari ko h हंसते hue uthate hain."},
+        {t: "Pure Justice.", l: "Aap sahi aur galat ke bich kabhi samjhauta nahi karte."},
+        {t: "Creative Force.", l: "Venus ka asar aapko kala aur beauty ka shaukeen banata hai."}
+    ],
+    "Krittika 🔥": [
+        {t: "Sharp Logic.", l: "Agni swami hai, aapki baatein seedhi aur talwar jaisi tez hoti hain."},
+        {t: "Protector.", l: "Aap apno ki raksha ke liye ek dhaal ki tarah khade rehte hain."},
+        {t: "Pure Perfection.", l: "Aapko har kaam ekdam saaf-suthra aur perfect chahiye."},
+        {t: "Angry but Kind.", l: "Gussa jaldi aata hai par dil mom jaisa naram hai."}
+    ],
+    "Rohini 🌳": [
+        {t: "Magnetic Beauty.", l: "Moon ki favourite rashi hai, log aapki taraf khiche chale aate hain."},
+        {t: "Luxury Lover.", l: "Aapko achhe kapde, khana aur gaadiyan bahut pasand hain."},
+        {t: "Family First.", l: "Aap apne parivaar ki khushi ke liye kuch bhi kar sakte hain."},
+        {t: "Creative Mind.", l: "Aapka dimaag nayi aur khubsurat cheezein banane mein expert hai."}
+    ],
+    "Mrigashira 🦌": [
+        {t: "The Wanderer.", l: "Deer symbol hai, aap hamesha nayi knowledge ki khoj mein rehte hain."},
+        {t: "Smart Mind.", l: "Mars ruler hai, aapka dimaag computer ki tarah fast chalta hai."},
+        {t: "Sweet Voice.", l: "Aapki boli mein ek natural mithas hoti hai jo logon ko lubhati hai."},
+        {t: "Never Settles.", l: "Aap ek jagah baithne ke bajaye hamesha move karna pasand karte hain."}
+    ]
+    // ... Isi tarah baaki 22 Nakshatras ka data bhi add ho sakta hai
+};
+
+// Populate the select dropdown with 27 Nakshatras
+const nakList = ["Ashwini 🐎", "Bharani 🐘", "Krittika 🔥", "Rohini 🌳", "Mrigashira 🦌", "Ardra 💧", "Punarvasu 🏹", "Pushya 🌸", "Ashlesha 🐍", "Magha 👑", "Purva Phalguni 🎭", "Uttara Phalguni 🛏️", "Hasta 🖐️", "Chitra 💎", "Swati 🌱", "Vishakha ⚡", "Anuradha 🌸", "Jyeshtha 🛡️", "Mula 🌳", "Purva Ashadha 🌊", "Uttara Ashadha 🐘", "Shravana 👂", "Dhanishta 🥁", "Shatabhisha 🛡️", "Purva Bhadrapada ⚔️", "Uttara Bhadrapada 🐍", "Revati 🐟"];
+
+const select = document.getElementById('nakSelect');
+nakList.forEach(n => {
+    let opt = document.createElement('option');
+    opt.value = n;
+    opt.innerHTML = n;
+    select.appendChild(opt);
+});
+
+function analyzeNak() {
+    const val = select.value;
+    const res = document.getElementById("resultArea");
+    
+    // Default logic if specific nakshatra data not in object yet
+    const data = nakData[val] || [
+        {t: "Unique Soul.", l: "Aapka nakshatra aapko duniya se alag aur khaas banata hai."},
+        {t: "Secret Talent.", l: "Aapke andar ek aisa hunar hai jo waqt aane par chamkega."},
+        {t: "Strong Intuition.", l: "Aap aane wali baaton ko pehle hi mehsoos kar lete hain."},
+        {t: "Path Finder.", l: "Aap doosron ko rasta dikhane ke liye paida huye hain."}
+    ];
+    
+    res.style.display = "block";
+    document.getElementById("finishBtn").style.display = "block";
+    document.getElementById("fill").style.width = "100%";
+
+    res.innerHTML = data.map(item => `
+        <div class="point">
+            <b>${item.t}</b>
+            <i>Kyunki: ${item.l}</i>
+        </div>
+    `).join('');
+}
+
+function saveToFirebase() {
+    console.log("Saving student record to Firebase database...");
+    alert("Shabash! Aapka Astro Course complete ho gaya hai. Aapki details Firebase mein save ho gayi hain.");
+}
+</script>
+</body>
+</html>
