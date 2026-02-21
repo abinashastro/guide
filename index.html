@@ -3,184 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Astro AI Pro</title>
+<title>Astro AI Pro | Premium Numerology</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
-body{
-background:#0b0f1a;
-font-family:Poppins;
-color:white;
-text-align:center;
-margin:0;
-}
-
-.container{padding:20px;}
-
-h1{color:#ffd700;font-size:30px;}
-
-.tag{color:gray;margin-bottom:20px;}
-
-.card{
-background:#111827;
-padding:20px;
-border-radius:15px;
-box-shadow:0 0 25px rgba(255,215,0,0.2);
-}
-
-input{
-width:90%;
-padding:12px;
-margin:8px;
-border:none;
-border-radius:8px;
-background:#1f2937;
-color:white;
-}
-
-button{
-padding:12px 25px;
-background:gold;
-border:none;
-border-radius:10px;
-font-size:16px;
-margin-top:10px;
-cursor:pointer;
-}
-
-.result{
-margin-top:25px;
-padding:15px;
-background:#111827;
-border-radius:15px;
-}
-
-.day-box{
-background:#1f2937;
-margin:6px;
-padding:10px;
-border-radius:10px;
-}
+    :root { --gold: #ffd700; --bg: #0b0f1a; --card: #111827; }
+    body{ background: var(--bg); font-family: 'Poppins', sans-serif; color: white; text-align: center; margin: 0; padding-bottom: 50px; }
+    .container{ padding: 20px; max-width: 500px; margin: auto; }
+    h1{ color: var(--gold); font-size: 28px; margin-top: 20px; }
+    .tag{ color: #9ca3af; font-size: 14px; margin-bottom: 25px; display: block; }
+    .card{ background: var(--card); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,215,0,0.1); }
+    input{ width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 10px; background: #1f2937; color: white; box-sizing: border-box; }
+    button{ width: 100%; padding: 15px; background: linear-gradient(45deg, #b8860b, var(--gold)); border: none; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; color: #000; margin-top: 10px; transition: 0.3s; }
+    button:hover { transform: scale(1.02); }
+    .result{ margin-top: 25px; text-align: left; animation: fadeInUp 0.5s; }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+    .stat-item { background: #1f2937; padding: 10px; border-radius: 10px; text-align: center; }
+    .stat-item span { font-size: 12px; color: var(--gold); display: block; }
+    .stat-item b { font-size: 20px; }
+    .day-box{ background: #1f2937; margin: 8px 0; padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; border-left: 4px solid var(--gold); }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 
 <body>
 
 <div class="container">
+    <h1>🔮 Astro AI Pro</h1>
+    <span class="tag">AI Driven Numerology & Transit</span>
 
-<h1>🔮 Astro AI Pro</h1>
-<p class="tag">Location Based Daily Transit</p>
+    <div class="card">
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="date" id="dob">
+        <button onclick="generate()">Scan My Destiny</button>
+    </div>
 
-<div class="card">
-<input type="text" id="name" placeholder="Enter Name">
-<input type="date" id="dob">
-<button onclick="generate()">Scan My Future</button>
-</div>
-
-<div id="result" class="result"></div>
-
+    <div id="result" class="result"></div>
 </div>
 
 <script>
-
-// reduce numerology
-function reduce(num){
-while(num>9){
-num=num.toString().split('').reduce((a,b)=>a+parseInt(b),0);
-}
-return num;
+function reduce(num) {
+    let n = num.toString().replace(/[^0-9]/g, '');
+    let sum = 0;
+    for (let i = 0; i < n.length; i++) sum += parseInt(n[i]);
+    return sum > 9 ? reduce(sum) : sum;
 }
 
-async function generate(){
+async function generate() {
+    const name = document.getElementById("name").value;
+    const dob = document.getElementById("dob").value;
 
-let name=document.getElementById("name").value;
-let dob=document.getElementById("dob").value;
+    if (!name || !dob) { alert("Please enter Name and Date of Birth"); return; }
 
-if(name==""||dob==""){
-alert("Enter details first");
-return;
+    const d = new Date(dob);
+    const day = d.getDate(), month = d.getMonth() + 1, year = d.getFullYear();
+    const today = new Date();
+    
+    // Numbers
+    const mulank = reduce(day);
+    const bhagyank = reduce(day + month + year);
+    const py = reduce(day + month + today.getFullYear());
+    const pm = reduce(py + (today.getMonth() + 1));
+    const pd = reduce(pm + today.getDate());
+
+    document.getElementById("result").innerHTML = `<div class="card" style="text-align:center;">⏳ Fetching Cosmic Data...</div>`;
+
+    // Get location & transit data
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+        try {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            // Note: If you don't have a key, this part will use dummy data
+            const res = await fetch(`https://api.ipgeolocation.io/astronomy?apiKey=70d27576f7f2402187654a93f064299b&lat=${lat}&long=${lon}`);
+            const data = await res.json();
+            showReport(name, mulank, bhagyank, py, pm, pd, data);
+        } catch (e) {
+            showReport(name, mulank, bhagyank, py, pm, pd, { moon_phase: "Waxing Gibbous", sunrise: "06:15", sunset: "18:20" });
+        }
+    }, () => {
+        // Fallback if Location is denied
+        showReport(name, mulank, bhagyank, py, pm, pd, { moon_phase: "Unknown", sunrise: "N/A", sunset: "N/A" });
+    });
 }
 
-// numerology
-let d=new Date(dob);
-let destiny=reduce(d.getDate()+(d.getMonth()+1)+d.getFullYear());
+function showReport(name, m, b, py, pm, pd, astro) {
+    let prediction = "";
+    if (pd == 1 || pd == 5 || pd == 6) prediction = "🚀 A day of big opportunities and success.";
+    else if (pd == 8 || pd == 4) prediction = "⚠️ Workload will be high. Avoid arguments.";
+    else if (pd == 7) prediction = "🧘 Perfect day for spiritual growth and planning.";
+    else prediction = "✨ A balanced and stable day for you.";
 
-// get location
-navigator.geolocation.getCurrentPosition(async function(pos){
+    let seven = "";
+    const statuses = ["🔥 Excellent", "🙂 Good", "⚠️ Careful", "💰 Gain"];
+    for (let i = 1; i <= 7; i++) {
+        let s = statuses[Math.floor(Math.random() * statuses.length)];
+        seven += `<div class="day-box"><span>Day ${i} Prediction</span><b>${s}</b></div>`;
+    }
 
-let lat=pos.coords.latitude;
-let lon=pos.coords.longitude;
+    document.getElementById("result").innerHTML = `
+        <div class="card animate__animated animate__fadeIn">
+            <h2 style="color:var(--gold); margin-bottom:5px;">${name}</h2>
+            <p style="margin-top:0; font-size:12px; color:gray;">Transit: ${astro.moon_phase}</p>
 
-// 🔑 PUT YOUR API KEY HERE
-let apiKey="PASTE_API_KEY_HERE";
+            <div class="stat-grid">
+                <div class="stat-item"><span>MULANK</span><b>${m}</b></div>
+                <div class="stat-item"><span>BHAGYANK</span><b>${b}</b></div>
+                <div class="stat-item"><span>PER. YEAR</span><b>${py}</b></div>
+                <div class="stat-item"><span>PER. MONTH</span><b>${pm}</b></div>
+                <div class="stat-item" style="grid-column: span 2; background:var(--gold); color:black;"><span>PER. DAY</span><b>${pd}</b></div>
+            </div>
 
-// astronomy API
-let url=`https://api.ipgeolocation.io/astronomy?apiKey=${apiKey}&lat=${lat}&long=${lon}`;
+            <div style="background:#1f2937; padding:15px; border-radius:12px; margin-bottom:20px;">
+                <h4 style="margin:0; color:var(--gold);">Daily Transit Advice</h4>
+                <p style="font-size:14px; margin-bottom:0;">${prediction}</p>
+            </div>
 
-let res=await fetch(url);
-let data=await res.json();
+            <div style="font-size:13px; color:#9ca3af; margin-bottom:20px;">
+                🌅 Sunrise: ${astro.sunrise} | 🌇 Sunset: ${astro.sunset}
+            </div>
 
-let moon=data.moon_phase;
-let sunrise=data.sunrise;
-let sunset=data.sunset;
-
-// prediction based on moon
-let prediction="";
-if(moon.includes("New")){
-prediction="⚠️ Low energy day. Avoid risk & fights.";
-}
-else if(moon.includes("Full")){
-prediction="🔥 Powerful day. Money & success yog.";
-}
-else if(moon.includes("Waning")){
-prediction="🙂 Calm day. Planning good.";
-}
-else{
-prediction="💰 Growth & opportunity day.";
-}
-
-// lucky color
-let colors=["Red","Blue","Green","White","Black","Yellow"];
-let color=colors[Math.floor(Math.random()*colors.length)];
-
-// 7 day scanner
-let seven="";
-for(let i=1;i<=7;i++){
-let luck=Math.floor(Math.random()*100);
-let status="";
-if(luck>75){status="🔥 Excellent";}
-else if(luck>50){status="🙂 Good";}
-else if(luck>30){status="⚠️ Careful";}
-else{status="🚫 Risky";}
-seven+=`<div class="day-box">Day ${i}: ${status} (${luck}%)</div>`;
-}
-
-document.getElementById("result").innerHTML=
-`
-<h2>🔮 ${name} Astro Report</h2>
-
-<p>📍 Location based transit active</p>
-<p>🪐 Destiny Number: ${destiny}</p>
-
-<h3>🌙 Moon Phase: ${moon}</h3>
-<p>🌅 Sunrise: ${sunrise}</p>
-<p>🌇 Sunset: ${sunset}</p>
-
-<h3>📊 Prediction</h3>
-<p>${prediction}</p>
-
-<h3>🍀 Lucky Color: ${color}</h3>
-
-<h3>🧿 Remedy</h3>
-<p>Subah Surya ko jal chadhaye</p>
-
-<h3>📅 7 Day Future Scanner</h3>
-${seven}
-`;
-
-});
-
+            <h4 style="color:var(--gold); text-align:left;">📅 7-Day Future Scanner</h4>
+            ${seven}
+            
+            <button onclick="location.reload()" style="background:transparent; color:gray; border:1px solid gray; margin-top:20px; font-size:12px;">Reset Scanner</button>
+        </div>
+    `;
 }
 </script>
 
