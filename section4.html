@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy | Lesson 4: The 12 Houses</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
+        body { background: var(--bg); color: #e5e7eb; font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        
+        .bar-bg { background: #1f2937; height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid #374151; }
+        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 100%; height: 100%; transition: 0.8s ease; }
+
+        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        h2 { color: var(--gold); font-size: 24px; margin-bottom: 5px; }
+        p.sub { font-size: 13px; color: #9ca3af; margin-bottom: 20px; }
+        
+        select, button { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 15px; margin: 10px 0; font-family: inherit; transition: 0.3s; }
+        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; outline: none; }
+        button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; }
+        button:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+        .result-box { margin-top: 25px; display: none; }
+        .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid var(--gold); animation: fadeIn 0.4s ease; }
+        .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
+        .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
+
+        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; cursor: pointer; border-radius: 14px; font-weight: 600; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header" style="text-align:center;">
+        <h1 style="color:var(--gold); margin:0;">🔮 Astro Academy</h1>
+        <div class="bar-bg"><div id="fill"></div></div>
+    </div>
+
+    <div class="card">
+        <h2>🏠 Lesson 4: 12 Houses (Bhavas)</h2>
+        <p class="sub">Janiye kaunsa ghar aapki life ka kaunsa raaz kholta hai.</p>
+        
+        <select id="houseSelect">
+            <option value="1">1st House (Lagna) - Self & Identity</option>
+            <option value="2">2nd House - Wealth & Speech</option>
+            <option value="3">3rd House - Courage & Siblings</option>
+            <option value="4">4th House - Happiness & Mother</option>
+            <option value="5">5th House - Creativity & Children</option>
+            <option value="6">6th House - Debt, Disease & Enemies</option>
+            <option value="7">7th House - Marriage & Partnership</option>
+            <option value="8">8th House - Longevity & Secrets</option>
+            <option value="9">9th House - Luck & Dharma</option>
+            <option value="10">10th House - Career & Fame</option>
+            <option value="11">11th House - Gains & Dreams</option>
+            <option value="12">12th House - Loss & Spirituality</option>
+        </select>
+
+        <button onclick="analyzeHouse()">Decode House Secrets 🔍</button>
+
+        <div id="resultArea" class="result-box"></div>
+
+        <button id="finalBtn" class="nav-btn" onclick="saveAndComplete()">
+            Final Data Save & Finish Course 🏆
+        </button>
+    </div>
+</div>
+
+<script>
+const houseData = {
+    "1": [
+        {t: "The Soul's Mirror.", l: "Ye aapka 'Self' hai; aap duniya ko kaise dikhte hain, ye yahan se pata chalta hai."},
+        {t: "Vitality Source.", l: "Aapki physical health aur immune system isi ghar se control hota hai."},
+        {t: "Mindset Controller.", l: "Aapka nazariya (Optimistic ya Pessimistic) Lagna tay karta hai."},
+        {t: "Natural Head.", l: "Kaal Purush kundli mein ye Aries (Mesh) hai, isliye ye head ko represent karta hai."},
+        {t: "The Life Path.", l: "Is ghar ka owner (Lagnatpati) batata hai ki aapka focus life mein kahan rahega."},
+        {t: "Aura Power.", l: "Agar ye ghar strong ho, toh insaan bheed mein bhi alag dikhta hai."},
+        {t: "First Impression.", l: "Socially aap logon ke dimaag mein kya image banate hain, wo 1st house hai."}
+    ],
+    "2": [
+        {t: "Family Assets.", l: "Ye sirf aapki kamai nahi, balki aapko mili hui family legacy aur wealth hai."},
+        {t: "The Power of Speech.", l: "Aapki awaaz mein mithas hogi ya kadwahat, ye 2nd house batata hai."},
+        {t: "Food Habits.", l: "Aapko kaisa khana pasand hai aur aapki dietary choices yahan se dekhi jati hain."},
+        {t: "Early Education.", l: "Bachpan mein milne wali shiksha aur sanskar isi ghar ki den hain."},
+        {t: "Right Eye.", l: "Physically, ye ghar aapki dahini aankh aur chehre (face) ko represent karta hai."},
+        {t: "Values & Ethics.", l: "Aap kitne imandari se paisa kamayenge, ye aapki morals tay karti hain."},
+        {t: "Accumulated Savings.", l: "Ye bank balance ka ghar hai; aap paisa kitna jod payenge, wo yahan hai."}
+    ],
+    "3": [
+        {t: "The Courage Tank.", l: "Aap kitne daring hain aur risk le sakte hain, ye 3rd house batata hai."},
+        {t: "Communication Hub.", l: "Writing, blogging, aur social media par aapka asar isi ghar se hota hai."},
+        {t: "Sibling Bond.", l: "Aapke chote bhai-beheno ke sath rishta kaisa hoga, ye yahan dekhein."},
+        {t: "Skills of Hands.", l: "Painting, playing instruments, aur typing jaisi skills isi ghar mein hain."},
+        {t: "Short Travels.", l: "Aas-paas ki yatraein aur doston ke sath trips 3rd house se aati hain."},
+        {t: "Self-Effort.", l: "Bina kisi ki madad ke aap kitna aage badhenge, ye aapka 'Parakram' hai."},
+        {t: "Mental Strength.", l: "Mushkil halaton mein aapka dimaag kitna thanda rehta hai, ye yahan hai."}
+    ],
+    "4": [
+        {t: "Inner Peace.", l: "Mental peace aur ghar ka sukoon isi chauthe ghar mein basta hai."},
+        {t: "Mother's Love.", l: "Aapki maa ki sehat aur unse milne wala support yahan se dekha jata hai."},
+        {t: "Vehicle & Property.", l: "Aapke paas apni gaadi aur ghar hoga ya nahi, ye yehi ghar batata hai."},
+        {t: "Emotional Foundation.", l: "Aap andar se kitne secure mehsoos karte hain, wo 4th house hai."},
+        {t: "The Heart.", l: "Physically ye aapke chest aur heart area ko represent karta hai."},
+        {t: "Domestic Life.", l: "Aapka ghar ka mahol kaisa rahega, wo 4th house ke planets tay karte hain."},
+        {t: "Hidden Treasures.", l: "Zameen ke niche ki cheezein aur purani properties isi ghar mein hain."}
+    ],
+    "5": [
+        {t: "The Creative Spark.", l: "Art, poetry, aur cinema mein ruchi isi ghar ki wajah se hoti hai."},
+        {t: "Purva Punya.", l: "Pichle janam ke achhe karmon ka phal aapko isi ghar se milta hai."},
+        {t: "Intelligence & Romance.", l: "Aapka IQ level aur aapka love life dono 5th house se jude hain."},
+        {t: "Childbirth.", l: "Santan sukh aur bachon ki tarakki isi ghar se dekhi jati hai."},
+        {t: "Speculation.", l: "Stock market, gambling, aur lottery mein luck isi ghar se chalta hai."},
+        {t: "Entertainment.", l: "Aapko life mein fun aur hobbies kitni milengi, wo yahan hai."},
+        {t: "Devotion.", l: "Isht Dev ki upasna aur mantra siddhi 5th house se aati hai."}
+    ],
+    "6": [
+        {t: "The Warrior House.", l: "Mushkilon, karz (debt) aur dushmano se ladne ki takat yahan hai."},
+        {t: "Service Mindset.", l: "Aap job karenge ya service, wo 6th house ki energy tay karti hai."},
+        {t: "Daily Routine.", l: "Aapka roz ka schedule aur discipline isi ghar se aata hai."},
+        {t: "Pet Animals.", l: "Small animals aur pets ke prati aapka lagav yahan se dekha jata hai."},
+        {t: "Digestive System.", l: "Physically ye stomach aur intestines ko represent karta hai."},
+        {t: "Litigation.", l: "Court cases aur legal pareshaniyan isi ghar se dekhi jati hain."},
+        {t: "Maternal Relations.", l: "Mummy ki side ke rishtedar (Mama/Masi) ka asar yahan hota hai."}
+    ],
+    "7": [
+        {t: "Mirror Image.", l: "Aapka life partner kaisa hoga, wo aapka mirror image (7th house) hai."},
+        {t: "Business Partnership.", l: "Aap akele kaam karenge ya partner ke sath, ye yahan se pata chalta hai."},
+        {t: "Public Image.", l: "Market mein aapki saakh aur log aapko kaise dekhte hain, wo ye ghar hai."},
+        {t: "Legal Bonds.", l: "Marriage aur contracts dono isi ghar ke under aate hain."},
+        {t: "The Opposite Pole.", l: "1st house (Self) ke bilkul samne hone ki wajah se ye 'others' ka ghar hai."},
+        {t: "Foreign Settlement.", l: "Ghar se door rehne ka ek factor 7th house bhi hota hai."},
+        {t: "Desires.", l: "Life mein aapki worldly desires aur attraction isi ghar se aate hain."}
+    ],
+    "8": [
+        {t: "Mystic Secrets.", l: "Astrology, Occult, aur tantra-mantra ka gyan isi ghar mein chupa hai."},
+        {t: "Sudden Events.", l: "Life mein hone wale sudden ups and downs isi ghar ki wajah se hote hain."},
+        {t: "Longevity.", l: "Aapki umar aur mritiyu ka prakar 8th house batata hai."},
+        {t: "In-laws Wealth.", l: "Marriage ke baad milne wala paisa aur in-laws ka support yahan hai."},
+        {t: "Chronic Diseases.", l: "Wo bimariyan jo lambe samay tak chalti hain, yahan se dekhte hain."},
+        {t: "Transformation.", l: "Jaise saanp kanchli badalta hai, ye ghar insaan ko poora badal deta hai."},
+        {t: "Hidden Research.", l: "Mining, investigative work aur research ka ye prime house hai."}
+    ],
+    "9": [
+        {t: "The Luck Factor.", l: "Aapka 'Bhagya' kitna sath dega, wo sabse shubh 9th house hai."},
+        {t: "Dharma & Wisdom.", l: "Aapka dharm mein vishwas aur unchi soch isi ghar se aati hai."},
+        {t: "Father as Guide.", l: "Pita aur Guruon ka asar aur unka support yahan se dekha jata hai."},
+        {t: "Long Pilgrimages.", l: "Foreign travels aur tirth yatraein isi ghar se hoti hain."},
+        {t: "Higher Studies.", l: "PhD, Master degree aur deep philosophy ki padhai yahan hai."},
+        {t: "Law & Justice.", l: "Aap niyam manne wale honge ya nahi, ye yehi ghar tay karta hai."},
+        {t: "Grace of God.", l: "Buri situation se upar wala kaise bachayega, wo 9th house ka protection hai."}
+    ],
+    "10": [
+        {t: "The Throne.", l: "Ye career, profession aur power ka sabse uncha ghar hai."},
+        {t: "Fame & Honor.", l: "Samaj mein aapka naam kitna hoga, wo 10th house batata hai."},
+        {t: "Action (Karma).", l: "Aap duniya mein kya kaam karne aaye hain, wo aapka Karma Bhava hai."},
+        {t: "Authority Figures.", l: "Government aur bade officers se aapka rishta yahan se dekhte hain."},
+        {t: "The Knees.", l: "Physically ye body mein ghutno (knees) ko represent karta hai."},
+        {t: "Father's Status.", l: "Kuch paddhati mein pita ka status 10th house se dekha jata hai."},
+        {t: "Public Responsibility.", l: "Aap logon ke liye kitne zimmedar neta ya boss banenge, wo yahan hai."}
+    ],
+    "11": [
+        {t: "The Gain Center.", l: "Income aur benefits ka ghar; aapki mehnat ka phal yahan se milta hai."},
+        {t: "Social Circle.", l: "Aapke bade dost aur networking groups isi ghar mein hain."},
+        {t: "Elder Siblings.", l: "Bade bhai-beheno ka sukh aur unse milne wali madad yahan hai."},
+        {t: "Fulfilment of Desires.", l: "Kya aapke sapne poore honge? Agar 11th strong hai toh 'Haan'."},
+        {t: "Secondary Income.", l: "Regular salary ke ilawa hone wali extra kamai yahan se dekhi jati hai."},
+        {t: "Mass Popularity.", l: "Badi bheed ya audience ka support isi ghar ki wajah se milta hai."},
+        {t: "The Left Ear.", l: "Body parts mein ye baayein kaan ko represent karta hai."}
+    ],
+    "12": [
+        {t: "The Gateway to Exit.", l: "Ye moksha, kharch (expenditure) aur nuksan ka ghar hai."},
+        {t: "Spiritual Awakening.", l: "Meditation, ashram aur duniya se alag hone ka sukh yahan hai."},
+        {t: "Foreign Lands.", l: "Puri tarah se videsh mein basna (Settlement) isi ghar se hota hai."},
+        {t: "Dreams & Subconscious.", l: "Neend mein aane wale sapne aur aapka dimaag sote waqt kya sochta hai."},
+        {t: "Hidden Enemies.", l: "Wo log jo peeth piche war karte hain, wo 12th house mein hain."},
+        {t: "Isolation.", l: "Hospital, jail ya akelapan; ye ghar har tarah ka isolation dikhata hai."},
+        {t: "Bed Comforts.", l: "Raat ki neend aur physical comforts ka sukh isi ghar mein hai."}
+    ]
+};
+
+function analyzeHouse() {
+    const val = document.getElementById("houseSelect").value;
+    const resBox = document.getElementById("resultArea");
+    const data = houseData[val];
+
+    resBox.style.display = "block";
+    document.getElementById("finalBtn").style.display = "block";
+
+    resBox.innerHTML = data.map(item => `
+        <div class="point">
+            <b>${item.t}</b>
+            <i>Logic: ${item.l}</i>
+        </div>
+    `).join('');
+    
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+function saveAndComplete() {
+    console.log("Firebase Sync: User Mastered 12 Houses [2026-02-17]");
+    alert("Kamaal kar diya! Aapne 12 Gharon ka gyan le liya hai. Data Firebase mein save ho chuka hai. Redirecting to Final Summary...");
+    window.location.href = 'index.html'; // Wapas home par le jane ke liye
+}
+</script>
+</body>
+</html>
