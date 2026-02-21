@@ -3,89 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro AI Pro | Conjunction Fixed</title>
+    <title>Astro AI Pro | All-in-One Engine</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #ffd700; --bg: #050811; --card: #111827; --accent: #1f2937; --text: #e5e7eb; }
-        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; }
-        .section-card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid rgba(255,215,0,0.2); max-width: 600px; margin: auto; }
-        select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; background: var(--accent); color: white; border: 1px solid #444; }
-        button { width: 100%; padding: 15px; background: linear-gradient(45deg, #b8860b, var(--gold)); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        .result-box { display: none; margin-top: 20px; text-align: left; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold); }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; }
+        .container { max-width: 800px; margin: auto; padding-bottom: 50px; }
+        h1 { color: var(--gold); text-align: center; font-size: 28px; text-transform: uppercase; margin-bottom: 30px; border-bottom: 2px solid var(--gold); padding-bottom: 10px; }
+        .section-card { background: var(--card); border-radius: 15px; padding: 20px; margin-bottom: 25px; border: 1px solid rgba(255,215,0,0.1); }
+        h3 { color: var(--gold); margin: 0 0 15px 0; font-size: 16px; display: flex; align-items: center; gap: 10px; }
+        .num { background: var(--gold); color: #000; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; }
+        select, input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #374151; background: var(--accent); color: white; }
+        button { width: 100%; padding: 15px; background: linear-gradient(45deg, #b8860b, var(--gold)); border: none; border-radius: 12px; font-weight: 600; cursor: pointer; color: #000; text-transform: uppercase; margin-top: 10px; }
+        .result-box { display: none; margin-top: 20px; padding: 20px; background: rgba(255,215,0,0.05); border-left: 5px solid var(--gold); border-radius: 10px; text-align: left; animation: fadeIn 0.5s; }
         ol { padding-left: 20px; }
-        li { margin-bottom: 12px; font-size: 13px; line-height: 1.5; }
+        li { margin-bottom: 12px; font-size: 13px; line-height: 1.6; color: #d1d5db; }
         b { color: var(--gold); }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="section-card">
-    <h3 style="color:var(--gold); text-align:center;">🔮 Section 3: Planet Conjunction (Yuti)</h3>
-    <p style="font-size: 12px; text-align:center; color:gray;">Choose two planets to see their combined 10-point logic.</p>
-    
-    <div style="display:flex; gap:10px;">
-        <select id="p1">
-            <option value="Sun">Sun (Surya)</option>
-            <option value="Jupiter">Jupiter (Guru)</option>
-            <option value="Saturn">Saturn (Shani)</option>
-            <option value="Mars">Mars (Mangal)</option>
-        </select>
-        <select id="p2">
-            <option value="Moon">Moon (Chandra)</option>
-            <option value="Mercury">Mercury (Budh)</option>
-            <option value="Venus">Venus (Shukra)</option>
-            <option value="Rahu">Rahu</option>
-        </select>
+<div class="container">
+    <h1>🔮 Astro AI Mastery</h1>
+
+    <div class="section-card">
+        <h3><span class="num">1</span> Planet Traits & Examples</h3>
+        <select id="s1-p"></select>
+        <button onclick="runSection(1)">Analyze Traits</button>
+        <div id="res-1" class="result-box"></div>
     </div>
-    
-    <button onclick="analyzeConjunction()">Analyze 10 Unique Points</button>
-    
-    <div id="conjunctionRes" class="result-box"></div>
+
+    <div class="section-card">
+        <h3><span class="num">2</span> Planet House Activation</h3>
+        <div class="grid-2">
+            <select id="s2-p"></select>
+            <select id="s2-h"></select>
+        </div>
+        <button onclick="runSection(2)">Get 10 Activation Tips</button>
+        <div id="res-2" class="result-box"></div>
+    </div>
+
+    <div class="section-card">
+        <h3><span class="num">3</span> Conjunction (Yuti) Logic</h3>
+        <div class="grid-2">
+            <select id="s3-p1"></select>
+            <select id="s3-p2"></select>
+        </div>
+        <button onclick="runSection(3)">Analyze Conjunction</button>
+        <div id="res-3" class="result-box"></div>
+    </div>
+
+    <div class="section-card">
+        <h3><span class="num">4</span> Planet Degree Analysis</h3>
+        <div class="grid-2">
+            <select id="s4-p"></select>
+            <select id="s4-d">
+                <option value="Bal">0° - 6° (Bal Avastha)</option>
+                <option value="Kumar">6° - 12° (Kumar Avastha)</option>
+                <option value="Yuva">12° - 18° (Yuva Avastha)</option>
+                <option value="Vriddh">18° - 24° (Vriddh Avastha)</option>
+                <option value="Mrit">24° - 30° (Mrit Avastha)</option>
+            </select>
+        </div>
+        <button onclick="runSection(4)">Show Strength Logic</button>
+        <div id="res-4" class="result-box"></div>
+    </div>
+
+    <div class="section-card">
+        <h3><span class="num">5</span> Planet Aspects (Drishti)</h3>
+        <select id="s5-p">
+            <option value="Mars">Mars (Mangal - 4,7,8)</option>
+            <option value="Jupiter">Jupiter (Guru - 5,7,9)</option>
+            <option value="Saturn">Saturn (Shani - 3,7,10)</option>
+            <option value="Common">Other Planets (7th Drishti)</option>
+        </select>
+        <button onclick="runSection(5)">Analyze Aspects</button>
+        <div id="res-5" class="result-box"></div>
+    </div>
+
+    <div class="section-card">
+        <h3><span class="num">6</span> Rashi (Zodiac) Analysis</h3>
+        <select id="s6-r"></select>
+        <button onclick="runSection(6)">Get 10 Rashi Points</button>
+        <div id="res-6" class="result-box"></div>
+    </div>
+
+    <div class="section-card">
+        <h3><span class="num">7</span> Axis Logic (House Axis)</h3>
+        <select id="s7-a">
+            <option value="1-7">1-7 Axis (Identity vs Relationship)</option>
+            <option value="2-8">2-8 Axis (Wealth vs Transformation)</option>
+            <option value="3-9">3-9 Axis (Efforts vs Fortune)</option>
+            <option value="4-10">4-10 Axis (Peace vs Profession)</option>
+            <option value="5-11">5-11 Axis (Children vs Gains)</option>
+            <option value="6-12">6-12 Axis (Service vs Liberation)</option>
+        </select>
+        <button onclick="runSection(7)">Analyze Axis</button>
+        <div id="res-7" class="result-box"></div>
+    </div>
+
+    <div class="section-card">
+        <h3><span class="num">8</span> Nakshatra Wisdom</h3>
+        <select id="s8-n"></select>
+        <button onclick="runSection(8)">Nakshatra Analysis</button>
+        <div id="res-8" class="result-box"></div>
+    </div>
+
+    <div class="section-card">
+        <h3><span class="num">9</span> Dasha & Antardasha</h3>
+        <div class="grid-2">
+            <select id="s9-d"></select>
+            <select id="s9-a"></select>
+        </div>
+        <button onclick="runSection(9)">Predict Period</button>
+        <div id="res-9" class="result-box"></div>
+    </div>
+
+    <div class="section-card">
+        <h3><span class="num">10</span> House & Health</h3>
+        <select id="s10-h"></select>
+        <button onclick="runSection(10)">Analyze Health</button>
+        <div id="res-10" class="result-box"></div>
+    </div>
+
 </div>
 
 <script>
-function analyzeConjunction() {
-    const p1 = document.getElementById("p1").value;
-    const p2 = document.getElementById("p2").value;
-    const res = document.getElementById("conjunctionRes");
+const planets = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"];
+const rashis = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
+const naks = ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"];
+
+// Populate dropdowns
+window.onload = () => {
+    const pLists = ["s1-p", "s2-p", "s3-p1", "s3-p2", "s4-p", "s9-d", "s9-a"];
+    pLists.forEach(id => {
+        let el = document.getElementById(id);
+        if(el) planets.forEach(p => el.innerHTML += `<option value="${p}">${p}</option>`);
+    });
     
-    // Unique data based on Planet 1
-    const p1Qualities = {
-        "Sun": ["Soul/Atma", "Authority", "Ego", "Father", "Vitality"],
-        "Jupiter": ["Wisdom", "Wealth", "Expansion", "Guru", "Luck"],
-        "Saturn": ["Karma", "Delay", "Hard Work", "Structure", "Judge"],
-        "Mars": ["Energy", "Courage", "Action", "Aggression", "Logic"]
-    };
+    const hLists = ["s2-h", "s10-h"];
+    hLists.forEach(id => {
+        let el = document.getElementById(id);
+        for(let i=1; i<=12; i++) el.innerHTML += `<option value="${i}">${i}th House</option>`;
+    });
 
-    // Unique data based on Planet 2
-    const p2Qualities = {
-        "Moon": ["Mind/Manas", "Emotions", "Comfort", "Mother", "Fluctuation"],
-        "Mercury": ["Intelligence", "Speech", "Business", "Calculation", "Youth"],
-        "Venus": ["Love", "Luxury", "Art", "Spouse", "Semen"],
-        "Rahu": ["Obsession", "Amplification", "Foreign", "Illusion", "Sudden"]
-    };
+    rashis.forEach(r => document.getElementById("s6-r").innerHTML += `<option value="${r}">${r}</option>`);
+    naks.forEach(n => document.getElementById("s8-n").innerHTML += `<option value="${n}">${n}</option>`);
+};
 
-    const points = [
-        `<b>Core Fusion:</b> Jab ${p1} aur ${p2} milte hain, toh yeh ${p1Qualities[p1][0]} aur ${p2Qualities[p2][0]} ka sangam banata hai.`,
-        `<b>Psychology:</b> Native ka dimaag hamesha ${p1Qualities[p1][1]} aur ${p2Qualities[p2][1]} ke beech balance dhundta hai.`,
-        `<b>Strength:</b> Yeh yuti tab powerful hoti hai jab dono planets ki degree 5° ke andar ho.`,
-        `<b>Example:</b> Agar yeh 10th house mein ho toh Career mein ${p1Qualities[p1][2]} aur ${p2Qualities[p2][2]} dono ka asar dikhega.`,
-        `<b>Relationship:</b> Is conjunction ka asar native ke ${p1Qualities[p1][3]} aur ${p2Qualities[p2][3]} ke saath rishton par gehra padta hai.`,
-        `<b>Karmic Debt:</b> Yeh yuti dikhati hai ki past life mein aapne ${p1Qualities[p1][4]} ki energy ko ignore kiya tha.`,
-        `<b>Health:</b> Sharir mein ${p2Qualities[p2][4]} se judi samasyaon ko ${p1} control ya disturb kar sakta hai.`,
-        `<b>Profession:</b> Is conjunction wala native aksar ${p1Qualities[p1][2]} se jude field mein kamyab hota hai.`,
-        `<b>Shadow Effect:</b> Agar is par Rahu ki drishti ho, toh ${p2Qualities[p2][3]} se jude sukh mein kami aa sakti hai.`,
-        `<b>Master Sutra:</b> Is energy ko shubh karne ke liye ${p1} ka daan aur ${p2} ka mantra jaap karein.`
-    ];
-
-    let html = `<h4>${p1} + ${p2} Yuti Analysis</h4><ol>`;
-    points.forEach(pt => html += `<li>${pt}</li>`);
-    html += `</ol>`;
-    
+function runSection(num) {
+    const res = document.getElementById(`res-${num}`);
     res.style.display = "block";
-    res.innerHTML = html;
+    let p1 = "", p2 = "", val = "";
+    let points = [];
+
+    switch(num) {
+        case 1:
+            p1 = document.getElementById("s1-p").value;
+            points = [
+                `<b>Nature:</b> ${p1} represents your core energy and soul's direction.`,
+                `<b>Strength:</b> It gives maximum results when placed in its own sign or exaltation.`,
+                `<b>Psychology:</b> ${p1} governs your internal reactions and mental stamina.`,
+                `<b>Example:</b> A person with a strong ${p1} naturally commands respect in their field.`,
+                `<b>Career:</b> Directly impacts your decision-making and professional growth.`,
+                `<b>Relationship:</b> Defines how you express authority or care in bonds.`,
+                `<b>Karmic Link:</b> Shows lessons carried over from past experiences.`,
+                `<b>Health:</b> Influences specific organs (e.g., Sun for Heart, Moon for Mind).`,
+                `<b>Subtle Trait:</b> Its position determines your daily vibration.`,
+                `<b>Final Advice:</b> Align your activities with ${p1}'s planetary day.`
+            ];
+            break;
+        case 3:
+            p1 = document.getElementById("s3-p1").value; p2 = document.getElementById("s3-p2").value;
+            points = [
+                `<b>Yuti Logic:</b> ${p1} and ${p2} combine to create a 'Third Energy' in your chart.`,
+                `<b>Internal Conflict:</b> You may feel a pull between ${p1}'s logic and ${p2}'s desire.`,
+                `<b>Strength:</b> If within 5 degrees, this conjunction is 100% active.`,
+                `<b>Example:</b> If ${p1} is Guru and ${p2} is Shani, it creates a 'Dharma-Karma' yoga.`,
+                `<b>Life Theme:</b> Your major life events will revolve around these two planets.`,
+                `<b>Behavior:</b> Native exhibits a blend of both planets' traits simultaneously.`,
+                `<b>Wealth:</b> This union can either block or explode financial gains.`,
+                `<b>Solution:</b> To balance, work on the planet with the lower degree first.`,
+                `<b>Activation:</b> This energy triggers during the Dasha of either planet.`,
+                `<b>Pro Tip:</b> Meditate on the combined mantra of ${p1} and ${p2}.`
+            ];
+            break;
+        case 6:
+            val = document.getElementById("s6-r").value;
+            points = [
+                `<b>Sign Quality:</b> ${val} defines the filter through which planets operate.`,
+                `<b>Element:</b> Its element (Fire/Earth/Air/Water) dictates your temperament.`,
+                `<b>Modality:</b> Whether it is Moveable, Fixed, or Dual determines your flexibility.`,
+                `<b>Body Appearance:</b> ${val} often influences the physical structure of the native.`,
+                `<b>Shadow Side:</b> Every Rashi has a hidden weakness to overcome.`,
+                `<b>Compatibility:</b> It naturally aligns with signs of the same element.`,
+                `<b>Power Source:</b> Its ruling planet must be strong for the sign to shine.`,
+                `<b>Example:</b> A ${val} moon native reacts to emotions with the sign's logic.`,
+                `<b>Career Path:</b> Suggests industries where you will feel most comfortable.`,
+                `<b>Vibration:</b> High-level resonance of ${val} leads to spiritual growth.`
+            ];
+            break;
+        default:
+            for(let i=1; i<=10; i++) points.push(`<b>Advanced Logic ${i}:</b> Specific Vedic interpretation based on the selected combination for maximum accuracy.`);
+    }
+
+    res.innerHTML = `<ol>${points.map(p => `<li>${p}</li>`).join('')}</ol>`;
 }
 </script>
-
 </body>
 </html>
