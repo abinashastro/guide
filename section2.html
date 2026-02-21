@@ -1,179 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy | Vedic Logic</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
-        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 480px; }
-        
-        /* Header & Progress */
-        .header { text-align: center; margin-bottom: 25px; }
-        .bar-bg { background: #1f2937; height: 8px; border-radius: 20px; margin-top: 10px; overflow: hidden; }
-        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 10%; height: 100%; transition: 0.8s ease; }
-
-        .page { display: none; animation: slideUp 0.5s ease; }
-        .active { display: block; }
-
-        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { color: var(--gold); font-size: 20px; margin: 0 0 10px 0; }
-        p.sub { font-size: 12px; color: #9ca3af; margin-bottom: 20px; }
-        
-        select, button { width: 100%; padding: 15px; border-radius: 12px; border: none; font-size: 15px; margin: 8px 0; font-family: inherit; }
-        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; }
-        button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; }
-
-        /* Realistic Result Styling */
-        .result-box { margin-top: 25px; display: none; }
-        .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 12px; border-left: 3px solid var(--gold); }
-        .point b { color: var(--gold); display: block; font-size: 14px; margin-bottom: 4px; }
-        .point i { color: var(--accent); font-size: 13px; display: block; font-style: normal; line-height: 1.4; }
-
-        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="header">
-        <h1 style="color:var(--gold); font-size: 24px; margin:0;">🔮 Astro Academy</h1>
-        <div class="bar-bg"><div id="fill"></div></div>
-    </div>
-
-    <div id="p1" class="page active">
-        <div class="card">
-            <h2>🌟 Lesson 1: Planet Power</h2>
-            <p class="sub">Planet ke realistic traits aur unke piche ka logic.</p>
-            <select id="l1-p"></select>
-            <button onclick="runL1()">Analyze Planet ✨</button>
-            <div id="res1" class="result-box"></div>
-            <button id="toL2" class="nav-btn" onclick="nextPage(2)">Next: Study 12 Rashis 🏠</button>
-        </div>
-    </div>
-
-    <div id="p2" class="page">
-        <div class="card">
-            <h2>♈ Lesson 2: 12 Rashis (Zodiacs)</h2>
-            <p class="sub">Har rashi ki fitrat aur uska deeper Vedic logic.</p>
-            <select id="l2-r"></select>
-            <button onclick="runL2()">Reveal Rashi Traits ✨</button>
-            <div id="res2" class="result-box"></div>
-        </div>
-    </div>
-</div>
-
-<script>
-const astroData = {
-    planets: {
-        "Sun": [
-            {t: "The Soul King", l: "Sun soul ka karaka hai, isliye aapka 'Atma-Vishwas' hamesha high rahega."},
-            {t: "Natural Authority", l: "Aap kisi ke niche dab kar kaam nahi kar sakte, aap lead karne ke liye paida huye hain."},
-            {t: "Fatherly Protection", l: "Aap hamesha apno ko protect karenge, jaise ek Raja apni praja ko karta hai."}
-        ],
-        "Saturn": [
-            {t: "The Slow Justice", l: "Saturn sabse slow planet hai, ye life mein cheezein 'Delay' karta hai par 'Deny' nahi."},
-            {t: "Reality Check", l: "Ye aapko dikhava nahi, balki asli mehnat aur zameen se jude rehna sikhata hai."},
-            {t: "Old Soul", l: "Aap apni umar se zyada mature aur serious soch rakhte hain."}
-        ]
-        // ... (Baaki planets ka bhi similar logic based data)
-    },
-    rashis: {
-        "Aries": [
-            {t: "The Fearless Starter", l: "Ye pehli rashi hai aur iska swami Mars (Mangal) hai. Isliye aap hamesha naye kaamo mein sabse aage kood jate hain."},
-            {t: "Impulsive Fire", l: "Fire element hone ki wajah se aap bina soche action lete hain, jo kabhi hero banata hai toh kabhi mushkil mein dalta hai."}
-        ],
-        "Taurus": [
-            {t: "The Stable Earth", l: "Venus (Shukra) iska malik hai aur ye Earth element hai. Aapko stability aur luxury dono chahiye."},
-            {t: "Fixed Nature", l: "Aap ek baar jo thaan lete hain, usey badalna mushkil hai. Ziddi hona aapki taakat hai."}
-        ],
-        "Gemini": [
-            {t: "The Intelligent Twin", l: "Mercury (Budh) ki rashi hai. Aapka dimaag ek saath do alag dishao mein chal sakta hai."},
-            {t: "Communication Master", l: "Air element ki wajah se aap baton se kisi ko bhi impress kar sakte hain."}
-        ],
-        "Cancer": [
-            {t: "The Deep Ocean", l: "Moon iska swami hai. Aapka mann pani ki tarah hai jo doosron ke dukh turant mehsoos kar leta hai."},
-            {t: "Protective Shell", l: "Aap bahar se sakht dikhte hain par andar se bahut emotional aur caring hain."}
-        ],
-        "Leo": [
-            {t: "The Royal Lion", l: "Sun (Surya) iska boss hai. Aap jahan bhi jayenge, attention automatically aapki taraf aa jayegi."},
-            {t: "Generous Heart", l: "Ek Raja ki tarah aap bahut bade dil wale hain aur doston par jaan nichavar karte hain."}
-        ],
-        "Virgo": [
-            {t: "The Perfectionist", l: "Mercury yahan 'Exalted' hota hai. Aapko har kaam mein safai aur logic pasand hai."},
-            {t: "Analytical Mind", l: "Aap choti se choti galti turant pakad lete hain. Aap ek behtareen critic hain."}
-        ],
-        "Libra": [
-            {t: "The Balance Scale", l: "Venus ki rashi hai. Aapko life mein harmony aur sukoon pasand hai, ladayi-jhagda nahi."},
-            {t: "Social Star", l: "Aap logon ke beech balance banana jante hain aur hamesha justice ke saath khade hote hain."}
-        ],
-        "Scorpio": [
-            {t: "The Secretive Healer", l: "Mars iska malik hai. Aapke andar ek chupi hui energy hai jo har mushkil se bahar nikal sakti hai."},
-            {t: "Magnetic Mystery", l: "Log aapko puri tarah kabhi nahi samajh pate. Aapki aankhen sab kuch bol deti hain."}
-        ],
-        "Sagittarius": [
-            {t: "The Wise Archer", l: "Jupiter (Guru) ki rashi hai. Aap hamesha sach aur gyan ki talash mein rehte hain."},
-            {t: "Freedom Lover", l: "Fire element hone se aapko kisi ek jagah bandh kar rehna pasand nahi. Aapko travel pasand hai."}
-        ],
-        "Capricorn": [
-            {t: "The Mountain Goat", l: "Saturn (Shani) iska malik hai. Aap dheere-dheere par hamesha unchai ki taraf badhte hain."},
-            {t: "Master of Career", l: "Aap kaam ko sabse upar rakhte hain. Discipline aapke khoon mein hai."}
-        ],
-        "Aquarius": [
-            {t: "The Human Thinker", l: "Saturn aur Rahu dono ka asar hai. Aapki soch zamane se 10 saal aage chalti hai."},
-            {t: "Friend of All", l: "Aap poori duniya ka bhala sochte hain aur bade social groups ke leader bante hain."}
-        ],
-        "Pisces": [
-            {t: "The Spiritual Fish", l: "Jupiter ki rashi hai. Aapka connection is duniya se zyada sapno ki duniya se hai."},
-            {t: "Final Soul", l: "Ye aakhri rashi hai, isliye aapke paas sabhi rashiyo ka thoda-thoda gyan aur empathy hoti hai."}
-        ]
-    }
 };
 
-// --- INITIALIZE ---
-window.onload = () => {
-    // Planets
-    const pKeys = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"];
-    document.getElementById('l1-p').innerHTML = pKeys.map(k => `<option value="${k}">${k}</option>`).join('');
-    
-    // Rashis
-    const rKeys = Object.keys(astroData.rashis);
-    document.getElementById('l2-r').innerHTML = rKeys.map(k => `<option value="${k}">${k}</option>`).join('');
-};
-
-function runL1() {
-    const val = document.getElementById('l1-p').value;
-    const res = document.getElementById('res1');
-    res.style.display = "block";
-    document.getElementById('toL2').style.display = "block";
-    document.getElementById('fill').style.width = "50%";
-    
-    // Logic: Agar data nahi hai toh generic realistic point banao
-    const points = astroData.planets[val] || [
-        {t: "The Core Power", l: `Astrology mein ${val} aapke character ki ek khaas layer ko rule karta hai.`},
-        {t: "Realistic Result", l: `Jab ${val} strong hota hai, toh aap apne career aur life mein 100% focus kar pate hain.`}
-    ];
-
-    res.innerHTML = points.map(p => `<div class="point"><b>${p.t}</b><i>${p.l}</i></div>`).join('');
+function populateSelect(id, list) {
+    document.getElementById(id).innerHTML = list.map(item => `<option value="${item}">${item}</option>`).join('');
 }
 
-function runL2() {
-    const val = document.getElementById('l2-r').value;
-    const res = document.getElementById('res2');
+function runLogic(selectId, resId, type, nextBtnId, progress) {
+    const val = document.getElementById(selectId).value;
+    const res = document.getElementById(resId);
+    const data = astroData[type][val] || [
+        {t: "Great Personality.", l: "Vedic logic kehta hai aap bahut buddhiman hain."},
+        {t: "Unique Talent.", l: "Aapke andar koi chupa hua hunar hai."},
+        {t: "Future Success.", l: "Mehnat se aap bahut unchai tak jayenge."}
+    ];
+
     res.style.display = "block";
-    document.getElementById('fill').style.width = "100%";
-    
-    const points = astroData.rashis[val];
-    res.innerHTML = points.map(p => `<div class="point"><b>${p.t}</b><i>${p.l}</i></div>`).join('');
+    if(nextBtnId) document.getElementById(nextBtnId).style.display = "block";
+    document.getElementById('fill').style.width = progress + "%";
+
+    res.innerHTML = data.map(item => `
+        <div class="point">
+            <b>${item.t}</b>
+            <i>Kyunki: ${item.l}</i>
+        </div>
+    `).join('');
 }
 
 function nextPage(n) {
-    document.getElementById('p1').classList.remove('active');
-    document.getElementById('p2').classList.add('active');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(`p${n}`).classList.add('active');
+    window.scrollTo(0,0);
 }
 </script>
 </body>
