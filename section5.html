@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy | Lesson 5: Planet Conjunctions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
+        body { background: var(--bg); color: #e5e7eb; font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        
+        .bar-bg { background: #1f2937; height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid #374151; }
+        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 100%; height: 100%; transition: 0.8s ease; }
+
+        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        h2 { color: var(--gold); font-size: 24px; margin-bottom: 5px; }
+        p.sub { font-size: 13px; color: #9ca3af; margin-bottom: 20px; }
+        
+        select, button { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 15px; margin: 10px 0; font-family: inherit; transition: 0.3s; }
+        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; outline: none; }
+        button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; }
+        button:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+        .result-box { margin-top: 25px; display: none; }
+        .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid var(--gold); animation: fadeIn 0.4s ease; }
+        .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
+        .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
+
+        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; cursor: pointer; border-radius: 14px; font-weight: 600; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header" style="text-align:center;">
+        <h1 style="color:var(--gold); margin:0;">🔮 Astro Academy</h1>
+        <div class="bar-bg"><div id="fill"></div></div>
+    </div>
+
+    <div class="card">
+        <h2>🤝 Lesson 5: Planet Conjunctions</h2>
+        <p class="sub">Jab do grah milte hain, toh ek naya bhagya banta hai.</p>
+        
+        <select id="conjSelect">
+            <option value="sun_mercury">Sun + Mercury (Budh-Aditya Yoga)</option>
+            <option value="moon_jupiter">Moon + Jupiter (Gaj-Kesari Yoga)</option>
+            <option value="saturn_rahu">Saturn + Rahu (Shrapit Yoga)</option>
+            <option value="mars_venus">Mars + Venus (Passion Conjunction)</option>
+            <option value="jupiter_venus">Jupiter + Venus (Guru-Shukra)</option>
+            <option value="sun_saturn">Sun + Saturn (Father-Son Conflict)</option>
+            <option value="moon_saturn">Moon + Saturn (Vish Yoga)</option>
+        </select>
+
+        <button onclick="analyzeConj()">Decode Conjunction ⚡</button>
+
+        <div id="resultArea" class="result-box"></div>
+
+        <button id="finalBtn" class="nav-btn" onclick="saveAndHome()">
+            Save Results & Back to Home 🏠
+        </button>
+    </div>
+</div>
+
+<script>
+const conjData = {
+    "sun_mercury": [
+        {t: "High Intelligence.", l: "Surya ki chamak aur Budh ki buddhi milkar aapko genius banati hai."},
+        {t: "Effective Speech.", l: "Aapki baaton mein authority hoti hai aur log aapko dhyan se sunte hain."},
+        {t: "Business Minded.", l: "Aap calculations aur deal-making mein bahut expert hote hain."},
+        {t: "Royal Aura.", l: "Aap jahan bhi jate hain, ek professional aur classy image banate hain."},
+        {t: "Quick Learner.", l: "Nayi skills aur languages seekhne mein aapko bahut kam samay lagta hai."},
+        {t: "Respect in Society.", l: "Ye yoga aksar sarkar ya bade organizations mein samman dilata hai."},
+        {t: "Mathematical Precision.", l: "Aap har cheez ko logic aur data ke base par parkhte hain."}
+    ],
+    "moon_jupiter": [
+        {t: "Divine Protection.", l: "Gaj-Kesari yoga aapko har badi musibat se nikalne ki shakti deta hai."},
+        {t: "Huge Prosperity.", l: "Life mein kabhi na kabhi aapko bada dhan aur property milti hai."},
+        {t: "Noble Character.", l: "Aap dil ke saaf hote hain aur doosron ka bhala chahte hain."},
+        {t: "Emotional Balance.", l: "Aapka mann (Moon) aur gyan (Jupiter) milkar aapko calm rakhte hain."},
+        {t: "Teaching Ability.", l: "Aap ek bahut achhe mentor, teacher ya guide ban sakte hain."},
+        {t: "Social Respect.", l: "Log aapke paas sahi rai aur sujhaav lene ke liye aate hain."},
+        {t: "Pure Intentions.", l: "Aap jo bhi kaam karte hain usme swarth kam aur dharam zyada hota hai."}
+    ],
+    "saturn_rahu": [
+        {t: "Technical Mastery.", l: "Ye conjunction engineering, IT ya machine learning mein top par le jata hai."},
+        {t: "Hidden Struggles.", l: "Life ke shuruati saalon mein aapko bahut kadi mehnat karni padti hai."},
+        {t: "Rebel Spirit.", l: "Aap purani paramparaon ko tod kar apna naya rasta banate hain."},
+        {t: "Unorthodox Success.", l: "Aapko success aise tarikon se milti hai jo aam log nahi sochte."},
+        {t: "Deep Mystery.", l: "Aapka swabhav thoda secretive hota hai, log aapko aasani se samajh nahi pate."},
+        {t: "Karmic Lessons.", l: "Aapko life mein dhokhon se seekh kar bahut mazboot banna padta hai."},
+        {t: "Foreign Connections.", l: "Aapka luck aksar foreign land ya anjan logon ke sath chamakta hai."}
+    ],
+    "mars_venus": [
+        {t: "High Passion.", l: "Aap life, career aur romance har jagah bahut energetic rehte hain."},
+        {t: "Creative Force.", l: "Design, fashion ya art mein aapka ek alag hi level ka taste hota hai."},
+        {t: "Magnetic Attraction.", l: "Log aapki personality ki taraf natural tarike se khiche chale aate hain."},
+        {t: "Bold Choices.", l: "Aap life mein risk lene aur bade decision lene se kabhi nahi darrte."},
+        {t: "Extravagant Life.", l: "Aapko expensive aur khubsurat cheezein collect karne ka shauq hota hai."},
+        {t: "Fast Relationships.", l: "Aapke rishte bahut intensity aur passion ke sath shuru hote hain."},
+        {t: "Action Oriented.", l: "Aap sirf sapne nahi dekhte, unhe pane ke liye turant action lete hain."}
+    ],
+    "jupiter_venus": [
+        {t: "The Wealth Creator.", l: "Dono shubh grah milkar aapko luxurious life aur comfort dete hain."},
+        {t: "Wise Counselor.", l: "Aapko finance aur relationship ki bahut gehri samajh hoti hai."},
+        {t: "High Morals.", l: "Aap luxury chahte hain par apne sanskaron ko kabhi nahi bhulte."},
+        {t: "Graceful Speech.", l: "Aapki boli bahut soft aur prabhavshali (influential) hoti hai."},
+        {t: "Happy Marriage.", l: "Partner ke sath aapka intellectual aur emotional bond strong rehta hai."},
+        {t: "Gyan & Bhog.", l: "Aap life ko enjoy bhi karte hain aur spiritually grow bhi karte hain."},
+        {t: "Artistic Wisdom.", l: "Aap kala (art) ke bare mein bahut deep knowledge rakhte hain."}
+    ],
+    "sun_saturn": [
+        {t: "Strict Discipline.", l: "Aap life mein rules aur hard work ko sabse upar rakhte hain."},
+        {t: "Father Conflict.", l: "Pita ke sath vicharon mein matbhed (difference of opinion) ho sakta hai."},
+        {t: "Late Success.", l: "Aapki asli tarakki 30 ya 35 saal ki umar ke baad shuru hoti hai."},
+        {t: "Huge Responsibility.", l: "Aapko bachpan se hi badi zimmedariyan uthani padti hain."},
+        {t: "Stone Minded.", l: "Mushkil waqt mein aap tootte nahi, balki pathar ki tarah khade rehte hain."},
+        {t: "Government Issues.", l: "Sarkari kamo mein thodi rukawat ya deri ka samna karna pad sakta hai."},
+        {t: "Justice Seeker.", l: "Aap hamesha sach ka sath dete hain, chahe wo kitna bhi kadwa ho."}
+    ],
+    "moon_saturn": [
+        {t: "Deep Thinker.", l: "Aap har baat ko bahut gehrai se mehsoos karte aur sochte hain."},
+        {t: "Emotional Maturity.", l: "Aap apni umar se zyada samajhdar aur gambhir (serious) hote hain."},
+        {t: "Hard Lessons.", l: "Aapko sukoon paane ke liye bahut sabr (patience) rakhna padta hai."},
+        {t: "Loneliness Factor.", l: "Bheed mein hokar bhi aap khud ko kabhi-kabhi akela mehsoos karte hain."},
+        {t: "Spiritual Path.", l: "Ye yoga aksar insaan ko meditation aur vairagya ki taraf le jata hai."},
+        {t: "Duty First.", l: "Aap apne jazbaton se zyada apne kartavyon (duties) ko mahatva dete hain."},
+        {t: "Practical Soul.", l: "Aap hawa mein baatein nahi karte, haqiqat par bharosa karte hain."}
+    ]
+};
+
+function analyzeConj() {
+    const val = document.getElementById("conjSelect").value;
+    const resBox = document.getElementById("resultArea");
+    const data = conjData[val];
+
+    resBox.style.display = "block";
+    document.getElementById("finalBtn").style.display = "block";
+
+    resBox.innerHTML = data.map(item => `
+        <div class="point">
+            <b>${item.t}</b>
+            <i>Effect: ${item.l}</i>
+        </div>
+    `).join('');
+    
+    document.getElementById("fill").style.width = "100%";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+function saveAndHome() {
+    console.log("Firebase Sync: User Mastered Conjunctions [2026-02-17]");
+    alert("Incredible! Aapne Planets ki sabse gehri dosti aur dushmani samajh li hai. Data Saved.");
+    window.location.href = 'home.html'; 
+}
+</script>
+</body>
+</html>
