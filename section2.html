@@ -3,38 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy | Final Masterclass</title>
+    <title>Astro Academy | Lesson 2: Rashis</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
-        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: --e5e7eb; --accent: #00ffcc; }
+        body { background: var(--bg); color: #e5e7eb; font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 500px; }
         
-        /* Progress Bar */
         .bar-bg { background: #1f2937; height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid #374151; }
-        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 33%; height: 100%; transition: 0.8s ease; }
-
-        .page { display: none; animation: slideUp 0.5s ease; }
-        .active { display: block; }
+        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 66%; height: 100%; transition: 0.8s ease; }
 
         .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
         h2 { color: var(--gold); font-size: 24px; margin-bottom: 5px; }
         p.sub { font-size: 13px; color: #9ca3af; margin-bottom: 20px; }
         
         select, button { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 15px; margin: 10px 0; font-family: inherit; transition: 0.3s; }
-        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; appearance: none; }
+        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; outline: none; }
         button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; }
-        button:hover { transform: scale(1.02); opacity: 0.9; }
+        button:hover { transform: scale(1.02); filter: brightness(1.1); }
 
         .result-box { margin-top: 25px; display: none; }
         .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid var(--gold); animation: fadeIn 0.4s ease; }
         .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
         .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
 
-        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; }
+        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; padding: 0; }
         
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; scale: 0.95; } to { opacity: 1; scale: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -45,63 +40,37 @@
         <div class="bar-bg"><div id="fill"></div></div>
     </div>
 
-    <div id="p1" class="page">
-        <div class="card">
-            <h2>🌟 Lesson 1: Planet Traits</h2>
-            <p class="sub">Planet ki energy aur uska realistic asar decode karein.</p>
-            <select id="l1-p"></select>
-            <button onclick="runLogic('l1-p', 'res1', 'planets', 'toP2', 33)">Analyze Personality ✨</button>
-            <div id="res1" class="result-box"></div>
-            <button id="toP2" class="nav-btn" onclick="nextPage(2)">Unlock Lesson 2: Rashis ♈</button>
-        </div>
-    </div>
+    <div class="card">
+        <h2>♈ Lesson 2: Rashi Logic</h2>
+        <p class="sub">12 Rashiyo ke piche ka asli swabhav aur predictions.</p>
+        
+        <select id="rashiSelect">
+            <option value="Aries (Mesh) ♈">Aries (Mesh) ♈</option>
+            <option value="Taurus (Vrish) ♉">Taurus (Vrish) ♉</option>
+            <option value="Gemini (Mithun) ♊">Gemini (Mithun) ♊</option>
+            <option value="Cancer (Karka) ♋">Cancer (Karka) ♋</option>
+            <option value="Leo (Simha) ♌">Leo (Simha) ♌</option>
+            <option value="Virgo (Kanya) ♍">Virgo (Kanya) ♍</option>
+            <option value="Libra (Tula) ♎">Libra (Tula) ♎</option>
+            <option value="Scorpio (Vrishchik) ♏">Scorpio (Vrishchik) ♏</option>
+            <option value="Sagittarius (Dhanu) ♐">Sagittarius (Dhanu) ♐</option>
+            <option value="Capricorn (Makar) ♑">Capricorn (Makar) ♑</option>
+            <option value="Aquarius (Kumbh) ♒">Aquarius (Kumbh) ♒</option>
+            <option value="Pisces (Meena) ♓">Pisces (Meena) ♓</option>
+        </select>
 
-    <div id="p2" class="page active">
-        <div class="card">
-            <h2>♈ Lesson 2: Rashi Logic</h2>
-            <p class="sub">12 Rashiyo ke piche ka asli swabhav aur predictions.</p>
-            <select id="l2-r"></select>
-            <button onclick="runLogic('l2-r', 'res2', 'rashis', 'toP3', 66)">Check Accuracy ✨</button>
-            <div id="res2" class="result-box"></div>
-            <button id="toP3" class="nav-btn" onclick="nextPage(3)">Unlock Lesson 3: Nakshatras 🌙</button>
-        </div>
-    </div>
+        <button onclick="analyzeRashi()">Check Accuracy ✨</button>
 
-    <div id="p3" class="page">
-        <div class="card">
-            <h2>🌙 Lesson 3: Nakshatra Power</h2>
-            <p class="sub">27 Nakshatra: Aapki soul ka sabse gehra raaz.</p>
-            <select id="l3-n"></select>
-            <button onclick="runLogic('l3-n', 'res3', 'nakshatras', null, 100)">Reveal Destiny ✨</button>
-            <div id="res3" class="result-box"></div>
-            <button class="nav-btn" style="background:#fff; display:block;" onclick="location.reload()">Restart Course 🔄</button>
-        </div>
+        <div id="resultArea" class="result-box"></div>
+
+        <button id="nextPageBtn" class="nav-btn" onclick="window.location.href='section3.html'">
+            Unlock Lesson 3: Nakshatras ➔
+        </button>
     </div>
 </div>
 
 <script>
-const astroData = {
-    planets: {
-        "Sun (Surya) ☀️": [
-            {t: "Born Leader.", l: "Surya raja hai, aap hamesha front se lead karte hain."},
-            {t: "High Self-Respect.", l: "Aap kisi ke samne jhukna pasand nahi karte."},
-            {t: "Father's Blessing.", l: "Pita ka asar aapki life mein bahut strong rehta hai."},
-            {t: "Clear Vision.", l: "Aap andhere mein bhi sahi rasta dhoondne mein expert hain."},
-            {t: "Royal Habits.", l: "Aapko sasti nahi, hamesha quality cheezein pasand aati hain."},
-            {t: "Discipline.", l: "Surya ki tarah aapko punctuality aur rules pasand hain."},
-            {t: "Bright Ego.", l: "Log aapko ghamandi samajh sakte hain par wo aapka self-respect hai."}
-        ],
-        "Moon (Chandra) 🌙": [
-            {t: "Thanda dimaag.", l: "Moon raat ki thandak hai, aap shanti pasand karte hain."},
-            {t: "Mood swings.", l: "Jaise chand badalta hai, aapki feelings bhi up-down hoti hain."},
-            {t: "Mumma ka ladla.", l: "Maa se aapka connection sabse gehra hota hai."},
-            {t: "Creative mind.", l: "Imagination aur arts mein aapka dimaag bahut chalta hai."},
-            {t: "Deep Thinker.", l: "Aap har baat ki gehrai mein chale jate hain."},
-            {t: "Water connection.", l: "Nadi ya samundar ke paas aapko sukoon milta hai."},
-            {t: "Helpful nature.", l: "Aap doosron ka dard turant mehsoos kar lete hain."}
-        ]
-    },
-    rashis: {
+const rashiData = {
     "Aries (Mesh) ♈": [
         {t: "Chota Soldier.", l: "Mars iska ruler hai, aap hamesha action mode mein rehte hain."},
         {t: "Darr se dosti.", l: "Naye raste banane se aap kabhi nahi darrte."},
@@ -210,43 +179,25 @@ const astroData = {
         {t: "Intuitive.", l: "Aapko logon ke irade pehle hi mehsoos ho jate hain."},
         {t: "Easy Going.", l: "Aap life ke flow ke sath chalna pasand karte hain."}
     ]
-}
-
-window.onload = () => {
-    populateSelect('l1-p', Object.keys(astroData.planets));
-    populateSelect('l2-r', ["Aries (Mesh) ♈", "Taurus (Vrish) ♉", "Gemini (Mithun) ♊", "Cancer (Karka) ♋", "Leo (Simha) ♌", "Virgo (Kanya) ♍", "Libra (Tula) ♎", "Scorpio (Vrishchik) ♏", "Sagittarius (Dhanu) ♐", "Capricorn (Makar) ♑", "Aquarius (Kumbh) ♒", "Pisces (Meena) ♓"]);
-    populateSelect('l3-n', ["Ashwini 🐎", "Bharani 🐘", "Krittika 🔥", "Rohini 🌳", "Mrigashira 🦌", "Ardra 💧", "Punarvasu 🏹", "Pushya 🌸", "Ashlesha 🐍", "Magha 👑", "Purva Phalguni 🎭", "Uttara Phalguni 🛏️", "Hasta 🖐️", "Chitra 💎", "Swati 🌱", "Vishakha ⚡", "Anuradha 🌸", "Jyeshtha 🛡️", "Mula 🌳", "Purva Ashadha 🌊", "Uttara Ashadha 🐘", "Shravana 👂", "Dhanishta 🥁", "Shatabhisha 🛡️", "Purva Bhadrapada ⚔️", "Uttara Bhadrapada 🐍", "Revati 🐟"]);
 };
 
-function populateSelect(id, list) {
-    document.getElementById(id).innerHTML = list.map(item => `<option value="${item}">${item}</option>`).join('');
-}
+function analyzeRashi() {
+    const rashi = document.getElementById("rashiSelect").value;
+    const resBox = document.getElementById("resultArea");
+    const nextBtn = document.getElementById("nextPageBtn");
+    const data = rashiData[rashi];
 
-function runLogic(selectId, resId, type, nextBtnId, progress) {
-    const val = document.getElementById(selectId).value;
-    const res = document.getElementById(resId);
-    const data = astroData[type][val] || [
-        {t: "Great Personality.", l: "Vedic logic kehta hai aap bahut buddhiman hain."},
-        {t: "Unique Talent.", l: "Aapke andar koi chupa hua hunar hai."},
-        {t: "Future Success.", l: "Mehnat se aap bahut unchai tak jayenge."}
-    ];
+    resBox.style.display = "block";
+    nextBtn.style.display = "block";
 
-    res.style.display = "block";
-    if(nextBtnId) document.getElementById(nextBtnId).style.display = "block";
-    document.getElementById('fill').style.width = progress + "%";
-
-    res.innerHTML = data.map(item => `
+    resBox.innerHTML = data.map(item => `
         <div class="point">
             <b>${item.t}</b>
             <i>Kyunki: ${item.l}</i>
         </div>
     `).join('');
-}
 
-function nextPage(n) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(`p${n}`).classList.add('active');
-    window.scrollTo(0,0);
+    document.getElementById("fill").style.width = "90%";
 }
 </script>
 </body>
