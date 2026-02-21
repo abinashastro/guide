@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy | Master Index</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 500px; }
+        
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: var(--gold); margin: 0; font-size: 28px; letter-spacing: 1px; }
+        .header p { color: #9ca3af; font-size: 14px; }
+
+        .index-card { background: var(--card); border-radius: 24px; padding: 30px; border: 1px solid rgba(255,215,0,0.2); box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
+        
+        .index-item { display: flex; align-items: center; text-decoration: none; color: white; padding: 20px; margin-bottom: 15px; background: rgba(255,255,255,0.03); border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s ease; }
+        .index-item:hover { transform: translateX(10px); background: rgba(255, 215, 0, 0.05); border-color: var(--gold); }
+        
+        .num { font-size: 24px; font-weight: 600; color: var(--gold); margin-right: 20px; min-width: 30px; }
+        .content { flex: 1; }
+        .content h3 { margin: 0; font-size: 17px; color: #fff; }
+        .content p { margin: 5px 0 0; font-size: 13px; color: #9ca3af; }
+        
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+        
+        .footer-note { text-align: center; margin-top: 30px; font-size: 12px; color: #4b5563; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔮 ASTRO MASTERCLASS</h1>
+        <p>Aapka Vedic Astrology ka safar yahan se shuru hota hai</p>
+    </div>
+
+    <div class="index-card">
+        <a href="index.html" class="index-item">
+            <div class="num">01</div>
+            <div class="content">
+                <h3>Know the Planets</h3>
+                <p>9 Grahon ka dimaag aur unki shakti</p>
+            </div>
+            <div class="status-dot"></div>
+        </a>
+
+        <a href="section2.html" class="index-item">
+            <div class="num">02</div>
+            <div class="content">
+                <h3>Know the Rashis</h3>
+                <p>12 Rashiyon ka swabhav aur logic</p>
+            </div>
+            <div class="status-dot"></div>
+        </a>
+
+        <a href="section3.html" class="index-item">
+            <div class="num">03</div>
+            <div class="content">
+                <h3>Know the Nakshatras</h3>
+                <p>27 Nakshatra: Soul ki sabse gehri layer</p>
+            </div>
+            <div class="status-dot"></div>
+        </a>
+
+        <a href="section4.html" class="index-item" style="opacity: 0.7;">
+            <div class="num">04</div>
+            <div class="content">
+                <h3>Masterclass Final</h3>
+                <p>Predictions karne ka asli formula</p>
+            </div>
+        </a>
+    </div>
+
+    <div class="footer-note">
+        [2026-02-17] Progress is being tracked and stored in Firebase.
+    </div>
+</div>
+
+</body>
+</html>
