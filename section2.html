@@ -3,166 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy | Final FLI10</title>
+    <title>Astro Academy | Real Predictions</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --success: #00ffcc; }
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
         body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 450px; }
         
-        /* Progress Header */
-        .header { text-align: center; margin-bottom: 20px; }
-        .progress-bar { background: #1f2937; height: 8px; border-radius: 10px; margin-top: 10px; overflow: hidden; }
-        #fill { background: var(--gold); width: 10%; height: 100%; transition: 0.5s; box-shadow: 0 0 10px var(--gold); }
+        /* Header & Progress */
+        .header { text-align: center; margin-bottom: 25px; }
+        .bar-bg { background: #1f2937; height: 10px; border-radius: 20px; margin-top: 10px; overflow: hidden; border: 1px solid #374151; }
+        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 10%; height: 100%; transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 15px var(--gold); }
 
-        /* Page System */
-        .page { display: none; animation: fadeIn 0.5s ease; }
+        /* Page Management */
+        .page { display: none; animation: slideUp 0.5s ease-out; }
         .active { display: block; }
 
-        .card { background: var(--card); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,215,0,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { color: var(--gold); font-size: 20px; margin-top: 0; }
+        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.15); box-shadow: 0 15px 35px rgba(0,0,0,0.6); position: relative; }
+        h2 { color: var(--gold); font-size: 20px; margin: 0 0 15px 0; border-bottom: 1px solid rgba(255,215,0,0.1); padding-bottom: 10px; }
         
-        select, button { width: 100%; padding: 14px; border-radius: 12px; border: none; font-size: 15px; margin: 10px 0; outline: none; }
-        select { background: #1f2937; color: white; border: 1px solid #374151; appearance: none; }
-        button { background: var(--gold); color: #000; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        select, button { width: 100%; padding: 15px; border-radius: 14px; border: none; font-size: 15px; margin: 10px 0; font-family: inherit; }
+        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; -webkit-appearance: none; }
+        button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        button:hover { filter: brightness(1.2); transform: translateY(-2px); }
 
-        .result-box { margin-top: 20px; padding: 15px; background: rgba(255,215,0,0.03); border-radius: 15px; border: 1px dashed var(--gold); }
-        .point { margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .point b { color: var(--gold); display: block; font-size: 15px; }
-        .point i { color: var(--success); font-size: 12px; display: block; margin-top: 4px; }
+        /* Prediction Results */
+        .result-box { margin-top: 25px; display: none; }
+        .point { margin-bottom: 20px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px; border-left: 4px solid var(--gold); animation: fadeIn 0.5s ease; }
+        .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 5px; text-transform: capitalize; }
+        .point i { color: var(--accent); font-size: 13px; display: block; line-height: 1.5; font-style: normal; }
 
-        #nextBtn { background: var(--success); color: #000; display: none; }
+        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; scale: 0.95; } to { opacity: 1; scale: 1; } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1 style="color:var(--gold); font-size: 24px; margin:0;">🎓 Astro Academy</h1>
-        <div class="progress-bar"><div id="fill"></div></div>
+        <h1 style="color:var(--gold); font-size: 26px; margin:0;">🔮 Astro Academy</h1>
+        <div class="bar-bg"><div id="fill"></div></div>
     </div>
 
     <div id="p1" class="page active">
         <div class="card">
-            <h2>🌟 Lesson 1: Planet Traits</h2>
-            <p style="font-size: 13px; color: #9ca3af;">Pehle apne Planet ki asli power ko pehchano!</p>
-            <select id="l1-select">
-                <option value="Sun">Sun (Surya) ☀️</option>
-                <option value="Moon">Moon (Chandra) 🌙</option>
-                <option value="Mars">Mars (Mangal) 🔥</option>
-                <option value="Mercury">Mercury (Budh) ✍️</option>
-                <option value="Jupiter">Jupiter (Guru) 🎓</option>
-                <option value="Venus">Venus (Shukra) ✨</option>
-                <option value="Saturn">Saturn (Shani) ⚖️</option>
-                <option value="Rahu">Rahu 🎭</option>
-                <option value="Ketu">Ketu 🧘</option>
-            </select>
-            <button onclick="showL1()">Analyze Personality ✨</button>
-            <div id="res1" class="result-box" style="display:none;"></div>
-            <button id="toL2" class="next-btn" onclick="goToL2()" style="display:none; background:#00ffcc;">Go to Lesson 2 🏠</button>
+            <h2>🌟 Lesson 1: Atma Karaka (Soul)</h2>
+            <p style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">Aapka planet batayega aap duniya mein kyun aaye ho.</p>
+            <select id="l1-p"></select>
+            <button onclick="runL1()">Identify Your Soul ✨</button>
+            <div id="res1" class="result-box"></div>
+            <button id="toL2" class="nav-btn" onclick="nextPage(2)">Unlock Career Path 🏠</button>
         </div>
     </div>
 
     <div id="p2" class="page">
         <div class="card">
-            <h2>🏠 Lesson 2: Planet in House</h2>
-            <p style="font-size: 13px; color: #9ca3af;">Planet kis ghar mein kya magic karta hai?</p>
+            <h2>🏠 Lesson 2: Karma & Destiny</h2>
+            <p style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">Kis ghar mein aapka khazana chupa hai?</p>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <select id="l2-p"></select>
                 <select id="l2-h"></select>
             </div>
-            <button onclick="showL2()">Magic Dekho ✨</button>
-            <div id="res2" class="result-box" style="display:none;"></div>
-            <button id="finalBtn" onclick="location.reload()" style="display:none; background:#fff;">Restart Journey 🔄</button>
+            <button onclick="runL2()">Check Destiny ✨</button>
+            <div id="res2" class="result-box"></div>
+            <button id="reset" class="nav-btn" style="background:#fff;" onclick="location.reload()">Reset Study 🔄</button>
         </div>
     </div>
 </div>
 
 <script>
-// DATA BANK
-const planets = {
-    "Sun": { p: "Raja (King)", v: "shaan se", l: "Sun asman ka boss hai." },
-    "Moon": { p: "Ma (Mother)", v: "pyar se", l: "Moon thandak deta hai." },
-    "Mars": { p: "Soldier", v: "tezi se", l: "Mars energy ka planet hai." },
-    "Mercury": { p: "Smart Kid", v: "chalaaki se", l: "Budh dimaag chalata hai." },
-    "Jupiter": { p: "Guru", v: "wisdom se", l: "Guru sabse bada teacher hai." },
-    "Venus": { p: "Superstar", v: "style se", l: "Venus luxury deta hai." },
-    "Saturn": { p: "Judge", v: "mehnat se", l: "Shani discipline sikhata hai." },
-    "Rahu": { p: "Magician", v: "ajab tarike se", l: "Rahu gadgets ka master hai." },
-    "Ketu": { p: "Yogi", v: "chupke se", l: "Ketu meditation sikhata hai." }
+const astrologyData = {
+    planets: {
+        "Sun": { 
+            title: "The Ego & Light", 
+            traits: ["Born to Lead", "Fatherly Grace", "High Self-Respect"],
+            logic: "Sun soul ka generator hai. Aap kisi ki gulami nahi kar sakte.",
+            pred: "Life mein 22 saal ki umar ke baad bada naam kamaoge."
+        },
+        "Moon": { 
+            title: "The Emotional Mirror", 
+            traits: ["Mind Controller", "Nurturer", "Intuitive"],
+            logic: "Moon sabse tez chalta hai. Aapke decisions emotions par base honge.",
+            pred: "Aapka ghar hamesha pani ya park ke paas hoga."
+        },
+        "Mars": { 
+            title: "The Fire Warrior", 
+            traits: ["Problem Solver", "Action Oriented", "Defender"],
+            logic: "Mars adrenaline hai. Aap dar ke nahi, lad ke jeetoge.",
+            pred: "Sports ya Engineering mein aap sabse aage nikal jaoge."
+        },
+        "Mercury": { 
+            title: "The Mastermind", 
+            traits: ["Calculation King", "Witty", "Youthful"],
+            logic: "Mercury communication ka boss hai. Aapki baton mein magic hoga.",
+            pred: "Business aur trading mein aap dher sara paisa banaoge."
+        },
+        "Jupiter": { 
+            title: "The Divine Guide", 
+            traits: ["Wise Soul", "Wealth Bringer", "Optimistic"],
+            logic: "Jupiter expansion hai. Aap jahan jaoge, wahan rasta khul jayega.",
+            pred: "Society mein aapko 'Teacher' ya 'Advisor' ki izzat milegi."
+        },
+        "Venus": { 
+            title: "The Luxury Seeker", 
+            traits: ["Artist", "Romantic", "Gadget Lover"],
+            logic: "Venus shukra hai. Aapki life mein bina luxury ke sukoon nahi milega.",
+            pred: "Aapka lifestyle dekh kar log aapse jealous honge."
+        },
+        "Saturn": { 
+            title: "The Karmic Justice", 
+            traits: ["Disciplined", "Old Soul", "Persistent"],
+            logic: "Saturn judge hai. Ye aapko ragad kar heera banata hai.",
+            pred: "36 saal ke baad aapke paas itni property hogi jo koi soch nahi sakta."
+        },
+        "Rahu": { 
+            title: "The Modern Wizard", 
+            traits: ["Out of Box", "Technology Expert", "Ambitious"],
+            logic: "Rahu limit break karta hai. Aap purani soch ko follow nahi karenge.",
+            pred: "Aap internet ya foreign se juda kaam karke ameer banenge."
+        },
+        "Ketu": { 
+            title: "The Invisible Mystic", 
+            traits: ["Deep Thinker", "Detached", "Truth Seeker"],
+            logic: "Ketu jism nahi, rooh hai. Aap cheezon ke piche ka sach dekh lete ho.",
+            pred: "Aap akelepan mein sabse zyada powerful feel karenge."
+        }
+    },
+    houses: {
+        "1": { name: "Persona", effect: "Aapka dabdaba duniya par hamesha rahega." },
+        "2": { name: "Family/Assets", effect: "Aapki family legacy aur bank balance badhta jayega." },
+        "3": { name: "Siblings/Courage", effect: "Short travels aur doston se bahut labh hoga." },
+        "4": { name: "Mother/Comfort", effect: "Aapke paas apni mehnat ki badi gaadi aur ghar hoga." },
+        "7": { name: "Partner", effect: "Aapka life partner aapka luck chamka dega." },
+        "10": { name: "Career", effect: "Aap government ya kisi bade brand ke boss banenge." },
+        "11": { name: "Income", effect: "Life mein bina maange gifts aur paisa milega." }
+    }
 };
 
-const houses = {
-    "1": "Body & Face", "2": "Bank & Family", "3": "Bravery & Siblings",
-    "4": "Home & Mother", "5": "Knowledge & Fun", "6": "Daily Work",
-    "7": "Friends & Partner", "8": "Secrets", "9": "Luck & God",
-    "10": "Papa & Office", "11": "Gifts & Gains", "12": "Dreams"
-};
-
-// LOAD DROPDOWNS
 window.onload = () => {
-    let pOps = Object.keys(planets).map(p => `<option value="${p}">${p}</option>`).join('');
-    let hOps = Object.keys(houses).map(h => `<option value="${h}">${h}th House</option>`).join('');
-    document.getElementById('l2-p').innerHTML = pOps;
-    document.getElementById('l2-h').innerHTML = hOps;
+    const pList = Object.keys(astrologyData.planets).map(k => `<option value="${k}">${k}</option>`).join('');
+    const hList = Object.keys(astrologyData.houses).map(k => `<option value="${k}">${k}th House (${astrologyData.houses[k].name})</option>`).join('');
+    document.getElementById('l1-p').innerHTML = pList;
+    document.getElementById('l2-p').innerHTML = pList;
+    document.getElementById('l2-h').innerHTML = hList;
 };
 
-// LESSON 1 LOGIC
-function showL1() {
-    const val = document.getElementById('l1-select').value;
+function runL1() {
+    const pKey = document.getElementById('l1-p').value;
     const res = document.getElementById('res1');
+    const p = astrologyData.planets[pKey];
     res.style.display = "block";
     document.getElementById('toL2').style.display = "block";
-    document.getElementById('fill').style.width = "50%";
+    document.getElementById('fill').style.width = "40%";
 
-    let pts = [
-        {t: "Aapka Nature", l: `Aap bilkul ek ${planets[val].p} ki tarah behave karte ho.`},
-        {t: "Asli Power", l: `${planets[val].l}`},
-        {t: "Life Style", l: `Aap har kaam bahut ${planets[val].v} karte ho.`},
-        {t: "Gussa", l: `Jab aap gussa hote ho toh ${val} ki energy double ho jati hai.`},
-        {t: "Dosti", l: `Log aapke paas isliye aate hain kyunki aap unhe guide karte ho.`},
-        {t: "Favorite Kaam", l: `${val} aapko creative cheezon mein champion banata hai.`},
-        {t: "Body Strength", l: `Aapki body mein ${val} ka asar hamesha dikhta hai.`},
-        {t: "Success Tip", l: `Agar aap discipline rakho toh ${val} aapko hero bana dega.`},
-        {t: "Unique Gift", l: `Aapke paas ek aisa talent hai jo kisi aur ke paas nahi.`},
-        {t: "Conclusion", l: `Bas apne andar ke is ${planets[val].p} ko jagao!` }
+    const points = [
+        { b: `Aapka Swabhav: ${p.title}`, i: `Kyunki ${p.logic}` },
+        { b: "Super Trait", i: `Aapki personality mein '${p.traits[0]}' wala gun sabse upar hai.` },
+        { b: "Realistic Prediction", i: `${p.pred}` },
+        { b: "Inner Strength", i: `Aap tabhi kamyab honge jab aap '${p.traits[2]}' ko ignore nahi karenge.` }
     ];
 
-    res.innerHTML = pts.sort(() => 0.5 - Math.random()).map(i => `<div class="point"><b>${i.t}</b><i>Kyunki: ${i.l}</i></div>`).join('');
+    res.innerHTML = points.map(pt => `<div class="point"><b>${pt.b}</b><i>${pt.i}</i></div>`).join('');
 }
 
-// NAVIGATION
-function goToL2() {
+function nextPage(n) {
     document.getElementById('p1').classList.remove('active');
     document.getElementById('p2').classList.add('active');
     document.getElementById('fill').style.width = "75%";
 }
 
-// LESSON 2 LOGIC
-function showL2() {
-    const p = document.getElementById('l2-p').value;
-    const h = document.getElementById('l2-h').value;
+function runL2() {
+    const pKey = document.getElementById('l2-p').value;
+    const hKey = document.getElementById('l2-h').value;
     const res = document.getElementById('res2');
+    const p = astrologyData.planets[pKey];
+    const h = astrologyData.houses[hKey];
+
     res.style.display = "block";
-    document.getElementById('finalBtn').style.display = "block";
+    document.getElementById('reset').style.display = "block";
     document.getElementById('fill').style.width = "100%";
 
-    let pts = [
-        {t: "Ghar ka Boss", l: `Jab ${p} ${h}th house mein hota hai, toh aap ${houses[h]} ke boss ho.`},
-        {t: "Main Focus", l: `Aapka sara dimaag ${houses[h]} ko handle karne mein rehta hai.`},
-        {t: "Special Magic", l: `${p} aapko is ghar mein Super-Power deta hai.`},
-        {t: "Happiness", l: `Aapko sachi khushi tab milti hai jab ${houses[h]} achha kaam kare.`},
-        {t: "Hidden Gift", l: `Is ghar se aapko life mein bahut saare surprises milenge.`},
-        {t: "Style", l: `Aap ${houses[h]} ko bilkul ${planets[p].v} manage karte ho.`},
-        {t: "Success Key", l: `Bade hokar aap ${houses[h]} se juda koi bada kaam karoge.`},
-        {t: "Nature Change", l: `Yahan baith kar ${p} aapko thoda special banata hai.`},
-        {t: "Confidence", l: `Jab bhi aap ${houses[h]} ki baat karte ho, aapka chehra chamakta hai.`},
-        {t: "Pro Tip", l: `Hamesha ${houses[h]} ki respect karein, magic double ho jayega.`}
+    const points = [
+        { b: "Destiny Point", i: `Jab ${pKey} ${hKey}th house mein hota hai, toh ${h.effect}` },
+        { b: "Accuracy Logic", i: `Kyunki ${pKey} ki energy ${h.name} ko power deti hai.` },
+        { b: "Life Lesson", i: `Aapko ${h.name} se judi cheezon mein struggle nahi, smart work karna chahiye.` },
+        { b: "Final Result", i: `Prediction: Agle 5 saal mein aap is area mein bada badlav dekhenge.` }
     ];
 
-    res.innerHTML = pts.sort(() => 0.5 - Math.random()).map(i => `<div class="point"><b>${i.t}</b><i>Kyunki: ${i.l}</i></div>`).join('');
+    res.innerHTML = points.map(pt => `<div class="point"><b>${pt.b}</b><i>${pt.i}</i></div>`).join('');
 }
 </script>
 </body>
