@@ -3,42 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Astro AI Pro | Fixed & Accurate</title>
-
+<title>Astro AI Pro | Nakshatra Edition</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
-
 <style>
     :root { --gold: #ffd700; --bg: #0b0f1a; --card: #111827; }
     body{ background: var(--bg); font-family: 'Poppins', sans-serif; color: white; text-align: center; margin: 0; padding-bottom: 50px; }
     .container{ padding: 20px; max-width: 500px; margin: auto; }
-    h1{ color: var(--gold); font-size: 28px; margin-top: 20px; }
-    .card{ background: var(--card); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,215,0,0.1); }
+    .card{ background: var(--card); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,215,0,0.1); margin-top: 20px; }
     input{ width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 10px; background: #1f2937; color: white; box-sizing: border-box; }
-    button{ width: 100%; padding: 15px; background: linear-gradient(45deg, #b8860b, var(--gold)); border: none; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; color: #000; margin-top: 10px; }
-    .result{ margin-top: 25px; text-align: left; }
+    button{ width: 100%; padding: 15px; background: linear-gradient(45deg, #b8860b, var(--gold)); border: none; border-radius: 12px; font-weight: 600; cursor: pointer; color: #000; }
     .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
     .stat-item { background: #1f2937; padding: 10px; border-radius: 10px; text-align: center; }
-    .stat-item span { font-size: 10px; color: var(--gold); display: block; text-transform: uppercase; letter-spacing: 1px; }
-    .stat-item b { font-size: 20px; }
+    .stat-item span { font-size: 10px; color: var(--gold); display: block; text-transform: uppercase; }
     .personal-day-box { grid-column: span 2; background: var(--gold) !important; color: black !important; }
-    .personal-day-box span { color: #554400 !important; font-weight: bold; }
+    .nak-card { background: rgba(255,215,0,0.05); border: 1px dashed var(--gold); padding: 15px; border-radius: 15px; margin-top: 15px; text-align: left; }
     .day-box{ background: #1f2937; margin: 8px 0; padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; border-left: 4px solid var(--gold); }
 </style>
 </head>
-
 <body>
 
 <div class="container">
-    <h1>🔮 Astro AI Pro</h1>
+    <h1 style="color:var(--gold);">🔮 Astro AI Pro</h1>
     <div class="card">
-        <input type="text" id="name" placeholder="Enter Name">
+        <input type="text" id="name" placeholder="Enter Full Name">
         <input type="date" id="dob">
         <button onclick="generate()">Scan My Destiny</button>
     </div>
-    <div id="result" class="result"></div>
+    <div id="result"></div>
 </div>
 
 <script>
+const nakshatras = [
+    {n:"Ashwini", m:"Tej aur Nayi Shuruat"}, {n:"Bharani", m:"Sahasi aur Discipline"}, {n:"Krittika", m:"Tez Dimaag aur Shuddhata"},
+    {n:"Rohini", m:"Luxury aur Sundarta"}, {n:"Mrigashira", m:"Nayi Khoj aur Curiosity"}, {n:"Ardra", m:"Bhavuk aur Badlav"},
+    {n:"Punarvasu", m:"Doob kar Ubarna"}, {n:"Pushya", m:"Shubh aur Care karne wala"}, {n:"Ashlesha", m:"Chatur aur Hoshiyar"},
+    {n:"Magha", m:"Shahi Power aur Izzat"}, {n:"Purva Phalguni", m:"Pyar aur Aram pasand"}, {n:"Uttara Phalguni", m:"Seva aur Zimmedari"},
+    {n:"Hasta", m:"Hunar aur Mehnat"}, {n:"Chitra", m:"Chamak aur Design"}, {n:"Swati", m:"Azadi aur Swatantrata"},
+    {n:"Vishakha", m:"Lakshya aur Jeet"}, {n:"Anuradha", m:"Dosti aur Pehchan"}, {n:"Jyeshtha", m:"Power aur Seniority"},
+    {n:"Mula", m:"Sachai aur Gehra Gyan"}, {n:"Purva Ashadha", m:"Kabhi na Haarne wala"}, {n:"Uttara Ashadha", m:"Hamesha Safal"},
+    {n:"Shravana", m:"Seekhna aur Sunna"}, {n:"Dhanishta", m:"Paisa aur Sangeet"}, {n:"Shatabhisha", m:"Healing aur Upchar"},
+    {n:"Purva Bhadrapada", m:"Gehra Chintan"}, {n:"Uttara Bhadrapada", m:"Shanti aur Sabar"}, {n:"Revati", m:"Safar aur Safety"}
+];
+
 function reduce(num) {
     let n = num.toString().replace(/[^0-9]/g, '');
     let sum = 0;
@@ -49,77 +55,39 @@ function reduce(num) {
 async function generate() {
     const name = document.getElementById("name").value;
     const dob = document.getElementById("dob").value;
-
-    if (!name || !dob) { alert("Please enter all details!"); return; }
+    if (!name || !dob) return alert("Fill details!");
 
     const d = new Date(dob);
-    const day = d.getDate(), month = d.getMonth() + 1, year = d.getFullYear();
     const today = new Date();
-    
-    // Numerology Logic
-    const mulank = reduce(day);
-    const bhagyank = reduce(day + month + year);
-    const py = reduce(day + month + today.getFullYear());
+    const mulank = reduce(d.getDate());
+    const bhagyank = reduce(d.getDate() + (d.getMonth() + 1) + d.getFullYear());
+    const py = reduce(d.getDate() + (d.getMonth() + 1) + today.getFullYear());
     const pm = reduce(py + (today.getMonth() + 1));
     const pd = reduce(pm + today.getDate());
 
-    // Instant Preview
-    document.getElementById("result").innerHTML = `<div class="card" style="text-align:center;">⌛ Synchronizing with Planets...</div>`;
+    document.getElementById("result").innerHTML = `<div class="card">⌛ Aligning Stars...</div>`;
 
-    // Accurate Geo-Location Handling
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            async (pos) => {
-                const lat = pos.coords.latitude;
-                const lon = pos.coords.longitude;
-                try {
-                    const res = await fetch(`https://api.ipgeolocation.io/astronomy?apiKey=70d27576f7f2402187654a93f064299b&lat=${lat}&long=${lon}`);
-                    const data = await res.json();
-                    showReport(name, mulank, bhagyank, py, pm, pd, data);
-                } catch (e) {
-                    fallback(name, mulank, bhagyank, py, pm, pd);
-                }
-            },
-            () => fallback(name, mulank, bhagyank, py, pm, pd),
-            { timeout: 5000 }
-        );
-    } else {
-        fallback(name, mulank, bhagyank, py, pm, pd);
-    }
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            const res = await fetch(`https://api.ipgeolocation.io/astronomy?apiKey=70d27576f7f2402187654a93f064299b&lat=${pos.coords.latitude}&long=${pos.coords.longitude}`);
+            const data = await res.json();
+            show(name, mulank, bhagyank, py, pm, pd, data);
+        }, () => fallback(name, mulank, bhagyank, py, pm, pd));
+    } else { fallback(name, mulank, bhagyank, py, pm, pd); }
 }
 
 function fallback(name, m, b, py, pm, pd) {
-    // Default transit if GPS fails
-    showReport(name, m, b, py, pm, pd, { 
-        moon_phase: "Moon in Growth Phase", 
-        sunrise: "06:12 AM", 
-        sunset: "06:22 PM" 
-    });
+    show(name, m, b, py, pm, pd, { moon_phase: "Full Moon Phase", sunrise: "06:15 AM", sunset: "06:20 PM" });
 }
 
-function showReport(name, m, b, py, pm, pd, astro) {
-    const adviceList = {
-        1: "New beginnings and high energy. Take charge!",
-        2: "Emotional day. Focus on relationships.",
-        3: "Creativity and social growth. Express yourself.",
-        4: "Hard work and discipline needed today.",
-        5: "Adventure and change. Stay flexible.",
-        6: "Family and luxury focus. Relax.",
-        7: "Spiritual introspection. Avoid big decisions.",
-        8: "Karma and financial focus. Work hard.",
-        9: "Completion and passion. Take bold steps."
-    };
-
-    let seven = "";
-    const statuses = ["💰 Financial Gain", "🔥 Peak Power", "🙂 Stable Day", "✨ Success Yog"];
-    for (let i = 1; i <= 7; i++) {
-        seven += `<div class="day-box"><span>Day ${i} Forecast</span><b>${statuses[Math.floor(Math.random()*4)]}</b></div>`;
-    }
+function show(name, m, b, py, pm, pd, astro) {
+    // Pick a Nakshatra based on personal day for daily energy
+    const dailyNak = nakshatras[(pd * 3) % 27]; 
 
     document.getElementById("result").innerHTML = `
         <div class="card animate__animated animate__fadeIn">
-            <h2 style="color:var(--gold); margin-bottom:5px;">${name}</h2>
-            <p style="margin-top:0; font-size:12px; color:gray;">🪐 Transit: ${astro.moon_phase}</p>
+            <h2 style="color:var(--gold); margin:0;">${name}</h2>
+            <p style="font-size:12px; color:gray;">Transit: ${astro.moon_phase || 'Active'}</p>
 
             <div class="stat-grid">
                 <div class="stat-item"><span>Mulank</span><b>${m}</b></div>
@@ -129,19 +97,26 @@ function showReport(name, m, b, py, pm, pd, astro) {
                 <div class="stat-item personal-day-box"><span>Personal Day</span><b>${pd}</b></div>
             </div>
 
-            <div style="background:#1f2937; padding:15px; border-radius:12px; margin-bottom:20px;">
-                <h4 style="margin:0; color:var(--gold);">Daily Transit Advice</h4>
-                <p style="font-size:14px; margin-bottom:0;">${adviceList[pd]}</p>
+            <div class="nak-card">
+                <h4 style="margin:0; color:var(--gold);">✨ Today's Nakshatra Energy</h4>
+                <p style="font-size:14px; margin:5px 0;"><b>${dailyNak.n}:</b> ${dailyNak.m}</p>
             </div>
 
-            <p style="font-size:13px; color:#9ca3af;">
+            <p style="font-size:13px; color:#9ca3af; margin-top:15px;">
                 🌅 Sunrise: ${astro.sunrise} | 🌇 Sunset: ${astro.sunset}
             </p>
 
-            <h4 style="color:var(--gold); margin-top:20px;">📅 7-Day Future Scanner</h4>
-            ${seven}
+            <h4 style="color:var(--gold); text-align:left;">📅 7-Day Future Scanner</h4>
+            <div id="seven"></div>
         </div>
     `;
+
+    let sevenHtml = "";
+    const status = ["🔥 Excellent", "💰 Money Yog", "✨ Success", "🙂 Stable"];
+    for(let i=1; i<=7; i++) {
+        sevenHtml += `<div class="day-box"><span>Day ${i}</span><b>${status[Math.floor(Math.random()*4)]}</b></div>`;
+    }
+    document.getElementById("seven").innerHTML = sevenHtml;
 }
 </script>
 </body>
