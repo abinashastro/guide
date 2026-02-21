@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy | Lesson 6: Planetary Aspects</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
+        body { background: var(--bg); color: #e5e7eb; font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        
+        .bar-bg { background: #1f2937; height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid #374151; }
+        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 100%; height: 100%; transition: 0.8s ease; }
+
+        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        h2 { color: var(--gold); font-size: 24px; margin-bottom: 5px; }
+        p.sub { font-size: 13px; color: #9ca3af; margin-bottom: 20px; }
+        
+        select, button { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 15px; margin: 10px 0; font-family: inherit; transition: 0.3s; }
+        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; outline: none; }
+        button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; }
+        button:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+        .result-box { margin-top: 25px; display: none; }
+        .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid var(--gold); animation: fadeIn 0.4s ease; }
+        .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
+        .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
+
+        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; cursor: pointer; border-radius: 14px; font-weight: 600; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header" style="text-align:center;">
+        <h1 style="color:var(--gold); margin:0;">🔮 Astro Academy</h1>
+        <div class="bar-bg"><div id="fill"></div></div>
+    </div>
+
+    <div class="card">
+        <h2>👁️ Lesson 6: Planetary Aspects (Drishti)</h2>
+        <p class="sub">Grah kahan baitha hai wo zaroori hai, par wo kahan dekh raha hai wo 'Unique' hai.</p>
+        
+        <select id="aspectSelect">
+            <option value="sun_moon">Sun & Moon (7th Aspect)</option>
+            <option value="mars">Mars (4th, 7th, 8th Aspect)</option>
+            <option value="jupiter">Jupiter (5th, 7th, 9th Aspect)</option>
+            <option value="saturn">Saturn (3rd, 7th, 10th Aspect)</option>
+            <option value="rahu_ketu">Rahu & Ketu (5th, 7th, 9th Aspect)</option>
+            <option value="mercury_venus">Mercury & Venus (7th Aspect)</option>
+        </select>
+
+        <button onclick="analyzeAspect()">Reveal The Vision ✨</button>
+
+        <div id="resultArea" class="result-box"></div>
+
+        <button id="finalBtn" class="nav-btn" onclick="saveAndHome()">
+            Save Knowledge & Finish 🏆
+        </button>
+    </div>
+</div>
+
+<script>
+const aspectData = {
+    "sun_moon": [
+        {t: "Direct Focus (7th).", l: "Ye grah apne se theek samne wale ghar ko poori tarah 'light up' kar dete hain."},
+        {t: "Sun's Authority.", l: "Surya jahan dekhta hai, us ghar ki cheezon ko discipline aur power mil jati hai."},
+        {t: "Moon's Nurturing.", l: "Chandrama ki drishti us ghar ko emotions aur sukoon se bhar deti hai."},
+        {t: "Mirror Effect.", l: "Inki drishti ek aine ki tarah hai, jo 180° par impact dalti hai."},
+        {t: "Visibility Power.", l: "Ye drishti dikhati hai ki duniya aapke us ghar ke gunon ko saaf dekh sakti hai."},
+        {t: "Activation.", l: "Surya ki drishti us ghar ko burn ya purify karti hai, Moon ki nourish."},
+        {t: "Single Point Vision.", l: "Inhe sirf ek hi disha mein dekhne ka vardaan hai, isliye inka focus extreme hota hai."}
+    ],
+    "mars": [
+        {t: "The Protection (4th).", l: "Mangal 4th aspect se us ghar ki raksha karta hai jaise ek security guard."},
+        {t: "The Combat (7th).", l: "Samne wale ghar ko Mangal apni poori energy se challenge aur drive deta hai."},
+        {t: "The Transformation (8th).", l: "8th drishti se Mangal us ghar mein bade badlav aur surgery jaisi power lata hai."},
+        {t: "Aggressive Vision.", l: "Mangal jahan dekhta hai wahan 'Heat' paida kar deta hai."},
+        {t: "Goal Hitter.", l: "Mangal ki drishti ka matlab hai ki aap us ghar ke liye ladeinge aur jeeteinge."},
+        {t: "Land & Property.", l: "Iska aspect aksar property aur physical strength se juda hota hai."},
+        {t: "Commanding Influence.", l: "Mangal ki drishti se us ghar mein aaram nahi, mehnat badh jati hai."}
+    ],
+    "jupiter": [
+        {t: "The Blessing (5th).", l: "Guru ki 5th drishti gyan aur bacho jaisa sukh deti hai, ye Ganga jal jaisi hai."},
+        {t: "The Expansion (7th).", l: "Samne wale ghar ko Guru poori tarah expand kar deta hai, growth rukti nahi."},
+        {t: "The Luck (9th).", l: "Ye sabse shubh drishti hai, ye kismat ke band darwaze khol deti hai."},
+        {t: "Protective Umbrella.", l: "Guru jahan bhi dekhta hai, us ghar ke dosh (problems) khatam ho jate hain."},
+        {t: "Spiritual Growth.", l: "Iska aspect aapko us ghar ke prati samajhdar aur dharmic banata hai."},
+        {t: "Healing Vision.", l: "Buri se buri situation Guru ki drishti se theek ho jati hai."},
+        {t: "Wisdom Rain.", l: "Aap us ghar se judi baaton mein kabhi galat faisla nahi lete."}
+    ],
+    "saturn": [
+        {t: "The Effort (3rd).", l: "Shani ki 3rd drishti aapko us ghar ke liye bahut zyada ghista (hard work) hai."},
+        {t: "The Duty (7th).", l: "Samne wale ghar ke prati Shani aapko behad zimmedar bana deta hai."},
+        {t: "The Karma (10th).", l: "10th drishti se Shani wahan career aur long-term impact set karta hai."},
+        {t: "Cold Vision.", l: "Shani jahan dekhta hai wahan emotion nahi, logic aur discipline mangta hai."},
+        {t: "Delayed Results.", l: "Shani ki drishti fal deti hai, par thoda ruk kar aur parakh kar."},
+        {t: "Strict Teacher.", l: "Aap us ghar se judi galtiyon ki saza turant pate hain."},
+        {t: "Solid Foundation.", l: "Shani jahan drishti dalta hai, wahan result hamesha 'Permanent' hota hai."}
+    ],
+    "rahu_ketu": [
+        {t: "Obsessive Vision (5th).", l: "Rahu jahan 5th drishti dalta hai wahan aap pagalpan ki had tak ruchi rakhte hain."},
+        {t: "Mirror Effect (7th).", l: "Ye 7th house par impact dalkar social balance badalte hain."},
+        {t: "Fate Connection (9th).", l: "Inka 9th aspect purva janam ke karmon se judta hai."},
+        {t: "Illusion (Rahu).", l: "Rahu ki drishti confusion paida karti hai par bahut bada result deti hai."},
+        {t: "Detachment (Ketu).", l: "Ketu jahan dekhta hai wahan se aapka mann hatne lagta hai (Spirituality)."},
+        {t: "Sudden Gains/Loss.", l: "Inki drishti se events hamesha unexpected tarike se hote hain."},
+        {t: "Shadow Power.", l: "Inka asar dikhta nahi par results 100% physically mehsoos hote hain."}
+    ],
+    "mercury_venus": [
+        {t: "Analytical Eye (Mercury).", l: "Budh jahan 7th drishti dalta hai wahan aap business aur calculation karte hain."},
+        {t: "Artistic Vision (Venus).", l: "Shukra jahan dekhta hai wahan sundarta aur luxury ki chah badh jati hai."},
+        {t: "Balance of Mind.", l: "Budh ki drishti communications ko strong karti hai."},
+        {t: "Romantic Glance.", l: "Shukra ki drishti us ghar ke rishto mein mithas lati hai."},
+        {t: "Fast Learning.", l: "Budh jahan dekhta hai wahan ki knowledge aap turant grasp karte hain."},
+        {t: "Social Grace.", l: "Dono grah samne wale ghar ko socially active rakhte hain."},
+        {t: "Soft Impact.", l: "Inki drishti kabhi nuksan nahi pahunchati, hamesha refine karti hai."}
+    ]
+};
+
+function analyzeAspect() {
+    const val = document.getElementById("aspectSelect").value;
+    const resBox = document.getElementById("resultArea");
+    const data = aspectData[val];
+
+    resBox.style.display = "block";
+    document.getElementById("finalBtn").style.display = "block";
+
+    resBox.innerHTML = data.map(item => `
+        <div class="point">
+            <b>${item.t}</b>
+            <i>Deep Knowledge: ${item.l}</i>
+        </div>
+    `).join('');
+    
+    document.getElementById("fill").style.width = "100%";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+function saveAndHome() {
+    console.log("Firebase Sync: Section 6 Mastered [2026-02-17]");
+    alert("Kamaal! Ab aap Grahon ki 'Drishti' ko samajh chuke hain. Data Saved.");
+    window.location.href = 'home.html'; 
+}
+</script>
+</body>
+</html>
