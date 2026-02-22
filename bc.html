@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy | Basic Level Certificate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        
+        #namePopup { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .popup-content { background: var(--card); padding: 30px; border-radius: 20px; border: 2px solid var(--gold); text-align: center; width: 320px; }
+        input { width: 85%; padding: 12px; margin: 20px 0; border-radius: 8px; border: 1px solid #374151; background: #1f2937; color: #fff; text-align: center; font-size: 16px; }
+
+        .certificate-container { 
+            width: 90%; max-width: 600px; background: var(--card); padding: 40px; 
+            border-radius: 15px; border: 10px double var(--gold); text-align: center; 
+            display: none; box-shadow: 0 0 50px rgba(0,0,0,1);
+            background-image: linear-gradient(rgba(17, 24, 39, 0.9), rgba(5, 8, 17, 0.9)), url('https://www.transparenttextures.com/patterns/stardust.png');
+        }
+        
+        /* Permanent SVG Header */
+        .header-box { width: 100%; height: 120px; background: linear-gradient(45deg, #000, #1a1a1a); border-radius: 10px; border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; overflow: hidden; }
+        
+        /* Permanent SVG Official Seal */
+        .seal-container { width: 120px; height: 120px; margin: 20px auto; position: relative; }
+
+        h2 { text-transform: uppercase; letter-spacing: 3px; font-size: 18px; color: #fff; margin: 0; }
+        .level-tag { background: var(--gold); color: #000; padding: 5px 20px; border-radius: 50px; font-weight: 800; font-size: 11px; display: inline-block; margin-top: 10px; box-shadow: 0 0 10px var(--gold); }
+        
+        #displayName { font-size: 45px; font-family: 'Great Vibes', cursive; color: var(--gold); margin: 15px 0; display: inline-block; padding: 0 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .course-title { font-size: 20px; color: var(--accent); font-weight: 600; display: block; margin: 10px 0; }
+        
+        .btn-action { background: var(--gold); color: #000; border: none; padding: 14px 30px; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 25px; text-transform: uppercase; }
+
+        @media print { .btn-action, #namePopup { display: none; } .certificate-container { display: block !important; border: 10px double gold; } }
+    </style>
+</head>
+<body>
+
+<div id="namePopup">
+    <div class="popup-content">
+        <h3 style="color:var(--gold); margin:0;">CONGRATS! 🎓</h3>
+        <p style="font-size: 13px;">Basic Level Complete karne ke liye apna naam likhein:</p>
+        <input type="text" id="nameInput" placeholder="Aapka Naam Likhein">
+        <br>
+        <button class="btn-action" onclick="generate()">Unlock Certificate ✨</button>
+    </div>
+</div>
+
+<div class="certificate-container" id="certArea">
+    <div class="header-box">
+        <svg width="100%" height="100%" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100%" height="100%" fill="#0a0a0a"/>
+            <circle cx="400" cy="100" r="80" fill="none" stroke="#ffd700" stroke-width="1" opacity="0.3"/>
+            <text x="50%" y="55%" text-anchor="middle" fill="#ffd700" font-family="Poppins" font-size="40" font-weight="bold" letter-spacing="10">ASTRO ACADEMY</text>
+            <path d="M100 100 L700 100" stroke="#ffd700" stroke-width="0.5" opacity="0.5"/>
+        </svg>
+    </div>
+
+    <h2>Certificate of Achievement</h2>
+    <div class="level-tag">BASIC LEVEL MASTERY</div>
+    
+    <p style="margin: 25px 0 0 0; font-size: 14px; color: #9ca3af;">This is proudly presented to</p>
+    
+    <div id="displayName">Student Name</div>
+
+    <p style="font-size: 14px; margin: 5px 0; color: #9ca3af;">for successfully completing the</p>
+    <span class="course-title">Vedic Astrology Foundation Course</span>
+    
+    <div class="seal-container">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" fill="#ffd700" stroke="#b8860b" stroke-width="2"/>
+            <circle cx="50" cy="50" r="38" fill="none" stroke="#b8860b" stroke-width="1" stroke-dasharray="2"/>
+            <text x="50" y="45" text-anchor="middle" fill="#000" font-size="8" font-weight="bold">OFFICIAL</text>
+            <text x="50" y="58" text-anchor="middle" fill="#000" font-size="12" font-weight="bold">SEAL</text>
+            <path d="M30 70 L50 85 L70 70" fill="none" stroke="#b8860b" stroke-width="2"/>
+        </svg>
+    </div>
+    
+    <div style="font-size: 11px; color: #9ca3af; margin-top: 10px; border-top: 1px solid #1f2937; padding-top: 15px;">
+        Issue Date: <span id="currentDate"></span> | <b>Auth ID: ASTRO-2026-B1</b>
+    </div>
+
+    <button class="btn-action" onclick="window.print()">Download Certificate 📄</button>
+</div>
+
+<script>
+    function generate() {
+        const name = document.getElementById('nameInput').value;
+        if (name.trim().length < 2) return alert("Kripya apna naam enter karein!");
+
+        document.getElementById('displayName').innerText = name;
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-GB');
+        document.getElementById('namePopup').style.display = 'none';
+        document.getElementById('certArea').style.display = 'block';
+        
+        // Firebase Sync Log [2026-02-17]
+        console.log("Certificate Generated for: " + name);
+    }
+</script>
+
+</body>
+</html>
