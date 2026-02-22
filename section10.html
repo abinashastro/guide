@@ -29,6 +29,9 @@
 
         .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; cursor: pointer; border-radius: 14px; font-weight: 600; }
         
+        /* New Certificate Button Style */
+        .cert-btn { background: #ffffff; color: #000; display: none; margin-top: 10px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; cursor: pointer; border-radius: 14px; font-weight: 600; border: 2px solid var(--gold); }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -61,6 +64,10 @@
         <button id="finalBtn" class="nav-btn" onclick="saveAndHome()">
             Final Data Sync & Finish 🏆
         </button>
+
+        <a href="bc.html" id="certBtn" class="cert-btn">
+            🎓 Download Basic Certificate
+        </a>
     </div>
 </div>
 
@@ -152,8 +159,11 @@ function analyzeDignity() {
 
 function saveAndHome() {
     console.log("Firebase Sync: Section 10 Dignity Mastered [2026-02-17]");
-    alert("Incredible! Aapne Grahon ka 'Maun' aur 'Garv' samajh liya hai. Course Complete!");
-    window.location.href = 'home.html'; 
+    alert("Incredible! Aapne Grahon ka 'Maun' aur 'Garv' samajh liya hai. Ab aap apna certificate download kar sakte hain.");
+    
+    // Hide final button and show certificate button
+    document.getElementById("finalBtn").style.display = "none";
+    document.getElementById("certBtn").style.display = "block";
 }
 </script>
 </body>
