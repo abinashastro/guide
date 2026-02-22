@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy | Lesson 10: Exaltation & Debilitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
+        body { background: var(--bg); color: #e5e7eb; font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        
+        .bar-bg { background: #1f2937; height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid #374151; }
+        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 100%; height: 100%; transition: 0.8s ease; }
+
+        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        h2 { color: var(--gold); font-size: 24px; margin-bottom: 5px; }
+        p.sub { font-size: 13px; color: #9ca3af; margin-bottom: 20px; }
+        
+        select, button { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 15px; margin: 10px 0; font-family: inherit; transition: 0.3s; }
+        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; outline: none; }
+        button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; }
+        button:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+        .result-box { margin-top: 25px; display: none; }
+        .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid var(--gold); animation: fadeIn 0.4s ease; }
+        .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
+        .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
+
+        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; cursor: pointer; border-radius: 14px; font-weight: 600; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header" style="text-align:center;">
+        <h1 style="color:var(--gold); margin:0;">🔮 Astro Academy</h1>
+        <div class="bar-bg"><div id="fill"></div></div>
+    </div>
+
+    <div class="card">
+        <h2>🔥 Lesson 10: Dignity of Planets</h2>
+        <p class="sub">Uchcha aur Neecha ka gehra logic aur asar.</p>
+        
+        <select id="digSelect">
+            <option value="sun">Sun: Aries (Uchcha) / Libra (Neecha)</option>
+            <option value="moon">Moon: Taurus (Uchcha) / Scorpio (Neecha)</option>
+            <option value="mars">Mars: Capricorn (Uchcha) / Cancer (Neecha)</option>
+            <option value="mercury">Mercury: Virgo (Uchcha) / Pisces (Neecha)</option>
+            <option value="jupiter">Jupiter: Cancer (Uchcha) / Capricorn (Neecha)</option>
+            <option value="venus">Venus: Pisces (Uchcha) / Virgo (Neecha)</option>
+            <option value="saturn">Saturn: Libra (Uchcha) / Aries (Neecha)</option>
+        </select>
+
+        <button onclick="analyzeDignity()">Decode Dignity ⚡</button>
+
+        <div id="resultArea" class="result-box"></div>
+
+        <button id="finalBtn" class="nav-btn" onclick="saveAndHome()">
+            Final Data Sync & Finish 🏆
+        </button>
+    </div>
+</div>
+
+<script>
+const digData = {
+    "sun": [
+        {t: "Aries Exaltation (Uchcha).", l: "Surya Aries mein isliye uchcha ka hai kyunki Raja ko 'New Beginnings' aur action pasand hai."},
+        {t: "Libra Debilitation (Neecha).", l: "Libra (Balance) mein Surya apni authority kho deta hai kyunki Raja ko compromise karna pasand nahi."},
+        {t: "The Ego Play.", l: "Uchcha ka Surya self-respect deta hai, Neecha ka Surya validation mangta hai."},
+        {t: "Father Aspect.", l: "Uchcha Surya pita se support dilata hai, Neecha Surya pita ke sath matbhed (conflicts) deta hai."},
+        {t: "Visibility.", l: "Neecha ka Surya social image ke liye zyada mehnat karwata hai."},
+        {t: "Will Power.", l: "Aries Surya hamesha lead karna chahta hai; Libra Surya doosron ki rai par nirbhar hota hai."},
+        {t: "Health Focus.", l: "Neecha Surya mein bones aur eyes ki care zaroori hoti hai."}
+    ],
+    "moon": [
+        {t: "Taurus Exaltation (Uchcha).", l: "Chandra ko stability (Taurus) pasand hai jahan emotions balance rahein."},
+        {t: "Scorpio Debilitation (Neecha).", l: "Scorpio ke gehre raaz aur intensity (Mars energy) mein mann ghabrata hai."},
+        {t: "Mental Peace.", l: "Uchcha ka Moon har situation mein calm rehta hai, Neecha ka Moon overthinking deta hai."},
+        {t: "Mother's Blessing.", l: "Neecha ka Moon aksar maa ke sath emotional distance ya unki health issues dikhata hai."},
+        {t: "Intuition Power.", l: "Neecha ka Moon agar control ho jaye toh insaan sabse bada psychic ya healer banta hai."},
+        {t: "Wealth & Comfort.", l: "Taurus Moon luxury enjoy karta hai; Scorpio Moon secrets mein jeeta hai."},
+        {t: "The Fluid Logic.", l: "Chandra ko thandak (Taurus) pasand hai, Mars ki aag (Scorpio) nahi."}
+    ],
+    "mars": [
+        {t: "Capricorn Exaltation (Uchcha).", l: "Mangal ko 'Discipline' (Saturn) mil jaye toh wo ek mahan Senapati banta hai."},
+        {t: "Cancer Debilitation (Neecha).", l: "Emotionally weak Cancer mein Mangal ki aag bujh jati hai, jisse frustration badhta hai."},
+        {t: "The Energy Direction.", l: "Uchcha Mangal mehnat ko success mein badalta hai, Neecha Mangal gussa dilata hai."},
+        {t: "Property & Lands.", l: "Uchcha Mangal property ka malik banata hai; Neecha Mangal mein disputes ho sakte hain."},
+        {t: "Protective Instinct.", l: "Neecha Mangal wala insaan defensive hota hai, Uchcha wala hamesha offensive/proactive."},
+        {t: "Blood & Courage.", l: "Neecha Mangal mein blood related problems ya courage ki kami ho sakti hai."},
+        {t: "Structural Focus.", l: "Capricorn Mangal rules follow karta hai, Cancer Mangal mood se chalta hai."}
+    ],
+    "mercury": [
+        {t: "Virgo Exaltation (Uchcha).", l: "Budh ko details aur logic (Virgo) pasand hai, yahan wo 'Deep Analysis' karta hai."},
+        {t: "Pisces Debilitation (Neecha).", l: "Pisces ki sapno wali duniya mein logic (Mercury) kaam nahi karta, isliye wo fail hota hai."},
+        {t: "The Business Mind.", l: "Uchcha ka Budh mahan businessman ya CA banata hai."},
+        {t: "Creativity vs Logic.", l: "Neecha ka Budh logic mein kamzor par 'Poetic' aur 'Creative' bahut zyada hota hai."},
+        {t: "Communication Style.", l: "Neecha Budh wale log aksar baaton ko ghuma-fira kar kehte hain."},
+        {t: "Mental Sharpness.", l: "Virgo Budh har galti pakad leta hai; Pisces Budh galtiyon ko maaf karta hai."},
+        {t: "Nerve System.", l: "Neecha Budh mein nervous system aur skin ki sensitivity zyada hoti hai."}
+    ],
+    "jupiter": [
+        {t: "Cancer Exaltation (Uchcha).", l: "Guru ko 'Care' (Moon) pasand hai. Ek Guru maa ki tarah sabko sikhana chahta hai."},
+        {t: "Capricorn Debilitation (Neecha).", l: "Saturn ke strict discipline mein Guru ka gyan 'Stuck' mehnoos karta hai."},
+        {t: "The Expansion.", l: "Uchcha Guru bhagya aur gyan ka bhandar deta hai."},
+        {t: "Practical Wisdom.", l: "Neecha ka Guru gyan ko paisa kamane ke liye (practical) use karna sikhata hai."},
+        {t: "Family Values.", l: "Uchcha Guru sanskar deta hai; Neecha Guru rules aur tradition ko challenge karta hai."},
+        {t: "Financial Flow.", l: "Neecha Guru mein savings karne mein thodi mushkil aa sakti hai."},
+        {t: "The Healer's Heart.", l: "Cancer Guru sabko protect karta hai, Capricorn Guru sirf results dekhta hai."}
+    ],
+    "venus": [
+        {t: "Pisces Exaltation (Uchcha).", l: "Shukra (Pyar) jab unconditional (Pisces) ho jata hai, tab wo Uchcha ka hota hai."},
+        {t: "Virgo Debilitation (Neecha).", l: "Pyar mein jab 'Logic' aur 'Galtiyan' (Virgo) dhundi jayein, toh Shukra neecha ka ho jata hai."},
+        {t: "Relationship Depth.", l: "Uchcha Shukra soul-level connection deta hai, Neecha Shukra physical/practical connection."},
+        {t: "Luxury Taste.", l: "Pisces Venus artistic aur spiritual luxury deta hai; Virgo Venus quality-check karta hai."},
+        {t: "Financial Analysis.", l: "Neecha Shukra wale log paise ke mamle mein bahut hisabi (calculative) hote hain."},
+        {t: "Devotion.", l: "Uchcha Shukra bhakti hai, Neecha Shukra sirf duty hai."},
+        {t: "Sperm & Vitality.", l: "Physically ye body ki vitality aur reproductive health ko control karta hai."}
+    ],
+    "saturn": [
+        {t: "Libra Exaltation (Uchcha).", l: "Shani 'Justice' hai, isliye Libra (Balance) use sabse zyada pasand hai."},
+        {t: "Aries Debilitation (Neecha).", l: "Aries ki jaldbaazi Shani ko pasand nahi, kyunki Shani ko 'Sabr' (Patience) chahiye."},
+        {t: "The Judge Profile.", l: "Uchcha ka Shani insaan ko bahut bada judge, lawyer ya neta banata hai."},
+        {t: "Delayed Action.", l: "Neecha Shani mein kaam hamesha last minute par bigadne ka darr rehta hai."},
+        {t: "Karma & Responsibility.", l: "Libra Shani rishton ki zimmedari leta hai, Aries Shani sirf 'Mera Kaam' dekhta hai."},
+        {t: "Bone Health.", l: "Neecha Shani mein joints aur calcium ki kami aksar dekhi jati hai."},
+        {t: "Mass Support.", l: "Uchcha Shani ko logon ka bahut support milta hai (Public Support)."}
+    ]
+};
+
+function analyzeDignity() {
+    const val = document.getElementById("digSelect").value;
+    const resBox = document.getElementById("resultArea");
+    const data = digData[val];
+
+    resBox.style.display = "block";
+    document.getElementById("finalBtn").style.display = "block";
+
+    resBox.innerHTML = data.map(item => `
+        <div class="point">
+            <b>${item.t}</b>
+            <i>Dignity Logic: ${item.l}</i>
+        </div>
+    `).join('');
+    
+    document.getElementById("fill").style.width = "100%";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+function saveAndHome() {
+    console.log("Firebase Sync: Section 10 Dignity Mastered [2026-02-17]");
+    alert("Incredible! Aapne Grahon ka 'Maun' aur 'Garv' samajh liya hai. Course Complete!");
+    window.location.href = 'home.html'; 
+}
+</script>
+</body>
+</html>
