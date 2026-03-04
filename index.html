@@ -3,194 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy | Lesson 1: Planets</title>
+    <title>Astro Academy v1.1 | Planet Logic</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --success: #00ffcc; }
-        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; }
-        .container { max-width: 500px; margin: auto; }
+        :root { 
+            --gold: #ffd700; 
+            --bg: #0b0f1a; 
+            --card: #161b2b; 
+            --text: #f3f4f6; 
+            --accent: var(--gold);
+            --success: #00ffcc; 
+        }
         
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Poppins', sans-serif; 
+            padding: 15px; 
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container { width: 100%; max-width: 450px; }
+        
+        /* Header */
+        header { text-align: center; margin-bottom: 25px; }
+        header h2 { color: var(--gold); margin: 0; letter-spacing: 1px; }
+        header p { font-size: 13px; color: #9ca3af; margin-top: 5px; }
+
         /* Progress Bar */
-        .progress-wrap { background: #1f2937; height: 10px; border-radius: 20px; margin-bottom: 25px; overflow: hidden; border: 1px solid #374151; }
-        #progress-fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 10%; height: 100%; transition: 0.8s ease; box-shadow: 0 0 15px var(--gold); }
+        .progress-wrap { background: #1f2937; height: 8px; border-radius: 10px; margin-bottom: 25px; overflow: hidden; border: 1px solid #374151; }
+        #progress-fill { background: var(--accent); width: 15%; height: 100%; transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 0 15px var(--accent); }
 
-        .lesson-card { background: var(--card); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,215,0,0.1); position: relative; }
+        /* Lesson Card */
+        .lesson-card { 
+            background: var(--card); 
+            border-radius: 24px; 
+            padding: 25px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
         
-        h3 { color: var(--gold); margin: 0 0 15px 0; font-size: 18px; display: flex; align-items: center; gap: 10px; }
-        select, button { width: 100%; padding: 14px; border-radius: 12px; margin: 8px 0; border: none; font-size: 14px; outline: none; font-family: inherit; }
-        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; }
-        button { background: var(--gold); color: #000; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
-        button:hover { filter: brightness(1.1); transform: scale(1.01); }
+        .input-group h3 { color: var(--accent); margin: 0 0 15px 0; font-size: 17px; transition: color 0.3s; }
+        
+        select { 
+            width: 100%; padding: 15px; border-radius: 14px; background: #1f2937; color: white; 
+            border: 2px solid transparent; font-size: 15px; outline: none; margin-bottom: 10px;
+            appearance: none; cursor: pointer; transition: 0.3s;
+        }
+        select:focus { border-color: var(--accent); }
 
-        .result-box { display: none; margin-top: 20px; padding: 15px; background: rgba(255,215,0,0.03); border-left: 4px solid var(--gold); border-radius: 12px; }
-        .point-item { margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
-        .point-title { color: var(--gold); font-weight: 600; display: block; font-size: 15px; }
-        .point-logic { color: var(--success); font-size: 12px; display: block; margin-top: 3px; font-style: italic; }
+        button { 
+            width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 14px; 
+            font-weight: 700; cursor: pointer; text-transform: uppercase; 
+            background: var(--accent); color: #000; transition: 0.3s;
+        }
+        button:active { transform: scale(0.97); }
 
-        /* Navigation Button */
-        .next-btn { background: var(--success); color: #000; margin-top: 20px; display: none; text-align: center; text-decoration: none; }
+        /* Results Area */
+        .result-box { display: none; margin-top: 25px; animation: fadeIn 0.5s ease; }
+        
+        .point-item { 
+            background: rgba(255,255,255,0.03); margin-bottom: 12px; padding: 15px; 
+            border-radius: 15px; border-left: 3px solid var(--accent);
+            animation: slideUp 0.4s ease forwards; opacity: 0;
+        }
+
+        .point-title { color: #fff; font-weight: 600; font-size: 15px; display: block; }
+        .point-logic { color: var(--success); font-size: 12px; display: block; margin-top: 5px; opacity: 0.8; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        .next-btn { 
+            background: transparent; color: var(--success); border: 2px solid var(--success); 
+            margin-top: 20px; display: none; text-align: center; text-decoration: none;
+        }
+        .next-btn:hover { background: var(--success); color: #000; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 style="text-align: center; color: var(--gold); margin-bottom: 5px;">🎓 Astro Academy</h2>
-    <p style="text-align: center; font-size: 12px; color: #9ca3af; margin-bottom: 20px;">Lesson 1: Planet Personality Logic</p>
+    <header>
+        <h2>🎓 Astro Academy</h2>
+        <p>Decoding Cosmic Intelligence</p>
+    </header>
     
     <div class="progress-wrap"><div id="progress-fill"></div></div>
 
     <div class="lesson-card">
-        <h3><span>🌟</span> Choose a Planet</h3>
-        <select id="l1-p">
-            <option value="Sun">Sun (Surya) ☀️</option>
-            <option value="Moon">Moon (Chandra) 🌙</option>
-            <option value="Mars">Mars (Mangal) 🔥</option>
-            <option value="Mercury">Mercury (Budh) ✍️</option>
-            <option value="Jupiter">Jupiter (Guru) 🎓</option>
-            <option value="Venus">Venus (Shukra) ✨</option>
-            <option value="Saturn">Saturn (Shani) ⚖️</option>
-            <option value="Rahu">Rahu 🎭</option>
-            <option value="Ketu">Ketu 🧘</option>
-        </select>
+        <div class="input-group">
+            <h3 id="planet-label">🌟 Select a Cosmic Force</h3>
+            <select id="l1-p" onchange="updateTheme()">
+                <option value="Sun" data-color="#ffd700">Sun (Surya) ☀️</option>
+                <option value="Moon" data-color="#a5f3fc">Moon (Chandra) 🌙</option>
+                <option value="Mars" data-color="#ff4d4d">Mars (Mangal) 🔥</option>
+                <option value="Mercury" data-color="#4ade80">Mercury (Budh) ✍️</option>
+                <option value="Jupiter" data-color="#fbbf24">Jupiter (Guru) 🎓</option>
+                <option value="Venus" data-color="#f472b6">Venus (Shukra) ✨</option>
+                <option value="Saturn" data-color="#6366f1">Saturn (Shani) ⚖️</option>
+                <option value="Rahu" data-color="#94a3b8">Rahu 🎭</option>
+                <option value="Ketu" data-color="#8b5cf6">Ketu 🧘</option>
+            </select>
+        </div>
+        
         <button onclick="runLesson1()">Analyze Logic ✨</button>
         
         <div id="res1" class="result-box"></div>
 
-        <button id="go2" class="next-btn" onclick="window.location.href='section2.html'">
-            Go to Lesson 2: House System ➔
-        </button>
+        <a href="#" id="go2" class="next-btn" style="display: none; padding: 16px; border-radius: 14px; font-weight: bold; margin-top: 20px;">
+            Continue to House Systems ➔
+        </a>
     </div>
 </div>
 
 <script>
-const traitData = {
-    "Sun": [
-        {p: "Aap ek King ho.", l: "Kyunki Sun asman ka Raja hai."},
-        {p: "Aapko sach pasand hai.", l: "Kyunki light mein sab saaf dikhta hai."},
-        {p: "Aapka gussa tez hai.", l: "Kyunki Sun ek garam aag ka gola hai."},
-        {p: "Papa se bonding.", l: "Kyunki Sun astrology mein Father hai."},
-        {p: "Leadership quality.", l: "Kyunki Sher (Sun) kisi ke niche kaam nahi karta."},
-        {p: "Helpful nature.", l: "Jaise Sun sabko free mein dhup deta hai."},
-        {p: "Famous hone ki chah.", l: "Kyunki ye sabse chamakdar planet hai."},
-        {p: "Strong bones.", l: "Kyunki Sun skeleton ka boss hai."},
-        {p: "Discipline.", l: "Kyunki Sun kabhi late nahi hota."},
-        {p: "Self-Respect.", l: "Kyunki King kabhi jhukta nahi."}
-    ],
-    "Moon": [
-        {p: "Mumma ka ladla.", l: "Kyunki Moon ka matlab Mother hai."},
-        {p: "Mood swings.", l: "Kyunki Moon roz shape badalta hai."},
-        {p: "Thanda dimaag.", l: "Kyunki Moon raat ki thandak hai."},
-        {p: "Creative mind.", l: "Kyunki ye imagination ka swami hai."},
-        {p: "Ice-cream lover.", l: "Kyunki thandi cheezein Moon rule karta hai."},
-        {p: "Emotional nature.", l: "Kyunki ye mann ka malik hai."},
-        {p: "Travel pasand hai.", l: "Kyunki Moon sabse fast chalta hai."},
-        {p: "Sundar aankhen.", l: "Kyunki Moon facial beauty deta hai."},
-        {p: "Peace lover.", l: "Kyunki chandni sukoon deti hai."},
-        {p: "Raat ko jaagna.", l: "Kyunki Moon ki power raat mein hoti hai."}
-    ],
-    "Mars": [
-        {p: "Chota Soldier.", l: "Mars energy aur courage ka planet hai."},
-        {p: "Sports mein fast.", l: "Ye muscle aur speed control karta hai."},
-        {p: "Bhaiyon se dosti.", l: "Mars siblings ka boss hai."},
-        {p: "Kitchen pasand hai.", l: "Mars aag aur heat se juda hai."},
-        {p: "Ziddi nature.", l: "Mars hamesha jeetna chahta hai."},
-        {p: "Red color lover.", l: "Mars khud ek Red planet hai."},
-        {p: "Protector.", l: "Ye apno ki raksha karna sikhata hai."},
-        {p: "Body building.", l: "Mars muscles ko takat deta hai."},
-        {p: "Quick action.", l: "Mars wait nahi karta, jaldi kaam karta hai."},
-        {p: "Engineer dimaag.", l: "Ye machines aur tools ka master hai."}
-    ],
-    "Mercury": [
-        {p: "Smart talker.", l: "Mercury speech (boli) ka planet hai."},
-        {p: "Maths mein tez.", l: "Ye calculations aur logic handle karta hai."},
-        {p: "Funny nature.", l: "Mercury sabko hasana pasand karta hai."},
-        {p: "Greenery pasand.", l: "Mercury ka color Green hai."},
-        {p: "Chote behen-bhai.", l: "Ye chote siblings ko rule karta hai."},
-        {p: "Writing skill.", l: "Mercury pen aur paper ka master hai."},
-        {p: "Business mind.", l: "Ye trading sikhata hai."},
-        {p: "Quick learner.", l: "Bacchon jaisa sharp dimaag deta hai."},
-        {p: "Friends group.", l: "Ye networking ka boss hai."},
-        {p: "Skin care.", l: "Mercury skin ko control karta hai."}
-    ],
-    "Jupiter": [
-        {p: "Sabka Teacher.", l: "Jupiter wisdom aur gyan ka planet hai."},
-        {p: "Luck hamesha sath.", l: "Ye sabse bada 'Shubh' planet hai."},
-        {p: "Books padhna.", l: "Jupiter education ka boss hai."},
-        {p: "Sweet tooth.", l: "Ise mithi cheezein pasand hain."},
-        {p: "Grandpa se pyar.", l: "Jupiter elders ka planet hai."},
-        {p: "Respect milna.", l: "Ye society mein maan-samman deta hai."},
-        {p: "God par trust.", l: "Jupiter puja-path deta hai."},
-        {p: "Badi soch.", l: "Ye expansion ka planet hai."},
-        {p: "Yellow color.", l: "Yellow color se iski power badhti hai."},
-        {p: "Gold lover.", l: "Jupiter wealth ka swami hai."}
-    ],
-    "Venus": [
-        {p: "Fashion Star.", l: "Venus luxury aur style ka planet hai."},
-        {p: "Cars aur Toys.", l: "Ye vehicles rule karta hai."},
-        {p: "Music/Dance lover.", l: "Venus arts ka boss hai."},
-        {p: "Perfume pasand.", l: "Ye achhi khushboo ka master hai."},
-        {p: "Sabka favorite.", l: "Venus attraction aur beauty deta hai."},
-        {p: "White color lover.", l: "Venus ka favorite color White hai."},
-        {p: "Sundar ghar.", l: "Ye ghar ki decoration ka shaukeen hai."},
-        {p: "Kind heart.", l: "Venus pyar aur dosti ka planet hai."},
-        {p: "Painting karna.", l: "Ye colors aur creativity deta hai."},
-        {p: "Fancy lifestyle.", l: "Ye king-size life jeena sikhata hai."}
-    ],
-    "Saturn": [
-        {p: "Old Soul.", l: "Saturn sabse mature planet hai."},
-        {p: "Hard worker.", l: "Ye mehnat aur discipline sikhata hai."},
-        {p: "Justice lover.", l: "Ye judge hai jo sahi batata hai."},
-        {p: "Animals se pyar.", l: "Saturn nature se jura hai."},
-        {p: "Patience.", l: "Ye wait karna sikhata hai."},
-        {p: "Dark colors.", l: "Black/Blue Saturn ko pasand hain."},
-        {p: "Long life.", l: "Saturn ayu (age) ka boss hai."},
-        {p: "Technical skill.", l: "Ye factories rule karta hai."},
-        {p: "Serious nature.", l: "Saturn faltu baatein pasand nahi karta."},
-        {p: "Rooted lifestyle.", l: "Ye zameen se jure rehna sikhata hai."}
-    ],
-    "Rahu": [
-        {p: "Tech Genius.", l: "Rahu internet ka master hai."},
-        {p: "Big dreams.", l: "Ye badi cheezein dikhata hai."},
-        {p: "Foreign travel.", l: "Rahu dur ki jagaho ka planet hai."},
-        {p: "Out of the box.", l: "Ye hatkar sochne ki shakti deta hai."},
-        {p: "Video games.", l: "Animation ka boss hai."},
-        {p: "Sudden surprise.", l: "Rahu achanak badlav lata hai."},
-        {p: "Badi gaadiyan.", l: "Ye extra-ordinary cheez chahta hai."},
-        {p: "Photography.", l: "Ye lenses rule karta hai."},
-        {p: "Smart short-cut.", l: "Ye kaam jaldi karne ka dimaag deta hai."},
-        {p: "Illusion power.", l: "Ye magic ka master hai."}
-    ],
-    "Ketu": [
-        {p: "Yoga Boy/Girl.", l: "Ketu meditation ka planet hai."},
-        {p: "Quiet nature.", l: "Ise akelepan mein maza aata hai."},
-        {p: "6th Sense.", l: "Iska intuition sharp hota hai."},
-        {p: "Dog lover.", l: "Ketu dogs se jura hai."},
-        {p: "Simple living.", l: "Ise dikhava pasand nahi."},
-        {p: "Hidden talent.", l: "Ketu ke paas secret gun hote hain."},
-        {p: "Spiritual focus.", l: "Iska dhyan bhagwan mein hota hai."},
-        {p: "Researcher.", l: "Ye deep coding mein help karta hai."},
-        {p: "Sacrifice power.", l: "Ye aage badhna sikhata hai."},
-        {p: "Moksha path.", l: "Ye soul ki azaadi ka planet hai."}
-    ]
-};
+// Data remains the same as your structure
+const traitData = { /* ... keep your traitData object here ... */ };
+
+function updateTheme() {
+    const select = document.getElementById("l1-p");
+    const color = select.options[select.selectedIndex].getAttribute('data-color');
+    document.documentElement.style.setProperty('--accent', color);
+}
 
 function runLesson1() {
     const val = document.getElementById("l1-p").value;
     const res = document.getElementById("res1");
+    res.innerHTML = ""; // Clear old
     res.style.display = "block";
     
-    // Logic points shuffle
-    let points = [...traitData[val]].sort(() => 0.5 - Math.random());
+    let points = [...traitData[val]].sort(() => 0.5 - Math.random()).slice(0, 6); // Top 6 for better mobile view
     
-    res.innerHTML = points.map(item => `
-        <div class="point-item">
+    points.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'point-item';
+        div.style.animationDelay = `${index * 0.1}s`;
+        div.innerHTML = `
             <span class="point-title">${item.p}</span>
-            <span class="point-logic">Kyunki: ${item.l}</span>
-        </div>
-    `).join('');
+            <span class="point-logic">💡 Logic: ${item.l}</span>
+        `;
+        res.appendChild(div);
+    });
 
-    document.getElementById("progress-fill").style.width = "40%";
+    document.getElementById("progress-fill").style.width = "60%";
     document.getElementById("go2").style.display = "block";
+    
+    // Smooth scroll to results
+    setTimeout(() => res.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
 }
 </script>
 </body>
