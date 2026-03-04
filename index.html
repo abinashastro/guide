@@ -3,164 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy v1.2</title>
+    <title>Astro Academy v1.3</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --gold: #ffd700; --bg: #05070a; --card: #111827; 
-            --text: #f3f4f6; --accent: #ffd700; --success: #00ffcc; 
+            --gold: #ffd700; --bg: #030712; --card: #111827; 
+            --text: #f3f4f6; --accent: #ffd700; --success: #10b981; 
         }
         
-        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; }
-        .container { width: 100%; max-width: 480px; margin: auto; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .container { width: 100%; max-width: 480px; }
         
-        /* Header & Progress */
-        header { text-align: center; margin: 20px 0; }
-        .stats-bar { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 5px; color: var(--gold); text-transform: uppercase; font-weight: bold; }
-        .progress-wrap { background: #1f2937; height: 6px; border-radius: 10px; margin-bottom: 25px; overflow: hidden; }
-        #progress-fill { background: var(--accent); width: 10%; height: 100%; transition: 1s ease; box-shadow: 0 0 10px var(--accent); }
+        /* Dashboard Stats */
+        .dash-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
+        .rank-badge { background: rgba(255, 215, 0, 0.1); color: var(--gold); padding: 4px 12px; border-radius: 20px; font-size: 11px; border: 1px solid var(--gold); font-weight: 600; }
+        
+        .progress-container { background: #1f2937; height: 6px; border-radius: 10px; margin-bottom: 30px; }
+        #progress-fill { background: var(--accent); width: 15%; height: 100%; transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 15px var(--accent); border-radius: 10px; }
 
-        /* Lesson Card */
-        .lesson-card { background: var(--card); border-radius: 28px; padding: 25px; border: 1px solid rgba(255,255,255,0.08); position: relative; overflow: hidden; }
-        .lesson-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,215,0,0.03) 0%, transparent 70%); pointer-events: none; }
+        /* Enhanced Lesson Card */
+        .lesson-card { 
+            background: var(--card); border-radius: 32px; padding: 30px; 
+            border: 1px solid rgba(255,255,255,0.05); position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px -10px var(--accent);
+            transition: box-shadow 0.5s ease;
+        }
         
-        h3 { margin-top: 0; font-size: 18px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
-        
+        h3 { margin: 0 0 20px 0; font-size: 19px; color: var(--text); }
+        .element-tag { font-size: 10px; color: var(--accent); border: 1px solid var(--accent); padding: 2px 8px; border-radius: 4px; margin-left: 10px; vertical-align: middle; text-transform: uppercase; }
+
         select { 
-            width: 100%; padding: 16px; border-radius: 16px; background: #1f2937; color: white; 
-            border: 2px solid #374151; font-size: 16px; margin-bottom: 15px; cursor: pointer; transition: 0.3s;
+            width: 100%; padding: 18px; border-radius: 18px; background: #030712; color: white; 
+            border: 2px solid #374151; font-size: 16px; margin-bottom: 20px; outline: none;
         }
         select:focus { border-color: var(--accent); }
 
-        .btn-main { 
-            width: 100%; padding: 18px; border-radius: 16px; border: none; font-size: 14px; 
+        .btn-action { 
+            width: 100%; padding: 18px; border-radius: 18px; border: none; font-size: 14px; 
             font-weight: 700; cursor: pointer; background: var(--accent); color: #000; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: 0.3s;
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
         }
-        .btn-main:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .btn-action:hover { transform: scale(1.02); filter: brightness(1.1); }
 
-        /* Results Dynamic Grid */
-        .result-box { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 25px; display: none; }
-        .trait-pill { 
-            background: rgba(255,255,255,0.04); padding: 15px; border-radius: 18px; 
-            border: 1px solid rgba(255,255,255,0.05); animation: popIn 0.5s ease forwards; opacity: 0;
+        /* Dynamic Result List */
+        .result-box { margin-top: 25px; display: none; }
+        .logic-row { 
+            background: rgba(255,255,255,0.02); padding: 16px; border-radius: 20px; 
+            margin-bottom: 12px; border-left: 4px solid var(--accent);
+            animation: slideIn 0.5s ease forwards; opacity: 0;
         }
-        .trait-pill b { display: block; color: var(--accent); font-size: 15px; margin-bottom: 4px; }
-        .trait-pill span { font-size: 12px; color: #9ca3af; line-height: 1.4; display: block; }
+        .logic-row b { display: block; font-size: 14px; color: #fff; margin-bottom: 4px; }
+        .logic-row p { font-size: 12px; color: #9ca3af; margin: 0; line-height: 1.5; }
 
-        @keyframes popIn { 
-            0% { opacity: 0; transform: scale(0.9); } 
-            100% { opacity: 1; transform: scale(1); } 
+        @keyframes slideIn { 
+            from { opacity: 0; transform: translateX(-10px); } 
+            to { opacity: 1; transform: translateX(0); } 
         }
 
-        .next-step { 
-            background: #00ffcc; color: #000; padding: 18px; border-radius: 16px; 
-            text-align: center; text-decoration: none; font-weight: bold; margin-top: 25px; 
-            display: none; animation: fadeIn 1s;
+        .shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
+
+        .nav-footer { margin-top: 25px; display: none; text-align: center; }
+        .next-link { color: var(--success); text-decoration: none; font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--success); padding-bottom: 2px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <h2>🎓 Astro Academy</h2>
-        <div class="stats-bar"><span>EXP: 150</span> <span>Rank: Novice</span></div>
-        <div class="progress-wrap"><div id="progress-fill"></div></div>
-    </header>
+    <div class="dash-header">
+        <div style="font-weight: bold; font-size: 20px;">🎓 Academy</div>
+        <div class="rank-badge">NOVICE - LVL 1</div>
+    </div>
+    
+    <div class="progress-container"><div id="progress-fill"></div></div>
 
-    <div class="lesson-card">
-        <h3>✨ Planet Intelligence</h3>
-        <select id="planet-select" onchange="applyVibe()">
-            <option value="Sun" data-color="#FFD700">Sun (Surya) ☀️</option>
-            <option value="Moon" data-color="#A5F3FC">Moon (Chandra) 🌙</option>
-            <option value="Mars" data-color="#FF4D4D">Mars (Mangal) 🔥</option>
-            <option value="Mercury" data-color="#4ADE80">Mercury (Budh) ✍️</option>
-            <option value="Jupiter" data-color="#FBBF24">Jupiter (Guru) 🎓</option>
-            <option value="Venus" data-color="#F472B6">Venus (Shukra) ✨</option>
-            <option value="Saturn" data-color="#6366F1">Saturn (Shani) ⚖️</option>
-            <option value="Rahu" data-color="#94A3B8">Rahu 🎭</option>
-            <option value="Ketu" data-color="#8B5CF6">Ketu 🧘</option>
+    <div class="lesson-card" id="main-card">
+        <h3>Intelligence <span id="el-tag" class="element-tag">Core</span></h3>
+        
+        <select id="p-select" onchange="syncUI()">
+            <option value="Sun" data-color="#FFD700" data-el="Soul">Sun (Surya) ☀️</option>
+            <option value="Moon" data-color="#A5F3FC" data-el="Mind">Moon (Chandra) 🌙</option>
+            <option value="Mars" data-color="#FF4D4D" data-el="Energy">Mars (Mangal) 🔥</option>
+            <option value="Mercury" data-color="#4ADE80" data-el="Speech">Mercury (Budh) ✍️</option>
+            <option value="Jupiter" data-color="#FBBF24" data-el="Wisdom">Jupiter (Guru) 🎓</option>
+            <option value="Venus" data-color="#F472B6" data-el="Art">Venus (Shukra) ✨</option>
+            <option value="Saturn" data-color="#6366F1" data-el="Karma">Saturn (Shani) ⚖️</option>
+            <option value="Rahu" data-color="#94A3B8" data-el="Obsession">Rahu 🎭</option>
+            <option value="Ketu" data-color="#8B5CF6" data-el="Moksha">Ketu 🧘</option>
         </select>
         
-        <button class="btn-main" onclick="revealLogic()">Unlock Knowledge 🔑</button>
+        <button class="btn-action" onclick="runAnalysis()">Analyze Logic ✨</button>
         
-        <div id="result-grid" class="result-box"></div>
-        <a href="#" id="next-btn" class="next-step">Mastered? Go to Houses ➔</a>
+        <div id="results" class="result-box"></div>
+        <div id="footer" class="nav-footer">
+            <a href="#" class="next-link">Unlock Lesson 2: The 12 Houses ➔</a>
+        </div>
     </div>
 </div>
 
 <script>
-const library = {
-    "Sun": [
-        {t: "The King Archetype", d: "Naturally leads because the Sun is the center of the solar system."},
-        {t: "Bone Vitality", d: "Rules the skeletal system; strong Sun gives strong posture."},
-        {t: "Divine Discipline", d: "Never late, never skips a day—Sun creates the daily rhythm."}
-    ],
-    "Moon": [
-        {t: "Emotional Tides", d: "Rules the mind and mood, just like it pulls the ocean tides."},
-        {t: "Nurturing Heart", d: "Represents the Mother/Queen; deep empathy and care."},
-        {t: "Fastest Mover", d: "Changes signs every 2.5 days, causing frequent mood shifts."}
-    ],
-    "Mars": [
-        {t: "The Inner Warrior", d: "Drives energy, muscles, and the will to compete and win."},
-        {t: "Brotherhood", d: "Governs siblings and comrades-in-arms."},
-        {t: "Technical Fire", d: "Rules engineers and surgeons who use tools/heat."}
-    ],
-    "Mercury": [
-        {t: "The Messenger", d: "Rules communication, writing, and logical calculations."},
-        {t: "Dual Nature", d: "Adaptable and flexible; loves variety and learning."},
-        {t: "Commercial Mind", d: "The master of trade, business, and networking."}
-    ],
-    "Jupiter": [
-        {t: "Divine Wisdom", d: "The Teacher (Guru) who brings expansion and luck."},
-        {t: "Wealth & Gold", d: "Rules abundance and the growth of assets."},
-        {t: "Spiritual Faith", d: "Connects the soul to higher ethics and religion."}
-    ],
-    "Venus": [
-        {t: "Artistic Soul", d: "Rules beauty, luxury, and all creative expressions."},
-        {t: "Harmony in Love", d: "Governs relationships and the ability to attract."},
-        {t: "The Good Life", d: "Loves perfumes, fashion, and sophisticated comfort."}
-    ],
-    "Saturn": [
-        {t: "The Taskmaster", d: "Teaches through delay, hard work, and discipline."},
-        {t: "Ancient Roots", d: "Governs old age, tradition, and long-term structures."},
-        {t: "Justice & Karma", d: "The judge who delivers results based on effort."}
-    ],
-    "Rahu": [
-        {t: "Digital Genius", d: "Master of technology, innovation, and foreign ideas."},
-        {t: "Obsessive Drive", d: "Creates an 'out of the box' hunger for success."},
-        {t: "Illusionist", d: "Rules smoke, mirrors, photography, and film."}
-    ],
-    "Ketu": [
-        {t: "The Monk", d: "Drives detachment, meditation, and spiritual liberation."},
-        {t: "Hidden Intuition", d: "Master of deep research and 'gut feelings'."},
-        {t: "Deep Coder", d: "Focuses on the roots and secrets of any subject."}
-    ]
+const data = {
+    "Sun": [{b: "The King Nature", p: "Rules the ego and authority; naturally wants to lead others."}, {b: "Vital Health", p: "Controls the heart and eyes—the vital sources of life."}],
+    "Moon": [{b: "Emotional Anchor", p: "Rules your feelings; shifts like the tides of the sea."}, {b: "Motherly Care", p: "Governs food, nourishment, and home comfort."}],
+    "Mars": [{b: "Raw Courage", p: "The fuel for action; rules blood, heat, and competition."}, {b: "Problem Solver", p: "Loves tools and logic to fix physical things."}],
+    "Mercury": [{b: "Mental Agility", p: "The bridge between ideas and words; rules clever speech."}, {b: "Trading Spirit", p: "Master of numbers and making profitable deals."}],
+    "Jupiter": [{b: "Great Benefic", p: "Brings expansion; what Jupiter touches, it grows."}, {b: "The Counsel", p: "Rules law, dharma, and deep philosophical truths."}],
+    "Venus": [{b: "Luxury & Love", p: "Rules pleasure and refinement; loves high-vibration art."}, {b: "Relationship Guru", p: "Governs the harmony between two different souls."}],
+    "Saturn": [{b: "Master of Time", p: "Rules structure and boundaries; teaches through delay."}, {b: "Grounding Force", p: "Connects you to reality, hard work, and the elderly."}],
+    "Rahu": [{b: "Future Vision", p: "Master of the 'unknown' and foreign technology."}, {b: "The Hunger", p: "Creates an unquenchable desire for more power."}],
+    "Ketu": [{b: "The Spiritual Exit", p: "Rules detachment and letting go of the material world."}, {b: "Ancient Wisdom", p: "Connects to past life skills and deep intuition."}]
 };
 
-function applyVibe() {
-    const sel = document.getElementById("planet-select");
+let lastSelected = "";
+
+function syncUI() {
+    const sel = document.getElementById("p-select");
     const color = sel.options[sel.selectedIndex].getAttribute('data-color');
+    const element = sel.options[sel.selectedIndex].getAttribute('data-el');
+    
     document.documentElement.style.setProperty('--accent', color);
+    document.getElementById("el-tag").innerText = element;
 }
 
-function revealLogic() {
-    const val = document.getElementById("planet-select").value;
-    const grid = document.getElementById("result-grid");
-    grid.innerHTML = "";
-    grid.style.display = "grid";
+function runAnalysis() {
+    const val = document.getElementById("p-select").value;
+    const box = document.getElementById("results");
+    const card = document.getElementById("main-card");
+
+    if(val === lastSelected) {
+        card.classList.add('shake');
+        setTimeout(() => card.classList.remove('shake'), 400);
+        return;
+    }
+
+    lastSelected = val;
+    box.innerHTML = "";
+    box.style.display = "block";
     
-    library[val].forEach((item, i) => {
-        const card = document.createElement('div');
-        card.className = 'trait-pill';
-        card.style.animationDelay = `${i * 0.1}s`;
-        card.innerHTML = `<b>${item.t}</b><span>${item.d}</span>`;
-        grid.appendChild(card);
+    data[val].forEach((item, i) => {
+        const row = document.createElement('div');
+        row.className = 'logic-row';
+        row.style.animationDelay = `${i * 0.1}s`;
+        row.innerHTML = `<b>${item.b}</b><p>${item.p}</p>`;
+        box.appendChild(row);
     });
 
-    document.getElementById("progress-fill").style.width = "45%";
-    document.getElementById("next-btn").style.display = "block";
+    document.getElementById("progress-fill").style.width = "75%";
+    document.getElementById("footer").style.display = "block";
 }
 </script>
 </body>
