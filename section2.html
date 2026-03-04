@@ -3,131 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy v3.3 | Conflict Sync</title>
+    <title>Astro Academy v4.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --gold: #ffd700; --bg: #05070a; --card: #111827; 
-            --text: #f3f4f6; --safe: #10b981; --hazard: #ef4444;
+            --gold: #ffd700; --bg: #010409; --card: #0d1117; 
+            --text: #c9d1d9; --accent: #58a6ff; --fire: #ff7b72; --water: #79c0ff;
         }
         
         body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 440px; }
+        .container { width: 100%; max-width: 480px; }
         
-        /* Tactical Status Bar */
-        .status-bar { display: flex; justify-content: space-between; font-size: 10px; color: #4b5563; margin-bottom: 15px; letter-spacing: 1px; font-weight: 700; }
-        .secure-tag { color: var(--safe); border: 1px solid var(--safe); padding: 2px 6px; border-radius: 4px; }
+        /* Version Header */
+        .v-header { display: flex; justify-content: space-between; font-size: 10px; font-weight: 700; color: #8b949e; letter-spacing: 2px; margin-bottom: 20px; }
+        .badge { background: rgba(88, 166, 255, 0.1); color: var(--accent); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--accent); }
 
-        /* Synergy Card */
-        .synergy-card { 
-            background: var(--card); border-radius: 35px; padding: 28px; 
-            border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* The Quantum Card */
+        .q-card { 
+            background: var(--card); border-radius: 30px; padding: 25px; 
+            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            position: relative; overflow: hidden;
         }
 
-        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        label { font-size: 10px; color: var(--gold); text-transform: uppercase; display: block; margin-bottom: 8px; }
+        .dropdown-box { background: #161b22; padding: 15px; border-radius: 20px; margin-bottom: 20px; border: 1px solid #30363d; }
+        label { font-size: 10px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; display: block; }
 
         select { 
-            width: 100%; padding: 14px; border-radius: 15px; background: #030712; color: white; 
-            border: 1px solid #374151; font-size: 13px; outline: none;
+            width: 100%; padding: 14px; border-radius: 12px; background: #0d1117; color: white; 
+            border: 1px solid #30363d; font-size: 15px; outline: none;
         }
 
-        .btn-check { 
-            width: 100%; padding: 18px; border-radius: 20px; border: none; font-size: 13px; 
-            font-weight: 700; cursor: pointer; text-transform: uppercase;
-            background: linear-gradient(145deg, #1f2937, #111827);
-            color: var(--gold); border: 1px solid var(--gold); transition: 0.2s;
+        .btn-decode { 
+            width: 100%; padding: 20px; border-radius: 20px; border: none; font-size: 14px; 
+            font-weight: 700; cursor: pointer; background: var(--gold); color: #000; 
+            text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s;
         }
-        .btn-check:active { transform: translateY(3px); filter: brightness(1.2); }
+        .btn-decode:active { transform: scale(0.97); }
 
-        /* Alert Panel */
-        .alert-panel { margin-top: 25px; display: none; animation: slideIn 0.4s ease forwards; }
-        .alert-chip { 
-            background: rgba(255,255,255,0.02); padding: 20px; border-radius: 24px; 
-            border-left: 4px solid var(--safe); position: relative;
+        /* Multi-Stage Result Panel */
+        .meta-panel { margin-top: 30px; display: none; }
+        
+        .prop-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .prop-item { background: #161b22; padding: 12px; border-radius: 15px; text-align: center; border: 1px solid #30363d; }
+        .prop-item span { display: block; font-size: 9px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px; }
+        .prop-item b { font-size: 12px; color: var(--accent); }
+
+        .analysis-box { 
+            background: rgba(255,255,255,0.02); padding: 20px; border-radius: 22px; 
+            border-left: 5px solid var(--accent); animation: slideRight 0.5s ease;
         }
-        .alert-chip b { display: block; font-size: 11px; text-transform: uppercase; margin-bottom: 5px; }
-        .alert-chip p { margin: 0; font-size: 13.5px; line-height: 1.5; color: #cbd5e1; }
+        .analysis-box b { color: var(--gold); display: block; font-size: 11px; text-transform: uppercase; margin-bottom: 6px; }
+        .analysis-box p { margin: 0; font-size: 14px; line-height: 1.6; color: #f0f6fc; }
 
-        @keyframes slideIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideRight { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="status-bar">
-        <span>STREAMS: 3.3.1</span>
-        <span class="secure-tag">ENCRYPTION: ON</span>
-    </div>
+    <div class="v-header"><span>ASTRO-OS v4.0</span> <span class="badge">LOGIC CORE</span></div>
 
-    <div class="synergy-card" id="card">
-        <h2 style="margin: 0 0 5px 0;">Compatibility Checker</h2>
-        <p style="color: #6b7280; font-size: 13px; margin-bottom: 25px;">Check karein ki do grah ya ratna saath mein chalenge ya nahi.</p>
+    <div class="q-card" id="main-frame">
+        <h2 style="margin:0 0 5px 0; color:#fff;">Rashi Blueprint</h2>
+        <p style="color:#8b949e; font-size: 13px; margin-bottom: 25px;">Understand the fundamental DNA of the sign.</p>
         
-        <div class="input-row">
-            <div>
-                <label>Energy 1</label>
-                <select id="e1">
-                    <option value="Sun">Sun (Ruby) ☀️</option>
-                    <option value="Moon">Moon (Pearl) 🌙</option>
-                    <option value="Mars">Mars (Coral) 🔥</option>
-                    <option value="Jupiter">Jupiter (Pukhraj) 🎓</option>
-                </select>
-            </div>
-            <div>
-                <label>Energy 2</label>
-                <select id="e2">
-                    <option value="Saturn">Saturn (Neelam) ⚖️</option>
-                    <option value="Venus">Venus (Diamond) ✨</option>
-                    <option value="Mercury">Mercury (Emerald) ✍️</option>
-                    <option value="Mars">Mars (Coral) 🔥</option>
-                </select>
-            </div>
+        <div class="dropdown-box">
+            <label>Select Sign (Rashi)</label>
+            <select id="rashiInput">
+                <option value="Aries" data-e="Fire" data-m="Moveable" data-p="Masculine">Aries (Mesh) ♈</option>
+                <option value="Taurus" data-e="Earth" data-m="Fixed" data-p="Feminine">Taurus (Vrish) ♉</option>
+                <option value="Gemini" data-e="Air" data-m="Dual" data-p="Masculine">Gemini (Mithun) ♊</option>
+                <option value="Cancer" data-e="Water" data-m="Moveable" data-p="Feminine">Cancer (Karka) ♋</option>
+                <option value="Leo" data-e="Fire" data-m="Fixed" data-p="Masculine">Leo (Simha) ♌</option>
+                <option value="Virgo" data-e="Earth" data-m="Dual" data-p="Feminine">Virgo (Kanya) ♍</option>
+            </select>
         </div>
         
-        <button class="btn-check" onclick="runCheck()">Analyze Synergy ⚡</button>
+        <button class="btn-decode" onclick="decodeRashi()">Decode DNA 🧬</button>
         
-        <div id="output" class="alert-panel">
-            <div id="chip" class="alert-chip">
-                <b id="status-title">System Analysis</b>
-                <p id="status-desc"></p>
+        <div id="metaPanel" class="meta-panel">
+            <div class="prop-grid">
+                <div class="prop-item"><span>Element</span><b id="elText"></b></div>
+                <div class="prop-item"><span>Modality</span><b id="moText"></b></div>
+                <div class="prop-item"><span>Polarity</span><b id="poText"></b></div>
+            </div>
+            
+            <div class="analysis-box">
+                <b>Behavioral Logic</b>
+                <p id="logicText"></p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-const clashDB = {
-    "Sun-Saturn": { s: "Hazardous", d: "Pita aur Putra ke beech ki dushmani. Sun (Aag) aur Saturn (Thand) ek saath clash karte hain. Energy blocks aur legal issues ho sakte hain.", c: "#ef4444" },
-    "Sun-Venus": { s: "Incompatible", d: "Sun ki garmi Venus ki beauty ko burn kar deti hai (Combustion). Relationships aur luxury mein problems aa sakti hain.", c: "#fb923c" },
-    "Moon-Mercury": { s: "Neutral-Weak", d: "Mercury Moon ko dushman maanta hai. Emotinal decision vs Logical decision ki jung chalegi. Confusion badh sakta hai.", c: "#fbbf24" },
-    "Jupiter-Mars": { s: "Great Friends", d: "Guru-Mangal Yoga. Wisdom (Jupiter) aur Energy (Mars) ka perfect combo. Ye success aur protecton deta hai.", c: "#10b981" },
-    "Jupiter-Mercury": { s: "Good Synergy", d: "Dono hi intelligence ke grah hain. Business aur teaching ke liye ye combination 'Mastermind' banata hai.", c: "#38bdf8" }
+const behaviorDB = {
+    "Aries": "Fire + Moveable: Ye ek 'Wildfire' ki tarah hai jo turant failti hai. Isi liye Aries log initiate karne mein sabse aage hote hain.",
+    "Taurus": "Earth + Fixed: Ye ek 'Mountain' ki tarah hai. Stability aur security inka core hai, inhein badlav pasand nahi hota.",
+    "Gemini": "Air + Dual: Ye ek 'Breeze' ki tarah hai jo har direction mein mud sakti hai. Information gather karna inka DNA hai.",
+    "Cancer": "Water + Moveable: Ye 'River' ki tarah hai. Emotions ka flow hamesha move karta rehta hai, par rasta nahi badalta.",
+    "Leo": "Fire + Fixed: Ye ek 'Burning Lamp' ki tarah hai. Consistent energy aur authority. Inka glow kabhi kam nahi hota.",
+    "Virgo": "Earth + Dual: Ye 'Productive Soil' ki tarah hai. Har cheez ko analyze karke usse useful banana inki takat hai."
 };
 
-function runCheck() {
-    const e1 = document.getElementById("e1").value;
-    const e2 = document.getElementById("e2").value;
-    const card = document.getElementById("card");
-    const chip = document.getElementById("chip");
-    const key = `${e1}-${e2}`;
+function decodeRashi() {
+    const sel = document.getElementById("rashiInput");
+    const val = sel.value;
+    const opt = sel.options[sel.selectedIndex];
     
-    const data = clashDB[key] || { s: "Compatible", d: "Ye dono energies neutral hain. Inka saath mein hona safe hai aur koi bada side-effect nahi hoga.", c: "#10b981" };
+    document.getElementById("elText").innerText = opt.getAttribute('data-e');
+    document.getElementById("moText").innerText = opt.getAttribute('data-m');
+    document.getElementById("poText").innerText = opt.getAttribute('data-p');
+    document.getElementById("logicText").innerText = behaviorDB[val];
     
-    document.getElementById("status-title").innerText = `Status: ${data.s}`;
-    document.getElementById("status-title").style.color = data.c;
-    document.getElementById("status-desc").innerText = data.d;
-    chip.style.borderColor = data.c;
+    document.getElementById("metaPanel").style.display = "block";
     
-    // UI Visual Feedback
-    card.style.borderColor = data.c;
-    card.style.boxShadow = `0 30px 60px -10px ${data.c}33`;
-    
-    document.getElementById("output").style.display = "block";
-    
-    // Firebase Security Log
-    console.log(`Firebase: Analysis stored. Mode: ${data.s}`, { pair: key, timestamp: new Date() });
+    // UI Color Sync
+    const elementColors = { Fire: "#ff7b72", Earth: "#d29922", Air: "#58a6ff", Water: "#a5d6ff" };
+    document.documentElement.style.setProperty('--accent', elementColors[opt.getAttribute('data-e')]);
 }
 </script>
 </body>
