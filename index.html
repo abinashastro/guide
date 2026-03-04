@@ -3,157 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy v1.3</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Astro Academy v1.4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --gold: #ffd700; --bg: #030712; --card: #111827; 
-            --text: #f3f4f6; --accent: #ffd700; --success: #10b981; 
+            --gold: #ffd700; --bg: #020617; --card: rgba(30, 41, 59, 0.7); 
+            --text: #f8fafc; --accent: #ffd700; --success: #34d399; 
         }
         
-        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .container { width: 100%; max-width: 480px; }
+        body { 
+            background: radial-gradient(circle at top right, #1e1b4b, #020617); 
+            color: var(--text); font-family: 'Poppins', sans-serif; 
+            padding: 15px; margin: 0; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .container { width: 100%; max-width: 460px; }
         
-        /* Dashboard Stats */
-        .dash-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
-        .rank-badge { background: rgba(255, 215, 0, 0.1); color: var(--gold); padding: 4px 12px; border-radius: 20px; font-size: 11px; border: 1px solid var(--gold); font-weight: 600; }
-        
-        .progress-container { background: #1f2937; height: 6px; border-radius: 10px; margin-bottom: 30px; }
-        #progress-fill { background: var(--accent); width: 15%; height: 100%; transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 15px var(--accent); border-radius: 10px; }
+        /* Level Header */
+        .lvl-header { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; letter-spacing: 1px; }
+        .progress-bar { background: rgba(255,255,255,0.1); height: 4px; border-radius: 10px; margin-bottom: 30px; position: relative; }
+        #fill { background: var(--accent); width: 25%; height: 100%; transition: 1.2s ease; box-shadow: 0 0 20px var(--accent); }
 
-        /* Enhanced Lesson Card */
-        .lesson-card { 
-            background: var(--card); border-radius: 32px; padding: 30px; 
-            border: 1px solid rgba(255,255,255,0.05); position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px -10px var(--accent);
-            transition: box-shadow 0.5s ease;
+        /* Glassmorphism Card */
+        .glass-card { 
+            background: var(--card); backdrop-filter: blur(12px); 
+            border-radius: 30px; padding: 35px; border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative;
         }
         
-        h3 { margin: 0 0 20px 0; font-size: 19px; color: var(--text); }
-        .element-tag { font-size: 10px; color: var(--accent); border: 1px solid var(--accent); padding: 2px 8px; border-radius: 4px; margin-left: 10px; vertical-align: middle; text-transform: uppercase; }
+        h2 { font-weight: 600; font-size: 22px; margin: 0 0 5px 0; color: #fff; }
+        .sub { color: #94a3b8; font-size: 13px; margin-bottom: 25px; display: block; }
 
         select { 
-            width: 100%; padding: 18px; border-radius: 18px; background: #030712; color: white; 
-            border: 2px solid #374151; font-size: 16px; margin-bottom: 20px; outline: none;
+            width: 100%; padding: 16px; border-radius: 16px; background: rgba(15, 23, 42, 0.8); 
+            color: #fff; border: 1px solid rgba(255,255,255,0.2); font-size: 15px; margin-bottom: 20px;
+            outline: none; cursor: pointer; transition: 0.3s;
         }
-        select:focus { border-color: var(--accent); }
+        select:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(255,215,0,0.2); }
 
-        .btn-action { 
-            width: 100%; padding: 18px; border-radius: 18px; border: none; font-size: 14px; 
-            font-weight: 700; cursor: pointer; background: var(--accent); color: #000; 
-            transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+        .btn-glow { 
+            width: 100%; padding: 18px; border-radius: 16px; border: none; font-size: 14px; 
+            font-weight: 600; cursor: pointer; background: var(--accent); color: #000; 
+            transition: 0.4s; text-transform: uppercase;
         }
-        .btn-action:hover { transform: scale(1.02); filter: brightness(1.1); }
+        .btn-glow:hover { transform: translateY(-3px); box-shadow: 0 10px 20px -5px var(--accent); }
 
-        /* Dynamic Result List */
-        .result-box { margin-top: 25px; display: none; }
-        .logic-row { 
-            background: rgba(255,255,255,0.02); padding: 16px; border-radius: 20px; 
-            margin-bottom: 12px; border-left: 4px solid var(--accent);
-            animation: slideIn 0.5s ease forwards; opacity: 0;
+        /* Results Display */
+        .data-stream { margin-top: 30px; display: none; }
+        .stat-chip { 
+            background: rgba(255,255,255,0.05); border-radius: 15px; padding: 15px; 
+            margin-bottom: 12px; border-left: 2px solid var(--accent);
+            animation: fadeInBlur 0.6s ease forwards;
         }
-        .logic-row b { display: block; font-size: 14px; color: #fff; margin-bottom: 4px; }
-        .logic-row p { font-size: 12px; color: #9ca3af; margin: 0; line-height: 1.5; }
+        .stat-chip b { color: var(--accent); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-chip p { margin: 5px 0 0; font-size: 14px; color: #cbd5e1; line-height: 1.4; }
 
-        @keyframes slideIn { 
-            from { opacity: 0; transform: translateX(-10px); } 
-            to { opacity: 1; transform: translateX(0); } 
-        }
-
-        .shake { animation: shake 0.4s ease-in-out; }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+        @keyframes fadeInBlur {
+            from { opacity: 0; filter: blur(5px); transform: translateY(10px); }
+            to { opacity: 1; filter: blur(0); transform: translateY(0); }
         }
 
-        .nav-footer { margin-top: 25px; display: none; text-align: center; }
-        .next-link { color: var(--success); text-decoration: none; font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--success); padding-bottom: 2px; }
+        .footer-nav { margin-top: 25px; text-align: center; display: none; animation: fadeIn 1s; }
+        .next-btn { color: var(--success); text-decoration: none; font-weight: 600; font-size: 13px; border: 1px solid var(--success); padding: 8px 20px; border-radius: 20px; transition: 0.3s; }
+        .next-btn:hover { background: var(--success); color: #000; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="dash-header">
-        <div style="font-weight: bold; font-size: 20px;">🎓 Academy</div>
-        <div class="rank-badge">NOVICE - LVL 1</div>
+    <div class="lvl-header">
+        <span>ASTRO ARCHETYPE</span>
+        <span style="color: var(--gold)">LVL 01</span>
     </div>
-    
-    <div class="progress-container"><div id="progress-fill"></div></div>
+    <div class="progress-bar"><div id="fill"></div></div>
 
-    <div class="lesson-card" id="main-card">
-        <h3>Intelligence <span id="el-tag" class="element-tag">Core</span></h3>
-        
-        <select id="p-select" onchange="syncUI()">
-            <option value="Sun" data-color="#FFD700" data-el="Soul">Sun (Surya) ☀️</option>
-            <option value="Moon" data-color="#A5F3FC" data-el="Mind">Moon (Chandra) 🌙</option>
-            <option value="Mars" data-color="#FF4D4D" data-el="Energy">Mars (Mangal) 🔥</option>
-            <option value="Mercury" data-color="#4ADE80" data-el="Speech">Mercury (Budh) ✍️</option>
-            <option value="Jupiter" data-color="#FBBF24" data-el="Wisdom">Jupiter (Guru) 🎓</option>
-            <option value="Venus" data-color="#F472B6" data-el="Art">Venus (Shukra) ✨</option>
-            <option value="Saturn" data-color="#6366F1" data-el="Karma">Saturn (Shani) ⚖️</option>
-            <option value="Rahu" data-color="#94A3B8" data-el="Obsession">Rahu 🎭</option>
-            <option value="Ketu" data-color="#8B5CF6" data-el="Moksha">Ketu 🧘</option>
+    <div class="glass-card">
+        <h2>Planet Logic</h2>
+        <span class="sub">Understand the 'Why' behind the traits.</span>
+
+        <select id="p-core" onchange="updateTone()">
+            <option value="Sun" data-c="#FFD700">Sun • The Source ☀️</option>
+            <option value="Moon" data-c="#A5F3FC">Moon • The Mind 🌙</option>
+            <option value="Mars" data-c="#FF4D4D">Mars • The Action 🔥</option>
+            <option value="Mercury" data-c="#4ADE80">Mercury • The Logic ✍️</option>
+            <option value="Jupiter" data-c="#FBBF24">Jupiter • The Wisdom 🎓</option>
+            <option value="Venus" data-c="#F472B6">Venus • The Beauty ✨</option>
+            <option value="Saturn" data-c="#818CF8">Saturn • The Time ⚖️</option>
+            <option value="Rahu" data-c="#94A3B8">Rahu • The Future 🎭</option>
+            <option value="Ketu" data-c="#C084FC">Ketu • The Past 🧘</option>
         </select>
+
+        <button class="btn-glow" onclick="initiateAnalysis()">Generate Analysis</button>
+
+        <div id="data-stream" class="data-stream"></div>
         
-        <button class="btn-action" onclick="runAnalysis()">Analyze Logic ✨</button>
-        
-        <div id="results" class="result-box"></div>
-        <div id="footer" class="nav-footer">
-            <a href="#" class="next-link">Unlock Lesson 2: The 12 Houses ➔</a>
+        <div id="nav" class="footer-nav">
+            <a href="#" class="next-btn">Proceed to Lesson 2: House Mastery ➔</a>
         </div>
     </div>
 </div>
 
 <script>
-const data = {
-    "Sun": [{b: "The King Nature", p: "Rules the ego and authority; naturally wants to lead others."}, {b: "Vital Health", p: "Controls the heart and eyes—the vital sources of life."}],
-    "Moon": [{b: "Emotional Anchor", p: "Rules your feelings; shifts like the tides of the sea."}, {b: "Motherly Care", p: "Governs food, nourishment, and home comfort."}],
-    "Mars": [{b: "Raw Courage", p: "The fuel for action; rules blood, heat, and competition."}, {b: "Problem Solver", p: "Loves tools and logic to fix physical things."}],
-    "Mercury": [{b: "Mental Agility", p: "The bridge between ideas and words; rules clever speech."}, {b: "Trading Spirit", p: "Master of numbers and making profitable deals."}],
-    "Jupiter": [{b: "Great Benefic", p: "Brings expansion; what Jupiter touches, it grows."}, {b: "The Counsel", p: "Rules law, dharma, and deep philosophical truths."}],
-    "Venus": [{b: "Luxury & Love", p: "Rules pleasure and refinement; loves high-vibration art."}, {b: "Relationship Guru", p: "Governs the harmony between two different souls."}],
-    "Saturn": [{b: "Master of Time", p: "Rules structure and boundaries; teaches through delay."}, {b: "Grounding Force", p: "Connects you to reality, hard work, and the elderly."}],
-    "Rahu": [{b: "Future Vision", p: "Master of the 'unknown' and foreign technology."}, {b: "The Hunger", p: "Creates an unquenchable desire for more power."}],
-    "Ketu": [{b: "The Spiritual Exit", p: "Rules detachment and letting go of the material world."}, {b: "Ancient Wisdom", p: "Connects to past life skills and deep intuition."}]
+const cosmos = {
+    "Sun": {power: "Authority: 100%", facts: [{h: "Central Force", b: "Just as planets orbit the Sun, your ego is the center of your personality."}, {h: "Dharma", b: "Sun rules your purpose—why you wake up every day."}]},
+    "Moon": {power: "Intuition: 95%", facts: [{h: "Reflective Mind", b: "The Moon reflects light; your mind reflects your surroundings."}, {h: "Nurturing", b: "Rules the mother and the comfort you seek when stressed."}]},
+    "Mars": {power: "Drive: 90%", facts: [{h: "The Soldier", b: "Mars doesn't talk; it acts. Rules muscles and raw courage."}, {h: "Logic Under Fire", b: "Rules how you behave in a crisis or competition."}]},
+    "Mercury": {power: "IQ: 98%", facts: [{h: "The Coder", b: "Rules the nervous system and how you process data into speech."}, {h: "Adaptability", b: "Like liquid mercury, it takes the shape of its container (friends)."}]},
+    "Jupiter": {power: "Wisdom: 100%", facts: [{h: "Expansion", b: "Jupiter is the largest planet; it makes everything it touches bigger."}, {h: "The Teacher", b: "Rules higher education and your ability to see the big picture."}]},
+    "Venus": {power: "Charm: 95%", facts: [{h: "Refinement", b: "Rules how you dress, your taste in art, and your luxury level."}, {h: "Magnetism", b: "Governs how you attract love and wealth into your life."}]},
+    "Saturn": {power: "Endurance: 100%", facts: [{h: "Boundaries", b: "Saturn’s rings are limits. It rules discipline and 'No'."}, {h: "Longevity", b: "Rules hard work that pays off after a long time."}]},
+    "Rahu": {power: "Innovation: 92%", facts: [{h: "The Rebel", b: "Rules everything foreign, unconventional, and high-tech."}, {h: "Obsession", b: "Creates a 'hunger' for things you haven't achieved yet."}]},
+    "Ketu": {power: "Spirit: 88%", facts: [{h: "Detachment", b: "Rules your 'Exit' strategy and the things you feel bored with."}, {h: "Deep Secrets", b: "Governs research, coding, and the unseen spiritual world."}]}
 };
 
-let lastSelected = "";
-
-function syncUI() {
-    const sel = document.getElementById("p-select");
-    const color = sel.options[sel.selectedIndex].getAttribute('data-color');
-    const element = sel.options[sel.selectedIndex].getAttribute('data-el');
-    
+function updateTone() {
+    const s = document.getElementById("p-core");
+    const color = s.options[s.selectedIndex].getAttribute('data-c');
     document.documentElement.style.setProperty('--accent', color);
-    document.getElementById("el-tag").innerText = element;
 }
 
-function runAnalysis() {
-    const val = document.getElementById("p-select").value;
-    const box = document.getElementById("results");
-    const card = document.getElementById("main-card");
+function initiateAnalysis() {
+    const val = document.getElementById("p-core").value;
+    const stream = document.getElementById("data-stream");
+    stream.innerHTML = "";
+    stream.style.display = "block";
 
-    if(val === lastSelected) {
-        card.classList.add('shake');
-        setTimeout(() => card.classList.remove('shake'), 400);
-        return;
-    }
+    // Power Scale
+    const pwr = document.createElement('div');
+    pwr.className = 'stat-chip';
+    pwr.style.borderColor = 'var(--success)';
+    pwr.innerHTML = `<b>Core Power</b><p>${cosmos[val].power}</p>`;
+    stream.appendChild(pwr);
 
-    lastSelected = val;
-    box.innerHTML = "";
-    box.style.display = "block";
-    
-    data[val].forEach((item, i) => {
-        const row = document.createElement('div');
-        row.className = 'logic-row';
-        row.style.animationDelay = `${i * 0.1}s`;
-        row.innerHTML = `<b>${item.b}</b><p>${item.p}</p>`;
-        box.appendChild(row);
+    cosmos[val].facts.forEach((item, i) => {
+        const chip = document.createElement('div');
+        chip.className = 'stat-chip';
+        chip.style.animationDelay = `${(i+1) * 0.1}s`;
+        chip.innerHTML = `<b>${item.h}</b><p>${item.b}</p>`;
+        stream.appendChild(chip);
     });
 
-    document.getElementById("progress-fill").style.width = "75%";
-    document.getElementById("footer").style.display = "block";
+    document.getElementById("fill").style.width = "90%";
+    document.getElementById("nav").style.display = "block";
 }
 </script>
 </body>
