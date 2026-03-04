@@ -3,201 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy | Lesson 2: Rashis</title>
+    <title>Astro Academy v3.1 | Transit Sync</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: --e5e7eb; --accent: #00ffcc; }
-        body { background: var(--bg); color: #e5e7eb; font-family: 'Poppins', sans-serif; margin: 0; padding: 15px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 500px; }
+        :root { 
+            --gold: #ffd700; --bg: #030712; --card: #111827; 
+            --text: #f3f4f6; --accent: #00ffcc; --transit: #fb7185;
+        }
         
-        .bar-bg { background: #1f2937; height: 10px; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid #374151; }
-        #fill { background: linear-gradient(90deg, #b8860b, var(--gold)); width: 66%; height: 100%; transition: 0.8s ease; }
-
-        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid rgba(255,215,0,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
-        h2 { color: var(--gold); font-size: 24px; margin-bottom: 5px; }
-        p.sub { font-size: 13px; color: #9ca3af; margin-bottom: 20px; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 440px; }
         
-        select, button { width: 100%; padding: 16px; border-radius: 14px; border: none; font-size: 15px; margin: 10px 0; font-family: inherit; transition: 0.3s; }
-        select { background: #1f2937; color: white; border: 1px solid #374151; cursor: pointer; outline: none; }
-        button { background: var(--gold); color: #000; font-weight: 600; cursor: pointer; text-transform: uppercase; }
-        button:hover { transform: scale(1.02); filter: brightness(1.1); }
+        /* Cloud Sync Header */
+        .sync-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 10px; font-weight: 700; }
+        .cloud-status { display: flex; align-items: center; gap: 5px; color: var(--accent); text-transform: uppercase; }
+        .pulse-dot { height: 6px; width: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(0, 255, 204, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 204, 0); } }
 
-        .result-box { margin-top: 25px; display: none; }
-        .point { margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid var(--gold); animation: fadeIn 0.4s ease; }
-        .point b { color: var(--gold); display: block; font-size: 15px; margin-bottom: 6px; }
-        .point i { color: var(--accent); font-size: 13.5px; display: block; font-style: normal; line-height: 1.6; }
+        /* Transit Dashboard */
+        .master-card { 
+            background: var(--card); border-radius: 35px; padding: 25px; 
+            border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            position: relative; overflow: hidden;
+        }
 
-        .nav-btn { background: var(--accent); color: #000; display: none; margin-top: 20px; text-align: center; text-decoration: none; line-height: 50px; height: 50px; padding: 0; }
-        
+        .label-tag { font-size: 9px; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; display: block; letter-spacing: 1px; }
+
+        /* Double Select Row */
+        .transit-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        select { width: 100%; padding: 12px; border-radius: 12px; background: #030712; color: white; border: 1px solid #374151; font-size: 13px; outline: none; }
+
+        /* Progress Ticker */
+        .ticker-wrap { background: #000; padding: 10px; border-radius: 10px; margin-top: 20px; overflow: hidden; white-space: nowrap; }
+        .ticker { display: inline-block; font-size: 11px; color: var(--accent); animation: scroll 15s linear infinite; }
+        @keyframes scroll { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+
+        .btn-transit { 
+            width: 100%; padding: 18px; border-radius: 18px; border: none; font-size: 13px; 
+            font-weight: 700; cursor: pointer; background: var(--transit); color: white; 
+            text-transform: uppercase; box-shadow: 0 8px 20px rgba(251, 113, 133, 0.3);
+        }
+        .btn-transit:active { transform: scale(0.97); }
+
+        .output-box { margin-top: 25px; display: none; }
+        .data-card { background: #1e293b; padding: 18px; border-radius: 20px; border-left: 4px solid var(--transit); animation: fadeIn 0.4s ease-in; }
+        .data-card b { color: var(--transit); font-size: 11px; display: block; margin-bottom: 5px; }
+        .data-card p { margin: 0; font-size: 13px; line-height: 1.5; color: #cbd5e1; }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header" style="text-align:center;">
-        <h1 style="color:var(--gold); margin:0;">🔮 Astro Academy</h1>
-        <div class="bar-bg"><div id="fill"></div></div>
+    <div class="sync-header">
+        <div class="cloud-status"><div class="pulse-dot"></div> Firebase Active</div>
+        <div style="color: #64748b;">NODE v3.1.2</div>
     </div>
 
-    <div class="card">
-        <h2>♈ Lesson 2: Rashi Logic</h2>
-        <p class="sub">12 Rashiyo ke piche ka asli swabhav aur predictions.</p>
+    <div class="master-card">
+        <h2 style="margin:0 0 20px 0; font-weight: 600;">Transit Optimizer</h2>
         
-        <select id="rashiSelect">
-            <option value="Aries (Mesh) ♈">Aries (Mesh) ♈</option>
-            <option value="Taurus (Vrish) ♉">Taurus (Vrish) ♉</option>
-            <option value="Gemini (Mithun) ♊">Gemini (Mithun) ♊</option>
-            <option value="Cancer (Karka) ♋">Cancer (Karka) ♋</option>
-            <option value="Leo (Simha) ♌">Leo (Simha) ♌</option>
-            <option value="Virgo (Kanya) ♍">Virgo (Kanya) ♍</option>
-            <option value="Libra (Tula) ♎">Libra (Tula) ♎</option>
-            <option value="Scorpio (Vrishchik) ♏">Scorpio (Vrishchik) ♏</option>
-            <option value="Sagittarius (Dhanu) ♐">Sagittarius (Dhanu) ♐</option>
-            <option value="Capricorn (Makar) ♑">Capricorn (Makar) ♑</option>
-            <option value="Aquarius (Kumbh) ♒">Aquarius (Kumbh) ♒</option>
-            <option value="Pisces (Meena) ♓">Pisces (Meena) ♓</option>
-        </select>
+        <span class="label-tag">Select Birth Planet</span>
+        <div class="transit-row">
+            <select id="birthP"><option value="Sun">Sun ☀️</option><option value="Saturn">Saturn ⚖️</option><option value="Jupiter">Jupiter 🎓</option></select>
+            <select id="birthR"><option value="Aries">Aries</option><option value="Libra">Libra</option><option value="Pisces">Pisces</option></select>
+        </div>
 
-        <button onclick="analyzeRashi()">Check Accuracy ✨</button>
+        <span class="label-tag" style="color: var(--transit);">Today's Transit Position</span>
+        <div class="transit-row" style="border-color: var(--transit);">
+            <select id="transP"><option value="Saturn">Saturn ⚖️</option><option value="Rahu">Rahu 🎭</option><option value="Mars">Mars 🔥</option></select>
+            <select id="transR"><option value="Aries">Aries</option><option value="Aquarius">Aquarius</option><option value="Scorpio">Scorpio</option></select>
+        </div>
+        
+        <button class="btn-transit" onclick="calculateTransit()">Check Transit Impact ⚡</button>
+        
+        <div id="result" class="output-box">
+            <div class="data-card">
+                <b>Transit Logic (Gochar)</b>
+                <p id="impact-text"></p>
+            </div>
+        </div>
 
-        <div id="resultArea" class="result-box"></div>
-
-        <button id="nextPageBtn" class="nav-btn" onclick="window.location.href='section3.html'">
-            Unlock Lesson 3: Nakshatras ➔
-        </button>
+        <div class="ticker-wrap">
+            <div class="ticker">
+                SUN in PISCES 18° • MOON in LIBRA 04° • MARS in SCORPIO 22° • SATURN in AQUARIUS 15° • JUPITER in TAURUS 12°
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-const rashiData = {
-    "Aries (Mesh) ♈": [
-        {t: "Chota Soldier.", l: "Mars iska ruler hai, aap hamesha action mode mein rehte hain."},
-        {t: "Darr se dosti.", l: "Naye raste banane se aap kabhi nahi darrte."},
-        {t: "Ziddi par sache.", l: "Dhokha dena aapke khoon mein nahi hai."},
-        {t: "Energy ka volcano.", l: "Aapka stamina hamesha high rehta hai."},
-        {t: "Munh-fat nature.", l: "Aap dil mein baatein nahi rakhte, seedha bol dete hain."},
-        {t: "Quick decisions.", l: "Aap turant faisla lene mein champion hain."},
-        {t: "Independent soul.", l: "Aapko kisi ke niche dab kar rehna pasand nahi."}
-    ],
-    "Taurus (Vrish) ♉": [
-        {t: "Zameen se jude.", l: "Earth element aapko practical aur stable banata hai."},
-        {t: "Luxury Lover.", l: "Venus swami hai, aapko achha khana aur comfort pasand hai."},
-        {t: "Ziddi Hathi.", l: "Agar aapne ek baar 'No' keh diya, toh koi nahi badal sakta."},
-        {t: "Paisa aur Security.", l: "Aap hamesha apne bank balance ko lekar serious rehte hain."},
-        {t: "Patient Worker.", l: "Aap dheere par sahi raste par chalne mein yaqeen rakhte hain."},
-        {t: "Artistic talent.", l: "Aapko ghar sajane aur sundar cheezon ka natural shauq hai."},
-        {t: "Wafadar dost.", l: "Aap purane rishton ko saalon-saal dil se nibhate hain."}
-    ],
-    "Gemini (Mithun) ♊": [
-        {t: "Double Minded.", l: "Aap ek saath do alag baaton par dimaag chala sakte hain."},
-        {t: "Talking Master.", l: "Mercury (Budh) aapko bolne ki gajab shakti deta hai."},
-        {t: "Fast Learner.", l: "Aap kisi bhi nayi skill ko computer ki tarah jaldi pakadte hain."},
-        {t: "Social Bird.", l: "Aapko naye logon se milna aur dosti karna pasand hai."},
-        {t: "Funny Nature.", l: "Aapka sense of humor mahol ko hamesha light rakhta hai."},
-        {t: "Confused Soul.", l: "Dual nature ki wajah se faisla lene mein thodi deri hoti hai."},
-        {t: "Smart Worker.", l: "Aap mehnat se zyada dimaag lagane par focus karte hain."}
-    ],
-    "Cancer (Karka) ♋": [
-        {t: "Emotional Shield.", l: "Moon ki rashi hai, aapka dil bahut naram aur caring hai."},
-        {t: "Home Lover.", l: "Aapko apne parivaar aur ghar mein sabse zyada sukoon milta hai."},
-        {t: "Mood Swings.", l: "Chand ki tarah aapki feelings bhi up-down hoti rehti hain."},
-        {t: "Sharp Memory.", l: "Aap purani baatein aur log hamesha yaad rakhte hain."},
-        {t: "Protector.", l: "Apno ki raksha ke liye aap kisi se bhi takra sakte hain."},
-        {t: "Tez Intuition.", l: "Aapko aane wali ghatnaon ka pehle hi ehsas ho jata hai."},
-        {t: "Kind Heart.", l: "Aap bina swarth ke sabki madad karne ko taiyar rehte hain."}
-    ],
-    "Leo (Simha) ♌": [
-        {t: "Asli Raja.", l: "Sun (Surya) ki rashi hai, aapka aura hi royal hota hai."},
-        {t: "Lion Heart.", l: "Aap kisi se darrte nahi aur hamesha lead karte hain."},
-        {t: "Limelight Lover.", l: "Aapko tareef sunna aur centre of attraction rehna pasand hai."},
-        {t: "Bada Dil.", l: "Aap doston aur zaroorat-mando par dil khol kar kharch karte hain."},
-        {t: "Pure Loyalty.", l: "Aap rishto mein dhokha kabhi bardasht nahi karte."},
-        {t: "Creative Style.", l: "Aap jo bhi kaam karte hain, usme apna ek 'Unique' touch dalte hain."},
-        {t: "Strong Ego.", l: "Aapka self-respect aapke liye sabse upar hai."}
-    ],
-    "Virgo (Kanya) ♍": [
-        {t: "Perfectionist.", l: "Aapko har kaam ekdam sahi aur perfect chahiye."},
-        {t: "Sharp Observation.", l: "Aap wo galtiyan pakad lete hain jo baaki log chhod dete hain."},
-        {t: "Analytical Mind.", l: "Budh aapko har baat ke piche ka logic dhoondne mein madad karta hai."},
-        {t: "Health Conscious.", l: "Aap fitness aur diet ko lekar kafi sawdhan rehte hain."},
-        {t: "Helping Hand.", l: "Problem solver hona aapki sabse badi khoobi hai."},
-        {t: "Simple & Neat.", l: "Aapko gandagi aur bikhra hua samaan bilkul pasand nahi."},
-        {t: "Practical Soul.", l: "Aap sapno ke bajaye haqiqat mein jeena pasand karte hain."}
-    ],
-    "Libra (Tula) ♎": [
-        {t: "Balance King.", l: "Aap har situation mein tawazul (balance) banaye rakhte hain."},
-        {t: "Charming Aura.", l: "Venus ka asar aapko bahut attractive personality deta hai."},
-        {t: "Justice Seeker.", l: "Aap hamesha sahi aur galat ke bich sahi ka sath dete hain."},
-        {t: "Decision delay.", l: "Dono sides tolne mein aap aksar confuse ho jate hain."},
-        {t: "Peace Lover.", l: "Aapko ladayi-jhagde aur shor se bahut nafrat hai."},
-        {t: "Art & Beauty.", l: "Aapko sundar kapde aur classy lifestyle ka shauq hai."},
-        {t: "Kind Diplomat.", l: "Aap kadwi baat ko bhi bahut pyar se kehna jante hain."}
-    ],
-    "Scorpio (Vrishchik) ♏": [
-        {t: "Mysterious Mind.", l: "Aapke dimaag mein kya hai, ye koi nahi jaan sakta."},
-        {t: "Magnetic Power.", l: "Aapki aankhen aur baatein logon ko attract karti hain."},
-        {t: "Extreme Nature.", l: "Ya toh aap bahut pyar karte hain ya bilkul nafrat."},
-        {t: "Silent Observer.", l: "Aap shant rehkar sab kuch note karte rehte hain."},
-        {t: "Fearless Soul.", l: "Aap khatron se khelne aur unhe jitne ki takat rakhte hain."},
-        {t: "Deep Loyalty.", l: "Aap jinhe apna mante hain, unke liye jaan de sakte hain."},
-        {t: "The Transformer.", l: "Aap har mushkil se nikal kar naya janm lete hain."}
-    ],
-    "Sagittarius (Dhanu) ♐": [
-        {t: "Knowledge Seeker.", l: "Jupiter swami hai, aap hamesha seekhna pasand karte hain."},
-        {t: "Free Bird.", l: "Azadi aapki sabse badi zaroorat hai, bandhan nahi."},
-        {t: "Truth Teller.", l: "Aap bina filter ke sach bolte hain, chahe bura lage."},
-        {t: "Travel Freak.", l: "Duniya ghumna aur adventure aapki pasand hai."},
-        {t: "Lucky Soul.", l: "Kismat aapka aksar mushkil waqt mein sath deti hai."},
-        {t: "Deep Philosopher.", l: "Aap life ke bade sawalon par gehrai se sochte hain."},
-        {t: "Optimistic.", l: "Har buri situation mein aap umeed ka rasta dhoond lete hain."}
-    ],
-    "Capricorn (Makar) ♑": [
-        {t: "Success Climber.", l: "Aap dheere-dheere unchai tak pahunchne ke master hain."},
-        {t: "Workaholic.", l: "Shani ki rashi hai, aapka career hi aapki pehchan hai."},
-        {t: "Paisa & Power.", l: "Aap society mein ek bada rutba hasil karna chahte hain."},
-        {t: "Strict Teacher.", l: "Aap discipline aur rules ko bahut maante hain."},
-        {t: "Reliable Wall.", l: "Mushkil waqt mein sab aap par bharosa karte hain."},
-        {t: "Reserved Nature.", l: "Aap har kisi se ghul-mil nahi jate, thoda waqt lete hain."},
-        {t: "Practical Brain.", l: "Aap jazbat se nahi, dimaag aur logic se faisle lete hain."}
-    ],
-    "Aquarius (Kumbh) ♒": [
-        {t: "Unique Logic.", l: "Aapki soch duniya se 10 saal aage ki hoti hai."},
-        {t: "Rule Breaker.", l: "Purane aur bekar rules ko todna aapko pasand hai."},
-        {t: "Humanitarian.", l: "Aap hamesha logon aur samaj ka bhala sochte hain."},
-        {t: "Tech Lover.", l: "Nayi technology aur gadgets aapka natural shauq hai."},
-        {t: "Friendly soul.", l: "Aapke doston ka group bahut bada aur alag hota hai."},
-        {t: "Detached.", l: "Aap logon se jude hain par dil se thode azad rehte hain."},
-        {t: "Creative Vision.", l: "Aap har boring cheez ko naya roop de sakte hain."}
-    ],
-    "Pisces (Meena) ♓": [
-        {t: "Dreamer.", l: "Aap hamesha apni ek khubsurat kalpana mein rehte hain."},
-        {t: "Kind Soul.", l: "Duniya ka dukh dekh kar aapka dil pighal jata hai."},
-        {t: "Spiritual Power.", l: "Aapka connection ishwar se bahut gehra hota hai."},
-        {t: "Pure Sacrifice.", l: "Apno ke liye aap apni khushiyan chhodne ko taiyar rehte hain."},
-        {t: "Artistic Mind.", l: "Music, poetry aur arts mein aap champ hote hain."},
-        {t: "Intuitive.", l: "Aapko logon ke irade pehle hi mehsoos ho jate hain."},
-        {t: "Easy Going.", l: "Aap life ke flow ke sath chalna pasand karte hain."}
-    ]
+const transitEngine = {
+    "Sun-Saturn-Aries": "Sade Sati Impact: Aapke birth Sun par Saturn ka transit ho raha hai. Emotional pressure aur career delays feel ho sakte hain. Patience rakhein.",
+    "Jupiter-Mars-Pisces": "Expansion Peak: Jupiter ke upar se Mars ka transit energy ko boost karega. Naye business deals aur physical activity ke liye best time hai.",
+    "Saturn-Rahu-Aquarius": "Chaos Alert: Saturn ke upar Rahu ka transit sudden changes aur confusion la sakta hai. Badi investment se bachein."
 };
 
-function analyzeRashi() {
-    const rashi = document.getElementById("rashiSelect").value;
-    const resBox = document.getElementById("resultArea");
-    const nextBtn = document.getElementById("nextPageBtn");
-    const data = rashiData[rashi];
-
-    resBox.style.display = "block";
-    nextBtn.style.display = "block";
-
-    resBox.innerHTML = data.map(item => `
-        <div class="point">
-            <b>${item.t}</b>
-            <i>Kyunki: ${item.l}</i>
-        </div>
-    `).join('');
-
-    document.getElementById("fill").style.width = "90%";
+function calculateTransit() {
+    const bP = document.getElementById("birthP").value;
+    const tP = document.getElementById("transP").value;
+    const tR = document.getElementById("transR").value;
+    
+    const key = `${bP}-${tP}-${tR}`;
+    const resultText = transitEngine[key] || "Neutral Transit: Ye movement aapke birth planet ko disturb nahi kar rahi hai. Normal growth continue rahegi.";
+    
+    document.getElementById("impact-text").innerText = resultText;
+    document.getElementById("result").style.display = "block";
+    
+    // Firebase Simulation
+    console.log("Firebase: Transit log stored for user.", { key, time: new Date() });
 }
 </script>
 </body>
