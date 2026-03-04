@@ -3,136 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy v1.5 | Master Archetypes</title>
+    <title>Astro Academy v1.6 | Relations</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --gold: #ffd700; --bg: #05070a; --card: #111827; 
-            --text: #f3f4f6; --accent: #ffd700; --success: #00ffcc; 
+            --gold: #ffd700; --bg: #020617; --card: #0f172a; 
+            --text: #f1f5f9; --accent: #ffd700; --danger: #f87171; --safe: #4ade80;
         }
         
-        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; transition: background 0.5s; }
         .container { width: 100%; max-width: 480px; margin: auto; }
         
-        /* Progress & XP */
-        .header-meta { display: flex; justify-content: space-between; font-size: 10px; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px; }
-        .progress-wrap { background: #1f2937; height: 4px; border-radius: 10px; margin-bottom: 25px; overflow: hidden; }
-        #progress-fill { background: var(--accent); width: 30%; height: 100%; transition: 1s ease; box-shadow: 0 0 20px var(--accent); }
+        .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .rank { font-size: 10px; background: var(--gold); color: #000; padding: 2px 10px; border-radius: 20px; font-weight: bold; }
 
-        /* The Animated Card */
+        .progress-bar { background: #1e293b; height: 6px; border-radius: 10px; margin-bottom: 25px; overflow: hidden; }
+        #fill { background: var(--accent); width: 40%; height: 100%; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
+
         .lesson-card { 
-            background: var(--card); border-radius: 28px; padding: 30px; 
-            border: 1px solid rgba(255,255,255,0.08); position: relative;
-            transition: 0.5s; box-shadow: 0 0 30px -10px var(--accent);
-        }
-        .lesson-card.pulse { animation: cardPulse 2s infinite; }
-        @keyframes cardPulse { 
-            0% { box-shadow: 0 0 30px -15px var(--accent); } 
-            50% { box-shadow: 0 0 50px -10px var(--accent); } 
-            100% { box-shadow: 0 0 30px -15px var(--accent); } 
+            background: var(--card); border-radius: 30px; padding: 30px; 
+            border: 1px solid rgba(255,255,255,0.05); position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
         
-        h3 { margin-top: 0; font-size: 20px; color: #fff; display: flex; align-items: center; justify-content: space-between; }
-        .role-tag { font-size: 11px; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 8px; color: var(--accent); }
+        h3 { margin: 0 0 5px 0; font-size: 20px; color: #fff; }
+        .desc { font-size: 12px; color: #94a3b8; margin-bottom: 20px; display: block; }
 
         select { 
-            width: 100%; padding: 16px; border-radius: 16px; background: #1f2937; color: white; 
-            border: 2px solid #374151; font-size: 16px; margin: 20px 0; cursor: pointer;
+            width: 100%; padding: 16px; border-radius: 18px; background: #1e293b; color: white; 
+            border: 2px solid transparent; font-size: 15px; margin-bottom: 20px; outline: none; transition: 0.3s;
         }
+        select:focus { border-color: var(--accent); }
 
-        .btn-analyze { 
-            width: 100%; padding: 18px; border-radius: 16px; border: none; font-size: 14px; 
+        .btn-logic { 
+            width: 100%; padding: 18px; border-radius: 18px; border: none; font-size: 14px; 
             font-weight: 700; cursor: pointer; background: var(--accent); color: #000; 
             text-transform: uppercase; transition: 0.3s;
         }
 
-        /* Results Display */
-        .result-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 30px; display: none; }
-        .logic-pill { 
-            background: rgba(255,255,255,0.03); padding: 18px; border-radius: 20px; 
-            border-left: 4px solid var(--accent); animation: pop 0.4s ease forwards;
+        /* Relationship Radar */
+        .radar-box { margin-top: 30px; display: none; animation: fadeIn 0.5s ease; }
+        .relation-item { 
+            display: flex; justify-content: space-between; padding: 12px 15px; 
+            background: rgba(255,255,255,0.03); border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05);
         }
-        .pill-label { font-size: 11px; color: var(--accent); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .pill-text { font-size: 14px; line-height: 1.5; color: #cbd5e1; }
+        .rel-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+        .rel-val { font-weight: 600; font-size: 14px; }
+        .rel-val.friend { color: var(--safe); }
+        .rel-val.enemy { color: var(--danger); }
 
-        @keyframes pop { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-
-        .next-btn { 
-            display: none; background: #00ffcc; color: #000; padding: 18px; border-radius: 16px; 
-            text-align: center; text-decoration: none; font-weight: bold; margin-top: 25px; 
+        .mythology-box { 
+            background: rgba(255,215,0,0.05); border-radius: 20px; padding: 20px; 
+            margin-top: 20px; font-size: 13px; line-height: 1.6; border-left: 3px solid var(--accent);
         }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header-meta"><span>COURSE: 1.5</span> <span>XP: 450</span></div>
-    <div class="progress-wrap"><div id="progress-fill"></div></div>
+    <div class="nav-header">
+        <span style="font-weight: bold; font-size: 18px;">Astro Academy</span>
+        <span id="rank-tag" class="rank">NOVICE</span>
+    </div>
+    <div class="progress-bar"><div id="fill"></div></div>
 
-    <div class="lesson-card" id="card">
-        <h3>Intelligence <span id="role" class="role-tag">The Archetype</span></h3>
+    <div class="lesson-card">
+        <h3>Planetary Alliances</h3>
+        <span class="desc">Planets are people; they have friends and rivals.</span>
         
-        <select id="p-select" onchange="syncUI()">
-            <option value="Sun" data-c="#FFD700" data-r="The CEO">Sun (Surya) ☀️</option>
-            <option value="Moon" data-c="#A5F3FC" data-r="The Healer">Moon (Chandra) 🌙</option>
-            <option value="Mars" data-c="#FF4D4D" data-r="The Commander">Mars (Mangal) 🔥</option>
-            <option value="Mercury" data-c="#4ADE80" data-r="The Architect">Mercury (Budh) ✍️</option>
-            <option value="Jupiter" data-c="#FBBF24" data-r="The Mentor">Jupiter (Guru) 🎓</option>
-            <option value="Venus" data-c="#F472B6" data-r="The Stylist">Venus (Shukra) ✨</option>
-            <option value="Saturn" data-c="#6366F1" data-r="The Judge">Saturn (Shani) ⚖️</option>
-            <option value="Rahu" data-c="#94A3B8" data-r="The Disruptor">Rahu 🎭</option>
-            <option value="Ketu" data-c="#8B5CF6" data-r="The Mystic">Ketu 🧘</option>
+        <select id="p-select" onchange="applyTheme()">
+            <option value="Sun" data-c="#FFD700" data-bg="#0f172a">Sun (Surya) ☀️</option>
+            <option value="Moon" data-c="#A5F3FC" data-bg="#082f49">Moon (Chandra) 🌙</option>
+            <option value="Mars" data-c="#FF4D4D" data-bg="#450a0a">Mars (Mangal) 🔥</option>
+            <option value="Mercury" data-c="#4ADE80" data-bg="#064e3b">Mercury (Budh) ✍️</option>
+            <option value="Jupiter" data-c="#FBBF24" data-bg="#422006">Jupiter (Guru) 🎓</option>
+            <option value="Venus" data-c="#F472B6" data-bg="#4c0519">Venus (Shukra) ✨</option>
+            <option value="Saturn" data-c="#6366F1" data-bg="#1e1b4b">Saturn (Shani) ⚖️</option>
+            <option value="Rahu" data-c="#94A3B8" data-bg="#020617">Rahu 🎭</option>
+            <option value="Ketu" data-c="#8B5CF6" data-bg="#2e1065">Ketu 🧘</option>
         </select>
         
-        <button class="btn-analyze" onclick="analyze()">Decode Archetype 🔓</button>
+        <button class="btn-logic" onclick="revealRelations()">Unlock Relations 🗝️</button>
         
-        <div id="results" class="result-grid"></div>
-        <a href="#" id="next" class="next-btn">Lesson 2: House Systems ➔</a>
+        <div id="radar" class="radar-box">
+            <div class="relation-item">
+                <span class="rel-label">Best Friend</span>
+                <span id="friend-name" class="rel-val friend">-</span>
+            </div>
+            <div class="relation-item">
+                <span class="rel-label">Bitter Enemy</span>
+                <span id="enemy-name" class="rel-val enemy">-</span>
+            </div>
+            <div id="myth-text" class="mythology-box"></div>
+        </div>
     </div>
 </div>
 
 <script>
-const data = {
-    "Sun": {logic: "Your soul's drive. It rules authority because it is the gravity that holds life together.", career: "Politics, Leadership, Medicine, and Management."},
-    "Moon": {logic: "Your emotional filter. It rules the mind because perceptions change like phases of the moon.", career: "Psychology, Culinary Arts, Nursing, and Hospitality."},
-    "Mars": {logic: "Your survival instinct. It rules muscles and heat because energy requires friction.", career: "Engineering, Defense, Sports, and Surgery."},
-    "Mercury": {logic: "Your analytical bridge. It rules speech because ideas need a medium to travel.", career: "IT, Content Creation, Trade, and Journalism."},
-    "Jupiter": {logic: "Your growth engine. It rules wisdom because expansion requires a broad perspective.", career: "Teaching, Law, Finance, and Spirituality."},
-    "Venus": {logic: "Your value system. It rules luxury because harmony is found in refined aesthetics.", career: "Fashion, Entertainment, Design, and Luxury Sales."},
-    "Saturn": {logic: "Your structural limits. It rules time because mastery requires consistent repetition.", career: "Real Estate, Mining, Law Enforcement, and Long-term Research."},
-    "Rahu": {logic: "Your obsession. It rules innovation because it seeks what is 'not yet achieved'.", career: "Software, AI, Foreign Trade, and Photography."},
-    "Ketu": {logic: "Your spiritual exit. It rules intuition because it bypasses the material world.", career: "Deep Coding, Meditation, Research, and Metaphysics."}
+const relations = {
+    "Sun": {f: "Moon, Mars, Jupiter", e: "Saturn, Venus", m: "Sun is the King. Saturn is his son but they don't get along because Saturn rules the common man and Sun rules authority."},
+    "Moon": {f: "Sun, Mercury", e: "None (Moon loves all)", m: "Moon is the Mother. She doesn't consider anyone an enemy, but others might find her too emotional."},
+    "Mars": {f: "Sun, Moon, Jupiter", e: "Mercury", m: "The Soldier (Mars) likes the King (Sun) but finds the Intellectual (Mercury) too calculative and annoying."},
+    "Mercury": {f: "Sun, Venus", e: "Moon", m: "Mercury is the Prince. He likes the King's company but finds the Moon's emotions distracting for his business logic."},
+    "Jupiter": {f: "Sun, Moon, Mars", e: "Mercury, Venus", m: "The Guru (Jupiter) likes warriors and kings, but thinks the Stylist (Venus) is too focused on worldly pleasures."},
+    "Venus": {f: "Mercury, Saturn", e: "Sun, Moon", m: "Venus loves luxury and tech. He dislikes the King (Sun) because the King is too disciplined and strict."},
+    "Saturn": {f: "Mercury, Venus", e: "Sun, Moon, Mars", e: "Saturn is the Worker. He resents the Royals (Sun/Moon) and dislikes the heat of Mars."},
+    "Rahu": {f: "Mercury, Venus, Saturn", e: "Sun, Moon", m: "Rahu is an eclipse. His only goal is to shadow the Light (Sun/Moon). He thrives with technical planets."},
+    "Ketu": {f: "Mars, Venus, Jupiter", e: "Sun, Moon", m: "Ketu is the tail. He works well with Mars' energy and Jupiter's wisdom but hates the Ego of the Sun."}
 };
 
-function syncUI() {
+function applyTheme() {
     const s = document.getElementById("p-select");
     const color = s.options[s.selectedIndex].getAttribute('data-c');
-    const role = s.options[s.selectedIndex].getAttribute('data-r');
+    const bg = s.options[s.selectedIndex].getAttribute('data-bg');
     
     document.documentElement.style.setProperty('--accent', color);
-    document.getElementById("role").innerText = role;
-    document.getElementById("card").classList.add('pulse');
+    document.body.style.background = bg;
 }
 
-function analyze() {
+function revealRelations() {
     const val = document.getElementById("p-select").value;
-    const res = document.getElementById("results");
-    res.innerHTML = "";
-    res.style.display = "grid";
+    const radar = document.getElementById("radar");
     
-    res.innerHTML = `
-        <div class="logic-pill">
-            <span class="pill-label">The Logical Why</span>
-            <div class="pill-text">${data[val].logic}</div>
-        </div>
-        <div class="logic-pill" style="animation-delay: 0.1s">
-            <span class="pill-label">Career Resonance</span>
-            <div class="pill-text">${data[val].career}</div>
-        </div>
-    `;
-
-    document.getElementById("progress-fill").style.width = "100%";
-    document.getElementById("next").style.display = "block";
+    document.getElementById("friend-name").innerText = relations[val].f;
+    document.getElementById("enemy-name").innerText = relations[val].e;
+    document.getElementById("myth-text").innerText = relations[val].m;
+    
+    radar.style.display = "block";
+    document.getElementById("rank-tag").innerText = "APPRENTICE";
+    document.getElementById("fill").style.width = "65%";
 }
 </script>
 </body>
