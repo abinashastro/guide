@@ -3,141 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy v1.8</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Astro Academy v1.2.0 | Master Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --gold: #ffd700; --bg: #0a0c14; --card: #161a29; 
-            --text: #f3f4f6; --accent: #ffd700; --active: #00ffcc;
+            --gold: #ffd700; --bg: #05070a; --card: #111827; 
+            --text: #f3f4f6; --accent: #ffd700; --active: #00ffcc; --danger: #f87171;
         }
         
         body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 440px; }
         
-        /* Tactical Progress */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .live-dot { height: 8px; width: 8px; background: var(--active); border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 8px var(--active); animation: blink 1.5s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        /* Tactical Header */
+        .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 11px; letter-spacing: 1px; color: #94a3b8; }
+        .dot { height: 6px; width: 6px; background: var(--active); border-radius: 50%; display: inline-block; box-shadow: 0 0 8px var(--active); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        /* The Tactical Card */
-        .lesson-card { 
-            background: var(--card); border-radius: 35px; padding: 30px; 
-            box-shadow: 10px 10px 20px #05060a, -5px -5px 15px rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
+        /* Neumorphic Dashboard */
+        .glass-card { 
+            background: var(--card); border-radius: 35px; padding: 25px; 
+            box-shadow: 10px 10px 20px #000, -5px -5px 15px rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.5s;
         }
 
         /* 3D Selector */
-        .custom-select-wrap { position: relative; margin-bottom: 25px; }
+        .selector-wrap { position: relative; margin-bottom: 20px; }
         select { 
-            width: 100%; padding: 18px; border-radius: 20px; background: #111421; color: white; 
+            width: 100%; padding: 18px; border-radius: 20px; background: #0a0c14; color: white; 
             border: none; font-size: 16px; appearance: none; outline: none;
-            box-shadow: inset 4px 4px 8px #05060a, inset -2px -2px 6px rgba(255,255,255,0.05);
+            box-shadow: inset 4px 4px 8px #000, inset -2px -2px 6px rgba(255,255,255,0.05);
         }
 
-        /* The Haptic Button */
-        .btn-haptic { 
-            width: 100%; padding: 20px; border-radius: 22px; border: none; font-size: 15px; 
+        /* Haptic Button */
+        .btn-power { 
+            width: 100%; padding: 20px; border-radius: 22px; border: none; font-size: 14px; 
             font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
             background: linear-gradient(145deg, var(--accent), #b8860b);
-            color: #000; transition: 0.15s cubic-bezier(0.2, 0, 0.2, 1);
-            box-shadow: 0 8px 0 #8b6d00, 0 15px 20px rgba(0,0,0,0.4);
-            position: relative; overflow: hidden;
+            color: #000; transition: 0.1s;
+            box-shadow: 0 6px 0 #8b6d00, 0 12px 20px rgba(0,0,0,0.4);
         }
-        .btn-haptic:active { 
-            transform: translateY(4px);
-            box-shadow: 0 4px 0 #8b6d00, 0 5px 10px rgba(0,0,0,0.4);
-        }
-        .btn-haptic::after {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(rgba(255,255,255,0.2), transparent);
-            transform: rotate(45deg); transition: 0.3s;
-        }
+        .btn-power:active { transform: translateY(3px); box-shadow: 0 3px 0 #8b6d00; }
 
-        /* Result Animation */
-        .result-panel { margin-top: 30px; display: none; }
-        .data-bit { 
-            background: #111421; padding: 20px; border-radius: 22px; margin-bottom: 12px;
-            box-shadow: inset 2px 2px 5px #05060a; border-left: 4px solid var(--accent);
-            animation: slideIn 0.4s ease-out forwards;
+        /* Intelligence Panels */
+        .display-area { margin-top: 25px; display: none; }
+        
+        .panel { 
+            background: #0a0c14; padding: 18px; border-radius: 22px; margin-bottom: 15px;
+            box-shadow: inset 2px 2px 5px #000; border-left: 4px solid var(--accent);
+            animation: slideUp 0.4s ease forwards;
         }
-        .data-bit b { color: var(--accent); display: block; font-size: 12px; margin-bottom: 5px; }
-        .data-bit p { margin: 0; font-size: 14px; line-height: 1.4; opacity: 0.9; }
+        .panel b { color: var(--accent); display: block; font-size: 10px; text-transform: uppercase; margin-bottom: 5px; }
+        .panel p { margin: 0; font-size: 13px; color: #cbd5e1; line-height: 1.5; }
 
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        /* Spectrum Meter */
+        .meter-box { background: #0a0c14; padding: 15px; border-radius: 20px; margin-bottom: 15px; box-shadow: inset 2px 2px 5px #000; }
+        .bar { height: 4px; background: #1f2937; border-radius: 10px; position: relative; margin: 12px 0 5px; }
+        #pointer { height: 12px; width: 12px; background: #fff; border-radius: 50%; position: absolute; top: -4px; transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .labels { display: flex; justify-content: space-between; font-size: 9px; color: #6b7280; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
-        <span style="font-size: 12px; font-weight: 600;"><span class="live-dot"></span>SYSTEM ACTIVE</span>
-        <span style="font-size: 12px; color: var(--gold);">V1.8 TACTILE</span>
+    <div class="status-header">
+        <span><div class="dot"></div> SYSTEM: MASTER v1.2.0</span>
+        <span style="color: var(--gold)">RANK: ADEPT</span>
     </div>
 
-    <div class="lesson-card">
-        <h2 style="margin: 0 0 20px 0; font-size: 22px;">Planet Core</h2>
+    <div class="glass-card" id="main-card">
+        <h2 style="margin: 0 0 20px 0; font-weight: 600;">Planetary Intelligence</h2>
         
-        <div class="custom-select-wrap">
-            <select id="p-core" onchange="hapticFlash()">
-                <option value="Sun">Sun (Surya) ☀️</option>
-                <option value="Moon">Moon (Chandra) 🌙</option>
-                <option value="Mars">Mars (Mangal) 🔥</option>
-                <option value="Mercury">Mercury (Budh) ✍️</option>
-                <option value="Jupiter">Jupiter (Guru) 🎓</option>
-                <option value="Venus">Venus (Shukra) ✨</option>
-                <option value="Saturn">Saturn (Shani) ⚖️</option>
-                <option value="Rahu">Rahu 🎭</option>
-                <option value="Ketu">Ketu 🧘</option>
+        <div class="selector-wrap">
+            <select id="p-select" onchange="syncTheme()">
+                <option value="Sun" data-c="#FFD700" data-pos="90%" data-u="Aries" data-n="Libra">Sun (Surya) ☀️</option>
+                <option value="Moon" data-c="#A5F3FC" data-pos="20%" data-u="Taurus" data-n="Scorpio">Moon (Chandra) 🌙</option>
+                <option value="Mars" data-c="#FF4D4D" data-pos="95%" data-u="Capricorn" data-n="Cancer">Mars (Mangal) 🔥</option>
+                <option value="Mercury" data-c="#4ADE80" data-pos="50%" data-u="Virgo" data-n="Pisces">Mercury (Budh) ✍️</option>
+                <option value="Jupiter" data-c="#FBBF24" data-pos="70%" data-u="Cancer" data-n="Capricorn">Jupiter (Guru) 🎓</option>
+                <option value="Venus" data-c="#F472B6" data-pos="65%" data-u="Pisces" data-n="Virgo">Venus (Shukra) ✨</option>
+                <option value="Saturn" data-c="#6366F1" data-pos="10%" data-u="Libra" data-n="Aries">Saturn (Shani) ⚖️</option>
+                <option value="Rahu" data-c="#94A3B8" data-pos="85%" data-u="Taurus" data-n="Scorpio">Rahu 🎭</option>
+                <option value="Ketu" data-c="#8B5CF6" data-pos="5%" data-u="Scorpio" data-n="Taurus">Ketu 🧘</option>
             </select>
         </div>
         
-        <button class="btn-haptic" onclick="triggerLogic()">Analyze Logic</button>
+        <button class="btn-power" onclick="runAcademy()">Generate Intelligence</button>
         
-        <div id="panel" class="result-panel">
-            <div class="data-bit">
-                <b>Primary Archetype</b>
-                <p id="arch-val">-</p>
+        <div id="display" class="display-area">
+            <div class="meter-box">
+                <b style="font-size: 10px; color: var(--gold);">Energy Spectrum</b>
+                <div class="bar"><div id="pointer"></div></div>
+                <div class="labels"><span>Introverted</span> <span>Extroverted</span></div>
             </div>
-            <div class="data-bit" style="animation-delay: 0.1s;">
-                <b>System Logic</b>
-                <p id="logic-val">-</p>
+
+            <div class="panel">
+                <b>Core Trait & Logic</b>
+                <p id="trait-val">-</p>
+            </div>
+            
+            <div class="panel" style="border-color: var(--danger);">
+                <b>Dignity: Best & Worst</b>
+                <p id="dignity-val">-</p>
+            </div>
+
+            <div class="panel" style="border-color: var(--active);">
+                <b>Success Pathways</b>
+                <p id="career-val">-</p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-const library = {
-    "Sun": ["The King", "Rules the physical heart and spiritual ego—the center of all existence."],
-    "Moon": ["The Queen", "Rules the mind and emotions; shifts focus based on inner needs."],
-    "Mars": ["The Commander", "Rules the blood and survival drive; wins through direct action."],
-    "Mercury": ["The Prince", "Rules calculations and speech; wins through clever strategy."],
-    "Jupiter": ["The Mentor", "Rules wisdom and expansion; grows through ethics and faith."],
-    "Venus": ["The Artist", "Rules luxury and attraction; harmonizes through aesthetic beauty."],
-    "Saturn": ["The Architect", "Rules time and structure; builds through discipline and delay."],
-    "Rahu": ["The Outsider", "Rules innovation and obsession; seeks the extraordinary."],
-    "Ketu": ["The Sage", "Rules intuition and detachment; seeks the spiritual source."]
+const masterDB = {
+    "Sun": {t: "The Source: Rules the Ego. Just as the Sun is the center of the galaxy, the Sun rules your core 'I am'.", d: "Strongest in Aries (New Beginnings). Weakest in Libra (Social Compromise).", c: "Leadership, Government, Surgery, CEO roles.", pos: "90%"},
+    "Moon": {t: "The Mirror: Rules the Mind. It reflects your surroundings; hence your mood changes like its phases.", d: "Strongest in Taurus (Stability). Weakest in Scorpio (Deep Volatility).", c: "Psychology, Nursing, Food Industry, Arts.", pos: "20%"},
+    "Mars": {t: "The Warrior: Rules survival. High heat and energy required for physical protection and competition.", d: "Strongest in Capricorn (Discipline). Weakest in Cancer (Emotional Defense).", c: "Engineering, Defense, Sports, Surgeons.", pos: "95%"},
+    "Mercury": {t: "The Bridge: Rules Communication. It is the analytical connection between an idea and a word.", d: "Strongest in Virgo (Details). Weakest in Pisces (Dreams/Vagueness).", c: "IT, Content, Marketing, Trade, Math.", pos: "50%"},
+    "Jupiter": {t: "The Teacher: Rules Expansion. It grows whatever it touches through wisdom and faith.", d: "Strongest in Cancer (Nurturing Wisdom). Weakest in Capricorn (Cold Logic).", c: "Teaching, Law, Finance, Spirituality.", pos: "70%"},
+    "Venus": {t: "The Harmonizer: Rules Value. It seeks balance and refinement in art and relationships.", d: "Strongest in Pisces (Unconditional Love). Weakest in Virgo (Critical Love).", c: "Design, Entertainment, Luxury, Diplomacy.", pos: "65%"},
+    "Saturn": {t: "The Architect: Rules Boundaries. Like a structure's foundation, it requires time and pressure to build.", d: "Strongest in Libra (Justice). Weakest in Aries (Impulsive Action).", c: "Real Estate, Law, Research, Administration.", pos: "10%"},
+    "Rahu": {t: "The Disruptor: Rules Innovation. Chases the 'unknown' or the foreign to achieve extraordinary growth.", d: "Strongest in Taurus (Material Gain). Weakest in Scorpio (Hidden Loss).", c: "AI, Software, Photography, Foreign Trade.", pos: "85%"},
+    "Ketu": {t: "The Mystic: Rules Detachment. The tail that has no head; it knows the truth through intuition, not sight.", d: "Strongest in Scorpio (Research). Weakest in Taurus (Possessions).", c: "Deep Coding, Metaphysics, Meditation, Data Mining.", pos: "5%"}
 };
 
-function hapticFlash() {
-    // Visual feedback for select change
-    const card = document.querySelector('.lesson-card');
-    card.style.borderColor = 'var(--accent)';
-    setTimeout(() => card.style.borderColor = 'rgba(255,255,255,0.05)', 300);
+function syncTheme() {
+    const sel = document.getElementById("p-select");
+    const color = sel.options[sel.selectedIndex].getAttribute('data-c');
+    document.documentElement.style.setProperty('--accent', color);
+    document.getElementById("main-card").style.boxShadow = `0 0 40px -20px ${color}`;
 }
 
-function triggerLogic() {
-    const val = document.getElementById("p-core").value;
-    document.getElementById("arch-val").innerText = library[val][0];
-    document.getElementById("logic-val").innerText = library[val][1];
+function runAcademy() {
+    const val = document.getElementById("p-select").value;
+    const data = masterDB[val];
     
-    const panel = document.getElementById("panel");
-    panel.style.display = "block";
+    document.getElementById("trait-val").innerText = data.t;
+    document.getElementById("dignity-val").innerText = data.d;
+    document.getElementById("career-val").innerText = data.c;
+    document.getElementById("pointer").style.left = data.pos;
     
-    // Smooth reset for animation
-    panel.classList.remove('result-panel');
-    void panel.offsetWidth; 
-    panel.classList.add('result-panel');
+    document.getElementById("display").style.display = "block";
 }
 </script>
 </body>
