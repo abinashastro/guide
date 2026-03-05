@@ -3,136 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy | Master Index</title>
+    <title>Astro Academy v12.0 | Master Index</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #ffd700; --bg: #050811; --card: #111827; --text: #e5e7eb; --accent: #00ffcc; }
-        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 500px; }
+        :root { 
+            --gold: #ffd700; --bg: #020617; --glass: rgba(30, 41, 59, 0.7); 
+            --accent: #10b981; --text: #f8fafc; --sub: #94a3b8;
+        }
         
-        .header { text-align: center; margin-bottom: 30px; }
-        .header h1 { color: var(--gold); margin: 0; font-size: 28px; letter-spacing: 1px; }
-        .header p { color: #9ca3af; font-size: 14px; }
+        body { 
+            background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; 
+            margin: 0; padding: 20px; display: flex; justify-content: center;
+            background-image: radial-gradient(at 0% 0%, #1e1b4b 0, transparent 50%), 
+                              radial-gradient(at 100% 100%, #0c4a6e 0, transparent 50%);
+            min-height: 100vh;
+        }
+        
+        .container { width: 100%; max-width: 480px; }
+        
+        .header { text-align: center; margin-bottom: 35px; }
+        .header h1 { font-size: 28px; font-weight: 600; color: var(--gold); margin: 0; letter-spacing: 2px; }
+        .header p { font-size: 11px; color: var(--sub); text-transform: uppercase; letter-spacing: 1px; }
 
-        .index-card { background: var(--card); border-radius: 24px; padding: 30px; border: 1px solid rgba(255,215,0,0.2); box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
+        /* Pillar Labels */
+        .pillar-label { font-size: 10px; font-weight: 600; color: var(--gold); opacity: 0.6; margin: 25px 0 12px 5px; display: block; letter-spacing: 2px; }
+
+        .index-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        .index-item { 
+            background: var(--glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 18px;
+            text-decoration: none; transition: all 0.3s ease; position: relative;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+
+        .index-item:hover { transform: translateY(-5px); border-color: var(--gold); background: rgba(30, 41, 59, 0.9); }
         
-        .index-item { display: flex; align-items: center; text-decoration: none; color: white; padding: 20px; margin-bottom: 15px; background: rgba(255,255,255,0.03); border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s ease; }
-        .index-item:hover { transform: translateX(10px); background: rgba(255, 215, 0, 0.05); border-color: var(--gold); }
-        
-        .num { font-size: 24px; font-weight: 600; color: var(--gold); margin-right: 20px; min-width: 30px; }
-        .content { flex: 1; }
-        .content h3 { margin: 0; font-size: 17px; color: #fff; }
-        .content p { margin: 5px 0 0; font-size: 13px; color: #9ca3af; }
-        
-        .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
-        
-        .footer-note { text-align: center; margin-top: 30px; font-size: 12px; color: #4b5563; }
+        .item-head { display: flex; justify-content: space-between; align-items: flex-start; }
+        .num { font-size: 18px; font-weight: 600; color: var(--gold); opacity: 0.5; }
+        .status { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+
+        .index-item h3 { margin: 15px 0 5px 0; font-size: 14px; color: #fff; line-height: 1.3; }
+        .index-item p { margin: 0; font-size: 10px; color: var(--sub); }
+
+        /* Full Width Item for Final Lesson */
+        .full-width { grid-column: span 2; flex-direction: row; align-items: center; }
+        .full-width .index-content { margin-left: 15px; }
+
+        .footer { 
+            margin-top: 50px; text-align: center; padding: 20px; 
+            border-top: 1px solid rgba(255,255,255,0.05); font-size: 10px; color: var(--sub);
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>🔮 ASTRO MASTERCLASS</h1>
-        <p>Aapka Vedic Astrology ka safar yahan se shuru hota hai</p>
+        <h1>ASTRO ACADEMY</h1>
+        <p>Master the Cosmic Science • v12.0</p>
     </div>
 
-    <div class="index-card">
-        <a href="index.html" class="index-item">
-            <div class="num">01</div>
-            <div class="content">
-                <h3>Know the Planets</h3>
-                <p>9 Grahon ka dimaag aur unki shakti</p>
-            </div>
-            <div class="status-dot"></div>
+    <span class="pillar-label">I. THE CORE FOUNDATION</span>
+    <div class="index-grid">
+        <a href="section1.html" class="index-item">
+            <div class="item-head"><span class="num">01</span><div class="status"></div></div>
+            <h3>The 9 Lords</h3>
+            <p>Planetary energies</p>
         </a>
-
         <a href="section2.html" class="index-item">
-            <div class="num">02</div>
-            <div class="content">
-                <h3>Know the Rashis</h3>
-                <p>12 Rashiyon ka swabhav aur logic</p>
-            </div>
-            <div class="status-dot"></div>
+            <div class="item-head"><span class="num">02</span><div class="status"></div></div>
+            <h3>12 Signs</h3>
+            <p>Zodiac archetypes</p>
         </a>
-
         <a href="section3.html" class="index-item">
-            <div class="num">03</div>
-            <div class="content">
-                <h3>Know the Nakshatras</h3>
-                <p>27 Nakshatra: Soul ki sabse gehri layer</p>
-            </div>
-            <div class="status-dot"></div>
+            <div class="item-head"><span class="num">03</span><div class="status"></div></div>
+            <h3>Nakshatras</h3>
+            <p>Lunar mansions</p>
         </a>
-
         <a href="section4.html" class="index-item">
-            <div class="num">04</div>
-            <div class="content">
-                <h3>Know the Houses</h3>
-                <p>1 to 12th house logic</p>
-            </div>
-            <div class="status-dot"></div>
+            <div class="item-head"><span class="num">04</span><div class="status"></div></div>
+            <h3>Houses</h3>
+            <p>Life domains (1-12)</p>
         </a>
-
-         <a href="section5.html" class="index-item">
-            <div class="num">05</div>
-            <div class="content">
-                <h3>Know the Yogas</h3>
-                <p>planetary conjunction </p>
-            </div>
-            <div class="status-dot"></div>
-        </a>
-
-        <a href="section6.html" class="index-item">
-            <div class="num">06</div>
-            <div class="content">
-                <h3>Know the Aspects</h3>
-                <p>planetary Aspects </p>
-            </div>
-            <div class="status-dot"></div>
-        </a>
-
-        <a href="section7.html" class="index-item">
-            <div class="num">07</div>
-            <div class="content">
-                <h3>Know the Degree</h3>
-                <p>planetary Degree </p>
-            </div>
-            <div class="status-dot"></div>
-        </a>
-
-        <a href="section8.html" class="index-item">
-            <div class="num">08</div>
-            <div class="content">
-                <h3>Know the Charts</h3>
-                <p>Divisional Charts </p>
-            </div>
-            <div class="status-dot"></div>
-        </a>
-
-        <a href="section9.html" class="index-item">
-            <div class="num">09</div>
-            <div class="content">
-                <h3>Know the Axis</h3>
-                <p>know the Axis</p>
-            </div>
-            <div class="status-dot"></div>
-        </a>
-
-        <a href="section10.html" class="index-item">
-            <div class="num">10</div>
-            <div class="content">
-                <h3>Know the Uchh nichh</h3>
-                <p>Exaulted and Debiliated </p>
-            </div>
-            <div class="status-dot"></div>
-        </a>
-
-
     </div>
 
-    <div class="footer-note">
-        [2026-02-17] Progress is being tracked and stored in Firebase.
+    <span class="pillar-label">II. PLANETARY LOGIC</span>
+    <div class="index-grid">
+        <a href="section5.html" class="index-item">
+            <div class="item-head"><span class="num">05</span><div class="status"></div></div>
+            <h3>Yogas</h3>
+            <p>Conjunction power</p>
+        </a>
+        <a href="section6.html" class="index-item">
+            <div class="item-head"><span class="num">06</span><div class="status"></div></div>
+            <h3>Drishti</h3>
+            <p>Planetary aspects</p>
+        </a>
+        <a href="section7.html" class="index-item">
+            <div class="item-head"><span class="num">07</span><div class="status"></div></div>
+            <h3>Degrees</h3>
+            <p>Avastha & Vitality</p>
+        </a>
+        <a href="section9.html" class="index-item">
+            <div class="item-head"><span class="num">09</span><div class="status"></div></div>
+            <h3>The Axis</h3>
+            <p>180° Symmetry</p>
+        </a>
+    </div>
+
+    <span class="pillar-label">III. ADVANCED SYNTHESIS</span>
+    <div class="index-grid">
+        <a href="section8.html" class="index-item full-width">
+            <div class="num">08</div>
+            <div class="index-content">
+                <h3>Divisional Charts (Vargas)</h3>
+                <p>Microscopic destiny analysis from D1 to D60</p>
+            </div>
+            <div class="status" style="margin-left: auto;"></div>
+        </a>
+        <a href="section10.html" class="index-item full-width" style="border-color: var(--gold);">
+            <div class="num">10</div>
+            <div class="index-content">
+                <h3>Uchh & Nichh (Exaltation)</h3>
+                <p>The peak and fall of planetary power logic</p>
+            </div>
+            <div class="status" style="margin-left: auto; background: var(--gold); box-shadow: 0 0 10px var(--gold);"></div>
+        </a>
+    </div>
+
+    <div class="footer">
+        SYNC STATUS: MASTERED • [2026-03-05]<br>
+        DATA SECURED IN FIREBASE LEDGER
     </div>
 </div>
 
