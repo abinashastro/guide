@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy v11.0 | Dasha Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --accent: #8b5cf6; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 480px; }
+        
+        .dasha-header { background: #1e293b; padding: 30px; border-radius: 35px; border: 1px solid var(--accent); text-align: center; margin-bottom: 25px; }
+        .dasha-card { background: var(--card); border-radius: 35px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        
+        select { width: 100%; padding: 18px; border-radius: 20px; background: #0f172a; color: white; border: 1px solid #475569; margin-top: 10px; cursor: pointer; }
+        .btn-calc { width: 100%; padding: 20px; border-radius: 20px; border: none; background: var(--accent); color: white; font-weight: 700; cursor: pointer; text-transform: uppercase; margin-top: 20px; }
+        
+        .result-panel { margin-top: 30px; display: none; }
+        .dasha-box { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 25px; border-left: 5px solid var(--accent); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="dasha-header">
+        <h2 style="margin:0; color: var(--gold);">Vimshottari Dasha</h2>
+        <p style="font-size: 11px; color: #94a3b8;">120-Year Life Cycle Logic</p>
+    </div>
+
+    <div class="dasha-card">
+        <label>Select Starting Planet (Birth Lord)</label>
+        <select id="planetSelect">
+            <option value="Ketu">Ketu (Aswini, Magha, Moola)</option>
+            <option value="Venus">Venus (Bharani, P.Phalguni, P.Ashada)</option>
+            <option value="Sun">Sun (Krittika, U.Phalguni, U.Ashada)</option>
+            <option value="Moon">Moon (Rohini, Hasta, Sravana)</option>
+            <option value="Mars">Mars (Mrigashira, Chitra, Dhanishta)</option>
+            <option value="Rahu">Rahu (Arudra, Swati, Satabhisha)</option>
+            <option value="Jupiter">Jupiter (Punarvasu, Vishakha, P.Bhadrapada)</option>
+            <option value="Saturn">Saturn (Pushya, Anuradha, U.Bhadrapada)</option>
+            <option value="Mercury">Mercury (Ashlesha, Jyeshtha, Revati)</option>
+        </select>
+
+        <button class="btn-calc" onclick="calculateDasha()">Start Cycle ⏳</button>
+
+        <div id="result" class="result-panel">
+            <div class="dasha-box">
+                <h4 id="dTitle" style="color:var(--gold); margin:0;">---</h4>
+                <p id="dDesc" style="font-size: 13px; line-height: 1.7;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+const dashaData = {
+    "Ketu": { t: "Ketu Dasha (7 Years)", d: "Suruwat detachment aur inner search se hoti hai. Life mein sudden changes aur spiritual inclination badhta hai." },
+    "Venus": { t: "Venus Dasha (20 Years)", d: "Ye luxury, comfort aur love ka time hai. Jeevan mein sukh-suvidhayein badhti hain." },
+    "Sun": { t: "Sun Dasha (6 Years)", d: "Authority aur fame ka samay. Ego aur career focus zyada rehta hai." },
+    "Moon": { t: "Moon Dasha (10 Years)", d: "Mann ki shanti aur emotional growth. Mother aur relationships se judav badhta hai." },
+    "Mars": { t: "Mars Dasha (7 Years)", d: "Energy, aggression aur action. Ye time kaam karne aur challenges se ladne ka hai." },
+    "Rahu": { t: "Rahu Dasha (18 Years)", d: "Obsession, unconventional success aur confusion. Ye time bahar ki duniya mein bahut kuch dikhata hai." },
+    "Jupiter": { t: "Jupiter Dasha (16 Years)", d: "Wisdom aur expansion. Ye time learning, marriage aur growth ke liye best hai." },
+    "Saturn": { t: "Saturn Dasha (19 Years)", d: "Discipline aur karma ka test. Mehnat zyada aur rewards late, par permanent hote hain." },
+    "Mercury": { t: "Mercury Dasha (17 Years)", d: "Logic, communication aur intelligence. Business aur education mein peak success ka samay." }
+};
+
+function calculateDasha() {
+    const p = document.getElementById("planetSelect").value;
+    const data = dashaData[p];
+    document.getElementById("dTitle").innerText = data.t;
+    document.getElementById("dDesc").innerText = data.d;
+    document.getElementById("result").style.display = "block";
+}
+</script>
+</body>
+</html>
