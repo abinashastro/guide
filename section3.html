@@ -3,128 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy v4.1 | Pada Logic</title>
+    <title>Astro Academy v4.2 | Unified Engine</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --gold: #ffd700; --bg: #02040a; --card: #0f172a; 
-            --text: #f1f5f9; --accent: #8b5cf6; --success: #10b981;
+            --gold: #ffd700; --bg: #010409; --card: #0d1117; 
+            --text: #c9d1d9; --accent: #8b5cf6; --fire: #ff7b72; --earth: #d29922; --air: #58a6ff; --water: #79c0ff;
         }
         
         body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 460px; }
+        .container { width: 100%; max-width: 480px; }
         
-        /* Progress Orbit */
-        .orbit-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .token-display { background: rgba(139, 92, 246, 0.1); border: 1px solid var(--accent); padding: 5px 12px; border-radius: 20px; font-size: 10px; color: var(--accent); font-weight: 700; }
+        /* Header & Tabs */
+        .v-header { display: flex; justify-content: space-between; font-size: 10px; font-weight: 700; color: #8b949e; letter-spacing: 2px; margin-bottom: 20px; }
+        .badge { background: rgba(139, 92, 246, 0.1); color: var(--accent); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--accent); }
+        
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; border-radius: 12px; border: 1px solid #30363d; background: #161b22; color: #8b949e; cursor: pointer; font-size: 12px; transition: 0.3s; }
+        .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-        /* The Star Card */
-        .star-card { 
-            background: var(--card); border-radius: 35px; padding: 30px; 
-            border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            position: relative;
+        /* Main Card */
+        .q-card { 
+            background: var(--card); border-radius: 30px; padding: 25px; 
+            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.7);
         }
 
-        .select-cluster { background: #1e293b; padding: 20px; border-radius: 25px; margin-bottom: 20px; }
-        label { font-size: 10px; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; display: block; letter-spacing: 1px; }
+        .input-group { background: #161b22; padding: 15px; border-radius: 20px; margin-bottom: 15px; border: 1px solid #30363d; }
+        label { font-size: 10px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; display: block; }
 
         select { 
-            width: 100%; padding: 15px; border-radius: 15px; background: #0f172a; color: white; 
-            border: 1px solid #334155; font-size: 14px; outline: none; margin-bottom: 15px;
+            width: 100%; padding: 12px; border-radius: 10px; background: #0d1117; color: white; 
+            border: 1px solid #30363d; font-size: 14px; outline: none;
         }
 
-        .btn-reveal { 
+        .btn-action { 
             width: 100%; padding: 18px; border-radius: 20px; border: none; font-size: 13px; 
             font-weight: 700; cursor: pointer; background: var(--gold); color: #000; 
-            text-transform: uppercase; box-shadow: 0 10px 20px rgba(255, 215, 0, 0.15);
+            text-transform: uppercase; transition: 0.3s; margin-top: 10px;
         }
 
-        /* Result Mapping */
-        .map-panel { margin-top: 30px; display: none; }
-        .pada-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .pada-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
-        .pada-box span { font-size: 9px; color: #94a3b8; display: block; margin-bottom: 5px; }
-        .pada-box b { font-size: 13px; color: var(--gold); }
+        /* Result Panel */
+        .meta-panel { margin-top: 25px; display: none; animation: slideUp 0.5s ease; }
+        .prop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .prop-item { background: #161b22; padding: 15px; border-radius: 18px; text-align: center; border: 1px solid #30363d; }
+        .prop-item span { display: block; font-size: 9px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px; }
+        .prop-item b { font-size: 13px; color: var(--accent); }
 
-        .soul-insight { 
-            background: linear-gradient(145deg, #1e293b, #0f172a); padding: 20px; 
-            border-radius: 25px; border-left: 4px solid var(--accent); animation: fadeIn 0.6s ease;
+        .analysis-box { 
+            background: rgba(255,255,255,0.02); padding: 20px; border-radius: 22px; 
+            border-left: 5px solid var(--accent); 
         }
-        .soul-insight b { color: var(--accent); display: block; font-size: 11px; text-transform: uppercase; margin-bottom: 8px; }
-        .soul-insight p { margin: 0; font-size: 14px; line-height: 1.6; color: #cbd5e1; }
+        .analysis-box b { color: var(--gold); display: block; font-size: 11px; text-transform: uppercase; margin-bottom: 6px; }
+        .analysis-box p { margin: 0; font-size: 14px; line-height: 1.6; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="orbit-header">
-        <span style="font-size: 12px; font-weight: 600; color: #64748b;">ASTRO-SYNC v4.1</span>
-        <div class="token-display">FIREBASE: TOKEN_SAVED</div>
+    <div class="v-header"><span>ASTRO-OS v4.2</span> <span class="badge" id="modeBadge">LOGIC CORE</span></div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('rashi')">Rashi</button>
+        <button class="tab-btn" onclick="switchTab('nakshatra')">Nakshatra</button>
     </div>
 
-    <div class="star-card">
-        <h2 style="margin:0 0 5px 0;">Nakshatra Pada</h2>
-        <p style="color:#94a3b8; font-size: 13px; margin-bottom: 25px;">Go deeper into the 4 stages of your destiny.</p>
-        
-        <div class="select-cluster">
-            <label>Choose Nakshatra</label>
-            <select id="nakSelect">
-                <option value="Ashwini">Ashwini 🐎</option>
-                <option value="Rohini">Rohini 🌳</option>
-                <option value="Magha">Magha 👑</option>
-                <option value="Pushya">Pushya 🌸</option>
-            </select>
-
-            <label>Choose Pada (Quarter)</label>
-            <select id="padaSelect">
-                <option value="1">Pada 1 (Dharma)</option>
-                <option value="2">Pada 2 (Artha)</option>
-                <option value="3">Pada 3 (Kama)</option>
-                <option value="4">Pada 4 (Moksha)</option>
-            </select>
-        </div>
-        
-        <button class="btn-reveal" onclick="mapDestiny()">Map Soul Goal 🔮</button>
-        
-        <div id="result" class="map-panel">
-            <div class="pada-grid">
-                <div class="pada-box"><span>Navamsha</span><b id="navText"></b></div>
-                <div class="pada-box"><span>Motivation</span><b id="motText"></b></div>
+    <div class="q-card">
+        <div id="rashiSec">
+            <h2 style="margin:0;">Rashi Blueprint</h2>
+            <p style="color:#8b949e; font-size: 12px; margin-bottom: 20px;">DNA of your Zodiac Sign.</p>
+            <div class="input-group">
+                <label>Select Sign</label>
+                <select id="rashiInp">
+                    <option value="Aries" data-e="Fire" data-l="Mars">Aries (Mesh)</option>
+                    <option value="Taurus" data-e="Earth" data-l="Venus">Taurus (Vrish)</option>
+                    <option value="Gemini" data-e="Air" data-l="Mercury">Gemini (Mithun)</option>
+                    <option value="Cancer" data-e="Water" data-l="Moon">Cancer (Karka)</option>
+                    <option value="Leo" data-e="Fire" data-l="Sun">Leo (Simha)</option>
+                    <option value="Virgo" data-e="Earth" data-l="Mercury">Virgo (Kanya)</option>
+                    <option value="Libra" data-e="Air" data-l="Venus">Libra (Tula)</option>
+                    <option value="Scorpio" data-e="Water" data-l="Mars/Pluto">Scorpio (Vrishchik)</option>
+                    <option value="Sagittarius" data-e="Fire" data-l="Jupiter">Sagittarius (Dhanu)</option>
+                    <option value="Capricorn" data-e="Earth" data-l="Saturn">Capricorn (Makar)</option>
+                    <option value="Aquarius" data-e="Air" data-l="Saturn/Uranus">Aquarius (Kumbh)</option>
+                    <option value="Pisces" data-e="Water" data-l="Jupiter/Neptune">Pisces (Meen)</option>
+                </select>
             </div>
-            
-            <div class="soul-insight">
-                <b>Deep Analysis</b>
-                <p id="descText"></p>
+            <button class="btn-action" onclick="decodeRashi()">Decode Rashi 🧬</button>
+        </div>
+
+        <div id="nakSec" style="display:none;">
+            <h2 style="margin:0;">Pada Logic</h2>
+            <p style="color:#8b949e; font-size: 12px; margin-bottom: 20px;">Soul path through 27 Nakshatras.</p>
+            <div class="input-group">
+                <label>Nakshatra</label>
+                <select id="nakInp">
+                    <option value="0">Ashwini 🐎</option><option value="1">Bharani 🐘</option><option value="2">Krittika 🔪</option>
+                    <option value="3">Rohini 🌳</option><option value="4">Mrigashira 🦌</option><option value="5">Ardra 💧</option>
+                    <option value="6">Punarvasu 🏹</option><option value="7">Pushya 🌸</option><option value="8">Ashlesha 🐍</option>
+                    <option value="9">Magha 👑</option><option value="10">P. Phalguni 🛋️</option><option value="11">U. Phalguni 🛌</option>
+                    <option value="12">Hasta 🖐️</option><option value="13">Chitra 💎</option><option value="14">Swati 🌬️</option>
+                    <option value="15">Vishakha ⚡</option><option value="16">Anuradha 💍</option><option value="17">Jyeshtha 🎖️</option>
+                    <option value="18">Mula 🌿</option><option value="19">P. Ashadha 🌊</option><option value="20">U. Ashadha 🏔️</option>
+                    <option value="21">Shravana 👂</option><option value="22">Dhanishta 🥁</option><option value="23">Shatabhisha 🌌</option>
+                    <option value="24">P. Bhadrapada ⚔️</option><option value="25">U. Bhadrapada 🌊</option><option value="26">Revati 🐟</option>
+                </select>
+                <label style="margin-top:10px;">Pada</label>
+                <select id="padaInp">
+                    <option value="1">Pada 1 (Dharma)</option><option value="2">Pada 2 (Artha)</option>
+                    <option value="3">Pada 3 (Kama)</option><option value="4">Pada 4 (Moksha)</option>
+                </select>
+            </div>
+            <button class="btn-action" onclick="decodeNak()">Map Destiny 🔮</button>
+        </div>
+
+        <div id="metaPanel" class="meta-panel">
+            <div class="prop-grid">
+                <div class="prop-item"><span>Primary</span><b id="p1"></b></div>
+                <div class="prop-item"><span>Secondary</span><b id="p2"></b></div>
+            </div>
+            <div class="analysis-box">
+                <b id="analysisTitle">Behavioral Logic</b>
+                <p id="analysisText"></p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-const padaData = {
-    "Ashwini-1": {nav: "Aries", mot: "Dharma", desc: "Aapka goal life mein sahi rasta dhoondna hai. Aap ek pioneer hain jo doosron ke liye misal bante hain."},
-    "Ashwini-2": {nav: "Taurus", mot: "Artha", desc: "Aap apne skills ko paison aur security mein badalne mein mahir hain. Practicality aapki takat hai."},
-    "Rohini-4": {nav: "Cancer", mot: "Moksha", desc: "Aapka connection emotions aur spirituality se bahut gehra hai. Aap doosron ko healing dete hain."},
-    "Pushya-2": {nav: "Virgo", mot: "Artha", desc: "Intelligence aur service aapka main motive hai. Aap perfection ke sath wealth create karte hain."}
+const behaviorDB = {
+    "Aries": "Aap ek 'Initiator' hain. Energy hamesha high rehti hai.",
+    "Taurus": "Aap 'Stability' dhoondte hain. Comfort aur beauty zaruri hai.",
+    "Gemini": "Aap 'Communicator' hain. Curiosity hi aapka fuel hai.",
+    "Cancer": "Aap 'Nurturer' hain. Emotions aur ghar se lagav gehra hai.",
+    "Leo": "Aap 'Leader' hain. Attention aur respect aapka adhikar hai.",
+    "Virgo": "Aap 'Analyst' hain. Perfection hi aapki pehchan hai.",
+    "Libra": "Aap 'Balancer' hain. Harmony aur justice pasand hai.",
+    "Scorpio": "Aap 'Transformer' hain. Intensity aur mystery aapka DNA hai.",
+    "Sagittarius": "Aap 'Explorer' hain. Gyaan aur azadi ki talash rehti hai.",
+    "Capricorn": "Aap 'Strategist' hain. Hard work se unchai tak pahunchna hai.",
+    "Aquarius": "Aap 'Visionary' hain. Duniya se alag sochna aapki fitrat hai.",
+    "Pisces": "Aap 'Dreamer' hain. Imagination ki koi seema nahi.",
 };
 
-function mapDestiny() {
-    const nak = document.getElementById("nakSelect").value;
-    const pada = document.getElementById("padaSelect").value;
-    const key = `${nak}-${pada}`;
+function switchTab(type) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('rashiSec').style.display = type === 'rashi' ? 'block' : 'none';
+    document.getElementById('nakSec').style.display = type === 'nakshatra' ? 'block' : 'none';
+    document.getElementById('metaPanel').style.display = 'none';
+}
+
+function decodeRashi() {
+    const sel = document.getElementById("rashiInp");
+    const val = sel.value;
+    const opt = sel.options[sel.selectedIndex];
     
-    const data = padaData[key] || {nav: "Calculated", mot: "Evolution", desc: "Is pada mein aapka focus self-development aur learning par rehte hai. Aap life ke flow ke sath move karte hain."};
+    document.getElementById("p1").innerText = opt.getAttribute('data-e');
+    document.getElementById("p2").innerText = opt.getAttribute('data-l');
+    document.getElementById("analysisTitle").innerText = "Personality DNA";
+    document.getElementById("analysisText").innerText = behaviorDB[val];
     
-    document.getElementById("navText").innerText = data.nav;
-    document.getElementById("motText").innerText = data.mot;
-    document.getElementById("descText").innerText = data.desc;
+    showPanel("#8b5cf6");
+}
+
+function decodeNak() {
+    const nakIdx = parseInt(document.getElementById("nakInp").value);
+    const pada = parseInt(document.getElementById("padaInp").value);
+    const rashiNames = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
     
-    document.getElementById("result").style.display = "block";
+    const navIdx = ((nakIdx * 4) + (pada - 1)) % 12;
+    const motivations = ["Dharma", "Artha", "Kama", "Moksha"];
     
-    // Simulate Firebase Update
-    console.log(`Firebase: User Progress Updated for ${key}. Timestamp: ${new Date().toISOString()}`);
+    document.getElementById("p1").innerText = rashiNames[navIdx];
+    document.getElementById("p2").innerText = motivations[pada-1];
+    document.getElementById("analysisTitle").innerText = "Soul Path";
+    document.getElementById("analysisText").innerText = `Navamsha ${rashiNames[navIdx]} ke sath, aapka main motivation ${motivations[pada-1]} hai.`;
+    
+    showPanel("#ffd700");
+}
+
+function showPanel(color) {
+    document.getElementById("metaPanel").style.display = "block";
+    document.documentElement.style.setProperty('--accent', color);
 }
 </script>
 </body>
