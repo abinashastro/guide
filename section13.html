@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>Astro Academy | Medical Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --teal: #0d9488; --bg: #030712; --card: #111827; --text: #f3f4f6; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        .engine-card { background: var(--card); padding: 30px; border-radius: 30px; border: 1px solid #1f2937; }
+        h2 { color: var(--teal); margin-top: 0; }
+        select { width: 100%; padding: 15px; border-radius: 12px; background: #1f2937; color: white; border: 1px solid #374151; margin: 15px 0; }
+        .btn-scan { width: 100%; padding: 16px; background: var(--teal); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        .result-panel { margin-top: 25px; display: none; background: #064e3b; padding: 20px; border-radius: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="engine-card">
+        <h2>🩺 Medical Diagnostic Engine</h2>
+        <p style="font-size: 12px; color: #9ca3af;">Bhava (House) vs Organ Correspondence.</p>
+        
+        <select id="houseSelect">
+            <option value="h1">1st House: Head, Brain, Face</option>
+            <option value="h2">2nd House: Throat, Eyes, Speech</option>
+            <option value="h3">3rd House: Shoulders, Lungs, Nerves</option>
+            <option value="h4">4th House: Heart, Chest, Stomach</option>
+            <option value="h5">5th House: Upper Abdomen, Liver, Spine</option>
+            <option value="h6">6th House: Intestines, Kidneys (Disease House)</option>
+            <option value="h7">7th House: Reproductive System, Lower Abdomen</option>
+            <option value="h8">8th House: External Sex Organs, Chronic Ailments</option>
+            <option value="h9">9th House: Thighs, Hip Joint, Bones</option>
+            <option value="h10">10th House: Knees, Joints</option>
+            <option value="h11">11th House: Calves, Left Leg</option>
+            <option value="h12">12th House: Feet, Sleep, Left Eye</option>
+        </select>
+        
+        <button class="btn-scan" onclick="diagnose()">Scan Body System 🔍</button>
+
+        <div id="result" class="result-panel">
+            <div id="vTitle" style="font-weight:600; color:var(--teal);"></div>
+            <div id="vDesc" style="font-size: 13px; margin-top: 10px;"></div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+const medicalDB = {
+    "h1": { t: "Head & Vitality", d: "First house weak hone par migrain, stress ya nervous system ki issues aati hain. Lagna lord ka strength yahan life-force tay karta hai." },
+    "h6": { t: "Intestines & Immunity", d: "Ye ghar rog ka ghar hai. Yahan paap grah hone par digestive issues aur chronic immunity problems hoti hain." },
+    "h4": { t: "Heart & Chest", d: "4th house heart aur emotional balance dikhata hai. Yahan affliction hone par BP aur anxiety common hai." },
+    "h8": { t: "Chronic & Hidden", d: "8th house purani bimariyon aur surgeries ka hai. Yahan Mars ki drishti aksar accidents ya blood-related issues deti hai." },
+    "h10": { t: "Knees & Joints", d: "10th house mein Saturn (lord of joints) ka asar hone par ghutno (knees) mein takleef aati hai." }
+};
+
+function diagnose() {
+    const h = document.getElementById("houseSelect").value;
+    const res = medicalDB[h] || { t: "General Analysis", d: "Is ghar mein grahon ki placement dekhein. Paap grah (Rahu/Saturn) yahan bimari (Rog) paida kar sakte hain." };
+    document.getElementById("vTitle").innerText = res.t;
+    document.getElementById("vDesc").innerText = res.d;
+    document.getElementById("result").style.display = "block";
+}
+</script>
+</body>
+</html>
