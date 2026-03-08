@@ -14,7 +14,6 @@
         body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 480px; }
         
-        /* Vision Tracker */
         .vision-hub { 
             background: #1e293b; padding: 20px; border-radius: 30px; 
             margin-bottom: 25px; border: 1px dashed var(--gold);
@@ -38,10 +37,10 @@
         .btn-focus { 
             width: 100%; padding: 18px; border-radius: 20px; border: none; font-size: 13px; 
             font-weight: 700; cursor: pointer; background: var(--gold); color: #000; 
-            text-transform: uppercase;
+            text-transform: uppercase; transition: 0.3s;
         }
+        .btn-focus:active { transform: scale(0.97); }
 
-        /* Aspect Logic Result */
         .aspect-panel { margin-top: 30px; display: none; animation: zoomIn 0.4s ease; }
         .aspect-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         
@@ -63,8 +62,8 @@
 
 <div class="container">
     <div class="vision-hub">
-        <b>Drishti-Log: Firebase Sync Active</b>
-        <p style="font-size: 10px; margin: 5px 0 0 0; color: #64748b;">Tracking Planetary Gaze for March 2026</p>
+        <b>DRISHTI-LOG: FIREBASE SYNC ACTIVE</b>
+        <p style="font-size: 10px; margin: 5px 0 0 0; color: #64748b;">Tracking Planetary Gaze: Global Matrix 2026</p>
     </div>
 
     <div class="eye-card">
@@ -74,10 +73,19 @@
         <div class="lens-select">
             <label>Select Master Planet</label>
             <select id="planetSelect">
-                <option value="Jupiter">Jupiter (Guru) - Blessing Gaze</option>
-                <option value="Saturn">Saturn (Shani) - Duty Gaze</option>
-                <option value="Mars">Mars (Mangal) - Protective Gaze</option>
-                <option value="Rahu">Rahu (Dragon Head) - Obsessive Gaze</option>
+                <optgroup label="Special Aspects (Vishesh Drishti)">
+                    <option value="Jupiter">Jupiter (Guru) - Expansion</option>
+                    <option value="Saturn">Saturn (Shani) - Duty</option>
+                    <option value="Mars">Mars (Mangal) - Power</option>
+                    <option value="Rahu">Rahu (Dragon Head) - Obsession</option>
+                    <option value="Ketu">Ketu (Dragon Tail) - Detachment</option>
+                </optgroup>
+                <optgroup label="Standard Aspect (7th Only)">
+                    <option value="Sun">Sun (Surya) - Authority</option>
+                    <option value="Moon">Moon (Chandra) - Emotion</option>
+                    <option value="Mercury">Mercury (Budh) - Intellect</option>
+                    <option value="Venus">Venus (Shukra) - Attraction</option>
+                </optgroup>
             </select>
         </div>
         
@@ -94,12 +102,12 @@
                 <p id="descText"></p>
             </div>
             
-            <p style="text-align:center; font-size: 11px; margin-top: 20px; color: var(--accent);">
-                Analysis Stored in [2026-02-17] Database Ledger
-            </p>
+            <p id="syncTime" style="text-align:center; font-size: 10px; margin-top: 20px; color: var(--accent);"></p>
         </div>
     </div>
 </div>
+
+
 
 <script>
 const visionData = {
@@ -107,25 +115,55 @@ const visionData = {
         type: "Amrit (Nectar)",
         targets: "5th, 7th, 9th",
         title: "The Golden Shield",
-        desc: "Guru ki drishti Ganga jal ki tarah hai. Ye jahan bhi padti hai wahan ke 'Dosha' (problems) ko dho deti hai. Agar Guru 9th house ko dekhe, toh luck hamesha aapke sath rehta hai."
+        desc: "Guru ki drishti jahan padti hai wahan shubhta (positivity) badh jati hai. Ye aapke purva punya ko activate karti hai aur mushkilon se bachati hai."
     },
     "Saturn": {
         type: "Karma (Discipline)",
         targets: "3rd, 7th, 10th",
         title: "The Architect's Rule",
-        desc: "Shani jahan dekhta hai wahan emotion nahi, result mangta hai. 3rd aspect aapko mehnat karwayega, 10th aspect aapko career mein authority dega, par discipline ke baad."
+        desc: "Shani ki drishti thodi kathor (harsh) hoti hai par long-term mein stability deti hai. Ye un gharon mein patience aur hard work ki demand karti hai."
     },
     "Mars": {
-        type: "Shakti (Protection)",
+        type: "Shakti (Energy)",
         targets: "4th, 7th, 8th",
         title: "The Security Guard",
-        desc: "Mangal 4th drishti se ghar ki raksha karta hai. 8th aspect se ye sudden transformation lata hai. Ye drishti 'Hot' hoti hai, isliye ye us ghar mein energy bhar deti hai."
+        desc: "Mangal ki drishti protective aur intense hoti hai. Ye energy ko channelize karne ke liye hoti hai. 8th drishti sudden changes la sakti hai."
     },
     "Rahu": {
         type: "Maya (Illusion)",
         targets: "5th, 7th, 9th",
         title: "The Smoke Screen",
-        desc: "Rahu ki drishti obsessive hoti hai. Jahan ye dekhta hai, wahan aapko 'Extraordinary' result chahiye hote hain. Ye unconventional success dilati hai."
+        desc: "Rahu ki drishti obsessive hoti hai. Ye unconventional success aur curiosity deti hai, par confusion se bachna zaroori hai."
+    },
+    "Ketu": {
+        type: "Moksha (Detachment)",
+        targets: "5th, 7th, 9th",
+        title: "The Inner Mirror",
+        desc: "Ketu jahan dekhta hai wahan se insaan ko thoda detached feel hota hai. Ye spirituality aur deep research ke liye best gaze hai."
+    },
+    "Sun": {
+        type: "Prakash (Light)",
+        targets: "7th House Only",
+        title: "The King's Focus",
+        desc: "Surya sirf apne se theek saamne (7th) dekhta hai. Ye us ghar ko 'Expose' aur illuminate karta hai, wahan koi bhi cheez chhupi nahi reh sakti."
+    },
+    "Moon": {
+        type: "Soma (Cooling)",
+        targets: "7th House Only",
+        title: "Emotional Reflection",
+        desc: "Moon ki drishti mann ki shanti aur softness deti hai. Ye 7th house ke prati aapke emotional attachment ko represent karti hai."
+    },
+    "Mercury": {
+        type: "Budh (Logic)",
+        targets: "7th House Only",
+        title: "The Analyst's Eye",
+        desc: "Budh ki drishti communication aur calculation ko improve karti hai. Ye theek saamne wale ghar ko business aur logic ke angle se dekhta hai."
+    },
+    "Venus": {
+        type: "Akarshan (Beauty)",
+        targets: "7th House Only",
+        title: "The Artist's Muse",
+        desc: "Shukra jahan dekhta hai wahan harmony aur luxury create karna chahta hai. Ye relationship aur comfort ke liye ek sundar drishti hai."
     }
 };
 
@@ -139,6 +177,8 @@ function showVision() {
     document.getElementById("descText").innerText = data.desc;
     
     document.getElementById("result").style.display = "block";
+    document.getElementById("syncTime").innerText = `Database Sync: ${new Date().toLocaleDateString()} | Active`;
+    
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 </script>
