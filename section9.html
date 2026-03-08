@@ -33,7 +33,7 @@
 
         select { 
             width: 100%; padding: 18px; border-radius: 20px; background: #161b22; color: #f0f6fc; 
-            border: 1px solid #30363d; font-size: 15px; outline: none; margin-top: 12px; appearance: none;
+            border: 1px solid #30363d; font-size: 14px; outline: none; margin-top: 12px;
         }
 
         .btn-balance { 
@@ -52,7 +52,7 @@
             border-left: 4px solid var(--neon);
         }
         .insight-text h3 { margin: 0 0 10px 0; font-size: 18px; color: #f0f6fc; }
-        .insight-text p { margin: 0; font-size: 13.5px; line-height: 1.8; color: #8b949e; }
+        .insight-text p { margin: 0; font-size: 13px; line-height: 1.8; color: #8b949e; }
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -63,7 +63,7 @@
     <div class="symmetry-header">
         <h1 style="margin:0; font-size: 22px;">SYMMETRY ENGINE</h1>
         <div class="axis-line"></div>
-        <p style="font-size: 10px; color: #8b949e;">Firebase Real-Time Balance Check: 2026-03-05</p>
+        <p style="font-size: 10px; color: #8b949e;">Mastering Planetary Polarities v10.0</p>
     </div>
 
     <div class="polar-card">
@@ -72,8 +72,10 @@
             <select id="aSelect">
                 <option value="1-7">1-7 Axis: Self vs Partners</option>
                 <option value="2-8">2-8 Axis: Family vs Secrets</option>
+                <option value="3-9">3-9 Axis: Efforts vs Wisdom</option>
                 <option value="4-10">4-10 Axis: Comfort vs Authority</option>
-                <option value="5-11">5-11 Axis: Talent vs Income</option>
+                <option value="5-11">5-11 Axis: Talent vs Gains</option>
+                <option value="6-12">6-12 Axis: Service vs Solitude</option>
             </select>
         </div>
 
@@ -92,18 +94,22 @@
             </div>
             
             <p style="text-align:center; font-size: 10px; color: #484f58; margin-top: 25px;">
-                Planetary Axis Analysis Saved to Profile [2026-02-17]
+                Axis Analysis Logged: 2026-03-08 | Firebase Ready
             </p>
         </div>
     </div>
 </div>
 
+
+
 <script>
 const axisDB = {
-    "1-7": { l: "1st (Self)", r: "7th (Other)", t: "The Identity Axis", d: "Aapka 'Astitva' (1) tab tak poora nahi hota jab tak aap 'Samaj' (7) se nahi milte. Ye axis sikhata hai ki bina doosron ke support ke, aapki apni personality adhuri hai. Balance is key." },
-    "2-8": { l: "2nd (Wealth)", r: "8th (Legacy)", t: "The Value Axis", d: "Ye axis 'Paisa' aur 'Death' ke beech ka balance hai. Jo aap kamate ho (2) aur jo aapko bina mehnat ke milta hai (8). Ye gehre raazo aur family legacy ko jorta hai." },
-    "4-10": { l: "4th (Roots)", r: "10th (Fruits)", t: "The Foundation Axis", d: "Bina mazboot jadh (4th - Home/Mother) ke, koi bhi ped unchai (10th - Career) tak nahi pahunch sakta. Ghar ka sukoon hi office ki success ka petrol hai." },
-    "5-11": { l: "5th (Creation)", r: "11th (Gains)", t: "The Reward Axis", d: "Aapka talent (5) tab tak bekar hai jab tak wo aapko network aur paisa (11) na de. Ye axis aapke shauk ko aapke business mein badalne ka rasta dikhati hai." }
+    "1-7": { l: "1st (Self)", r: "7th (Other)", t: "The Identity Axis", d: "Ye axis 'Main' aur 'Hum' ka hai. Bina dusro ke support ke aapka identity poora nahi hota. Ye axis relationships mein balance sikhata hai." },
+    "2-8": { l: "2nd (Wealth)", r: "8th (Legacy)", t: "The Value Axis", d: "Ye axis resources ka hai. 2nd ghar aapka kamaya hua dhan hai, toh 8th ghar doosron se mila hua (inheritance/secrets) dhan hai. Ye death aur rebirth ka axis bhi hai." },
+    "3-9": { l: "3rd (Skill)", r: "9th (Wisdom)", t: "The Learning Axis", d: "Ye information aur wisdom ka balance hai. 3rd ghar choti yatra aur mehnat hai, toh 9th ghar lambi yatra aur bhagya (luck) hai. Action + Belief = Success." },
+    "4-10": { l: "4th (Roots)", r: "10th (Fruits)", t: "The Foundation Axis", d: "Bina mazboot jadh (4th-Maa/Ghar) ke, koi bhi ped unchai (10th-Career) tak nahi ja sakta. Mental peace hi career success ka fuel hai." },
+    "5-11": { l: "5th (Creation)", r: "11th (Gains)", t: "The Reward Axis", d: "Aapka talent (5) tab tak bekar hai jab tak wo aapko network aur social gains (11) na de. Ye individual shakti ko mass reach se jodta hai." },
+    "6-12": { l: "6th (Duty)", r: "12th (Spirit)", t: "The Service Axis", d: "Duniya ki seva (6) aur khud ki khoj (12). Ye axis bimari aur kharche se ladne ke liye discipline aur spirituality ka balance sikhata hai." }
 };
 
 function alignAxis() {
