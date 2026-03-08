@@ -19,6 +19,7 @@
         .tag { white-space: nowrap; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; border: 1px solid rgba(255,255,255,0.1); }
         .tag.kendra { background: rgba(0, 255, 204, 0.1); color: var(--accent); }
         .tag.trikona { background: rgba(255, 215, 0, 0.1); color: var(--gold); }
+        .tag.dusthana { background: rgba(239, 68, 68, 0.1); color: var(--malefic); }
 
         .main-card { 
             background: var(--card); border-radius: 30px; padding: 25px; 
@@ -30,21 +31,22 @@
 
         select { 
             width: 100%; padding: 18px; border-radius: 20px; background: #1f2937; color: white; 
-            border: 1px solid #374151; font-size: 15px; outline: none; appearance: none;
+            border: 1px solid #374151; font-size: 15px; outline: none; cursor: pointer;
         }
 
         .btn-decode { 
             width: 100%; padding: 18px; border-radius: 20px; border: none; font-size: 14px; 
             font-weight: 700; cursor: pointer; background: var(--gold); color: #000; 
-            text-transform: uppercase; margin-top: 10px;
+            text-transform: uppercase; margin-top: 10px; transition: 0.3s;
         }
+        .btn-decode:hover { opacity: 0.9; transform: scale(0.98); }
 
         /* Logic Display */
         .logic-panel { margin-top: 25px; display: none; animation: slideUp 0.5s ease; }
         .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .stat-card { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 20px; text-align: center; }
-        .stat-card small { font-size: 10px; color: #9ca3af; display: block; }
-        .stat-card b { font-size: 14px; color: var(--gold); }
+        .stat-card { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .stat-card small { font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px; }
+        .stat-card b { font-size: 13px; color: var(--gold); }
 
         .deep-logic { 
             background: #1e293b; padding: 20px; border-radius: 22px; 
@@ -60,24 +62,31 @@
 
 <div class="container">
     <div class="class-header">
-        <div class="tag kendra">Kendra (Pillars)</div>
-        <div class="tag trikona">Trikona (Fortune)</div>
-        <div class="tag">Upachaya (Growth)</div>
-        <div class="tag">Dusthana (Challenge)</div>
+        <div class="tag kendra">Kendra (1,4,7,10)</div>
+        <div class="tag trikona">Trikona (1,5,9)</div>
+        <div class="tag">Upachaya (3,6,10,11)</div>
+        <div class="tag dusthana">Dusthana (6,8,12)</div>
     </div>
 
     <div class="main-card">
         <h2 style="margin:0; color:var(--gold);">House Intelligence</h2>
-        <p style="font-size: 12px; color:#9ca3af; margin-bottom: 25px;">Beyond the basics: Decoding the mechanical logic of Bhavas.</p>
+        <p style="font-size: 12px; color:#9ca3af; margin-bottom: 25px;">Decoding the mechanical logic of 12 Bhavas.</p>
 
         <div class="input-group">
             <label>Select House to Decode</label>
             <select id="houseSelect" onchange="resetView()">
-                <option value="1">1st House - Identity (Kendra/Trikona)</option>
-                <option value="5">5th House - Intelligence (Trikona)</option>
-                <option value="9">9th House - Fortune (Trikona)</option>
-                <option value="10">10th House - Karma (Kendra/Upachaya)</option>
-                <option value="11">11th House - Gains (Upachaya)</option>
+                <option value="1">1st House - Identity & Physicality</option>
+                <option value="2">2nd House - Wealth & Speech</option>
+                <option value="3">3rd House - Courage & Efforts</option>
+                <option value="4">4th House - Happiness & Mother</option>
+                <option value="5">5th House - Creativity & Intelligence</option>
+                <option value="6">6th House - Debt, Disease & Enemies</option>
+                <option value="7">7th House - Partnership & Marriage</option>
+                <option value="8">8th House - Longevity & Secrets</option>
+                <option value="9">9th House - Luck & Dharma</option>
+                <option value="10">10th House - Career & Status</option>
+                <option value="11">11th House - Gains & Ambitions</option>
+                <option value="12">12th House - Loss & Spirituality</option>
             </select>
         </div>
 
@@ -100,38 +109,22 @@
     </div>
 </div>
 
+
+
 <script>
 const advancedData = {
-    "1": {
-        cl: "Dharma Trikona", 
-        ka: "Sun (Surya)", 
-        title: "The Seed of Destiny", 
-        desc: "Ye ghar 'Self' aur 'Fortune' dono hai. Agar aapka 1st house strong hai, toh baki ke 11 gharon ka phal aapko asani se milta hai kyunki aapka 'Astitva' mazboot hai."
-    },
-    "5": {
-        cl: "Lakshmi Sthana", 
-        ka: "Jupiter (Guru)", 
-        title: "Future Projection", 
-        desc: "Ye 9th house se 9th ghar hai (Bhavat Bhavam). Iska matlab aapka 'Bhagya' kitna phal dega, wo aapki 'Buddhi' (5th house) tay karti hai."
-    },
-    "9": {
-        cl: "Highest Trikona", 
-        ka: "Jupiter / Sun", 
-        title: "Divine Protection", 
-        desc: "Ye sabse shubh ghar hai. Ye batata hai ki pichle janmo ka 'Credit' aapke is janam mein kitni madad karega. Ise 'Bhagya Sthana' kehte hain."
-    },
-    "10": {
-        cl: "Karma Kendra", 
-        ka: "Sun / Mercury", 
-        title: "The Mid-Heaven", 
-        desc: "Ye Upachaya ghar hai, yani waqt ke sath aapka career aur izzat badhti jayegi. Ye 7th house (Partnership) ki foundation par tika hota hai."
-    },
-    "11": {
-        cl: "Labha Sthana", 
-        ka: "Jupiter", 
-        title: "Growth Engine", 
-        desc: "Ye 6th house (Struggle) se 6th ghar hai. Iska matlab mushkilon se ladne ke baad jo 'Gains' milte hain, wo 11th house se aate hain."
-    }
+    "1": { cl: "Kendra & Trikona", ka: "Sun (Surya)", title: "The Seed of Life", desc: "Ye 'Tanubhav' hai. Iske bina baki 11 ghar be-maayani hain. Ye aapki physical strength aur 'Self-Will' ko represent karta hai." },
+    "2": { cl: "Dhana Sthana", ka: "Jupiter (Guru)", title: "Resources & Lineage", desc: "Sirf paisa nahi, ye 'Sanskar' aur 'Family Roots' ka ghar hai. Ye batata hai ki aapko virasat mein kya mila hai." },
+    "3": { cl: "Upachaya (Growth)", ka: "Mars (Mangal)", title: "The Power of Will", desc: "Communication aur chote bhai-behen ka ghar. Ye batata hai ki aap apni kismat badalne ke liye kitni mehnat karenge." },
+    "4": { cl: "Kendra (Pillar)", ka: "Moon (Chandra)", title: "Inner Peace", desc: "Ye 'Sukh Sthana' hai. Aapke ghar ki shanti, maa ka pyar aur mental stability isi ghar se dekhi jati hai." },
+    "5": { cl: "Trikona (Fortune)", ka: "Jupiter", title: "Creative Intelligence", desc: "9th house (Bhagya) ka 9th ghar. Ye aapke purva punya (past life credit) aur aapki intelligence ka balance hai." },
+    "6": { cl: "Dusthana / Upachaya", ka: "Mars / Saturn", title: "The Daily Battle", desc: "Ye service ka ghar hai. Mushkilein (Enemies/Debt) aayengi par ye ghar unhe jeetne ki shakti bhi deta hai." },
+    "7": { cl: "Kendra (Pillar)", ka: "Venus (Shukra)", title: "The Mirror", desc: "Aapke opposite jo hai—Life Partner ya Business Partner. Ye 'Social Image' aur public interaction ka point hai." },
+    "8": { cl: "Dusthana (Moksha)", ka: "Saturn", title: "Transformation", desc: "Death aur Rebirth ka ghar. Ye sudden events aur chhupe hue gyaan (occult) ka raaz rakhta hai." },
+    "9": { cl: "Highest Trikona", ka: "Jupiter / Sun", title: "Divine Grace", desc: "Sabse shubh ghar. Ye aapka Dharma, Guru aur pita ka gyaan hai. Ye batata hai ki kismat kab saath degi." },
+    "10": { cl: "Kendra / Upachaya", ka: "Sun / Mercury", title: "Social Identity", desc: "Aapka career aur karma. Duniya aapko kis naam se jaanti hai, wo isi unchai (Mid-heaven) se tay hota hai." },
+    "11": { cl: "Upachaya (Gains)", ka: "Jupiter", title: "Fulfilment of Desires", desc: "Har tarah ka profit—paisa ho ya social circle. 6th (Struggle) se 6th hone ki wajah se ye victory ke baad ka 'Gain' hai." },
+    "12": { cl: "Dusthana / Moksha", ka: "Saturn / Ketu", title: "Final Liberation", desc: "Kharcha, videsh yatra aur moksha. Ye 'Self' ke khatm hone aur universe se judne ka point hai." }
 };
 
 function decodeHouse() {
@@ -152,8 +145,8 @@ function resetView() {
 }
 
 function finalize() {
-    console.log("Firebase Sync: Advanced Bhava Metrics Stored [2026-02-17]");
-    alert("Data Synced! Aapne Astro Academy ka Basic Course pura kar liya hai. Ab aap apni Kundli decode karne ke liye taiyar hain.");
+    console.log("Firebase Sync: Full 12 Bhava Architecture Stored [2026-03-08]");
+    alert("Full Architecture Synced! Aapne 12 Bhavon ka gyaan prapt kar liya hai. Ab aap Kundli analysis ke liye puri tarah taiyar hain.");
 }
 </script>
 </body>
