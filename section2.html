@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astro Academy v4.0</title>
+    <title>Astro Academy v4.0 - All Signs</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -14,11 +14,9 @@
         body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 480px; }
         
-        /* Version Header */
         .v-header { display: flex; justify-content: space-between; font-size: 10px; font-weight: 700; color: #8b949e; letter-spacing: 2px; margin-bottom: 20px; }
-        .badge { background: rgba(88, 166, 255, 0.1); color: var(--accent); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--accent); }
+        .badge { background: rgba(88, 166, 255, 0.1); color: var(--accent); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--accent); transition: 0.3s; }
 
-        /* The Quantum Card */
         .q-card { 
             background: var(--card); border-radius: 30px; padding: 25px; 
             border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.7);
@@ -30,7 +28,7 @@
 
         select { 
             width: 100%; padding: 14px; border-radius: 12px; background: #0d1117; color: white; 
-            border: 1px solid #30363d; font-size: 15px; outline: none;
+            border: 1px solid #30363d; font-size: 15px; outline: none; cursor: pointer;
         }
 
         .btn-decode { 
@@ -40,13 +38,12 @@
         }
         .btn-decode:active { transform: scale(0.97); }
 
-        /* Multi-Stage Result Panel */
         .meta-panel { margin-top: 30px; display: none; }
         
         .prop-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .prop-item { background: #161b22; padding: 12px; border-radius: 15px; text-align: center; border: 1px solid #30363d; }
         .prop-item span { display: block; font-size: 9px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px; }
-        .prop-item b { font-size: 12px; color: var(--accent); }
+        .prop-item b { font-size: 11px; color: var(--accent); }
 
         .analysis-box { 
             background: rgba(255,255,255,0.02); padding: 20px; border-radius: 22px; 
@@ -61,7 +58,7 @@
 <body>
 
 <div class="container">
-    <div class="v-header"><span>ASTRO-OS v4.0</span> <span class="badge">LOGIC CORE</span></div>
+    <div class="v-header"><span>ASTRO-OS v4.0</span> <span class="badge" id="statusBadge">LOGIC CORE</span></div>
 
     <div class="q-card" id="main-frame">
         <h2 style="margin:0 0 5px 0; color:#fff;">Rashi Blueprint</h2>
@@ -76,6 +73,12 @@
                 <option value="Cancer" data-e="Water" data-m="Moveable" data-p="Feminine">Cancer (Karka) ♋</option>
                 <option value="Leo" data-e="Fire" data-m="Fixed" data-p="Masculine">Leo (Simha) ♌</option>
                 <option value="Virgo" data-e="Earth" data-m="Dual" data-p="Feminine">Virgo (Kanya) ♍</option>
+                <option value="Libra" data-e="Air" data-m="Moveable" data-p="Masculine">Libra (Tula) ♎</option>
+                <option value="Scorpio" data-e="Water" data-m="Fixed" data-p="Feminine">Scorpio (Vrishchik) ♏</option>
+                <option value="Sagittarius" data-e="Fire" data-m="Dual" data-p="Masculine">Sagittarius (Dhanu) ♐</option>
+                <option value="Capricorn" data-e="Earth" data-m="Moveable" data-p="Feminine">Capricorn (Makar) ♑</option>
+                <option value="Aquarius" data-e="Air" data-m="Fixed" data-p="Masculine">Aquarius (Kumbh) ♒</option>
+                <option value="Pisces" data-e="Water" data-m="Dual" data-p="Feminine">Pisces (Meen) ♓</option>
             </select>
         </div>
         
@@ -103,7 +106,13 @@ const behaviorDB = {
     "Gemini": "Air + Dual: Ye ek 'Breeze' ki tarah hai jo har direction mein mud sakti hai. Information gather karna inka DNA hai.",
     "Cancer": "Water + Moveable: Ye 'River' ki tarah hai. Emotions ka flow hamesha move karta rehta hai, par rasta nahi badalta.",
     "Leo": "Fire + Fixed: Ye ek 'Burning Lamp' ki tarah hai. Consistent energy aur authority. Inka glow kabhi kam nahi hota.",
-    "Virgo": "Earth + Dual: Ye 'Productive Soil' ki tarah hai. Har cheez ko analyze karke usse useful banana inki takat hai."
+    "Virgo": "Earth + Dual: Ye 'Productive Soil' ki tarah hai. Har cheez ko analyze karke usse useful banana inki takat hai.",
+    "Libra": "Air + Moveable: Ye 'Spring Breeze' ki tarah hai. Balance aur harmony create karna inka mission hai, social connections inki oxygen hai.",
+    "Scorpio": "Water + Fixed: Ye 'Deep Ocean' ki tarah hai. Surface par shant par andar intense power aur secrets base hote hain.",
+    "Sagittarius": "Fire + Dual: Ye 'Guiding Torch' ki tarah hai. Gyaan ki khoj aur adventure inka fuel hai, ye kabhi ek jagah ruk nahi sakte.",
+    "Capricorn": "Earth + Moveable: Ye 'Mountain Climber' ki tarah hai. Long-term goals aur discipline se ye sabse unchi choti tak pahunche hain.",
+    "Aquarius": "Air + Fixed: Ye 'Atmospheric Pressure' ki tarah hai. Inke thoughts unique hote hain aur ye apne asoolon par pakke rehte hain.",
+    "Pisces": "Water + Dual: Ye 'Fog' ya 'Mist' ki tarah hai. Borderless imagination aur empathy. Ye reality aur dreams ke beech bridge hain."
 };
 
 function decodeRashi() {
@@ -111,16 +120,26 @@ function decodeRashi() {
     const val = sel.value;
     const opt = sel.options[sel.selectedIndex];
     
-    document.getElementById("elText").innerText = opt.getAttribute('data-e');
+    const element = opt.getAttribute('data-e');
+    document.getElementById("elText").innerText = element;
     document.getElementById("moText").innerText = opt.getAttribute('data-m');
     document.getElementById("poText").innerText = opt.getAttribute('data-p');
     document.getElementById("logicText").innerText = behaviorDB[val];
     
     document.getElementById("metaPanel").style.display = "block";
     
-    // UI Color Sync
-    const elementColors = { Fire: "#ff7b72", Earth: "#d29922", Air: "#58a6ff", Water: "#a5d6ff" };
-    document.documentElement.style.setProperty('--accent', elementColors[opt.getAttribute('data-e')]);
+    // Dynamic UI Updates
+    const elementColors = { 
+        Fire: "#ff7b72", 
+        Earth: "#d29922", 
+        Air: "#58a6ff", 
+        Water: "#a5d6ff" 
+    };
+    
+    const currentColor = elementColors[element];
+    document.documentElement.style.setProperty('--accent', currentColor);
+    document.getElementById("statusBadge").style.borderColor = currentColor;
+    document.getElementById("statusBadge").style.color = currentColor;
 }
 </script>
 </body>
