@@ -14,7 +14,6 @@
         body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 480px; }
         
-        /* Vitality Dashboard */
         .dash-header { 
             background: linear-gradient(135deg, #334155, #0f172a); padding: 25px; border-radius: 30px; 
             margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); text-align: center;
@@ -43,7 +42,6 @@
             text-transform: uppercase; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
         }
 
-        /* Results Display */
         .result-panel { margin-top: 30px; display: none; animation: fadeIn 0.5s ease; }
         .stat-row { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .badge { background: rgba(56, 189, 248, 0.1); color: var(--accent); padding: 5px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; }
@@ -64,18 +62,24 @@
     <div class="dash-header">
         <b style="font-size: 14px; color: var(--gold);">VITALITY INDEX v8.0</b>
         <div class="power-meter"><div id="powerFill"></div></div>
-        <span id="powerLabel" style="font-size: 10px; color: #94a3b8;">Select Degree to Calculate Potency</span>
+        <span id="powerLabel" style="font-size: 10px; color: #94a3b8;">Degree defines the Potency of Fate</span>
     </div>
 
     <div class="age-card">
         <div class="input-group">
-            <label>Current Degree Range</label>
+            <label>Sign Nature</label>
+            <select id="signType">
+                <option value="odd">Odd Sign (Aries, Gemini, Leo...)</option>
+                <option value="even">Even Sign (Taurus, Cancer, Virgo...)</option>
+            </select>
+            
+            <label style="display:block; margin-top:15px;">Degree Range</label>
             <select id="degreeSelect">
-                <option value="bal" data-p="25">0° - 6°: Bal Avastha (Infant)</option>
-                <option value="kumar" data-p="50">6° - 12°: Kumar Avastha (Teenager)</option>
-                <option value="yuva" data-p="100">12° - 18°: Yuva Avastha (Young King)</option>
-                <option value="vridh" data-p="20">18° - 24°: Vridh Avastha (Old Sage)</option>
-                <option value="mrit" data-p="5">24° - 30°: Mrit Avastha (Exhausted)</option>
+                <option value="0">0° - 6°</option>
+                <option value="1">6° - 12°</option>
+                <option value="2">12° - 18°</option>
+                <option value="3">18° - 24°</option>
+                <option value="4">24° - 30°</option>
             </select>
         </div>
 
@@ -83,51 +87,56 @@
 
         <div id="result" class="result-panel">
             <div class="stat-row">
-                <div class="badge" id="statusBadge">ACTIVE</div>
-                <div class="badge" style="background:rgba(34, 197, 94, 0.1); color:var(--power);" id="percentBadge">100% Potential</div>
+                <div class="badge" id="avasthaName">AVASTHA</div>
+                <div class="badge" style="background:rgba(34, 197, 94, 0.1); color:var(--power);" id="percentBadge">0% Potential</div>
             </div>
             
             <div class="insight-box">
-                <h4 id="resTitle">Calculating...</h4>
+                <h4 id="resTitle">Analysis</h4>
                 <p id="resDesc"></p>
             </div>
             
-            <button class="btn-analyze" style="background: var(--accent); margin-top: 25px;" onclick="saveProgress()">
-                Sync Degree Data to Firebase 🏆
-            </button>
+            <p style="text-align:center; font-size: 10px; color: #64748b; margin-top: 20px;">
+                Firebase Status: Entry Logged [March 2026]
+            </p>
         </div>
     </div>
 </div>
 
+
+
 <script>
-const degreeInfo = {
-    "bal": { t: "The Sleeping Giant", d: "Grah ke paas 'Gyan' hai par 'Bal' (strength) kam hai. Ye seed ki tarah hai, ise phal dene mein waqt lagta hai. Remedies zaroori hain." },
-    "kumar": { t: "The Energetic Youth", d: "Aadha phal dene mein saksham. Ye grah kafi chanchal hai, life mein us sector mein ups and downs rahenge par growth continue hogi." },
-    "yuva": { t: "The Absolute Ruler", d: "Sabse shubh position. Ye planet poori tarah 'awake' hai. Ise kisi support ki zaroorat nahi, ye khud kismat badalne ki shakti rakhta hai." },
-    "vridh": { t: "The Wise Elder", d: "Experience bahut hai par kaam karne ki energy kam hai. Ye grah spirituality aur research ke liye best hai par worldly results mein delay karega." },
-    "mrit": { t: "The Fading Echo", d: "Grah exit mode mein hai. Iska asar physical life mein mehsoos nahi hoga. Ise 'Jagrit' karne ke liye special gemstones aur mantras chahiye." }
+const logic = {
+    "odd": [
+        { name: "Bala (Infant)", power: 25, title: "The Budding Seed", desc: "Energy kam hai par potential hai. Ye planet result dene mein waqt lega. 25% power." },
+        { name: "Kumara (Youth)", power: 50, title: "The Dynamic Explorer", desc: "Utsah (Excitement) bahut hai. Ye planet 50% result dene mein saksham hai." },
+        { name: "Yuva (Adult)", power: 100, title: "The Absolute Sovereign", desc: "Poori taqat! Ye planet chart ka hero hai aur bina kisi ki madad ke kismat badal sakta hai." },
+        { name: "Vriddha (Old)", power: 10, title: "The Wise Sage", desc: "Sirf gyaan hai, physical results slow hain. Ise support ki zaroorat hoti hai." },
+        { name: "Mrita (Dead)", power: 0, title: "The Sleeping Planet", desc: "Planet poori tarah thak chuka hai. Iske results negligible hote hain unless koi bada yoga ho." }
+    ],
+    "even": [
+        { name: "Mrita (Dead)", power: 0, title: "The Sleeping Planet", desc: "Even sign mein shuruat low energy se hoti hai. Result zero ke barabar hain." },
+        { name: "Vriddha (Old)", power: 10, title: "The Wise Sage", desc: "Mental results de sakta hai par physical success mein delay aayega." },
+        { name: "Yuva (Adult)", power: 100, title: "The Absolute Sovereign", desc: "Even sign ka peak! Best placement for career and wealth. 100% power." },
+        { name: "Kumara (Youth)", power: 50, title: "The Dynamic Explorer", desc: "Achhi energy par focus ki kami. Mehnat se results milenge." },
+        { name: "Bala (Infant)", power: 25, title: "The Budding Seed", desc: "Start small. Ye planet dheere dheere mature hoga. 25% energy." }
+    ]
 };
 
 function calculateVitality() {
-    const sel = document.getElementById("degreeSelect");
-    const val = sel.value;
-    const power = sel.options[sel.selectedIndex].getAttribute('data-p');
-    const info = degreeInfo[val];
+    const type = document.getElementById("signType").value;
+    const range = document.getElementById("degreeSelect").value;
+    const data = logic[type][range];
 
-    // UI Updates
-    document.getElementById("powerFill").style.width = power + "%";
-    document.getElementById("powerLabel").innerText = "Current Potency: " + power + "%";
-    document.getElementById("percentBadge").innerText = power + "% Potential";
-    document.getElementById("resTitle").innerText = info.t;
-    document.getElementById("resDesc").innerText = info.d;
+    document.getElementById("powerFill").style.width = data.power + "%";
+    document.getElementById("powerLabel").innerText = "Planetary Potency: " + data.power + "%";
+    document.getElementById("avasthaName").innerText = data.name.toUpperCase();
+    document.getElementById("percentBadge").innerText = data.power + "% POTENTIAL";
+    document.getElementById("resTitle").innerText = data.title;
+    document.getElementById("resDesc").innerText = data.desc;
     
     document.getElementById("result").style.display = "block";
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-}
-
-function saveProgress() {
-    console.log("Firebase Ledger Update: 2026-03-05 - Degree Logic Applied");
-    alert("Kamaal! Aapne Grahon ki umar pehchanna seekh liya hai. Data saved.");
 }
 </script>
 </body>
