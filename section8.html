@@ -14,11 +14,9 @@
         body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 480px; }
         
-        /* Quantum Header */
         .varga-header { 
             background: linear-gradient(135deg, #0f172a, #1e293b); padding: 30px; border-radius: 35px; 
             margin-bottom: 25px; border: 1px solid rgba(0, 255, 204, 0.2); text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .varga-header h1 { font-size: 20px; color: var(--accent); margin: 0; text-transform: uppercase; letter-spacing: 2px; }
 
@@ -32,7 +30,7 @@
 
         select { 
             width: 100%; padding: 18px; border-radius: 20px; background: #0f172a; color: white; 
-            border: 1px solid #334155; font-size: 15px; outline: none; margin-top: 10px;
+            border: 1px solid #334155; font-size: 14px; outline: none; margin-top: 10px; cursor: pointer;
         }
 
         .btn-zoom { 
@@ -40,9 +38,7 @@
             font-weight: 700; cursor: pointer; background: var(--gold); color: #000; 
             text-transform: uppercase; transition: 0.3s;
         }
-        .btn-zoom:hover { transform: scale(1.03); filter: brightness(1.1); }
 
-        /* Varga Results */
         .varga-panel { margin-top: 35px; display: none; animation: quantumFade 0.6s ease; }
         .varga-meta { display: flex; justify-content: space-between; margin-bottom: 15px; }
         .v-tag { font-size: 10px; font-weight: 700; background: rgba(0, 255, 204, 0.1); color: var(--accent); padding: 4px 10px; border-radius: 8px; border: 1px solid var(--accent); }
@@ -52,7 +48,7 @@
             border-bottom: 4px solid var(--gold);
         }
         .varga-insight h3 { margin: 0 0 10px 0; color: var(--gold); font-size: 18px; }
-        .varga-insight p { margin: 0; font-size: 13.5px; line-height: 1.7; color: #cbd5e1; }
+        .varga-insight p { margin: 0; font-size: 13px; line-height: 1.7; color: #cbd5e1; }
 
         @keyframes quantumFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -62,26 +58,44 @@
 <div class="container">
     <div class="varga-header">
         <h1>Quantum Varga Lens</h1>
-        <p style="font-size: 10px; color: #64748b; margin-top: 8px;">Firebase Sync: High-Res Analysis [2026-03-05]</p>
+        <p style="font-size: 10px; color: #64748b; margin-top: 8px;">Microscopic Analysis v9.0 [2026-03-08]</p>
     </div>
 
     <div class="lens-card">
         <div class="select-wrapper">
             <label>Select Divisional Layer</label>
             <select id="vSelect" onchange="hideResult()">
-                <option value="d1">D1: The Body (Physical Manifestation)</option>
-                <option value="d9">D9: The Soul (Navamsha / Strength)</option>
-                <option value="d10">D10: The Career (Dashamsha / Success)</option>
-                <option value="d60">D60: The Karma (Past Life Verdict)</option>
+                <optgroup label="General Layers (Sthula)">
+                    <option value="d1">D1: Rashi (Physical Appearance)</option>
+                    <option value="d2">D2: Hora (Wealth & Family)</option>
+                    <option value="d3">D3: Drekkana (Sibilings & Courage)</option>
+                </optgroup>
+                <optgroup label="Specific Success (Sukshma)">
+                    <option value="d4">D4: Chaturthamsa (Property & Luck)</option>
+                    <option value="d7">D7: Saptamsa (Progeny/Children)</option>
+                    <option value="d9">D9: Navamsha (Soul/Spouse/Strength)</option>
+                    <option value="d10">D10: Dashamsha (Career & Status)</option>
+                    <option value="d12">D12: Dwadashamsa (Parents/Ancestors)</option>
+                </optgroup>
+                <optgroup label="Destiny & Karma (Karana)">
+                    <option value="d16">D16: Shodashamsa (Vehicles & Luxuries)</option>
+                    <option value="d20">D20: Vimshamsa (Spirituality/Upasana)</option>
+                    <option value="d24">D24: Chaturvimshamsa (Education/Gyan)</option>
+                    <option value="d27">D27: Bhamsa (Physical Strength)</option>
+                    <option value="d30">D30: Trimshamsa (Misfortunes/Evil)</option>
+                    <option value="d40">D40: Khavedamsa (Auspicious Effects)</option>
+                    <option value="d45">D45: Akshavedamsa (All General Matters)</option>
+                    <option value="d60">D60: Shashtyamsa (Past Life Karma)</option>
+                </optgroup>
             </select>
         </div>
 
-        <button class="btn-zoom" onclick="revealVarga()">Reveal Secret Layer 🔍</button>
+        <button class="btn-zoom" onclick="revealVarga()">Scan Divisional Data 🔍</button>
 
         <div id="result" class="varga-panel">
             <div class="varga-meta">
                 <div class="v-tag" id="vType">LAYER: D1</div>
-                <div class="v-tag" style="border-color:var(--gold); color:var(--gold);">HI-RES SCAN</div>
+                <div class="v-tag" style="border-color:var(--gold); color:var(--gold);">DEEP SCAN</div>
             </div>
             
             <div class="varga-insight">
@@ -96,12 +110,26 @@
     </div>
 </div>
 
+
+
 <script>
 const vargaDB = {
-    "d1": { t: "The Physical Shell", type: "PHYSICAL", desc: "Ye aapka main blueprint hai. Duniya ko aap kaise dikhte hain aur aap kya achieve karenge, ye D1 tay karta hai. Par ye sirf 50% sachayi hai." },
-    "d9": { t: "The Soul's Potency", type: "INTERNAL", desc: "Vedic Astrology ka sabse imp chart. Agar koi planet D1 mein weak hai par D9 mein strong, toh wo end mein aapko success zaroori dilayega. Ise 'Real Strength' kehte hain." },
-    "d10": { t: "The Throne of Karma", type: "PROFESSIONAL", desc: "Sirf career ke liye. Career mein fame, authority aur power milegi ya nahi, ye D10 se confirm hota hai. Ye aapke 'Action' ka fal hai." },
-    "d60": { t: "The Universal Ledger", type: "KARMIC", desc: "Ye sabse accurate chart hai. Maharishi Parashar ke mutabiq, ye chart batata hai ki aapne pichle janmo mein kya kiya hai aur is janam mein aapka destiny backup kitna hai." }
+    "d1": { t: "The Physical Manifestation", desc: "Aapka poora astitva (existence). Jo bhi duniya mein physical roop mein dikhta hai, wo D1 se shuru hota hai. Ye kundli ka foundation hai." },
+    "d2": { t: "The Vault of Wealth", desc: "Sirf paisa nahi, Hora chart aapki family aur assets ki continuity batata hai. Ye Surya aur Chandra ki energy ka balance hai." },
+    "d3": { t: "The Sword of Courage", desc: "Sibilings ke sath rishta aur aapka darr se ladne ka jazba. Ye aapke 'Action' aur initiative ko represent karta hai." },
+    "d4": { t: "The Foundation of Luck", desc: "Bhagya (Fortune) aur Real Estate. Aapke paas kitni zameen aur sukh-suvidhaein hongi, wo is 4th division se dekha jata hai." },
+    "d7": { t: "The Fruits of Lineage", desc: "Children aur grandchildren. Aapki legacy aage kaise badhegi aur aapki creative output kya hogi, ye D7 batata hai." },
+    "d9": { t: "The Fruit of the Tree", desc: "Sabse zaroori chart. Navamsha batata hai ki D1 mein jo promise hai, kya wo sach mein milega? Ye soul ki strength aur marriage ka aaina hai." },
+    "d10": { t: "The Peak of Karma", desc: "Professional success, career growth aur leadership. Kya aap duniya par raj karenge ya service karenge, D10 se confirm hota." },
+    "d12": { t: "The Ancestral Link", desc: "Aapke parents aur forefathers ka asar. Hereditary blessings aur genetic potential isi chart se decode hote hain." },
+    "d16": { t: "The Joy of Vahana", desc: "Vehicles, comforts aur inner happiness. Kya aapko worldly luxuries ka sukh milega? Ye D16 ka domain hai." },
+    "d20": { t: "The Spiritual Ascent", desc: "Pooja, Upasana aur meditation. Aapka bhagwan se connection kitna gehra hai aur spiritual progress kaisi hogi." },
+    "d24": { t: "The Light of Knowledge", desc: "Deep study aur learning. Higher education, research aur wisdom ki gehrayi D24 se maapi jati hai." },
+    "d27": { t: "The Inner Strength", desc: "Nakshatra-based division. Ye aapki mental toughness aur physical vitality ko micro-level par analyze karta hai." },
+    "d30": { t: "The Shadow Layer", desc: "Khatre (Risks) aur misfortunes. Ise bad habits aur obstacles ko pehchanne ke liye use kiya jata hai." },
+    "d40": { t: "The Auspicious Grace", desc: "Divine protection. Ye chart batata hai ki mushkil waqt mein kaunsi 'Unknown Power' aapko bachayegi." },
+    "d45": { t: "The Character Core", desc: "Aapka asli swabhav (Character). Ye insaan ke morals aur ethical strength ka final test hota hai." },
+    "d60": { t: "The Final Verdict", desc: "Maharishi Parashar ke mutabiq D1 se bhi zyada important. Ye batata hai ki aap pichle janmo ka kitna 'Karmic Debt' lekar aaye hain." }
 };
 
 function revealVarga() {
@@ -121,8 +149,7 @@ function hideResult() {
 }
 
 function finalizeSync() {
-    console.log("Firebase Ledger Update [2026-03-05]: Varga Analysis Mastered.");
-    alert("Shabash! Aapne Varga charts ki complexity ko samajh liya hai. Final Course Data saved.");
+    alert("Varga Quantum Data Synced! Aapne Vedic Astrology ka sabse advanced module master kar liya hai.");
 }
 </script>
 </body>
