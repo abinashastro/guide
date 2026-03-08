@@ -8,7 +8,7 @@
     <style>
         :root { 
             --gold: #ffd700; --bg: #0a0a0c; --card: #16161d; 
-            --text: #e2e8f0; --accent: #f43f5e; --yoga: #38bdf8;
+            --text: #e2e8f0; --accent: #f43f5e; --yoga: #38bdf8; --warning: #fb923c;
         }
         
         body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; }
@@ -16,7 +16,6 @@
         
         .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 11px; color: #64748b; letter-spacing: 1px; }
 
-        /* The Alchemy Card */
         .alchemy-card { 
             background: var(--card); border-radius: 35px; padding: 30px; 
             border: 1px solid rgba(244, 63, 94, 0.2); box-shadow: 0 30px 60px rgba(0,0,0,0.8);
@@ -24,30 +23,31 @@
         }
 
         .vs-container { display: flex; justify-content: space-around; align-items: center; margin-bottom: 25px; background: #000; padding: 20px; border-radius: 25px; border: 1px solid #27272a; }
-        .p-icon { font-size: 32px; filter: drop-shadow(0 0 10px var(--gold)); }
+        .p-icon { font-size: 32px; filter: drop-shadow(0 0 10px var(--gold)); transition: 0.5s; }
         .vs-text { font-style: italic; font-weight: 800; color: var(--accent); font-size: 18px; }
 
         select { 
             width: 100%; padding: 18px; border-radius: 20px; background: #27272a; color: white; 
-            border: 1px solid #3f3f46; font-size: 15px; outline: none; margin-bottom: 20px;
+            border: 1px solid #3f3f46; font-size: 14px; outline: none; margin-bottom: 20px; cursor: pointer;
         }
 
         .btn-fuse { 
             width: 100%; padding: 20px; border-radius: 20px; border: none; font-size: 14px; 
             font-weight: 700; cursor: pointer; background: linear-gradient(90deg, var(--gold), #fbbf24); 
-            color: #000; text-transform: uppercase; letter-spacing: 1px;
+            color: #000; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
         }
+        .btn-fuse:active { transform: scale(0.96); }
 
         /* Result Panel */
         .yoga-panel { margin-top: 30px; display: none; animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         
-        .yoga-type { background: rgba(56, 189, 248, 0.1); color: var(--yoga); padding: 8px 15px; border-radius: 12px; font-size: 10px; font-weight: 700; display: inline-block; margin-bottom: 15px; border: 1px solid var(--yoga); }
+        .yoga-type { background: rgba(56, 189, 248, 0.1); color: var(--yoga); padding: 8px 15px; border-radius: 12px; font-size: 10px; font-weight: 700; display: inline-block; margin-bottom: 15px; border: 1px solid var(--yoga); text-transform: uppercase; }
 
         .impact-box { 
-            background: rgba(255,255,255,0.03); padding: 20px; border-radius: 25px; 
-            border-bottom: 4px solid var(--gold);
+            background: rgba(255,255,255,0.03); padding: 25px; border-radius: 25px; 
+            border-bottom: 4px solid var(--gold); border-top: 1px solid rgba(255,255,255,0.05);
         }
-        .impact-box h3 { margin: 0 0 10px 0; font-size: 18px; color: var(--gold); }
+        .impact-box h3 { margin: 0 0 10px 0; font-size: 20px; color: var(--gold); }
         .impact-box p { margin: 0; font-size: 14px; line-height: 1.7; color: #94a3b8; }
 
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
@@ -62,14 +62,26 @@
         <div class="vs-container">
             <span id="p1" class="p-icon">☀️</span>
             <span class="vs-text">VS</span>
-            <span id="p2" class="p-icon">🌑</span>
+            <span id="p2" class="p-icon">☿️</span>
         </div>
 
         <select id="yogaSelect" onchange="updateIcons()">
-            <option value="sun_mercury" data-p1="☀️" data-p2="☿️">Sun + Mercury (Intelligence)</option>
-            <option value="moon_jupiter" data-p1="🌙" data-p2="♃">Moon + Jupiter (Fortune)</option>
-            <option value="saturn_rahu" data-p1="🪐" data-p2="🐲">Saturn + Rahu (Chaos)</option>
-            <option value="mars_venus" data-p1="♂️" data-p2="♀️">Mars + Venus (Passion)</option>
+            <optgroup label="Auspicious Yogas (Positive)">
+                <option value="sun_mercury" data-p1="☀️" data-p2="☿️">Sun + Mercury (Intelligence)</option>
+                <option value="moon_jupiter" data-p1="🌙" data-p2="♃">Moon + Jupiter (Fortune)</option>
+                <option value="mars_jupiter" data-p1="♂️" data-p2="♃">Mars + Jupiter (Power)</option>
+                <option value="mercury_venus" data-p1="☿️" data-p2="♀️">Mercury + Venus (Artistic)</option>
+                <option value="jupiter_venus" data-p1="♃" data-p2="♀️">Jupiter + Venus (Wisdom)</option>
+            </optgroup>
+            <optgroup label="Intense/Challenge Yogas">
+                <option value="saturn_rahu" data-p1="🪐" data-p2="🐲">Saturn + Rahu (The Curse)</option>
+                <option value="sun_saturn" data-p1="☀️" data-p2="🪐">Sun + Saturn (Conflict)</option>
+                <option value="moon_saturn" data-p1="🌙" data-p2="🪐">Moon + Saturn (Detachment)</option>
+                <option value="mars_saturn" data-p1="♂️" data-p2="🪐">Mars + Saturn (Volcano)</option>
+                <option value="mars_rahu" data-p1="♂️" data-p2="🐲">Mars + Rahu (Anger)</option>
+                <option value="moon_ketu" data-p1="🌙" data-p2="✂️">Moon + Ketu (Intuition)</option>
+                <option value="jupiter_rahu" data-p1="♃" data-p2="🐲">Jupiter + Rahu (Outcast)</option>
+            </optgroup>
         </select>
 
         <button class="btn-fuse" onclick="fusePlanets()">Fuse Energies ⚡</button>
@@ -80,17 +92,25 @@
                 <h3 id="yTitle">Yoga Resultant</h3>
                 <p id="yDesc"></p>
             </div>
-            <p style="font-size: 10px; color: #64748b; margin-top: 15px; text-align: center;">Firebase Sync: Status Active [2026-03-05]</p>
+            <p style="font-size: 10px; color: #64748b; margin-top: 15px; text-align: center;">Firebase Sync: Active [2026-03-08]</p>
         </div>
     </div>
 </div>
 
 <script>
 const yogaDB = {
-    "sun_mercury": { t: "Budh-Aditya", type: "Raja Yoga (Success)", desc: "Jab Surya ki power aur Budh ka logic milte hain, toh dimaag computer ki tarah chalta hai. Aap mushkil se mushkil business deal seconds mein solve kar sakte hain." },
-    "moon_jupiter": { t: "Gaj-Kesari", type: "Dhana Yoga (Wealth)", desc: "Ye haathi aur sher ki jodi hai. Aapka mann shant rehta hai aur aapki kismat aapko hamesha amiri aur izzat ki taraf dhakelti hai." },
-    "saturn_rahu": { t: "Shrapit Yoga", type: "Karmic Yoga (Trial)", desc: "Ye 'Wild Energy' hai. Aapko life mein sab kuch late milega, par jab milega toh wo itna bada hoga ki duniya dekhti reh jayegi. Resilience is your key." },
-    "mars_venus": { t: "Passion Union", type: "Kama Yoga (Desire)", desc: "Energy aur Beauty ka milap. Aap jo bhi creative kaam karenge usme log aapke deewane ho jayenge. Par isme gussa control karna zaroori hai." }
+    "sun_mercury": { t: "Budh-Aditya Yoga", type: "Raja Yoga", desc: "Intelligence aur Wealth ka fusion. Ye yoga aapko sharp business mind aur societal status deta hai. Aap ek natural problem solver hain." },
+    "moon_jupiter": { t: "Gaj-Kesari Yoga", type: "Dhana Yoga", desc: "Abundance aur Wisdom ka milan. Aapke paas resources ki kami nahi hogi aur log aapki salah (advice) ki izzat karenge." },
+    "mars_jupiter": { t: "Guru-Mangal Yoga", type: "Shakti Yoga", desc: "Ye energy ko sahi direction deta hai. Aap ek fearless leader ban sakte hain jo dharm aur nyay ke liye ladta hai." },
+    "mercury_venus": { t: "Lakshmi-Narayan Yoga", type: "Artistic Yoga", desc: "Aapki baaton mein jaadu hai. Communication, music ya arts mein aap bahut unchai tak ja sakte hain." },
+    "jupiter_venus": { t: "Dwi-Guru Yoga", type: "Knowledge Yoga", desc: "Do mahan gurus ka milan. Aapke paas deep spiritual aur worldly knowledge hogi. Aap logo ke liye guide banenge." },
+    "saturn_rahu": { t: "Shrapit Yoga", type: "Karmic Dosha", desc: "Life mein sudden obstacles aur delay. Ye aapko patience sikhane aata hai. Iska fruit late par bahut bada milta hai." },
+    "sun_saturn": { t: "Pita-Putra Sangharsh", type: "Ego Trial", desc: "Authority ke saath clash. Ye aapko discipline sikhata hai. Struggles ke baad hi aap asli authority figure bante hain." },
+    "moon_saturn": { t: "Visha Yoga", type: "Mental Discipline", desc: "Mann mein udasi ya akelapan. Par yehi yoga aapko meditation aur deep focus mein genius bana sakta hai." },
+    "mars_saturn": { t: "Agni-Marut Yoga", type: "Explosive Energy", desc: "Ye ek jwala-mukhi ki tarah hai. Agar control kiya toh bade constructions aur technical feats, nahi toh accident-prone energy." },
+    "mars_rahu": { t: "Angarak Yoga", type: "Intensity Dosha", desc: "Hyper-aggression aur impulsiveness. Aapki energy ko sports ya physical work mein channel karna bahut zaroori hai." },
+    "moon_ketu": { t: "Grahan Yoga", type: "Psychic Union", desc: "Duniya se cut-off mehsoos karna. Par ye yoga spiritual insights aur intuition ke liye best mana jata hai." },
+    "jupiter_rahu": { t: "Guru-Chandal Yoga", type: "Rebel Logic", desc: "Traditional beliefs ko challenge karna. Aap purani paramparaon ko tod kar naya system banane ki kshamta rakhte hain." }
 };
 
 function updateIcons() {
@@ -108,6 +128,10 @@ function fusePlanets() {
     document.getElementById("yType").innerText = data.type;
     document.getElementById("yTitle").innerText = data.t;
     document.getElementById("yDesc").innerText = data.desc;
+    
+    // Theme color switch based on type
+    const color = data.type.includes("Dosha") || data.type.includes("Trial") ? "#fb923c" : "#38bdf8";
+    document.documentElement.style.setProperty('--yoga', color);
     
     document.getElementById("result").style.display = "block";
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
