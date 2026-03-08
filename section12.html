@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Academy v12.5 | Ayurdaya Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --red: #ef4444; --gold: #ffd700; --bg: #030712; --card: #111827; --text: #f3f4f6; --accent: #8b5cf6; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        
+        .engine-card { background: var(--card); padding: 30px; border-radius: 30px; border: 1px solid #374151; }
+        h2 { color: var(--red); margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        
+        select { width: 100%; padding: 15px; border-radius: 12px; background: #1f2937; color: white; border: 1px solid #4b5563; margin: 15px 0; }
+        .btn-scan { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--red), #991b1b); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+        
+        .result-panel { margin-top: 25px; display: none; border-top: 1px solid #374151; padding-top: 20px; }
+        .verdict { font-size: 19px; color: var(--gold); font-weight: 600; }
+        .metric { font-size: 14px; margin: 10px 0; color: #9ca3af; line-height: 1.6; }
+        .warning-box { background: rgba(239, 68, 68, 0.1); padding: 15px; border-radius: 15px; border-left: 4px solid var(--red); margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="engine-card">
+        <h2>💀 Ayurdaya Engine <small style="font-size: 10px; color: #6b7280;">v12.5</small></h2>
+        <p style="font-size: 12px;">Longevity, Transitions & Karmic Closing.</p>
+        
+        <select id="yogaSelect">
+            <option value="pinda">Pinda-Ayurdaya (Quantitative Life-Span)</option>
+            <option value="mrityu">Mrityu Yoga (The Transformation Trigger)</option>
+            <option value="maraka">Maraka Sthana (The End of Life Cycle)</option>
+            <option value="bhadhaka">Badhaka Sthana (The Obstacle Logic)</option>
+        </select>
+        
+        <button class="btn-scan" onclick="scanYoga()">Perform Deep Scan 🔍</button>
+
+        <div id="result" class="result-panel">
+            <div class="verdict" id="vTitle">---</div>
+            <div class="metric" id="vDesc">---</div>
+            <div class="warning-box" id="vWarning">---</div>
+        </div>
+    </div>
+</div>
+
+<script>
+const ayurData = {
+    "pinda": { 
+        t: "Pinda-Ayurdaya", 
+        d: "Ek mathematical method jo Graha-Bala (Planetary Strength) par based hai. Ismein Sun, Moon, aur Lagna ko points milte hain.",
+        w: "Warning: Ye calculation bahut strict hai aur ismein 'Bhanga' (cancellation) points ko check karna zaroori hai." 
+    },
+    "mrityu": { 
+        t: "Mrityu Yoga", 
+        d: "Jab 8th lord (Longevity) aur 12th lord (Loss/Exit) ka sambandh ho, toh ye 'Karmic Completion' ka time hota hai.",
+        w: "Transition Tip: Is waqt insaan purani identity chhodkar ek nayi journey shuru karta hai." 
+    },
+    "maraka": { 
+        t: "Maraka Sthana", 
+        d: "2nd aur 7th houses ko 'Maraka' (Killer/End) kaha jata hai. Jab inmein paap grah (Saturn/Rahu) ki Dasha aaye, toh lifecycle mein bada badlav aata hai.",
+        w: "Note: Maraka ka matlab hamesha physical death nahi, balki 'End of an Era' ya big lifestyle shift hota hai." 
+    },
+    "bhadhaka": { 
+        t: "Badhaka Sthana", 
+        d: "Har Lagna ka ek 'Badhaka' sthan hota hai jo kaam mein rukawat dalta hai. Char Rashi ke liye 11th, Sthir ke liye 9th, aur Dwiswabhava ke liye 7th.",
+        w: "Analysis: Badhaka lord ki dasha mein life stagnant ho jati hai, upaay (remedies) zaroori hain." 
+    }
+};
+
+function scanYoga() {
+    const s = document.getElementById("yogaSelect").value;
+    const data = ayurData[s];
+    document.getElementById("vTitle").innerText = data.t;
+    document.getElementById("vDesc").innerText = data.d;
+    document.getElementById("vWarning").innerText = data.w;
+    document.getElementById("result").style.display = "block";
+}
+</script>
+</body>
+</html>
