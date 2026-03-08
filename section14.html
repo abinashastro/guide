@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>Astro Academy | Gochar Master Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #8b5cf6; --bg: #030712; --card: #111827; --text: #f3f4f6; }
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 500px; }
+        .engine-card { background: var(--card); padding: 30px; border-radius: 30px; border: 1px solid #374151; }
+        h2 { color: var(--accent); margin-top: 0; }
+        select { width: 100%; padding: 15px; border-radius: 12px; background: #1f2937; color: white; border: 1px solid #4b5563; margin: 15px 0; }
+        .btn-scan { width: 100%; padding: 16px; background: var(--accent); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        .result-panel { margin-top: 25px; display: none; background: rgba(139, 92, 246, 0.1); padding: 20px; border-radius: 20px; border-left: 4px solid var(--accent); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="engine-card">
+        <h2>🪐 Gochar Master Suite</h2>
+        <p style="font-size: 12px; color: #9ca3af;">Impact of 9 Living Planets.</p>
+        
+        <select id="planetSelect">
+            <option value="sun">Sun (Surya) - Monthly Authority</option>
+            <option value="moon">Moon (Chandra) - Daily Emotional Flow</option>
+            <option value="mars">Mars (Mangal) - 45-day Energy Spike</option>
+            <option value="mercury">Mercury (Budh) - Intellect & Business</option>
+            <option value="jupiter">Jupiter (Guru) - 1-year Expansion</option>
+            <option value="venus">Venus (Shukra) - Comfort & Relationships</option>
+            <option value="saturn">Saturn (Shani) - 2.5-year Karma Test</option>
+            <option value="rahu">Rahu - 1.5-year Obsession & Change</option>
+            <option value="ketu">Ketu - 1.5-year Detachment</option>
+        </select>
+        
+        <button class="btn-scan" onclick="analyzeTransit()">Decode Movement 🌌</button>
+
+        <div id="result" class="result-panel">
+            <div id="vTitle" style="font-weight:600; color:var(--accent);"></div>
+            <div id="vDesc" style="font-size: 13px; margin-top: 10px; line-height: 1.6;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+const transitDB = {
+    "sun": { t: "Sun Transit", d: "Surya har mahine ek rashi badalta hai. Ye monthly authority, health aur career ke focus ko define karta hai." },
+    "moon": { t: "Moon Transit", d: "Sabse tej chalne wala grah. Har 2.25 din mein rashi badalta hai. Ye daily man-sthiti aur mood swings ka kaaran hai." },
+    "mars": { t: "Mars Transit", d: "Lagbhag 45 din ka cycle. Ye short-term energy, aggression aur impulsiveness lekar aata hai." },
+    "mercury": { t: "Mercury Transit", d: "Business aur communication. Jab ye fast chalta hai, toh decisions sharp hote hain; retrograde mein confusion." },
+    "jupiter": { t: "Jupiter Transit", d: "Har rashi mein 1 saal. Ye sabse shubh transit hai jo bhagya, shaadi, aur expansion ke darwaze kholta hai." },
+    "venus": { t: "Venus Transit", d: "Love, luxury aur aesthetic taste. Ye transit hamare social life aur luxuries ko define karta hai." },
+    "saturn": { t: "Saturn Transit", d: "Dheemi gati (2.5 saal per sign). Ye Karma ka judge hai. Sade-Sati iska sabse bade karmic events mein se ek hai." },
+    "rahu": { t: "Rahu Transit", d: "1.5 saal ka cycle. Rahu jahan gochar karta hai, wahan bhram aur unnatural ambition deta hai." },
+    "ketu": { t: "Ketu Transit", d: "1.5 saal ka cycle. Ketu spirituality aur detachment ka kaarak hai. Ye life ke us zone ko khatam karta hai jahan ab seekh khatam ho chuki hai." }
+};
+
+function analyzeTransit() {
+    const p = document.getElementById("planetSelect").value;
+    const res = transitDB[p];
+    document.getElementById("vTitle").innerText = res.t;
+    document.getElementById("vDesc").innerText = res.d;
+    document.getElementById("result").style.display = "block";
+}
+</script>
+</body>
+</html>
