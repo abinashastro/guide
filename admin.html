@@ -17,7 +17,7 @@
         }
         
         body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 480px; transition: 0.5s; }
+        .container { width: 100%; max-width: 480px; }
         
         #auth-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; }
         
@@ -36,7 +36,7 @@
         input, textarea { 
             width: 100%; padding: 18px; border-radius: 20px; background: #0a0c14; color: white; 
             border: 1px solid rgba(255,255,255,0.05); font-size: 15px; outline: none; box-sizing: border-box;
-            box-shadow: inset 4px 4px 10px #000; transition: 0.3s; margin-bottom: 20px;
+            box-shadow: inset 4px 4px 10px #000; margin-bottom: 20px;
         }
         
         input:focus, textarea:focus { border-color: var(--accent); }
@@ -46,55 +46,48 @@
             width: 100%; padding: 20px; border-radius: 22px; border: none; font-size: 13px; 
             font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
             background: linear-gradient(145deg, var(--accent), #b8860b);
-            color: #000; transition: 0.2s; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            color: #000; transition: 0.2s;
         }
-        .btn-master:active { transform: scale(0.98); }
-
-        /* Edit Mode Styling */
-        .edit-mode { background: linear-gradient(145deg, var(--edit), #2563eb) !important; color: white !important; }
+        
+        .btn-update { background: linear-gradient(145deg, #3b82f6, #1d4ed8); color: white; }
 
         #toast { 
             position: fixed; top: 20px; background: var(--active); color: #000; 
             padding: 10px 25px; border-radius: 50px; font-size: 12px; font-weight: 600; 
-            display: none; z-index: 1000; animation: slideDown 0.5s ease;
+            display: none; z-index: 1000;
         }
-
-        @keyframes slideDown { from { transform: translateY(-50px); } to { transform: translateY(0); } }
 
         .post-card { 
             background: rgba(17, 24, 39, 0.6); padding: 18px; border-radius: 22px; margin-bottom: 12px;
             border: 1px solid rgba(255,255,255,0.03); display: flex; justify-content: space-between; align-items: center;
         }
-        .post-actions { display: flex; gap: 10px; }
-        .action-btn { background: none; border: none; cursor: pointer; font-size: 16px; opacity: 0.6; transition: 0.2s; }
-        .action-btn:hover { opacity: 1; }
+        .action-btn { background: none; border: none; cursor: pointer; font-size: 18px; padding: 5px; }
     </style>
 </head>
 <body>
 
-<div id="toast">SYSTEM UPDATED ✨</div>
+<div id="toast">ACTION SUCCESSFUL ✨</div>
 
 <div class="container" id="auth-screen">
     <div class="glass-card" style="width: 100%; text-align: center;">
         <h2 style="color: var(--gold); margin-bottom: 10px;">Adept Access</h2>
-        <p style="font-size: 12px; color: #64748b; margin-bottom: 25px;">Enter the Master Key to synchronize</p>
-        <input type="password" id="masterKey" placeholder="••••••••" style="text-align: center;">
-        <button class="btn-master" onclick="checkAuth()">Login to Core</button>
+        <input type="password" id="masterKey" placeholder="KEY: 2026" style="text-align: center;">
+        <button class="btn-master" onclick="checkAuth()">Login</button>
     </div>
 </div>
 
 <div class="container" id="main-dashboard" style="display: none;">
     <div class="status-header">
-        <span><div class="dot"></div> ENCRYPTED SESSION: ACTIVE</span>
+        <span><div class="dot"></div> SESSION: LIVE</span>
         <span id="date-display" style="color: var(--gold)">MARCH 2026</span>
     </div>
 
     <div class="glass-card">
         <div class="ai-status">✨ AI Energy: <span id="tone-val" style="color: white;">Waiting...</span></div>
-        <input type="text" id="postTitle" placeholder="Celestial Headline..." oninput="saveDraft()">
-        <textarea id="postContent" placeholder="Transcription of the stars..." oninput="analyzeTone(); saveDraft();"></textarea>
+        <input type="text" id="postTitle" placeholder="Title...">
+        <textarea id="postContent" placeholder="Message..." oninput="analyzeTone()"></textarea>
         <button class="btn-master" id="publishBtn" onclick="handleSubmission()">Transmit Post</button>
-        <p id="edit-indicator" style="font-size: 10px; color: var(--edit); text-align: center; margin-top: 10px; display: none;">REWRITING EXISTING RECORD...</p>
+        <p id="edit-indicator" style="font-size: 10px; color: var(--edit); text-align: center; margin-top: 10px; display: none;">EDITING MODE ACTIVE</p>
     </div>
 
     <p style="font-size: 10px; color: #4b5563; text-transform: uppercase; margin: 30px 0 15px; letter-spacing: 2px;">Broadcast History</p>
@@ -105,7 +98,6 @@
 const firebaseConfig = {
   apiKey: "AIzaSyC0yF3kviJ6U-rdOMUyAOOQyTgSFoWG6co",
   authDomain: "astro-c7b1e.firebaseapp.com",
-  databaseURL: "https://astro-c7b1e-default-rtdb.firebaseio.com",
   projectId: "astro-c7b1e",
   storageBucket: "astro-c7b1e.firebasestorage.app",
   messagingSenderId: "885607895929",
@@ -114,101 +106,67 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-
-let editID = null; // Track if we are editing
+let currentEditId = null;
 
 function checkAuth() {
-    const key = document.getElementById('masterKey').value;
-    if(key === "2026") { 
+    if(document.getElementById('masterKey').value === "2026") {
         document.getElementById('auth-screen').style.display = "none";
         document.getElementById('main-dashboard').style.display = "block";
-        loadDraft();
         startFeed();
-    } else {
-        alert("Access Denied");
-    }
+    } else { alert("Wrong Key"); }
 }
 
 function analyzeTone() {
     const text = document.getElementById('postContent').value.toLowerCase();
     const toneElement = document.getElementById('tone-val');
-    if (text.includes('warning') || text.includes('retrograde')) {
-        toneElement.innerText = "Cautionary ⚠️"; toneElement.style.color = "#f87171";
-    } else if (text.includes('love') || text.includes('growth')) {
-        toneElement.innerText = "High Vibration ✨"; toneElement.style.color = "#00ffcc";
-    } else {
-        toneElement.innerText = "Neutral ⚖️"; toneElement.style.color = "white";
-    }
+    if (text.includes('warning')) { toneElement.innerText = "Cautionary ⚠️"; toneElement.style.color = "#f87171"; }
+    else if (text.includes('love')) { toneElement.innerText = "High Vibration ✨"; toneElement.style.color = "#00ffcc"; }
+    else { toneElement.innerText = "Neutral ⚖️"; toneElement.style.color = "white"; }
 }
 
-function saveDraft() {
-    if(!editID) {
-        const draft = { title: document.getElementById('postTitle').value, content: document.getElementById('postContent').value };
-        localStorage.setItem('astro_draft', JSON.stringify(draft));
-    }
-}
+// --- NEW ROBUST EDIT LOGIC ---
+function triggerEdit(btn) {
+    currentEditId = btn.getAttribute('data-id');
+    const title = btn.getAttribute('data-title');
+    const content = btn.getAttribute('data-content');
 
-function loadDraft() {
-    const saved = JSON.parse(localStorage.getItem('astro_draft'));
-    if(saved && !editID) {
-        document.getElementById('postTitle').value = saved.title || "";
-        document.getElementById('postContent').value = saved.content || "";
-        analyzeTone();
-    }
-}
-
-// TOGGLE EDIT MODE
-function startEdit(id, title, content) {
-    editID = id;
     document.getElementById('postTitle').value = title;
     document.getElementById('postContent').value = content;
     
-    const btn = document.getElementById('publishBtn');
-    btn.innerText = "Update Record";
-    btn.classList.add('edit-mode');
+    const pBtn = document.getElementById('publishBtn');
+    pBtn.innerText = "Update Record";
+    pBtn.classList.add('btn-update');
     document.getElementById('edit-indicator').style.display = "block";
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
     analyzeTone();
 }
 
-function resetForm() {
-    editID = null;
-    document.getElementById('postTitle').value = "";
-    document.getElementById('postContent').value = "";
-    const btn = document.getElementById('publishBtn');
-    btn.innerText = "Transmit Post";
-    btn.classList.remove('edit-mode');
-    document.getElementById('edit-indicator').style.display = "none";
-    localStorage.removeItem('astro_draft');
-}
-
 async function handleSubmission() {
     const title = document.getElementById('postTitle').value;
     const content = document.getElementById('postContent').value;
-    const btn = document.getElementById('publishBtn');
+    if(!title || !content) return;
 
-    if(!title || !content) return alert("Empty fields.");
-
-    btn.disabled = true;
-    
     try {
-        if(editID) {
-            // UPDATE LOGIC
-            await db.collection("astro_posts").doc(editID).update({
-                title, content, lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            showToast("RECORD UPDATED 🌀");
+        if(currentEditId) {
+            await db.collection("astro_posts").doc(currentEditId).update({ title, content });
+            showToast("UPDATED ✨");
         } else {
-            // CREATE LOGIC
-            await db.collection("astro_posts").add({
-                title, content, timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            showToast("POST TRANSMITTED ✨");
+            await db.collection("astro_posts").add({ title, content, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+            showToast("PUBLISHED ✨");
         }
         resetForm();
-    } catch (e) { alert("Error: " + e.message); }
-    finally { btn.disabled = false; }
+    } catch (e) { alert(e.message); }
+}
+
+function resetForm() {
+    currentEditId = null;
+    document.getElementById('postTitle').value = "";
+    document.getElementById('postContent').value = "";
+    const pBtn = document.getElementById('publishBtn');
+    pBtn.innerText = "Transmit Post";
+    pBtn.classList.remove('btn-update');
+    document.getElementById('edit-indicator').style.display = "none";
 }
 
 function startFeed() {
@@ -217,27 +175,34 @@ function startFeed() {
         feed.innerHTML = "";
         snap.forEach(doc => {
             const p = doc.data();
-            const safeTitle = p.title.replace(/'/g, "\\'");
-            const safeContent = p.content.replace(/'/g, "\\'").replace(/\n/g, "\\n");
-            
-            feed.innerHTML += `
-                <div class="post-card">
-                    <div>
-                        <div style="font-size: 13px; font-weight: 600;">${p.title}</div>
-                        <div style="font-size: 9px; color: #4b5563;">VIBE RECORDED</div>
-                    </div>
-                    <div class="post-actions">
-                        <button class="action-btn" style="color:var(--edit)" onclick="startEdit('${doc.id}', '${safeTitle}', '${safeContent}')">✎</button>
-                        <button class="action-btn" style="color:var(--danger)" onclick="deletePost('${doc.id}')">×</button>
-                    </div>
+            const card = document.createElement('div');
+            card.className = 'post-card';
+            card.innerHTML = `
+                <div>
+                    <div style="font-size: 13px; font-weight: 600;">${p.title}</div>
+                    <div style="font-size: 9px; color: #4b5563;">VIBE RECORDED</div>
+                </div>
+                <div>
+                    <button class="action-btn edit-trigger" 
+                        data-id="${doc.id}" 
+                        data-title="${p.title.replace(/"/g, '&quot;')}" 
+                        data-content="${p.content.replace(/"/g, '&quot;')}"
+                        style="color:var(--edit)">✎</button>
+                    <button class="action-btn" style="color:var(--danger)" onclick="deletePost('${doc.id}')">×</button>
                 </div>
             `;
+            feed.appendChild(card);
+        });
+
+        // Event listener fix
+        document.querySelectorAll('.edit-trigger').forEach(b => {
+            b.onclick = function() { triggerEdit(this); };
         });
     });
 }
 
 async function deletePost(id) {
-    if(confirm("Erase from Akasha?")) await db.collection("astro_posts").doc(id).delete();
+    if(confirm("Delete?")) await db.collection("astro_posts").doc(id).delete();
 }
 
 function showToast(msg) {
@@ -245,8 +210,6 @@ function showToast(msg) {
     t.innerText = msg; t.style.display = "block";
     setTimeout(() => t.style.display = "none", 3000);
 }
-
-document.getElementById('date-display').innerText = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 </script>
 </body>
 </html>
