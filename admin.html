@@ -13,13 +13,12 @@
         :root { 
             --gold: #ffd700; --bg: #05070a; --card: #111827; 
             --text: #f3f4f6; --accent: #ffd700; --active: #00ffcc; --danger: #f87171;
-            --ai-glow: #8b5cf6;
+            --ai-glow: #8b5cf6; --edit: #60a5fa;
         }
         
         body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
         .container { width: 100%; max-width: 480px; transition: 0.5s; }
         
-        /* Auth Screen */
         #auth-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; }
         
         .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 11px; letter-spacing: 1px; color: #94a3b8; }
@@ -51,6 +50,9 @@
         }
         .btn-master:active { transform: scale(0.98); }
 
+        /* Edit Mode Styling */
+        .edit-mode { background: linear-gradient(145deg, var(--edit), #2563eb) !important; color: white !important; }
+
         #toast { 
             position: fixed; top: 20px; background: var(--active); color: #000; 
             padding: 10px 25px; border-radius: 50px; font-size: 12px; font-weight: 600; 
@@ -63,6 +65,9 @@
             background: rgba(17, 24, 39, 0.6); padding: 18px; border-radius: 22px; margin-bottom: 12px;
             border: 1px solid rgba(255,255,255,0.03); display: flex; justify-content: space-between; align-items: center;
         }
+        .post-actions { display: flex; gap: 10px; }
+        .action-btn { background: none; border: none; cursor: pointer; font-size: 16px; opacity: 0.6; transition: 0.2s; }
+        .action-btn:hover { opacity: 1; }
     </style>
 </head>
 <body>
@@ -88,7 +93,8 @@
         <div class="ai-status">✨ AI Energy: <span id="tone-val" style="color: white;">Waiting...</span></div>
         <input type="text" id="postTitle" placeholder="Celestial Headline..." oninput="saveDraft()">
         <textarea id="postContent" placeholder="Transcription of the stars..." oninput="analyzeTone(); saveDraft();"></textarea>
-        <button class="btn-master" id="publishBtn" onclick="publishPost()">Transmit Post</button>
+        <button class="btn-master" id="publishBtn" onclick="handleSubmission()">Transmit Post</button>
+        <p id="edit-indicator" style="font-size: 10px; color: var(--edit); text-align: center; margin-top: 10px; display: none;">REWRITING EXISTING RECORD...</p>
     </div>
 
     <p style="font-size: 10px; color: #4b5563; text-transform: uppercase; margin: 30px 0 15px; letter-spacing: 2px;">Broadcast History</p>
@@ -96,7 +102,6 @@
 </div>
 
 <script>
-// --- FIREBASE CONFIGURATION (INTEGRATED) ---
 const firebaseConfig = {
   apiKey: "AIzaSyC0yF3kviJ6U-rdOMUyAOOQyTgSFoWG6co",
   authDomain: "astro-c7b1e.firebaseapp.com",
@@ -110,7 +115,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// 1. Auth Check (Master Key: 2026)
+let editID = null; // Track if we are editing
+
 function checkAuth() {
     const key = document.getElementById('masterKey').value;
     if(key === "2026") { 
@@ -119,79 +125,111 @@ function checkAuth() {
         loadDraft();
         startFeed();
     } else {
-        alert("Access Denied: Incorrect Master Key");
+        alert("Access Denied");
     }
 }
 
-// 2. AI Tone Logic
 function analyzeTone() {
     const text = document.getElementById('postContent').value.toLowerCase();
     const toneElement = document.getElementById('tone-val');
-    if (text.includes('warning') || text.includes('retrograde') || text.includes('caution')) {
+    if (text.includes('warning') || text.includes('retrograde')) {
         toneElement.innerText = "Cautionary ⚠️"; toneElement.style.color = "#f87171";
-    } else if (text.includes('love') || text.includes('growth') || text.includes('bless')) {
+    } else if (text.includes('love') || text.includes('growth')) {
         toneElement.innerText = "High Vibration ✨"; toneElement.style.color = "#00ffcc";
     } else {
         toneElement.innerText = "Neutral ⚖️"; toneElement.style.color = "white";
     }
 }
 
-// 3. Draft Sync
 function saveDraft() {
-    const draft = { title: document.getElementById('postTitle').value, content: document.getElementById('postContent').value };
-    localStorage.setItem('astro_draft', JSON.stringify(draft));
+    if(!editID) {
+        const draft = { title: document.getElementById('postTitle').value, content: document.getElementById('postContent').value };
+        localStorage.setItem('astro_draft', JSON.stringify(draft));
+    }
 }
 
 function loadDraft() {
     const saved = JSON.parse(localStorage.getItem('astro_draft'));
-    if(saved) {
+    if(saved && !editID) {
         document.getElementById('postTitle').value = saved.title || "";
         document.getElementById('postContent').value = saved.content || "";
         analyzeTone();
     }
 }
 
-// 4. Publish to Firestore
-async function publishPost() {
+// TOGGLE EDIT MODE
+function startEdit(id, title, content) {
+    editID = id;
+    document.getElementById('postTitle').value = title;
+    document.getElementById('postContent').value = content;
+    
     const btn = document.getElementById('publishBtn');
-    const title = document.getElementById('postTitle').value;
-    const content = document.getElementById('postContent').value;
-
-    if(!title || !content) return alert("System requires data to transmit.");
-
-    btn.disabled = true; btn.innerText = "TRANSMITTING...";
-
-    try {
-        await db.collection("astro_posts").add({
-            title, 
-            content, 
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        showToast("POST TRANSMITTED ✨");
-        document.getElementById('postTitle').value = "";
-        document.getElementById('postContent').value = "";
-        localStorage.removeItem('astro_draft');
-    } catch (e) { 
-        console.error(e);
-        alert("Transmission Interrupted. Check Console."); 
-    }
-    finally { btn.disabled = false; btn.innerText = "TRANSMIT POST"; }
+    btn.innerText = "Update Record";
+    btn.classList.add('edit-mode');
+    document.getElementById('edit-indicator').style.display = "block";
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    analyzeTone();
 }
 
-// 5. Real-time Feed Fetching
+function resetForm() {
+    editID = null;
+    document.getElementById('postTitle').value = "";
+    document.getElementById('postContent').value = "";
+    const btn = document.getElementById('publishBtn');
+    btn.innerText = "Transmit Post";
+    btn.classList.remove('edit-mode');
+    document.getElementById('edit-indicator').style.display = "none";
+    localStorage.removeItem('astro_draft');
+}
+
+async function handleSubmission() {
+    const title = document.getElementById('postTitle').value;
+    const content = document.getElementById('postContent').value;
+    const btn = document.getElementById('publishBtn');
+
+    if(!title || !content) return alert("Empty fields.");
+
+    btn.disabled = true;
+    
+    try {
+        if(editID) {
+            // UPDATE LOGIC
+            await db.collection("astro_posts").doc(editID).update({
+                title, content, lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            showToast("RECORD UPDATED 🌀");
+        } else {
+            // CREATE LOGIC
+            await db.collection("astro_posts").add({
+                title, content, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            showToast("POST TRANSMITTED ✨");
+        }
+        resetForm();
+    } catch (e) { alert("Error: " + e.message); }
+    finally { btn.disabled = false; }
+}
+
 function startFeed() {
-    db.collection("astro_posts").orderBy("timestamp", "desc").limit(10).onSnapshot((snap) => {
+    db.collection("astro_posts").orderBy("timestamp", "desc").onSnapshot((snap) => {
         const feed = document.getElementById('liveFeed');
         feed.innerHTML = "";
         snap.forEach(doc => {
             const p = doc.data();
+            const safeTitle = p.title.replace(/'/g, "\\'");
+            const safeContent = p.content.replace(/'/g, "\\'").replace(/\n/g, "\\n");
+            
             feed.innerHTML += `
                 <div class="post-card">
                     <div>
                         <div style="font-size: 13px; font-weight: 600;">${p.title}</div>
                         <div style="font-size: 9px; color: #4b5563;">VIBE RECORDED</div>
                     </div>
-                    <button style="background:none; border:none; color:#4b5563; cursor:pointer; font-size:20px;" onclick="deletePost('${doc.id}')">×</button>
+                    <div class="post-actions">
+                        <button class="action-btn" style="color:var(--edit)" onclick="startEdit('${doc.id}', '${safeTitle}', '${safeContent}')">✎</button>
+                        <button class="action-btn" style="color:var(--danger)" onclick="deletePost('${doc.id}')">×</button>
+                    </div>
                 </div>
             `;
         });
